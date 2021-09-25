@@ -1,0 +1,13 @@
+FROM node:14
+
+WORKDIR /server
+
+COPY ./package.json .
+
+RUN npm install package.json
+
+COPY . .
+
+EXPOSE 8080
+
+CMD ["npm", "start"]
