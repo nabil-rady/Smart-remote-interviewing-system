@@ -1,20 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
-import lottie from 'lottie-web';
+import Lottie from 'lottie-react-web';
 import './css/employee.css';
 import Card from './Card';
 
 const Employee = () => {
-  const animation = useRef(null);
-  useEffect(() => {
-    lottie.loadAnimation({
-      animation: animation.current,
-      renderer: 'svg',
-      loop: true,
-      autoplay: true,
-      animationData: require('./lottie/41391-we-are-hiring-get-ready-to-work-job-recruitment-isometric-hiring-process.json'),
-    });
-  }, [animation]);
-
   const [cursorStyle, setcursorStyle] = useState('auto');
   const [displayColor, setColor] = useState('rgb(162, 172, 182)');
   const changeHandler = (e) => {
@@ -31,7 +20,14 @@ const Employee = () => {
   };
   return (
     <div id="employee">
-      {/* <div id="animation" ref={animation} ></div> */}
+      <Lottie
+        options={{
+          animationData: require('./lottie/41391-we-are-hiring-get-ready-to-work-job-recruitment-isometric-hiring-process.json'),
+          renderer: 'svg',
+          loop: true,
+          autoplay: true,
+        }}
+      />
       <Card className="cardemployee">
         <form onSubmit={submitHandler} id="employeeform">
           <input
