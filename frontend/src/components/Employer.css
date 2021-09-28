@@ -1,0 +1,43 @@
+.inputs {
+  display: block;
+  margin: 5%;
+  margin-left: 23%;
+  border: none;
+  border-bottom: 1px solid rgb(78, 78, 78);
+  height: 20px;
+  width: 60%;
+}
+#signup {
+  margin-left: 45%;
+  width: 20%;
+  height: 30px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  background-color: rgb(0, 119, 255);
+  color: white;
+  font-weight: bold;
+}
+#login {
+  color: rgb(0, 119, 255);
+  cursor: pointer;
+}
+#acc {
+  margin-left: 25%;
+}
+#employer {
+  display: inline-block;
+  width: 100%;
+}
+#employerform {
+  width: 100%;
+}
+#havingacc {
+  width: 100%;
+}
+.cardemployer {
+  width: 40%;
+  padding: 4%;
+  margin-left: 55%;
+  margin-bottom: 7%;
+}

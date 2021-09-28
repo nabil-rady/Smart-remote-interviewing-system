@@ -4,8 +4,8 @@ jobs:
   prettier:
     name: Check for format problems
     runs-on: ubuntu-20.04
-    steps: 
-      - uses: actions/checkout@v2 
+    steps:
+      - uses: actions/checkout@v2
         name: Check out repository
       - uses: actionsx/prettier@v2
         name: Runs Prettier CLI command

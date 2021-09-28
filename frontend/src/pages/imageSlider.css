@@ -1,0 +1,24 @@
+.instructionsbtn {
+  width: 10%;
+  height: 30px;
+  border: none;
+  border-radius: 20px;
+  background-color: rgb(0, 119, 255);
+  font-weight: bold;
+  margin-left: 45%;
+  margin-top: 5%;
+  color: white;
+  cursor: pointer;
+}
+.slider {
+  width: 50%;
+  display: block;
+  margin-left: 25%;
+}
+.title {
+  margin-left: 39%;
+  margin-bottom: 2%;
+}
+.txt {
+  margin-bottom: 3%;
+}
