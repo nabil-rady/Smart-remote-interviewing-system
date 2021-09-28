@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import lottie from 'lottie-web';
-import './Employee.css';
+import './css/employee.css';
 import Card from './Card';
 
 const Employee = () => {
@@ -11,7 +11,7 @@ const Employee = () => {
       renderer: 'svg',
       loop: true,
       autoplay: true,
-      animationData: require('./41391-we-are-hiring-get-ready-to-work-job-recruitment-isometric-hiring-process.json'),
+      animationData: require('./lottie/41391-we-are-hiring-get-ready-to-work-job-recruitment-isometric-hiring-process.json'),
     });
   }, [animation]);
 

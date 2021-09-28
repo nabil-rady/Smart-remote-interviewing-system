@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import Nav from '../components/navBar';
-import Question from '../counterComponents/question';
-import Counter from '../counterComponents/counter';
+import Nav from '../components/NavBar';
+import Question from '../counterComponents/Question';
+import Counter from '../counterComponents/Counter';
 function Counterpage() {
   const [ques, setQuestion] = useState('Your question will apear here...');
   useEffect(() =>

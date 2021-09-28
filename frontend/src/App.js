@@ -1,8 +1,9 @@
 import { Route } from 'react-router-dom';
-import Landingpage from './pages/landingpage.js';
-import Counterpage from './pages/questions';
+import Landingpage from './pages/LandingPage.js';
+import Counterpage from './pages/Questions';
 import React, { useEffect } from 'react';
-import Imageslider from './pages/imageSlider.js';
+import ImageSlider from './pages/ImageSlider.js';
+import './App.css';
 
 function App() {
   useEffect(() =>
@@ -16,14 +17,14 @@ function App() {
   );
   return (
     <>
-      <Route path="/Home">
+      <Route path="/" exact>
         <Landingpage />
       </Route>
       <Route path="/question">
         <Counterpage />
       </Route>
-      <Route path="/Instructions">
-        <Imageslider />
+      <Route path="/instructions">
+        <ImageSlider />
       </Route>
     </>
   );

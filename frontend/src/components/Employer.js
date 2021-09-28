@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import './Employer.css';
+import './css/employer.css';
 import Card from './Card';
+
 const Employer = () => {
   const [visible, setvisible] = useState('block');
   const [Btntxt, setBtntxt] = useState('Sign Up');

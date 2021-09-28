@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import Nav from '../components/navBar';
-import image1 from './undraw_My_answer_re_k4dv.svg';
-import image2 from './undraw_Questions_re_1fy7.svg';
-import image3 from './undraw_speed_test_wxl0.svg';
-import './imageSlider.css';
+import Nav from '../components/NavBar';
+import image1 from './SVGs/undraw_My_answer_re_k4dv.svg';
+import image2 from './SVGs/undraw_Questions_re_1fy7.svg';
+import image3 from './SVGs/undraw_speed_test_wxl0.svg';
+import './css/image-slider.css';
 
 function Imageslider() {
   const images = [image1, image2, image3];

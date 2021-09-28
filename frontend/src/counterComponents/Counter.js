@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './counter.css';
+import './css/counter.css';
 
 function Counter() {
   const FULL_DASH_ARRAY = 283;

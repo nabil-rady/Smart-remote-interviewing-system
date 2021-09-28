@@ -1,7 +1,7 @@
 import React from 'react';
-import './navBar.css';
+import './css/navbar.css';
 
-const Nav = () => {
+const NavBar = () => {
   return (
     <header>
       <div className="Container">
@@ -20,4 +20,4 @@ const Nav = () => {
   );
 };
 
-export default Nav;
+export default NavBar;
