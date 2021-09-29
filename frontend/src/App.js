@@ -4,6 +4,7 @@ import Counterpage from './pages/Questions';
 import React, { useEffect } from 'react';
 import ImageSlider from './pages/ImageSlider.js';
 import './App.css';
+import Videopage from './pages/video.js';
 
 function App() {
   useEffect(() =>
@@ -25,6 +26,9 @@ function App() {
       </Route>
       <Route path="/instructions">
         <ImageSlider />
+      </Route>
+      <Route path="/Interview"> 
+        <Videopage/>
       </Route>
     </>
   );
