@@ -3,7 +3,7 @@ import NavBar from '../components/NavBar';
 import SectionOne from '../components/SectionOne';
 import Employee from '../components/Employee';
 import Employer from '../components/Employer';
-import '../components/scss/utility.scss'
+import '../components/scss/utility.scss';
 
 function LandingPage() {
   return (

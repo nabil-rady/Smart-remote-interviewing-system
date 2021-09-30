@@ -11,7 +11,7 @@ const mockUserObject = {
   firstName: 'Mohammed',
   lastName: 'Moussa',
   avatarURL: avatar,
-}
+};
 
 const UserContext = React.createContext();
 
