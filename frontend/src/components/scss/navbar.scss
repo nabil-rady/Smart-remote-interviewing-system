@@ -23,6 +23,7 @@
       &__li {
         &:first-child {
           padding-top: 0.5rem;
+          display: inline;
         }
         padding: 0 0.3rem;
         font-weight: 500;
@@ -30,8 +31,44 @@
           width: 60px;
           height: 60px;
           border-radius: 50%;
+          display: inline;
         }
       }
     }
   }
+}
+.guest__ul {
+  list-style: none;
+  margin-left: auto;
+  display: flex;
+  color: white;
+  padding: 1rem;
+  font-size: 1.2rem;
+  width: 100%;
+  margin-top: 1%;
+  margin-left: 50%;
+}
+.guest__ul__li__signup {
+  display: inline;
+  margin-right: 10%;
+  border:4px white solid;
+  padding: 2%;
+  border-radius: 50%;
+  cursor: pointer;
+  font-weight: bold;
+  width: 100%;
+}
+.guest__ul__li__login {
+  display: inline;
+  margin-right: 10%;
+  cursor: pointer;
+  font-weight: bold;
+  width: 100%;
+}
+.guest__ul__li__interview {
+  display: inline;
+  margin-right: 10%;
+  cursor: pointer;
+  font-weight: bold;
+  width: 100%;
 }
