@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './css/employer.css';
+import './scss/employer.scss';
 import Card from './Card';
 
 const Employer = () => {

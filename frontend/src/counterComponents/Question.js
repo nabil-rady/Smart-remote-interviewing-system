@@ -1,6 +1,6 @@
 import React from 'react';
 import Card from '../components/Card';
-import './css/question.css';
+import './scss/question.scss';
 
 function Question(props) {
   return (

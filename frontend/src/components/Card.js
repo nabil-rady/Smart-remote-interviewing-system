@@ -1,6 +1,5 @@
 import React from 'react';
-
-import classes from './css/card.module.css';
+import classes from './scss/card.module.scss';
 
 const Card = (props) => {
   return (
