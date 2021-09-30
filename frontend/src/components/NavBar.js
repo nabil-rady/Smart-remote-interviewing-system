@@ -1,21 +1,26 @@
-import React from 'react';
-import './css/navbar.css';
+import React, { useContext } from 'react';
+import { UserContext } from '../App';
+import './scss/navbar.scss';
 
 const NavBar = () => {
+  const authUser = useContext(UserContext);
   return (
-    <header>
-      <div className="Container">
-        <div id="header">
-          <span id="hire">Hire ME</span>
-          <span id="official">The Official Hiring App </span>
-        </div>
-        <nav>
-          <ul>
-            <li>Employee</li>
-            <li>Employee</li>
-          </ul>
-        </nav>
-      </div>
+    <header className="header">
+      <div className="header__logo">Hire Mi</div>
+      <nav className="header__navbar">
+        <ul className="header__navbar__ul">
+          <li className="header__navbar__ul__li">
+            {authUser.firstName} {authUser.lastName}
+          </li>
+          <li className="header__navbar__ul__li">
+            <img
+              className="user-avatar"
+              src={authUser.avatarURL}
+              alt="avatar"
+            />
+          </li>
+        </ul>
+      </nav>
     </header>
   );
 };

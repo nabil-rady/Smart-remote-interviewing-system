@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Lottie from 'lottie-react-web';
-import './css/employee.css';
+import './scss/employee.scss';
 import Card from './Card';
 
 const Employee = () => {
