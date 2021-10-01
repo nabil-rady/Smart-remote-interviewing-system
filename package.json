@@ -20,5 +20,6 @@
   "homepage": "https://github.com/My-Name-Is-Nabil/Smart-remotely-interviewing-system#readme",
   "devDependencies": {
     "prettier": "^2.4.1"
-  }
+  },
+  "dependencies": {}
 }
