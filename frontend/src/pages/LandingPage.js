@@ -12,9 +12,9 @@ function LandingPage() {
         <NavBar />
         <SectionOne />
       </div>
-      <Employee />
+      {/* <Employee />
       <br />
-      <Employer />
+      <Employer /> */}
     </>
   );
 }

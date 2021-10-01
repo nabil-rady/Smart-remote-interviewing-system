@@ -5,21 +5,15 @@
   position: relative;
   display: flex;
   color: white;
+  margin-top: 9rem;
   &__content {
-    margin-top: 9em;
     text-align: center;
-    border-top: none;
-    border-bottom: 4px solid rgb(0, 0, 53);
+    margin: 0 auto;
+    width: 70%;
     &__paragraph {
       text-align: center;
       font-size: 1.2rem;
-      margin: 0 auto;
-      width: 70%;
-      margin-left: 24%;
-    }
-    &__title {
-      width: 20%;
-      margin-left: 48%;
+      padding: 1rem 0;
     }
   }
 }

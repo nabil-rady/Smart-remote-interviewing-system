@@ -1,17 +1,21 @@
 import { Route } from 'react-router-dom';
-import Landingpage from './pages/LandingPage.js';
-import Counterpage from './pages/Questions';
+import LandingPage from './pages/LandingPage';
+import LoginPage from './pages/LoginPage';
+import SignUpPage from './pages/SignUpPage';
+import CounterPage from './pages/Questions';
 import React, { useEffect, useState } from 'react';
-import ImageSlider from './pages/ImageSlider.js';
+import ImageSlider from './pages/ImageSlider';
 import './App.scss';
 
 import avatar from './user.jpg';
 
-const mockUserObject = {
-  firstName: 'Mohammed',
-  lastName: 'Moussa',
-  avatarURL: avatar,
-};
+// const mockUserObject = {
+//   firstName: 'Mohammed',
+//   lastName: 'Moussa',
+//   avatarURL: avatar,
+// };
+
+const mockUserObject = null;
 
 const UserContext = React.createContext();
 
@@ -21,10 +25,16 @@ function App() {
     <>
       <UserContext.Provider value={authUser}>
         <Route path="/" exact>
-          <Landingpage />
+          <LandingPage />
+        </Route>
+        <Route path="/login" exact>
+          <LoginPage />
+        </Route>
+        <Route path="/signup" exact>
+          <SignUpPage />
         </Route>
         <Route path="/question">
-          <Counterpage />
+          <CounterPage />
         </Route>
         <Route path="/instructions">
           <ImageSlider />
