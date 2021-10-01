@@ -3,6 +3,7 @@
 .header {
   width: 100%;
   display: flex;
+  margin-left: 5%;
   &__logo {
     width: 20%;
     padding: 1.5rem;
@@ -46,17 +47,25 @@
   font-size: 1.2rem;
   width: 100%;
   margin-top: 1%;
-  margin-left: 50%;
+  margin-left: 55%;
 }
 .guest__ul__li__signup {
   display: inline;
   margin-right: 10%;
   border:4px white solid;
-  padding: 2%;
-  border-radius: 50%;
+  padding: 1%;
+  border-radius: 50px;
   cursor: pointer;
   font-weight: bold;
   width: 100%;
+  width: 5%;
+  background-color: white;
+  color: $primary-blue;
+  height: 20px;
+}
+.guest__ul__li__signup:hover {
+  background-color:$primary-blue ;
+  color: white;
 }
 .guest__ul__li__login {
   display: inline;
@@ -64,6 +73,9 @@
   cursor: pointer;
   font-weight: bold;
   width: 100%;
+}
+.guest__ul__li__login:hover {
+  color: aliceblue;
 }
 .guest__ul__li__interview {
   display: inline;
