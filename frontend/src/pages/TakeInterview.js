@@ -1,15 +1,15 @@
 import React from 'react';
 import NavBar from '../components/NavBar';
-import SignUpForm from '../components/SignUpForm';
+import Interview from '../components/Interview';
 import '../components/scss/utility.scss';
 import Lottie from 'lottie-react-web';
-import './scss/signup.scss';
+import './scss/Interview.scss';
 
-function SignUpPage() {
+function InterviewPage() {
   return (
     <>
       <NavBar />
-      <div className="signupanimation">
+      <div className="Interviewanimation">
         <Lottie
           options={{
             animationData: require('../components/lottie/41391-we-are-hiring-get-ready-to-work-job-recruitment-isometric-hiring-process.json'),
@@ -19,10 +19,9 @@ function SignUpPage() {
           }}
         />
       </div>
-
-      <SignUpForm />
+      <Interview />
     </>
   );
 }
 
-export default SignUpPage;
+export default InterviewPage;

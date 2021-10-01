@@ -6,8 +6,7 @@ import CounterPage from './pages/Questions';
 import React, { useEffect, useState } from 'react';
 import ImageSlider from './pages/ImageSlider';
 import './App.scss';
-
-import avatar from './user.jpg';
+import InterviewPage from './pages/TakeInterview';
 
 // const mockUserObject = {
 //   firstName: 'Mohammed',
@@ -32,6 +31,9 @@ function App() {
         </Route>
         <Route path="/signup" exact>
           <SignUpPage />
+        </Route>
+        <Route path="/interview" exact>
+          <InterviewPage />
         </Route>
         <Route path="/question">
           <CounterPage />
