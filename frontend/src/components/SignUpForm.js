@@ -32,7 +32,7 @@ const SignUpForm = () => {
           placeholder="Phone No."
           required
         />
-        <button id="signup">SignUp</button>
+        <button id="signup">Sign Up</button>
       </form>
       {/* <div id="havingacc">
             <h2 id="acc" style={{ display: visible }}>

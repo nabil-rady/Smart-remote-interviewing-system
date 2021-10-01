@@ -1,22 +1,42 @@
+@import '../../sassConfig/colors';
+@import '../../sassConfig/transition';
+
 .inputs {
   display: block;
-  margin: 5%;
-  margin-left: 23%;
+  // margin: 5%;
+  // margin-left: 23%;
+  margin: 1.4rem auto; //center div right and left
   border: none;
   border-bottom: 1px solid rgb(78, 78, 78);
   height: 20px;
-  width: 60%;
+  width: 80%;
+  outline: none;
 }
 #signup {
-  margin-left: 45%;
-  width: 20%;
-  height: 30px;
+  margin-left: calc(50% - 60px);
+  width: 120px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border: none;
   border-radius: 20px;
   cursor: pointer;
-  background-color: rgb(0, 119, 255);
+  background-color: $primary-blue;
   color: white;
-  font-weight: bold;
+  font-weight: 500;
+  font-size: 1.1rem;
+  @include transition;
+  &:hover {
+    border: 2px solid $primary-blue;
+    background-color: white;
+    color: $primary-blue;
+  }
+  &:disabled,
+  &[disabled] {
+    background-color: gray;
+    color: black;
+  }
 }
 #login {
   color: rgb(0, 119, 255);
@@ -31,12 +51,13 @@
 }
 #employerform {
   width: 100%;
+  margin-top: 75px;
 }
 
 .cardemployer {
-  width: 40%;
-  padding: 4%;
-  margin-top: 0px;
-  display: inline-block;
-  margin-left: 8%;
+  margin: 0 auto;
+  width: 65%;
+  height: 380px;
+  margin-top: 4rem;
+  max-width: 330px;
 }
