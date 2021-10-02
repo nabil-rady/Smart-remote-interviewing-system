@@ -1,7 +1,7 @@
 const { validationResult } = require('express-validator/check');
 const bcrypt = require('bcryptjs');
-
 const customId = require('custom-id');
+const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
 
@@ -19,11 +19,13 @@ module.exports.postSignup = (req, res, next) => {
 
   let newId, exist;
   User.findAll({
+    // fetch all users ids
     attributes: ['userID'],
   })
     .then((users) => {
       const oldIds = users.map((user) => user.userID);
       do {
+        // create a unique id user id
         exist = false;
         newId = customId({
           name: firstName + lastName + companyName,
@@ -37,10 +39,9 @@ module.exports.postSignup = (req, res, next) => {
           }
         }
       } while (exist);
-      return bcrypt.hash(password, 12);
+      return bcrypt.hash(password, 12); // hash the password
     })
     .then((hashedPassword) => {
-      // Hash the password
       return User.create({
         // Store the user in the dataBase
         userId: newId,
@@ -68,26 +69,42 @@ module.exports.postLogin = (req, res, next) => {
   const { email, password } = req.body;
   let fetchedUser;
   User.findAll({
+    // fetch the user
     where: {
       email: email,
     },
   })
     .then((user) => {
       if (user.length < 1) {
+        // check if the user exists
         const error = new Error('Email not found');
         error.statusCode = 404;
         throw error;
       }
       fetchedUser = user;
-      return bcrypt.compare(password.toString(), user[0].password);
+      return bcrypt.compare(password.toString(), user[0].password); // compare the enterd password with the hashed one.
     })
     .then((isEqual) => {
       if (!isEqual) {
+        // if the password is wrong
         const error = new Error('Incorrect password');
         error.statusCode = 401; // Authentication faild
         throw error;
       }
-      res.json({ message: 'Password matched' });
+      const token = jwt.sign(
+        // create the token
+        {
+          email: fetchedUser.email,
+          userId: fetchedUser.userId,
+        },
+        'ThisIsTheTokenSecretKey',
+        {
+          expiresIn: '10h',
+        }
+      );
+      res.status(200).json({
+        token: token,
+      });
     })
     .catch((err) => {
       if (!err.statusCode) {
