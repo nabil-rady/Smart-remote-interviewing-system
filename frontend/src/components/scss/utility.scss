@@ -1,0 +1,9 @@
+@import '../../sassConfig/colors';
+
+.blue-gradient {
+  background: linear-gradient(170deg, $primary-blue 55%, $gradient-blue);
+}
+
+.hidden {
+  display: none;
+}

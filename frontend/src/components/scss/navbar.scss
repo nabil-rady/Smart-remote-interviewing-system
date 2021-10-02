@@ -1,0 +1,93 @@
+@import '../../sassConfig/colors';
+@import '../../sassConfig/transition';
+
+.header {
+  width: 100%;
+  display: flex;
+  background-color: $primary-blue;
+  &__logo {
+    width: 20%;
+    padding: 1.5rem;
+    font-size: 1.3rem;
+    color: white;
+    font-weight: 700;
+  }
+  &__navbar {
+    width: 100%;
+    display: flex;
+    &__ul {
+      list-style: none;
+      margin-left: auto;
+      display: flex;
+      color: white;
+      padding: 1rem;
+      font-size: 1.2rem;
+
+      &__li {
+        &:first-child {
+          padding-top: 0.7rem;
+        }
+        padding: 0 0.3rem;
+        font-weight: 500;
+        & .user-avatar {
+          width: 60px;
+          height: 60px;
+          border-radius: 50%;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
+.guest__ul {
+  list-style: none;
+  margin-left: auto;
+  display: flex;
+  color: white;
+  padding: 1rem;
+  font-size: 1.2rem;
+  &__li {
+    &__login {
+      cursor: pointer;
+      font-weight: bold;
+      margin: 0 1rem;
+      height: 40px;
+      display: flex; // Make content centered
+      justify-content: center;
+      align-items: center;
+      &:hover {
+        color: grey;
+      }
+    }
+    &__signup {
+      display: inline;
+      border: 2px white solid;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: bold;
+      background-color: white;
+      color: $primary-blue;
+      width: 120px;
+      height: 40px;
+      text-align: center;
+      display: flex; // Make content centered
+      justify-content: center;
+      align-items: center;
+      margin: 0 1rem;
+      @include transition;
+      &:hover {
+        background-color: $primary-blue;
+        color: white;
+      }
+    }
+    &__interview {
+      cursor: pointer;
+      font-weight: bold;
+      margin: 0 1rem;
+      height: 40px;
+      display: flex; // Make content centered
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}

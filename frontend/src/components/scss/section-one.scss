@@ -1,0 +1,45 @@
+@import '../../sassConfig/colors.scss';
+
+.section-1 {
+  height: 500px;
+  position: relative;
+  display: flex;
+  color: white;
+  margin-top: 9rem;
+  &__content {
+    text-align: center;
+    margin: 0 auto;
+    width: 70%;
+    &__paragraph {
+      text-align: center;
+      font-size: 1.2rem;
+      padding: 1rem 0;
+    }
+  }
+}
+
+#container {
+  padding-top: 20%;
+  height: 600px;
+  width: 100%;
+  margin-left: 0%;
+}
+
+.wave {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  & svg {
+    position: relative;
+    display: block;
+    width: calc(153% + 1.3px);
+    height: 110px;
+    transform: rotateY(180deg);
+  }
+  & .shape-fill {
+    fill: white;
+  }
+}
