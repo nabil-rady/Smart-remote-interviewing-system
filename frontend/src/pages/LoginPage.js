@@ -9,7 +9,7 @@ function LoginPage() {
   return (
     <>
       <NavBar />
-      <div className="loginanimation">
+      {/* <div className="loginanimation">
         <Lottie
           options={{
             animationData: require('../components/lottie/47386-we-are-hiring.json'),
@@ -18,7 +18,7 @@ function LoginPage() {
             autoplay: true,
           }}
         />
-      </div>
+      </div> */}
       <LoginForm />
     </>
   );

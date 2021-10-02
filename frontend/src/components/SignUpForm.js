@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import './scss/employer.scss';
+import React from 'react';
+import './scss/signup.scss';
 import Card from './Card';
 
 const SignUpForm = () => {
   const submitHandler = (e) => e.preventDefault();
   return (
-    <Card className="cardemployer">
+    <Card className="cardsignup">
       <form onSubmit={submitHandler} id="employerform">
         <input
           className="inputs"

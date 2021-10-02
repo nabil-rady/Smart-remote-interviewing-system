@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import Lottie from 'lottie-react-web';
-import './scss/employee.scss';
+//import Lottie from 'lottie-react-web';
+import './scss/interview.scss';
 import Card from './Card';
 
 const Interview = () => {
