@@ -4,13 +4,13 @@ const User = require('./user');
 
 const JobListing = sequelize.define('JobListing', {
   listingId: {
-    type: DataTypes.STRING(8),
+    type: DataTypes.CHAR(8),
     allowNull: false,
     primaryKey: true,
     unique: true,
   },
   creator: {
-    type: DataTypes.STRING(8),
+    type: DataTypes.CHAR(8),
     allowNull: false,
     references: {
       model: User,

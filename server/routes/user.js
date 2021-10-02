@@ -24,7 +24,7 @@ router.post(
             email: value,
           },
         }).then((user) => {
-          if (user) {
+          if (user.length > 0) {
             return Promise.reject('This email is already exists');
           }
         });

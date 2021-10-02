@@ -4,7 +4,7 @@ const Interview = require('./interview');
 
 const Video = sequelize.define('Video', {
   videoId: {
-    type: DataTypes.STRING(8),
+    type: DataTypes.CHAR(8),
     allowNull: false,
     primaryKey: true,
     unique: true,
@@ -14,7 +14,7 @@ const Video = sequelize.define('Video', {
     allowNull: false,
   },
   interview: {
-    type: DataTypes.STRING(8),
+    type: DataTypes.CHAR(8),
     allowNull: false,
     references: {
       model: Interview,

@@ -4,7 +4,7 @@ const JobListing = require('./job-listing');
 
 const Interview = sequelize.define('Interview', {
   interviewId: {
-    type: DataTypes.STRING(8),
+    type: DataTypes.CHAR(8),
     allowNull: false,
     primaryKey: true,
     unique: true,
@@ -31,7 +31,7 @@ const Interview = sequelize.define('Interview', {
     allowNull: false,
   },
   listing: {
-    type: DataTypes.STRING(8),
+    type: DataTypes.CHAR(8),
     allowNull: false,
     references: {
       model: JobListing,
