@@ -53,9 +53,10 @@ app.use((error, req, res, next) => {
     but when we set force: true, it over wites the existing tables,
     we do this on development only when we want to write the new editing to the DataBase.
 */
-sequelize.sync(
+sequelize
+  .sync
   // { force: true }
-)
+  ()
   .then((result) => {
     // Setup the server.
 
