@@ -2,10 +2,16 @@ const express = require('express');
 const { body } = require('express-validator/check');
 
 const User = require('../models/user');
+const isAuth = require('../util/is-authenticated');
 
 const userControllers = require('../controllers/user');
 
 const router = express.Router();
+
+/* 
+                ALLOW ONLY AUTH USERS TO REACH THIS ROUTE
+    router.get('/dashboard', isAuth, userControllers.theMethod);
+*/
 
 router.post(
   '/signup',

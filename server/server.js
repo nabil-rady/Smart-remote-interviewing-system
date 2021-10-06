@@ -54,9 +54,9 @@ app.use((error, req, res, next) => {
     we do this on development only when we want to write the new editing to the DataBase.
 */
 sequelize
-  .sync
-  // { force: true }
-  ()
+  .sync({
+    // force: true
+  })
   .then((result) => {
     // Setup the server.
 
