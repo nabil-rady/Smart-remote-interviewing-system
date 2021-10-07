@@ -54,7 +54,7 @@ module.exports.postSignup = (req, res, next) => {
     })
     .then((user) => {
       res.status(201).json({
-        user: user,
+        userId: user.userId,
       });
     })
     .catch((err) => {

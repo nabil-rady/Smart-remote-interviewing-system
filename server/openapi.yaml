@@ -1,0 +1,117 @@
+openapi: 3.0.0
+info:
+  description: This is a simple documentation for our backend APIs
+  version: '1.0.0'
+  title: Vividly
+servers:
+  - url: http://localhost:8080
+    description: This is the development server
+paths:
+  /user/signup:
+    post:
+      summary: Signup new recruiters.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                companyName:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+                confirmPassword:
+                  type: string
+      responses:
+        '201':
+          description: A new user is created.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  userId:
+                    type: string
+        '422':
+          description: Input validation faild.
+        '500':
+          description: Server side error.
+  /user/login:
+    post:
+      summary: Login a recruiter.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Loggedin.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  login token:
+                    type: string
+        '404':
+          description: Recruiter not found.
+        '401':
+          description: Authentecation faild.
+        '500':
+          description: Server side error.
+  # /example/{userId}:
+  #   post:
+  #     summary: Returns a user by ID.
+  #     parameters:
+  #       - name: userId
+  #         in: path
+  #         required: true
+  #         description: Parameter description in CommonMark or HTML.
+  #         schema:
+  #           type : integer
+  #           format: int64
+  #           minimum: 1
+  #     requestBody:
+  #       required: true
+  #       content:
+  #         application/json:
+  #           schema:
+  #             type: object
+  #             properties:
+  #               username:
+  #                 type: string
+  #     responses:
+  #       '200':
+  #         description: A user object.
+  #         content:
+  #           application/json:
+  #             schema:
+  #               type: object
+  #               properties:
+  #                 id:
+  #                   type: integer
+  #                   format: int64
+  #                   example: 4
+  #                 name:
+  #                   type: string
+  #                   example: Jessica Smith
+  #       '400':
+  #         description: The specified user ID is invalid (not a number).
+  #       '404':
+  #         description: A user with the specified ID was not found.
+  #       default:
+  #         description: Unexpected error
