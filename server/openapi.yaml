@@ -1,3 +1,4 @@
+# for GUI ==> https://app.swaggerhub.com/apis/mohamed.medhat2199/Vividly/1.0.0
 openapi: 3.0.0
 info:
   description: This is a simple documentation for our backend APIs
@@ -65,7 +66,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  login token:
+                  token:
                     type: string
         '404':
           description: Recruiter not found.
@@ -73,7 +74,7 @@ paths:
           description: Authentecation faild.
         '500':
           description: Server side error.
-  # /example/{userId}:
+  # /example/{userId}: <just a reference>
   #   post:
   #     summary: Returns a user by ID.
   #     parameters:
