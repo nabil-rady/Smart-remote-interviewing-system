@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+
 import 'package:provider/provider.dart';
 
 import './screens/splash_screen.dart';
 import './screens/main_screen.dart';
+import './screens/intro_to_interview_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -40,6 +42,7 @@ class MyApp extends StatelessWidget {
       routes: {
         CompanySignupScreen.routeName: (ctx) => CompanySignupScreen(),
         SplashScreen.routeName: (ctx) => SplashScreen(),
+        IntroScreen.routeName: (ctx) => IntroScreen(),
       },
     );
   }

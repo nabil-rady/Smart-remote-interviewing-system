@@ -24,7 +24,7 @@ class _StartIntrviewState extends State<StartIntrview> {
                 labelText: 'Interview link',
               ),
               onSubmitted: (value) {
-                //Navigator.of(context).pushNamed("/intro_screen");
+                Navigator.of(context).pushNamed("/intro_screen");
               },
             ),
             const SizedBox(
