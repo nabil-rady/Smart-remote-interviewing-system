@@ -1,3 +1,5 @@
+const authConfig = require('../authconfig.json');
+
 const { validationResult } = require('express-validator/check');
 const bcrypt = require('bcryptjs');
 const customId = require('custom-id');
@@ -67,6 +69,7 @@ module.exports.postSignup = (req, res, next) => {
 
 module.exports.postLogin = (req, res, next) => {
   const { email, password } = req.body;
+  let fetchedUser;
   User.findAll({
     // fetch the user
     where: {
@@ -80,6 +83,7 @@ module.exports.postLogin = (req, res, next) => {
         error.statusCode = 404;
         throw error;
       }
+      fetchedUser = user;
       return bcrypt.compare(password.toString(), user[0].password); // compare the enterd password with the hashed one.
     })
     .then((isEqual) => {
@@ -92,10 +96,14 @@ module.exports.postLogin = (req, res, next) => {
       const token = jwt.sign(
         // create the token
         {
-          email: fetchedUser.email,
+          // user's info stored in the token
           userId: fetchedUser.userId,
+          email: fetchedUser.email,
+          firstName: fetchedUser.firstName,
+          lastName: fetchedUser.lastName,
+          companyName: fetchedUser.companyName,
         },
-        'ThisIsTheTokenSecretKey',
+        authConfig.TOKEN_SECRET, // SECRET KEY
         {
           expiresIn: '10h',
         }
