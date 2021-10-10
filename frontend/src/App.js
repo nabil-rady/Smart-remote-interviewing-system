@@ -7,14 +7,20 @@ import React, { useEffect, useState } from 'react';
 import ImageSlider from './pages/ImageSlider';
 import './App.scss';
 import InterviewPage from './pages/TakeInterview';
+import avatar from './user.jpg';
+import PositionForm from './pages/SelectPosition';
+import QuestionsPage from './pages/AddQuestiion';
+import Profile from './pages/Profile';
 
-// const mockUserObject = {
-//   firstName: 'Mohammed',
-//   lastName: 'Moussa',
-//   avatarURL: avatar,
-// };
+const mockUserObject = {
+  firstName: 'Mohammed',
+  lastName: 'Moussa',
+  CompanyName: 'Mentor',
+  Email: 'mm9079381@gmail.com',
+  avatarURL: avatar,
+};
 
-const mockUserObject = null;
+//const mockUserObject = null;
 
 const UserContext = React.createContext();
 
@@ -40,6 +46,15 @@ function App() {
         </Route>
         <Route path="/instructions">
           <ImageSlider />
+        </Route>
+        <Route path="/SelectPosition">
+          <PositionForm />
+        </Route>
+        <Route path="/AddQuestions">
+          <QuestionsPage />
+        </Route>
+        <Route path="/Profile">
+          <Profile />
         </Route>
       </UserContext.Provider>
     </>

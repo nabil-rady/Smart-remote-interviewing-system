@@ -1,18 +1,21 @@
 @import '../../sassConfig/colors';
 @import '../../sassConfig/transition';
 
-.inputs {
+.Qtext {
   display: block;
   // margin: 5%;
   // margin-left: 23%;
   margin: 1.4rem auto; //center div right and left
-  border: none;
-  border-bottom: 1px solid rgb(78, 78, 78);
-  height: 20px;
+  //   border: none;
+  //   border-bottom: 1px solid rgb(78, 78, 78);
+  height: 30px;
   width: 80%;
   outline: none;
+  border-radius: 10px;
+  border: 1px solid rgb(78, 78, 78);
+  padding: 1rem;
 }
-#signup {
+.Next {
   margin-left: calc(50% - 60px);
   width: 120px;
   height: 40px;
@@ -26,6 +29,7 @@
   color: white;
   font-weight: 500;
   font-size: 1.1rem;
+  text-decoration: none;
   @include transition;
   &:hover {
     border: 2px solid $primary-blue;
@@ -38,24 +42,35 @@
     color: black;
   }
 }
-#login {
-  color: rgb(0, 119, 255);
-  cursor: pointer;
+
+.Selectingform {
+  width: 100%;
+  padding-top: 120px;
 }
 
-#employer {
-  display: inline-block;
-  width: 100%;
-}
-#employerform {
-  width: 100%;
-  padding-top: 150px;
-}
-
-.cardemployer {
-  margin: 0 auto;
+.cardQuestion {
+  margin-left: 35rem;
   width: 65%;
   height: 320px;
   margin-top: 4rem;
   max-width: 330px;
+  display: inline-block;
+}
+
+.change .navbar {
+  left: 0;
+}
+.change .burger_container {
+  background: rgba(0, 0, 0, 0.3);
+}
+.rotate-icon .bar1 {
+  -webkit-transform: rotate(-45deg) translate(-8px, 6px);
+  transform: rotate(-45deg) translate(-8px, 6px);
+}
+.rotate-icon .bar2 {
+  opacity: 0;
+}
+.rotate-icon .bar3 {
+  -webkit-transform: rotate(42deg) translate(-9px, -8px);
+  transform: rotate(42deg) translate(-9px, -8px);
 }
