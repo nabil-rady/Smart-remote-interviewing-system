@@ -67,7 +67,6 @@ module.exports.postSignup = (req, res, next) => {
 
 module.exports.postLogin = (req, res, next) => {
   const { email, password } = req.body;
-  let fetchedUser;
   User.findAll({
     // fetch the user
     where: {
@@ -81,7 +80,6 @@ module.exports.postLogin = (req, res, next) => {
         error.statusCode = 404;
         throw error;
       }
-      fetchedUser = user;
       return bcrypt.compare(password.toString(), user[0].password); // compare the enterd password with the hashed one.
     })
     .then((isEqual) => {
@@ -104,6 +102,36 @@ module.exports.postLogin = (req, res, next) => {
       );
       res.status(200).json({
         token: token,
+      });
+    })
+    .catch((err) => {
+      if (!err.statusCode) {
+        err.statusCode = 500; // serverSide error
+      }
+      next(err);
+    });
+};
+
+module.exports.getInfo = (req, res, next) => {
+  const id = req.params.user_id;
+  User.findAll({
+    // fetch the user
+    where: {
+      userId: id.toString(),
+    },
+  })
+    .then((user) => {
+      if (user.length < 1) {
+        // check if the user exists
+        const error = new Error('User not found');
+        error.statusCode = 404;
+        throw error;
+      }
+      res.status(200).json({
+        firstName: user[0].firstName,
+        lastName: user[0].lastName,
+        companyName: user[0].companyName,
+        email: user[0].email,
       });
     })
     .catch((err) => {
