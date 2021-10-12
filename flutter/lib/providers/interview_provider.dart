@@ -1,10 +1,9 @@
-import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
-import '../models/applicant_model.dart';
+import '../models/interview_model.dart';
 
 class Applicants with ChangeNotifier {
-  List<Applicant> _items = [
-    Applicant(
+  List<Interview> _items = [
+    Interview(
         positionName: 'software engineer',
         id: '176',
         name: 'mohamed',
@@ -18,7 +17,7 @@ class Applicants with ChangeNotifier {
         ],
         rate: 3.5,
         isRated: true),
-    Applicant(
+    Interview(
         positionName: 'call center',
         id: '345',
         name: 'reda',
@@ -32,7 +31,7 @@ class Applicants with ChangeNotifier {
         ],
         rate: 1,
         isRated: true),
-    Applicant(
+    Interview(
       positionName: 'call center',
       id: '123',
       name: 'mariam',
@@ -49,21 +48,21 @@ class Applicants with ChangeNotifier {
       isRated: false,
     ),
   ];
-  List<Applicant> get items {
+  List<Interview> get items {
     return [..._items];
   }
 
-  void addAplicant(Applicant member) {
+  void addAplicant(Interview member) {
     _items.add(member);
     notifyListeners();
   }
 
-  Applicant findById(String id) {
+  Interview findById(String id) {
     return _items.firstWhere((element) => element.id == id);
   }
 
   void rateApplicant(String id, var rate) {
-    Applicant applicant = findById(id);
+    Interview applicant = findById(id);
     applicant.rate = rate;
     applicant.isRated = true;
     notifyListeners();
