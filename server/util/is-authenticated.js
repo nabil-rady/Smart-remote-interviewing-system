@@ -11,7 +11,7 @@ module.exports = (req, res, next) => {
 
   let decodedToken;
   try {
-    decodedToken = jwt.verify(token, 'ThisIsTheTokenSecretKey'); // decode the token and verify it.
+    decodedToken = jwt.verify(token, process.env.TOKEN_SECRET); // decode the token and verify it.
   } catch (err) {
     // if the verificatin faild.
     err.statusCode = 500;
@@ -23,6 +23,11 @@ module.exports = (req, res, next) => {
     error.statusCode = 401;
     throw error;
   }
-  req.userId = decodedToken.userId; // attach the user id to the req, if the token is verified.
+  // attach the user info to the req, if the token is verified.
+  req.userId = decodedToken.userId;
+  req.email = decodedToken.email;
+  req.firstName = decodedToken.firstName;
+  req.lastName = decodedToken.lastName;
+  req.companyName = decodedToken.companyName;
   next();
 };

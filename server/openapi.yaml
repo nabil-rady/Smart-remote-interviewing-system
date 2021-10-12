@@ -5,6 +5,9 @@ info:
   version: '1.0.0'
   title: Vividly
 servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/mohamed.medhat2199/Vividly/1.0.0
   - url: http://localhost:8080
     description: This is the development server
 paths:
@@ -74,6 +77,36 @@ paths:
           description: Authentecation faild.
         '500':
           description: Server side error.
+  /user/{user_id}:
+    get:
+      summary: Get user info.
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          description: The userId of the target user.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Get the information successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  firstName:
+                    type: string
+                  lastName:
+                    type: string
+                  companyName:
+                    type: string
+                  email:
+                    type: string
+        '404':
+          description: User not found.
+        '500':
+          description: Server side error.
   # /example/{userId}: <just a reference>
   #   post:
   #     summary: Returns a user by ID.
@@ -114,5 +147,3 @@ paths:
   #         description: The specified user ID is invalid (not a number).
   #       '404':
   #         description: A user with the specified ID was not found.
-  #       default:
-  #         description: Unexpected error

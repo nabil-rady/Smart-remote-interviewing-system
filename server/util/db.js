@@ -1,9 +1,8 @@
 // define db connection
 const { Sequelize } = require('sequelize');
-const dbconfig = require('../dbconfig.json');
 
-const sequelize = new Sequelize(dbconfig.db, dbconfig.root, dbconfig.passowrd, {
-  host: dbconfig.host,
+const sequelize = new Sequelize(process.env.db, process.env.dbRoot, process.env.dbPassowrd, {
+  host: process.env.host,
   dialect: 'mysql',
   port: 5878,
   dialectOptions: {
