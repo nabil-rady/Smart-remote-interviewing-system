@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/interview_model.dart';
 
-class Applicants with ChangeNotifier {
+class Interviews with ChangeNotifier {
   List<Interview> _items = [
     Interview(
         positionName: 'software engineer',
