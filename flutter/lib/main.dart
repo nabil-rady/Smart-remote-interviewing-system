@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:graduation_project/providers/auth_provider.dart';
 
 import 'package:provider/provider.dart';
 
@@ -13,38 +14,44 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      // theme: ThemeData.dark(),
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        //brightness: Brightness.dark,
-        //primarySwatch: Colors.deepPurple,
-        primaryColor: const Color(0xFF165DC0),
-        textTheme: ThemeData.light().textTheme.copyWith(
-              headline1:
-                  const TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
-              headline6:
-                  const TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
-              bodyText1: const TextStyle(
-                  fontSize: 17.0,
-                  fontFamily: 'Hind',
-                  fontWeight: FontWeight.bold),
-              bodyText2: const TextStyle(
-                  fontSize: 16.0,
-                  fontFamily: 'Hind',
-                  fontWeight: FontWeight.normal),
-              button: const TextStyle(
-                color: Colors.white,
-              ),
-            ),
-      ),
-      home: SplashScreen(),
-      routes: {
-        CompanySignupScreen.routeName: (ctx) => CompanySignupScreen(),
-        SplashScreen.routeName: (ctx) => SplashScreen(),
-        IntroScreen.routeName: (ctx) => IntroScreen(),
-      },
-    );
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (ctx) => Auth(),
+          ),
+        ],
+        child: MaterialApp(
+          // theme: ThemeData.dark(),
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            //brightness: Brightness.dark,
+            //primarySwatch: Colors.deepPurple,
+            primaryColor: const Color(0xFF165DC0),
+            textTheme: ThemeData.light().textTheme.copyWith(
+                  headline1: const TextStyle(
+                      fontSize: 72.0, fontWeight: FontWeight.bold),
+                  headline6: const TextStyle(
+                      fontSize: 36.0, fontStyle: FontStyle.italic),
+                  bodyText1: const TextStyle(
+                      fontSize: 17.0,
+                      fontFamily: 'Hind',
+                      fontWeight: FontWeight.bold),
+                  bodyText2: const TextStyle(
+                      fontSize: 16.0,
+                      fontFamily: 'Hind',
+                      fontWeight: FontWeight.normal),
+                  button: const TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+          ),
+          home: SplashScreen(),
+          routes: {
+            CompanySignupScreen.routeName: (ctx) => CompanySignupScreen(),
+            SplashScreen.routeName: (ctx) => SplashScreen(),
+            IntroScreen.routeName: (ctx) => IntroScreen(),
+          },
+        ));
   }
 }
 

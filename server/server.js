@@ -62,6 +62,6 @@ sequelize
 
     // console.log('result:', result);
     const port = 8080;
-    app.listen(port, () => console.log(`Server is runing on port ${port}`));
+    app.listen(port,'0.0.0.0', () => console.log(`Server is runing on port ${port}`));
   })
   .catch((err) => console.log(err));

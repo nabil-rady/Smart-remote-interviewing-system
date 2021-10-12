@@ -26,7 +26,7 @@ class _CompanySignupScreenState extends State<CompanySignupScreen> {
           ),
         ),
         floatingActionButton: FloatingActionButton.extended(
-          label: Text(_isemployer ? 'Take interview' : 'Register as employer'),
+          label: Text(_isemployer ? 'Interview' : 'Register as employer'),
           onPressed: () {
             setState(() {
               if (_isemployer) {
