@@ -1,0 +1,99 @@
+@import '../../sassConfig/colors';
+@import '../../sassConfig/transition';
+
+.card_Question {
+  width: 50%;
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+  padding: 15px;
+  margin-left: 25%;
+}
+
+.Question_label {
+  background-color: rgb(182, 173, 173);
+  color: $primary-blue;
+  width: 28px;
+  border-radius: 50px;
+  height: 30px;
+  text-align: center;
+  padding-top: 0.2rem;
+  font-weight: 800;
+  display: inline-block;
+}
+
+.Question_text {
+  margin-left: 7rem;
+  height: 60px;
+  width: 53%;
+  outline: none;
+  border-radius: 10px;
+  border: 2px $primary-blue solid;
+  padding: 5px;
+  margin-bottom: 0.5rem;
+}
+
+.Question_Keywords {
+  margin-left: 9.2rem;
+  height: 60px;
+  width: 53%;
+  outline: none;
+  border-radius: 10px;
+  border: 2px $primary-blue solid;
+  padding: 5px;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.label {
+  width: 20%;
+  display: inline-block;
+  font-size: small;
+  margin-left: 10rem;
+  margin-bottom: 1.5rem;
+}
+
+.read_select {
+  height: 40px;
+  width: 30%;
+  outline: none;
+  border-radius: 10px;
+  border: 2px $primary-blue solid;
+  padding: 5px;
+}
+
+.answer_select {
+  height: 40px;
+  width: 30%;
+  outline: none;
+  border-radius: 10px;
+  border: 2px $primary-blue solid;
+  padding: 5px;
+}
+.add {
+  margin-left: calc(50% - 75px);
+  width: 150px;
+  height: 40px;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  background-color: $primary-blue;
+  color: white;
+  font-weight: 500;
+  font-size: 1.1rem;
+  @include transition;
+  &:hover {
+    border: 2px solid $primary-blue;
+    background-color: white;
+    color: $primary-blue;
+  }
+  &:disabled,
+  &[disabled] {
+    background-color: gray;
+    color: black;
+  }
+}

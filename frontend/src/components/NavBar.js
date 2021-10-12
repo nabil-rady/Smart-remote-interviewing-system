@@ -3,7 +3,7 @@ import { UserContext } from '../App';
 import './scss/navbar.scss';
 
 const NavBar = () => {
-  const authUser = useContext(UserContext); // Object or null
+  const authUser = useContext(UserContext).authUser; // Object or null
   const isLoggedIn = !!authUser;
 
   return (

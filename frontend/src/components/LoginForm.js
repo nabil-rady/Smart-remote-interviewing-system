@@ -1,31 +1,102 @@
-import React from 'react';
-import './scss/login.scss';
+import React, { useState, useContext } from 'react';
 import Card from './Card';
+import ErrorModal from './ErrorModal';
+import { UserContext } from '../App';
+import { APIURL } from '../API/APIConstants';
+import handleError from '../utils/errorHandling';
+import './scss/login.scss';
 
 const LoginForm = () => {
-  const submitHandler = (e) => e.preventDefault();
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+  const [dataToken, setDataToken] = useState();
+  const [error, setError] = useState();
+  const setAuthUser = useContext(UserContext).setAuthUser;
+  const submitHandler = (e) => {
+    e.preventDefault();
+    // Send data to backend
+    let statusCode;
+    fetch(`${APIURL}/user/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    })
+      .then((response) => {
+        statusCode = response.status;
+        return response.json();
+      })
+      .then((data) => {
+        if (statusCode === 200) console.log(data.userId);
+        else handleError(statusCode, data, setError);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+
+    // Reference
+    // fetch(`${APIURL}/user/login`, {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //     'Authorization': token => when login is required only
+    //   },
+    //   body: JSON.stringify({ => with POST request only
+    //     email: Email,
+    //     password: Password
+    //   }),
+    // })
+    // .then(response => response.json())
+    // .then(data => {
+    //   setToken(data.token)
+    //   console.log('Success:', data);
+    // })
+    // .catch(error => {
+    //   console.error('Error:', error);
+    // });
+  };
+  const emailHandler = (e) => {
+    setEmail(e.target.value);
+  };
+  const passwordHandler = (e) => {
+    setPassword(e.target.value);
+  };
+  const errorHandler = () => {
+    setError(null);
+  };
   return (
-    <Card className="cardemployer">
-      <form onSubmit={submitHandler} id="employerform">
-        <input className="inputs" type="email" placeholder="E-mail" required />
-        <input
-          className="inputs"
-          type="password"
-          placeholder="Password"
-          required
+    <>
+      {error && (
+        <ErrorModal
+          title={error.title}
+          message={error.message}
+          onConfirm={errorHandler}
         />
-        <button id="signup">Login</button>
-      </form>
-      {/* <div id="havingacc">
-            <h2 id="acc" style={{ display: visible }}>
-            Have An Account?
-            <span id="login">
-                {' '}
-                Login
-            </span>
-            </h2>
-        </div> */}
-    </Card>
+      )}
+      <Card className="cardemployer">
+        <form onSubmit={submitHandler} id="employerform">
+          <input
+            className="inputs"
+            type="email"
+            placeholder="E-mail"
+            required
+            onChange={emailHandler}
+          />
+          <input
+            className="inputs"
+            type="password"
+            placeholder="Password"
+            onChange={passwordHandler}
+            required
+          />
+          <button id="signup">Login</button>
+        </form>
+      </Card>
+    </>
   );
 };
 

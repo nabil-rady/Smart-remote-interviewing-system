@@ -11,8 +11,10 @@ import avatar from './user.jpg';
 import PositionForm from './pages/SelectPosition';
 import QuestionsPage from './pages/AddQuestiion';
 import Profile from './pages/Profile';
+import AddQues from './pages/AddQues';
 
 const mockUserObject = {
+  id: 'ABC123',
   firstName: 'Mohammed',
   lastName: 'Moussa',
   CompanyName: 'Mentor',
@@ -20,15 +22,13 @@ const mockUserObject = {
   avatarURL: avatar,
 };
 
-//const mockUserObject = null;
-
 const UserContext = React.createContext();
 
 function App() {
   const [authUser, setAuthUser] = useState(mockUserObject);
   return (
     <>
-      <UserContext.Provider value={authUser}>
+      <UserContext.Provider value={{ authUser, setAuthUser }}>
         <Route path="/" exact>
           <LandingPage />
         </Route>
@@ -55,6 +55,9 @@ function App() {
         </Route>
         <Route path="/Profile">
           <Profile />
+        </Route>
+        <Route path="/Add">
+          <AddQues />
         </Route>
       </UserContext.Provider>
     </>

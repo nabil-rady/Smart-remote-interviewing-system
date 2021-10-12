@@ -9,16 +9,6 @@ function LoginPage() {
   return (
     <>
       <NavBar />
-      {/* <div className="loginanimation">
-        <Lottie
-          options={{
-            animationData: require('../components/lottie/47386-we-are-hiring.json'),
-            renderer: 'svg',
-            loop: true,
-            autoplay: true,
-          }}
-        />
-      </div> */}
       <LoginForm />
     </>
   );
