@@ -1,5 +1,3 @@
-const authConfig = require('../authconfig.json');
-
 const { validationResult } = require('express-validator/check');
 const bcrypt = require('bcryptjs');
 const customId = require('custom-id');
@@ -56,7 +54,7 @@ module.exports.postSignup = (req, res, next) => {
     })
     .then((user) => {
       res.status(201).json({
-        userId: user.userId,
+        user: user,
       });
     })
     .catch((err) => {
@@ -103,13 +101,14 @@ module.exports.postLogin = (req, res, next) => {
           lastName: fetchedUser.lastName,
           companyName: fetchedUser.companyName,
         },
-        authConfig.TOKEN_SECRET, // SECRET KEY
+        process.env.TOKEN_SECRET, // SECRET KEY
         {
           expiresIn: '10h',
         }
       );
       res.status(200).json({
         token: token,
+        user: fetchedUser[0],
       });
     })
     .catch((err) => {

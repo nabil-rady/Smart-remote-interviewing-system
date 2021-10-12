@@ -1,4 +1,3 @@
-const authConfig = require('../authconfig.json');
 const jwt = require('jsonwebtoken');
 
 module.exports = (req, res, next) => {
@@ -12,7 +11,7 @@ module.exports = (req, res, next) => {
 
   let decodedToken;
   try {
-    decodedToken = jwt.verify(token, authConfig.TOKEN_SECRET); // decode the token and verify it.
+    decodedToken = jwt.verify(token, process.env.TOKEN_SECRET); // decode the token and verify it.
   } catch (err) {
     // if the verificatin faild.
     err.statusCode = 500;
