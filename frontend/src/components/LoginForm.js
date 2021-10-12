@@ -5,11 +5,11 @@ import { UserContext } from '../App';
 import { APIURL } from '../API/APIConstants';
 import handleError from '../utils/errorHandling';
 import './scss/login.scss';
+import avatarURL from '../user.jpg';
 
 const LoginForm = () => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-  const [dataToken, setDataToken] = useState();
   const [error, setError] = useState();
   const setAuthUser = useContext(UserContext).setAuthUser;
   const submitHandler = (e) => {
@@ -28,11 +28,18 @@ const LoginForm = () => {
     })
       .then((response) => {
         statusCode = response.status;
+        console.log(response);
         return response.json();
       })
       .then((data) => {
-        if (statusCode === 200) console.log(data.userId);
-        else handleError(statusCode, data, setError);
+        console.log(data);
+        if (statusCode === 200) {
+          setAuthUser({
+            ...data.user,
+            token: data.token,
+            avatarURL, //avatarURL: avatarURL,
+          });
+        } else handleError(statusCode, data, setError);
       })
       .catch((error) => {
         console.error('Error:', error);

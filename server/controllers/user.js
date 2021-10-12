@@ -23,7 +23,7 @@ module.exports.postSignup = (req, res, next) => {
     attributes: ['userID'],
   })
     .then((users) => {
-      const oldIds = users.map((user) => user.userID);
+      const oldIds = users.map((user) => user.userId);
       do {
         // create a unique id user id
         exist = false;
@@ -52,9 +52,10 @@ module.exports.postSignup = (req, res, next) => {
         password: hashedPassword,
       });
     })
-    .then((user) => {
+    .then((returnedUser) => {
+      const { password, ...user } = returnedUser.dataValues;
       res.status(201).json({
-        user: user
+        user,
       });
     })
     .catch((err) => {
@@ -68,21 +69,22 @@ module.exports.postSignup = (req, res, next) => {
 module.exports.postLogin = (req, res, next) => {
   const { email, password } = req.body;
   let fetchedUser;
-  User.findAll({
+  User.findOne({
     // fetch the user
     where: {
       email: email,
     },
   })
     .then((user) => {
-      if (user.length < 1) {
+      console.log(user);
+      if (!user) {
         // check if the user exists
         const error = new Error('Email not found');
         error.statusCode = 404;
         throw error;
       }
       fetchedUser = user;
-      return bcrypt.compare(password.toString(), user[0].password); // compare the enterd password with the hashed one.
+      return bcrypt.compare(password.toString(), user.password); // compare the enterd password with the hashed one.
     })
     .then((isEqual) => {
       if (!isEqual) {
@@ -95,20 +97,22 @@ module.exports.postLogin = (req, res, next) => {
         // create the token
         {
           // user's info stored in the token
-          userId: fetchedUser.userId,
-          email: fetchedUser.email,
-          firstName: fetchedUser.firstName,
-          lastName: fetchedUser.lastName,
-          companyName: fetchedUser.companyName,
+          userId: fetchedUser.dataValues.userId,
+          email: fetchedUser.dataValues.email,
+          firstName: fetchedUser.dataValues.firstName,
+          lastName: fetchedUser.dataValues.lastName,
+          companyName: fetchedUser.dataValues.companyName,
         },
         process.env.TOKEN_SECRET, // SECRET KEY
         {
           expiresIn: '10h',
         }
       );
+      const { password, ...user } = fetchedUser.dataValues;
+      console.log(user);
       res.status(200).json({
-        token: token,
-        user: fetchedUser[0]
+        user,
+        token,
       });
     })
     .catch((err) => {
@@ -121,24 +125,24 @@ module.exports.postLogin = (req, res, next) => {
 
 module.exports.getInfo = (req, res, next) => {
   const id = req.params.user_id;
-  User.findAll({
+  User.findOne({
     // fetch the user
     where: {
       userId: id.toString(),
     },
   })
     .then((user) => {
-      if (user.length < 1) {
+      if (!user) {
         // check if the user exists
         const error = new Error('User not found');
         error.statusCode = 404;
         throw error;
       }
       res.status(200).json({
-        firstName: user[0].firstName,
-        lastName: user[0].lastName,
-        companyName: user[0].companyName,
-        email: user[0].email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        companyName: user.companyName,
+        email: user.email,
       });
     })
     .catch((err) => {

@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import './scss/signup.scss';
 import Card from './Card';
 import ErrorModal from './ErrorModal';
 import { APIURL } from '../API/APIConstants';
+import { UserContext } from '../App';
 import handleError from '../utils/errorHandling';
 
 const SignUpForm = () => {
@@ -14,7 +15,7 @@ const SignUpForm = () => {
   const [LastName, setLastName] = useState();
   const [ConfirmPassword, setConfirmPassword] = useState();
   const [error, setError] = useState();
-  const [ID, setID] = useState();
+  const setAuthUser = useContext(UserContext).setAuthUser;
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -39,8 +40,10 @@ const SignUpForm = () => {
         return response.json();
       })
       .then((data) => {
-        if (statusCode === 201) setID(data.userId);
-        else handleError(statusCode, data, setError);
+        console.log(data);
+        if (statusCode === 201) {
+          console.log('Success');
+        } else handleError(statusCode, data, setError);
       })
       .catch((error) => {
         console.error('Error:', error);

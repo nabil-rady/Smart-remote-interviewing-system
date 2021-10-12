@@ -14,7 +14,8 @@ import Profile from './pages/Profile';
 import AddQues from './pages/AddQues';
 
 const mockUserObject = {
-  id: 'ABC123',
+  userId: 'ABC123',
+  token: 'aiwdjssqwijeoqiweoqu2398192381123',
   firstName: 'Mohammed',
   lastName: 'Moussa',
   CompanyName: 'Mentor',
