@@ -74,12 +74,11 @@ class Auth with ChangeNotifier {
       }),
     );
     final responseData = json.decode(response.body);
-    print(responseData);
+    //print(responseData);
     // print(responseData['message']);
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
       _token = responseData['token'];
-
       print(_token);
     } else {
       throw HttpException(responseData['message']);
