@@ -1,5 +1,11 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/auth_provider.dart';
+import '../models/http_exception.dart';
+
+enum AuthMode { signup, login }
 
 class EmployerAuth extends StatefulWidget {
   @override
@@ -7,84 +13,225 @@ class EmployerAuth extends StatefulWidget {
 }
 
 class _EmployerAuthState extends State<EmployerAuth> {
+  // var employer = Employer(
+  //     firstName: '',
+  //     lastName: '',
+  //     companyName: '',
+  //     email: '',
+  //     password: '',
+  //     phone: 0);
+  Map<String, String> authData = {
+    'firstName': '',
+    'lastName': '',
+    'companyName': '',
+    'email': '',
+    'password': '',
+    'confirmPassword': '',
+    'phone': '',
+  };
+  final _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey();
+  AuthMode _authMode = AuthMode.login;
+
   var _isLoading = false;
-  var _signup = false;
+
   void _toggleFun() {
-    if (_signup)
+    if (_authMode == AuthMode.signup)
       setState(() {
-        _signup = false;
+        _authMode = AuthMode.login;
       });
     else {
       setState(() {
-        _signup = true;
+        _authMode = AuthMode.signup;
       });
     }
+  }
+
+  // void _showErrorDialog(String message) {
+  //   showDialog(
+  //     context: context,
+  //     builder: (ctx) => AlertDialog(
+  //       title: const Text('An Error Occurred!'),
+  //       content: Text(message),
+  //       actions: <Widget>[
+  //         FlatButton(
+  //           child: const Text('Okay'),
+  //           onPressed: () {
+  //             Navigator.of(ctx).pop();
+  //           },
+  //         )
+  //       ],
+  //     ),
+  //   );
+  // }
+
+  Future<void> _submit() async {
+    if (!_formKey.currentState!.validate()) {
+      // Invalid!
+      return;
+    }
+    _formKey.currentState!.save();
+    setState(() {
+      _isLoading = true;
+    });
+    try {
+      if (_authMode == AuthMode.login) {
+        //  Log user in
+        await Provider.of<Auth>(context, listen: false).login(
+            // authData['email'].toString(),
+            // authData['password'].toString(),
+            'asa@brbh.com',
+            '123456789');
+      } else {
+        print(authData['firstName']);
+        print(authData['lastName']);
+        print(authData['email']);
+        print(authData['phone']);
+        print(authData['companyName']);
+        // Sign user up
+
+        await Provider.of<Auth>(context, listen: false).signup(
+          authData['firstName'].toString(),
+          authData['lastName'].toString(),
+          authData['companyName'].toString(),
+          authData['email'].toString(),
+          authData['password'].toString(),
+          authData['password'].toString(),
+        );
+      }
+    } on HttpException catch (error) {
+      var errorMessage = 'Authentication failed';
+      if (error.toString().contains('Email not found')) {
+        errorMessage = 'This email address is not found.';
+      } else if (error.toString().contains('INVALID_EMAIL')) {
+        errorMessage = 'This is not a valid email address';
+      } else if (error.toString().contains('WEAK_PASSWORD')) {
+        errorMessage = 'This password is too weak.';
+      } else if (error.toString().contains('EMAIL_NOT_FOUND')) {
+        errorMessage = 'Could not find a user with that email.';
+      } else if (error.toString().contains('INVALID_PASSWORD')) {
+        errorMessage = 'Invalid password.';
+      }
+      // print(errorMessage);
+    } catch (error) {
+      const errorMessage =
+          'Could not authenticate you. Please try again later.';
+      // print(errorMessage);
+    }
+
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.only(
+        right: 20,
+        left: 20,
+      ),
       child: Form(
         key: _formKey,
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.only(right: 20, left: 20),
             child: Column(
               children: <Widget>[
-                if (_signup)
+                if (_authMode == AuthMode.signup)
                   TextFormField(
-                    decoration: const InputDecoration(labelText: 'Your name'),
-                    keyboardType: TextInputType.emailAddress,
-                    // validator: (value) {
-                    //    if (value.isEmpty || !value.contains('@')) {
-                    //     return 'Invalid email!';
-                    //    }
-                    // },
-                    // onSaved: (value) {
-                    //   _authData['email'] = value;
-                    // },
+                    decoration:
+                        const InputDecoration(labelText: 'Your first name'),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Invalid name!';
+                      }
+                    },
+                    onSaved: (value) {
+                      authData['firstName'] = value.toString();
+                    },
                   ),
-                if (_signup)
+                if (_authMode == AuthMode.signup)
+                  TextFormField(
+                    decoration:
+                        const InputDecoration(labelText: 'Your last name'),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Invalid name!';
+                      }
+                    },
+                    onSaved: (value) {
+                      authData['lastName'] = value.toString();
+                    },
+                  ),
+                if (_authMode == AuthMode.signup)
                   TextFormField(
                     decoration:
                         const InputDecoration(labelText: 'Company name'),
-                    keyboardType: TextInputType.emailAddress,
-                    // validator: (value) {
-                    //    if (value.isEmpty || !value.contains('@')) {
-                    //     return 'Invalid email!';
-                    //    }
-                    // },
-                    // onSaved: (value) {
-                    //   _authData['email'] = value;
-                    // },
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Invalid name!';
+                      }
+                    },
+                    onSaved: (value) {
+                      authData['companyName'] = value.toString();
+                    },
                   ),
                 TextFormField(
                   decoration: const InputDecoration(labelText: 'E-Mail'),
                   keyboardType: TextInputType.emailAddress,
-                  // validator: (value) {
-                  //    if (value.isEmpty || !value.contains('@')) {
-                  //     return 'Invalid email!';
-                  //    }
-                  // },
-                  // onSaved: (value) {
-                  //   _authData['email'] = value;
-                  // },
+                  validator: (value) {
+                    if (value!.isEmpty || !value.contains('@')) {
+                      return 'Invalid email!';
+                    }
+                  },
+                  onSaved: (value) {
+                    authData['email'] = value.toString();
+                  },
                 ),
                 TextFormField(
                   decoration: const InputDecoration(labelText: 'Password'),
                   obscureText: true,
-                  // controller: _passwordController,
-                  // validator: (value) {
-                  //   if (value.isEmpty || value.length < 5) {
-                  //     return 'Password is too short!';
-                  //   }
-                  // },
-                  // onSaved: (value) {
-                  //   _authData['password'] = value;
-                  // },
+                  controller: _passwordController,
+                  validator: (value) {
+                    if (value!.isEmpty || value.length < 9) {
+                      return 'Password is too short!';
+                    }
+                  },
+                  onSaved: (value) {
+                    authData['password'] = value.toString();
+                  },
                 ),
+                if (_authMode == AuthMode.signup)
+                  TextFormField(
+                    decoration:
+                        const InputDecoration(labelText: 'Confirm password'),
+                    obscureText: true,
+                    // controller: _passwordController,
+                    validator: (value) {
+                      if (value!.isEmpty || value != _passwordController.text) {
+                        return 'Not matching!';
+                      }
+                    },
+                    onSaved: (value) {
+                      authData['confirmPassword'] = value.toString();
+                    },
+                  ),
+                if (_authMode == AuthMode.signup)
+                  TextFormField(
+                    decoration:
+                        const InputDecoration(labelText: 'Phone number'),
+                    keyboardType: TextInputType.phone,
+                    // controller: _passwordController,
+                    validator: (value) {
+                      if (value!.isEmpty || value.length != 11) {
+                        return 'invalid phone number!';
+                      }
+                    },
+                    onSaved: (value) {
+                      authData['phone'] = value.toString();
+                    },
+                  ),
                 const SizedBox(
                   height: 20,
                 ),
@@ -93,12 +240,12 @@ class _EmployerAuthState extends State<EmployerAuth> {
                 else
                   RaisedButton(
                     child: Text(
-                      _signup ? 'Sign up' : 'LOGIN',
+                      _authMode == AuthMode.signup ? 'Sign up' : 'LOGIN',
                       style: const TextStyle(color: Colors.white),
                     ),
-                    onPressed: () {
-                      // Navigator.of(context).pushNamed(EmployerScreen.routeName);
-                    },
+                    onPressed: _submit,
+                    // Navigator.of(context).pushNamed(EmployerScreen.routeName);
+
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
@@ -106,13 +253,15 @@ class _EmployerAuthState extends State<EmployerAuth> {
                   ),
                 RichText(
                   text: TextSpan(
-                    text: _signup
+                    text: _authMode == AuthMode.signup
                         ? 'have an account?'
                         : 'Don\'t have an account?',
                     style: const TextStyle(color: Colors.black, fontSize: 20),
                     children: <TextSpan>[
                       TextSpan(
-                          text: _signup ? ' Login' : ' Sign up',
+                          text: _authMode == AuthMode.signup
+                              ? ' Login'
+                              : ' Sign up',
                           style: TextStyle(
                               color: Theme.of(context).primaryColor,
                               fontSize: 20),
