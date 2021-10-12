@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-class Applicant {
+class Interview {
   final String positionName;
   final String id;
   final String name;
@@ -10,7 +10,7 @@ class Applicant {
   final List<String> videoAnswers;
   double rate;
   bool isRated;
-  Applicant(
+  Interview(
       {required this.positionName,
       required this.id,
       required this.name,
