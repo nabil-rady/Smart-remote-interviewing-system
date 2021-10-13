@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:trail_2/providers/question.dart';
+import '../models/question.dart';
 
 class Questions with ChangeNotifier {
   List<Question> _items = [Question()];

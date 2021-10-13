@@ -2,14 +2,15 @@ import 'dart:html';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:trail_2/providers/question.dart';
-import 'package:trail_2/providers/questions.dart';
-import 'package:trail_2/widgets/question_form_item.dart';
+import '../models/question.dart';
+import '../providers/questions.dart';
+import '../widgets/question_form_item.dart';
 
 class QuestionPositionScreen extends StatefulWidget {
   //final Question newquestion;
   //int counter = 1;
   //QuestionPositionScreen(this.newquestion);
+  static const routeName = '/ques_position_screen';
   @override
   _QuestionPositionScreenState createState() => _QuestionPositionScreenState();
 }
@@ -34,6 +35,9 @@ class _QuestionPositionScreenState extends State<QuestionPositionScreen> {
   Widget build(BuildContext context) {
     final questionData = Provider.of<Questions>(context);
     final questions = questionData.items;
+    // final numberOfQuestions =
+    //     ModalRoute.of(context)!.settings.arguments as String;
+    // final number = int.parse(numberOfQuestions);
 
     return Scaffold(
         appBar: AppBar(
@@ -51,7 +55,8 @@ class _QuestionPositionScreenState extends State<QuestionPositionScreen> {
                 icon: Icon(Icons.save))
           ],
         ),
-        body: Container(
+        body: SingleChildScrollView(
+          physics: ScrollPhysics(),
           child: Column(children: <Widget>[
             Padding(
                 padding: EdgeInsets.all(10),
@@ -61,12 +66,16 @@ class _QuestionPositionScreenState extends State<QuestionPositionScreen> {
                       //labelStyle: TextStyle(),
                       hintText: 'Please write position name .'),
                 )),
-            Flexible(
-              child: ListView.builder(
-                itemBuilder: (_, i) => QuestionFormItem(Question(), i),
-                itemCount: questions.length,
-              ),
+
+            ListView.builder(
+              //key: UniqueKey(),
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemBuilder: (_, i) =>
+                  QuestionFormItem(Question(DateTime.now().toString()), i),
+              itemCount: questions.length,
             ),
+            //),
             // Container(
             //   alignment: Alignment.bottomRight,
             //   child: FloatingActionButton(
