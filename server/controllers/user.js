@@ -45,10 +45,10 @@ module.exports.postSignup = (req, res, next) => {
       return User.create({
         // Store the user in the dataBase
         userId: newId,
-        firstName: firstName,
-        lastName: lastName,
-        companyName: companyName,
-        email: email,
+        firstName,
+        lastName,
+        companyName,
+        email,
         password: hashedPassword,
       });
     })
@@ -72,7 +72,7 @@ module.exports.postLogin = (req, res, next) => {
   User.findOne({
     // fetch the user
     where: {
-      email: email,
+      email,
     },
   })
     .then((user) => {
