@@ -24,13 +24,13 @@ router.post(
       .isEmail()
       .normalizeEmail()
       .custom((value) => {
-        return User.findAll({
+        return User.findOne({
           attributes: ['email'],
           where: {
             email: value,
           },
-        }).then((user) => {
-          if (user.length > 0) {
+        }).then((email) => {
+          if (email) {
             return Promise.reject('This email is already exists');
           }
         });
@@ -49,19 +49,16 @@ router.post(
         }
         return true;
       }),
-    body(
-      'firstName',
-      'First name length should be between 3 and 225 characters.'
-    )
+    body('firstName', 'First name length should be less than 225 characters.')
       .trim()
       .isLength({
-        min: 3,
+        min: 1,
         max: 225,
       }),
-    body('lastName', 'Last name length should be between 3 and 225 characters.')
+    body('lastName', 'Last name length should less than 225 characters.')
       .trim()
       .isLength({
-        min: 3,
+        min: 1,
         max: 225,
       }),
     body(
@@ -70,6 +67,7 @@ router.post(
     )
       .trim()
       .isLength({
+        min: 1,
         max: 225,
       }),
   ],
@@ -77,7 +75,9 @@ router.post(
 );
 
 router.post('/login', userControllers.postLogin);
+router.delete('/logout', isAuth, userControllers.deleteLogOut);
 
-router.get('/:user_id', userControllers.getInfo);
+// router.get('/:user_id', isAuth, userControllers.getInfo);
+router.get('/:user_id', userControllers.getInfo); // just for testing
 
 module.exports = router;

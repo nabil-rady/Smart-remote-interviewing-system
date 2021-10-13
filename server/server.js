@@ -9,6 +9,7 @@ const JobListing = require('./models/job-listing');
 const Question = require('./models/question');
 const User = require('./models/user');
 const Video = require('./models/video');
+const Keyword = require('./models/keyword');
 
 // import routes
 const userRoutes = require('./routes/user');
