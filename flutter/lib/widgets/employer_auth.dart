@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import '../screens/position_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/auth_provider.dart';
@@ -266,6 +267,11 @@ class _EmployerAuthState extends State<EmployerAuth> {
                     ],
                   ),
                 ),
+                FlatButton(
+                    child: Text('position screen'),
+                    onPressed: () {
+                      Navigator.of(context).pushNamed(PositionScreen.routeName);
+                    })
               ],
             ),
           ),

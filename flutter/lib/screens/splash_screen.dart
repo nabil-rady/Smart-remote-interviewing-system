@@ -56,11 +56,6 @@ class _SplashScreenState extends State<SplashScreen>
               fontSize: 25.0,
             ),
           ),
-          FlatButton(
-              child: Text('position screen'),
-              onPressed: () {
-                Navigator.of(context).pushNamed(PositionScreen.routeName);
-              })
         ],
       ),
     );
