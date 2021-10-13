@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import './scss/image-slider.scss';
 import NavBar from '../components/NavBar';
+import SideMenu from '../components/SideMenu';
 import Card from '../components/Card';
 import './scss/Add.scss';
 
@@ -8,7 +9,10 @@ let count = 1;
 let nums = [];
 nums.push(count);
 function AddQues() {
+  const sideMenu = useRef(null);
   const [cards, setCard] = useState([]);
+  const handleToggleButtonClick = () =>
+    sideMenu.current.classList.toggle('change');
   const AddHandler = () => {
     let element = document.querySelector('.card_Question');
     let copy = element.cloneNode(true);
@@ -46,7 +50,12 @@ function AddQues() {
 
   return (
     <>
-      <NavBar />
+      <NavBar
+        handleToggleButtonClick={handleToggleButtonClick}
+        burgerButton={true}
+      />
+      <SideMenu ref={sideMenu} />
+
       <Card className="card_Question" id="Q1">
         <p className="Question_label">{count}</p>
         <button className="delete" id="1">

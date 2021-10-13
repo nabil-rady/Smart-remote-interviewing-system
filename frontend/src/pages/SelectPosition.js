@@ -1,30 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import './scss/SelectPosition.scss';
+import React, { useState, useRef } from 'react';
+import './scss/select-position.scss';
 import Card from '../components/Card';
 import QuestionsPage from './AddQuestiion';
 import NavBar from '../components/NavBar';
 //import {Link} from 'react-router-dom'
-import BurgerMenu from '../components/BurgerMenu';
+import SideMenu from '../components/SideMenu';
 
 const PositionForm = () => {
   const submitHandler = (e) => e.preventDefault();
   const [inputfieldsToAdd, setInputfieldsToAdd] = useState(0);
   const [committedFieldsToAdd, setCommittedFieldsToAdd] = useState(0);
-  useEffect(() => {
-    const para = document.getElementById('toggle-icon');
-    const burger = document.getElementById('big_container');
-    para.addEventListener('click', () => {
-      para.classList.toggle('rotate-icon');
-      //const burger_container=document.querySelector("burger_container")
-      burger.classList.toggle('change');
-      //burger_container.classList.toggle("change2")
-    });
-  });
+  const sideMenu = useRef(null);
+
+  const handleToggleButtonClick = () =>
+    sideMenu.current.classList.toggle('change');
 
   return (
     <div>
-      <NavBar />
-      <BurgerMenu />
+      <NavBar
+        handleToggleButtonClick={handleToggleButtonClick}
+        burgerButton={true}
+      />
+      <SideMenu ref={sideMenu} />
       <Card className="cardQuestion">
         <form onSubmit={submitHandler} className="Selectingform">
           <input
@@ -37,7 +34,7 @@ const PositionForm = () => {
             className="Qtext"
             type="number"
             placeholder="Questions Number"
-            onChange={(e) => setInputfieldsToAdd(parseInt(e.target.value, 10))}
+            onChange={(e) => setInputfieldsToAdd(parseInt(e.target.value))}
             required
           />
 

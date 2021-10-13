@@ -5,9 +5,11 @@
   width: 100%;
   display: flex;
   background-color: $primary-blue;
+  position: relative;
+  z-index: 5;
   &__logo {
     width: 20%;
-    padding: 1.5rem;
+    padding: 0.9rem 1.5rem;
     font-size: 1.3rem;
     color: white;
     font-weight: 700;
@@ -19,7 +21,7 @@
       list-style: none;
       margin-left: auto;
       display: flex;
-      color: #aeaeae;
+      color: $hover-gray;
       // padding: 1rem;
       font-size: 1.2rem;
       //border: 2px white solid;
@@ -27,14 +29,15 @@
       border-radius: 5px;
       padding: 0;
       height: 35px;
-      margin-top: 1rem;
+      margin-top: 0.8rem;
       &__li {
         &:nth-child(2) {
           cursor: pointer;
           height: 20px;
-          color: #aeaeae;
+          color: white;
+          padding-top: 0.1rem;
           &:hover {
-            color: white;
+            color: #91a7c4;
           }
         }
         padding: 0 0.3rem;
@@ -105,7 +108,7 @@
 #toggle-icon {
   cursor: pointer;
   display: table;
-  margin-top: 1rem;
+  margin-top: 0.5rem;
   margin-left: 2rem;
 }
 .bar1,

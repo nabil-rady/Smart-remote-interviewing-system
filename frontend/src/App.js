@@ -21,7 +21,7 @@ const mockUserObject = {
   firstName: 'Mohammed',
   lastName: 'Moussa',
   CompanyName: 'Mentor',
-  Email: 'mm9079381@gmail.com',
+  email: 'mm9079381@gmail.com',
   avatarURL: avatar,
 };
 
@@ -50,19 +50,19 @@ function App() {
         <Route path="/instructions">
           <ImageSlider />
         </Route>
-        <Route path="/SelectPosition">
+        <Route path="/selectposition">
           <PositionForm />
         </Route>
-        <Route path="/AddQuestions">
+        <Route path="/addquestions">
           <QuestionsPage />
         </Route>
-        <Route path="/Profile">
+        <Route path="/profile">
           <Profile />
         </Route>
-        <Route path="/Add">
+        <Route path="/add">
           <AddQues />
         </Route>
-        <Route path="/Invite">
+        <Route path="/invite">
           <InvitationPage />
         </Route>
       </UserContext.Provider>
