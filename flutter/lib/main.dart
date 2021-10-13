@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -8,6 +9,7 @@ import 'screens/position_screen.dart';
 import './providers/auth_provider.dart';
 import './screens/ques_position_screen.dart';
 import './providers/questions.dart';
+import './screens/home_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -57,6 +59,7 @@ class MyApp extends StatelessWidget {
             IntroScreen.routeName: (ctx) => IntroScreen(),
             PositionScreen.routeName: (ctx) => PositionScreen(),
             QuestionPositionScreen.routeName: (ctx) => QuestionPositionScreen(),
+            HomeScreen.routeName: (ctx) => HomeScreen(),
           },
         ));
   }

@@ -83,6 +83,7 @@ class _EmployerAuthState extends State<EmployerAuth> {
           authData['email'].toString(),
           authData['password'].toString(),
         );
+        Navigator.of(context).pushReplacementNamed('/home_screen');
       } else {
         // Sign user up
         await Provider.of<Auth>(context, listen: false).signup(
@@ -93,6 +94,7 @@ class _EmployerAuthState extends State<EmployerAuth> {
           authData['password'].toString(),
           authData['password'].toString(),
         );
+        Navigator.of(context).pushReplacementNamed('/home_screen');
       }
     } on HttpException catch (error) {
       var errorMessage = 'Authentication failed';

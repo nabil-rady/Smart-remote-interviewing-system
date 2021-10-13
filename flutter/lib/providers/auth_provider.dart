@@ -1,16 +1,25 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/widgets.dart';
-import 'package:graduation_project/models/http_exception.dart';
+import '../models/employer_model.dart';
+import '../models/http_exception.dart';
 import 'package:http/http.dart' as http;
 //import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 //import '../models/http_exception.dart';
 
 class Auth with ChangeNotifier {
-  String _token = '';
-  String _userId = '';
+  Employer _employer = Employer(
+      firstName: '',
+      lastName: '',
+      companyName: '',
+      createdAt: '',
+      updatedAt: '',
+      token: '',
+      email: '',
+      userId: '');
 
   late DateTime _expiryDate;
 
@@ -23,14 +32,14 @@ class Auth with ChangeNotifier {
   String get token {
     if (_expiryDate != null &&
         _expiryDate.isAfter(DateTime.now()) &&
-        _token != '') {
-      return _token;
+        _employer.token != '') {
+      return _employer.token;
     }
     return '';
   }
 
   String get userId {
-    return _userId;
+    return _employer.userId;
   }
 
   Future<void> signup(String firstName, String lastName, String companyName,
@@ -54,7 +63,7 @@ class Auth with ChangeNotifier {
     //print(responseData['details'][0]['msg']);
     if (response.statusCode == 201) {
       final responseData = json.decode(response.body);
-      _userId = responseData['userId'];
+      _employer.userId = responseData['userId'];
     } else if (response.statusCode == 422) {
       throw Exception(responseData['details'][0]['msg']);
     } else {
@@ -74,15 +83,28 @@ class Auth with ChangeNotifier {
       }),
     );
     final responseData = json.decode(response.body);
-    //print(responseData);
+    // print(responseData);
     // print(responseData['message']);
+
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
-      _token = responseData['token'];
-      print(_token);
+      _employer.token = responseData['token'];
+      _employer.userId = responseData['user']['userId'];
+      _employer.firstName = responseData['user']['firstName'];
+      _employer.lastName = responseData['user']['lastName'];
+      _employer.companyName = responseData['user']['companyName'];
+      _employer.email = responseData['user']['email'];
+      _employer.createdAt = responseData['user']['createdAt'];
+      _employer.updatedAt = responseData['user']['updatedAt'];
+      //inspect(_employer);
+      //print(_employer.companyName +_employer.createdAt + _employer.email+ _employer.firstName+_employer.lastName);
     } else {
       throw HttpException(responseData['message']);
     }
+  }
+
+  Employer get employer {
+    return _employer;
   }
 
 //   Future<void> signup(String email, String password) async {
