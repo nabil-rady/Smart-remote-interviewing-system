@@ -77,7 +77,7 @@ class _QuestionFormItemState extends State<QuestionFormItem> {
                   actions: [
                     IconButton(
                         onPressed: () {
-                          questionData.deleteForm(widget.newquestion.id);
+                          questionData.deleteForm(widget.index);
                           // Provider.of<Questions>(context, listen: false)
                           //     .deleteForm(widget.index);
                           //_isDeleted = true;
