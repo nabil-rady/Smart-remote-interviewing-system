@@ -13,7 +13,8 @@ module.exports = (req, res, next) => {
   try {
     decodedToken = jwt.verify(token, process.env.TOKEN_SECRET); // decode the token and verify it.
   } catch (err) {
-    // if the verificatin faild.
+    // if the token can not be decoded.
+    err.message = 'The json web token has been expired';
     err.statusCode = 500;
     throw err;
   }
