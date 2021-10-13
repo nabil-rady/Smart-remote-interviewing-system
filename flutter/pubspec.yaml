@@ -98,13 +98,13 @@ flutter:
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   fonts:
-    - family: Muli
+    - family: OpenSans
       fonts:
-        - asset: assets/fonts/muli/Muli.ttf
-        - asset: assets/fonts/muli/Muli-Bold.ttf
+        - asset: assets/fonts/OpenSans/OpenSans-Bold.ttf
           weight: 700
-        - asset: assets/fonts/muli/Muli-Light.ttf
+        - asset: assets/fonts/OpenSans/OpenSans-Light.ttf
           weight: 300
+
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf

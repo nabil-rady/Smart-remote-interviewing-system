@@ -50,11 +50,14 @@ class _EmployerAuthState extends State<EmployerAuth> {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text(
+        title: Text(
           'An Error Occurred!',
-          style: TextStyle(fontSize: 25),
+          style: Theme.of(context).textTheme.headline1,
         ),
-        content: Text(message),
+        content: Text(
+          message,
+          style: Theme.of(context).textTheme.bodyText1,
+        ),
         actions: <Widget>[
           FlatButton(
             child: const Text('Okay'),

@@ -37,7 +37,7 @@ class _StartIntrviewState extends State<StartIntrview> {
                 fontStyle: FontStyle.normal,
               ),
               textAlign: TextAlign.center,
-            )
+            ),
           ],
         ),
       ),
