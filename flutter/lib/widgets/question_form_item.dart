@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:trail_2/providers/question.dart';
-import 'package:trail_2/providers/questions.dart';
+import '../models/question.dart';
+import '../providers/questions.dart';
 
 class QuestionFormItem extends StatefulWidget {
   // final String questionTitle;
@@ -23,6 +23,8 @@ class QuestionFormItem extends StatefulWidget {
 }
 
 class _QuestionFormItemState extends State<QuestionFormItem> {
+  late TextEditingController _titleQuestion = TextEditingController();
+
   // bool _canShowButton = true;
   // bool _isDeleted = false;
   // void showWidget() {
@@ -75,21 +77,22 @@ class _QuestionFormItemState extends State<QuestionFormItem> {
                   actions: [
                     IconButton(
                         onPressed: () {
-                          setState(() {
-                            questionData.deleteForm(widget.index);
-                            //_isDeleted = true;
-                            //showWidget();
-                          });
+                          questionData.deleteForm(widget.index);
+                          // Provider.of<Questions>(context, listen: false)
+                          //     .deleteForm(widget.index);
+                          //_isDeleted = true;
+                          //showWidget();
                         },
                         icon: Icon(Icons.delete))
                   ],
                 ),
                 TextFormField(
+                  controller: _titleQuestion,
                   decoration: InputDecoration(
                     labelText: 'Question',
                     hintText: 'Enter the question .',
                   ),
-                  initialValue: widget.newquestion.titleQuestion,
+                  // initialValue: widget.newquestion.titleQuestion,
                   textInputAction: TextInputAction.next,
                   validator: (value) {
                     if (value!.isEmpty) {

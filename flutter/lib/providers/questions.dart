@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:trail_2/providers/question.dart';
+import '../models/question.dart';
 
 class Questions with ChangeNotifier {
-  List<Question> _items = [Question()];
+  List<Question> _items = [
+    Question(
+      DateTime.now().toString(),
+    )
+  ];
   int count = 0;
 
   List<Question> get items {
