@@ -12,6 +12,8 @@ import PositionForm from './pages/SelectPosition';
 import QuestionsPage from './pages/AddQuestiion';
 import Profile from './pages/Profile';
 import AddQues from './pages/AddQues';
+import InvitationPage from './pages/inviteUserPage';
+import InviteUser from './components/InviteApplicant';
 
 const mockUserObject = {
   userId: 'ABC123',
@@ -59,6 +61,9 @@ function App() {
         </Route>
         <Route path="/Add">
           <AddQues />
+        </Route>
+        <Route path="/Invite">
+          <InvitationPage />
         </Route>
       </UserContext.Provider>
     </>
