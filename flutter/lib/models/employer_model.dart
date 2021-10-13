@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
 
 class Employer with ChangeNotifier {
-  final String firstName;
-  final String lastName;
-  final String companyName;
-  final String email;
-  final String password;
-  final String phone;
+  String userId;
+  String firstName;
+  String lastName;
+  String companyName;
+  String email;
+  String token;
+  String createdAt;
+  String updatedAt;
+  //final String phone;
 
   Employer({
+    required this.userId,
     required this.firstName,
     required this.lastName,
     required this.companyName,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.token,
     required this.email,
-    required this.password,
-    required this.phone,
+    // required this.phone,
   });
 }

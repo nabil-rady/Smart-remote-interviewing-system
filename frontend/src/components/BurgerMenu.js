@@ -4,7 +4,7 @@ import './scss/Burger.scss';
 import { UserContext } from '../App';
 
 const BurgerMenu = () => {
-  const authUser = useContext(UserContext);
+  const authUser = useContext(UserContext).authUser;
   return (
     <div id="big_container">
       <div className="burger_container">
@@ -12,11 +12,11 @@ const BurgerMenu = () => {
           <ul className="nav_list">
             <li className="nav_header">
               <div>
-                <div className="letter">{authUser.firstName[0]}</div>
+                <div className="letter">{authUser?.firstName[0]}</div>
                 <p className="name">
-                  {authUser.firstName} {authUser.lastName}
+                  {authUser?.firstName} {authUser?.lastName}
                 </p>
-                <p className="email">{authUser.Email}</p>
+                <p className="email">{authUser?.email}</p>
               </div>
             </li>
 

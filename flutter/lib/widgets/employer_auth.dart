@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import '../screens/position_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/auth_provider.dart';
@@ -13,13 +14,6 @@ class EmployerAuth extends StatefulWidget {
 }
 
 class _EmployerAuthState extends State<EmployerAuth> {
-  // var employer = Employer(
-  //     firstName: '',
-  //     lastName: '',
-  //     companyName: '',
-  //     email: '',
-  //     password: '',
-  //     phone: 0);
   Map<String, String> authData = {
     'firstName': '',
     'lastName': '',
@@ -34,6 +28,11 @@ class _EmployerAuthState extends State<EmployerAuth> {
   AuthMode _authMode = AuthMode.login;
 
   var _isLoading = false;
+  @override
+  void dispose() {
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   void _toggleFun() {
     if (_authMode == AuthMode.signup)
@@ -47,23 +46,26 @@ class _EmployerAuthState extends State<EmployerAuth> {
     }
   }
 
-  // void _showErrorDialog(String message) {
-  //   showDialog(
-  //     context: context,
-  //     builder: (ctx) => AlertDialog(
-  //       title: const Text('An Error Occurred!'),
-  //       content: Text(message),
-  //       actions: <Widget>[
-  //         FlatButton(
-  //           child: const Text('Okay'),
-  //           onPressed: () {
-  //             Navigator.of(ctx).pop();
-  //           },
-  //         )
-  //       ],
-  //     ),
-  //   );
-  // }
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text(
+          'An Error Occurred!',
+          style: TextStyle(fontSize: 25),
+        ),
+        content: Text(message),
+        actions: <Widget>[
+          FlatButton(
+            child: const Text('Okay'),
+            onPressed: () {
+              Navigator.of(ctx).pop();
+            },
+          )
+        ],
+      ),
+    );
+  }
 
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) {
@@ -78,18 +80,12 @@ class _EmployerAuthState extends State<EmployerAuth> {
       if (_authMode == AuthMode.login) {
         //  Log user in
         await Provider.of<Auth>(context, listen: false).login(
-            // authData['email'].toString(),
-            // authData['password'].toString(),
-            'asa@brbh.com',
-            '123456789');
+          authData['email'].toString(),
+          authData['password'].toString(),
+        );
+        Navigator.of(context).pushReplacementNamed('/home_screen');
       } else {
-        print(authData['firstName']);
-        print(authData['lastName']);
-        print(authData['email']);
-        print(authData['phone']);
-        print(authData['companyName']);
         // Sign user up
-
         await Provider.of<Auth>(context, listen: false).signup(
           authData['firstName'].toString(),
           authData['lastName'].toString(),
@@ -98,25 +94,28 @@ class _EmployerAuthState extends State<EmployerAuth> {
           authData['password'].toString(),
           authData['password'].toString(),
         );
+        Navigator.of(context).pushReplacementNamed('/home_screen');
       }
     } on HttpException catch (error) {
       var errorMessage = 'Authentication failed';
       if (error.toString().contains('Email not found')) {
         errorMessage = 'This email address is not found.';
-      } else if (error.toString().contains('INVALID_EMAIL')) {
-        errorMessage = 'This is not a valid email address';
-      } else if (error.toString().contains('WEAK_PASSWORD')) {
-        errorMessage = 'This password is too weak.';
-      } else if (error.toString().contains('EMAIL_NOT_FOUND')) {
-        errorMessage = 'Could not find a user with that email.';
-      } else if (error.toString().contains('INVALID_PASSWORD')) {
+      }
+      // else if (error.toString().contains('INVALID_EMAIL')) {
+      //   errorMessage = 'This is not a valid email address';
+      // } else if (error.toString().contains('WEAK_PASSWORD')) {
+      //   errorMessage = 'This password is too weak.';
+      // } else if (error.toString().contains('EMAIL_NOT_FOUND')) {
+      //   errorMessage = 'Could not find a user with that email.';
+      // }
+      else if (error.toString().contains('Incorrect password')) {
         errorMessage = 'Invalid password.';
       }
-      // print(errorMessage);
+      _showErrorDialog(errorMessage);
     } catch (error) {
       const errorMessage =
           'Could not authenticate you. Please try again later.';
-      // print(errorMessage);
+      _showErrorDialog(errorMessage);
     }
 
     setState(() {
@@ -270,6 +269,11 @@ class _EmployerAuthState extends State<EmployerAuth> {
                     ],
                   ),
                 ),
+                FlatButton(
+                    child: Text('position screen'),
+                    onPressed: () {
+                      Navigator.of(context).pushNamed(PositionScreen.routeName);
+                    })
               ],
             ),
           ),

@@ -6,6 +6,8 @@ class Question {
   double thinkingTime = 0;
   String keywords = '';
   bool showButton = true;
+  final String id;
+  Question(this.id);
   //int saveFlag = 0;
   // Question(
   //    this.titleQuestion,
