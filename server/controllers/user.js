@@ -20,10 +20,10 @@ module.exports.postSignup = (req, res, next) => {
   let newId, exist;
   User.findAll({
     // fetch all users ids
-    attributes: ['userID'],
+    attributes: ['userId'],
   })
     .then((users) => {
-      const oldIds = users.map((user) => user.userId);
+      const oldIds = users.map((user) => user.dataValues.userId);
       do {
         // create a unique id user id
         exist = false;
@@ -52,8 +52,8 @@ module.exports.postSignup = (req, res, next) => {
         password: hashedPassword,
       });
     })
-    .then((returnedUser) => {
-      const { password, ...user } = returnedUser.dataValues;
+    .then((createdUser) => {
+      const { password, ...user } = createdUser.dataValues;
       res.status(201).json({
         user,
       });
@@ -76,7 +76,6 @@ module.exports.postLogin = (req, res, next) => {
     },
   })
     .then((user) => {
-      console.log(user);
       if (!user) {
         // check if the user exists
         const error = new Error('Email not found');
@@ -108,11 +107,15 @@ module.exports.postLogin = (req, res, next) => {
           expiresIn: '10h',
         }
       );
+      const tokenExpireDate = new Date(0);
+      tokenExpireDate.setUTCSeconds(jwt.decode(token).exp);
+      const localTokenExpireDate = tokenExpireDate.toLocaleString();
+
       const { password, ...user } = fetchedUser.dataValues;
-      console.log(user);
       res.status(200).json({
         user,
         token,
+        tokenExpireDate,
       });
     })
     .catch((err) => {
@@ -123,6 +126,25 @@ module.exports.postLogin = (req, res, next) => {
     });
 };
 
+module.exports.deleteLogOut = (req, res, next) => {
+  // for logout we return an expired token just for now.
+  res.status(200).json({
+    token: jwt.sign(
+      {
+        userId: req.userId,
+        email: req.email,
+        firstName: req.firstName,
+        lastName: req.lastName,
+        companyName: req.companyName,
+      },
+      process.env.TOKEN_SECRET,
+      {
+        expiresIn: '-10s',
+      }
+    ),
+  });
+};
+
 module.exports.getInfo = (req, res, next) => {
   const id = req.params.user_id;
   User.findOne({
@@ -131,18 +153,16 @@ module.exports.getInfo = (req, res, next) => {
       userId: id.toString(),
     },
   })
-    .then((user) => {
-      if (!user) {
+    .then((returnedUser) => {
+      if (!returnedUser) {
         // check if the user exists
         const error = new Error('User not found');
         error.statusCode = 404;
         throw error;
       }
+      const { password, ...user } = returnedUser.dataValues;
       res.status(200).json({
-        firstName: user.firstName,
-        lastName: user.lastName,
-        companyName: user.companyName,
-        email: user.email,
+        user,
       });
     })
     .catch((err) => {

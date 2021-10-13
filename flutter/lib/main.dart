@@ -34,23 +34,26 @@ class MyApp extends StatelessWidget {
             //brightness: Brightness.dark,
             //primarySwatch: Colors.deepPurple,
             primaryColor: const Color(0xFF165DC0),
-            textTheme: ThemeData.light().textTheme.copyWith(
-                  headline1: const TextStyle(
-                      fontSize: 72.0, fontWeight: FontWeight.bold),
-                  headline6: const TextStyle(
-                      fontSize: 36.0, fontStyle: FontStyle.italic),
-                  bodyText1: const TextStyle(
-                      fontSize: 17.0,
-                      fontFamily: 'Hind',
-                      fontWeight: FontWeight.bold),
-                  bodyText2: const TextStyle(
-                      fontSize: 16.0,
-                      fontFamily: 'Hind',
-                      fontWeight: FontWeight.normal),
-                  button: const TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
+            textTheme: const TextTheme(
+              headline1: TextStyle(
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'OpenSans-Light',
+                color: Colors.black,
+              ),
+              bodyText1: TextStyle(
+                  fontSize: 16.0,
+                  fontFamily: 'OpenSans-Light',
+                  fontWeight: FontWeight.normal),
+              bodyText2: TextStyle(
+                  fontSize: 22.0,
+                  fontFamily: 'OpenSans-Light',
+                  fontWeight: FontWeight.normal),
+              button: TextStyle(
+                color: Colors.white,
+                fontFamily: 'OpenSans-Light',
+              ),
+            ),
           ),
           home: SplashScreen(),
           routes: {

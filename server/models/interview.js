@@ -23,7 +23,7 @@ const Interview = sequelize.define('Interview', {
     unique: true,
   },
   phoneCode: {
-    type: DataTypes.STRING(3),
+    type: DataTypes.STRING(5),
     allowNull: false,
   },
   phoneNumber: {
