@@ -3,6 +3,7 @@ import Card from './Card';
 //import ErrorModal from './ErrorModal'
 import './scss/invite.scss';
 import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
 
 const InviteUser = (props) => {
   const [enteredName, setEnteredName] = useState('');
@@ -25,10 +26,6 @@ const InviteUser = (props) => {
 
   const emailHandler = (event) => {
     setEnteredEmail(event.target.value);
-  };
-
-  const phoneHandler = (value) => {
-    setEnteredPhone(value);
   };
 
   // const errorHandler = () => {
@@ -65,16 +62,16 @@ const InviteUser = (props) => {
           />
           <label htmlFor="phone">Phone no.</label>
           <PhoneInput
-            inputExtraProps={{
+            inputProps={{
               name: 'phone',
               required: true,
               autoFocus: true,
               disabled: false,
             }}
-            defaultCountry={'sg'}
+            country={'eg'}
             value={enteredPhoneNo}
-            onlyCountries={['cu', 'cw', 'kz']}
-            onChange={phoneHandler}
+            onChange={(phone) => setEnteredPhone(phone)}
+            enableSearch={true}
           />
           <button className="invite" type="submit">
             Invite User

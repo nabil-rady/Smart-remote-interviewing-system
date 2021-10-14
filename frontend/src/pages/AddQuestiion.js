@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Nav from '../components/NavBar';
 import { count } from './SelectPosition';
 import './scss/image-slider.scss';
-import Field from '../components/Field';
+// import Field from '../components/Field';
 
 function QuestionsPage(props) {
   return (

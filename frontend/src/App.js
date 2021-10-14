@@ -9,7 +9,7 @@ import './App.scss';
 import InterviewPage from './pages/TakeInterview';
 import avatar from './user.jpg';
 import PositionForm from './pages/SelectPosition';
-import QuestionsPage from './pages/AddQuestiion';
+// import QuestionsPage from './pages/AddQuestiion';
 import Profile from './pages/Profile';
 import AddQues from './pages/AddQues';
 import InvitationPage from './pages/inviteUserPage';
@@ -53,9 +53,9 @@ function App() {
         <Route path="/selectposition">
           <PositionForm />
         </Route>
-        <Route path="/addquestions">
+        {/* <Route path="/addquestions">
           <QuestionsPage />
-        </Route>
+        </Route> */}
         <Route path="/profile">
           <Profile />
         </Route>

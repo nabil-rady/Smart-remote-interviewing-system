@@ -1,14 +1,14 @@
 @import '../../sassConfig/colors';
 @import '../../sassConfig/transition';
 
-.card_Question {
+.card-question {
   width: 50%;
   margin-top: 2%;
   margin-bottom: 3%;
   padding: 15px;
   margin-left: 25%;
 }
-.label_Card {
+.label-card {
   width: 50%;
   margin-left: 25%;
   margin-top: 4%;
@@ -23,7 +23,7 @@
   margin-top: 0.3%;
   cursor: pointer;
 }
-.Question_label {
+.question-label {
   color: white;
   text-align: center;
   margin-left: 5%;
@@ -32,7 +32,7 @@
   display: inline-block;
 }
 
-.Question_text {
+.question-text {
   margin-left: 20%;
   height: 40px;
   margin-top: 4%;
@@ -43,7 +43,7 @@
   margin-bottom: 0.5rem;
 }
 
-.Question_Keywords {
+.question-keywords {
   margin-left: 20%;
   height: 40px;
   margin-top: 4%;
@@ -57,7 +57,7 @@
   margin-bottom: 4%;
 }
 
-.read_select {
+.read-select {
   margin-left: 20%;
   height: 40px;
   margin-top: 4%;
@@ -69,7 +69,7 @@
   padding: 1px;
 }
 
-.answer_select {
+.answer-select {
   margin-left: 20%;
   height: 40px;
   width: 55%;
