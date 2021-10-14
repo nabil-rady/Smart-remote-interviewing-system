@@ -9,12 +9,8 @@
   margin-left: 25%;
 }
 
-.Question_label {
-  background-color: rgb(182, 173, 173);
+.Question_Card .Question_label {
   color: $primary-blue;
-  width: 28px;
-  border-radius: 50px;
-  height: 30px;
   text-align: center;
   padding-top: 0.2rem;
   font-weight: 800;
@@ -22,52 +18,56 @@
 }
 
 .Question_text {
-  margin-left: 7rem;
+  margin-left: 20%;
   height: 60px;
-  width: 53%;
+  width: 55%;
   outline: none;
-  border-radius: 10px;
-  border: 2px $primary-blue solid;
-  padding: 5px;
+  border: none;
+  border-radius: 0px;
+  border-bottom: 2px $primary-blue solid;
+  padding: 0px;
   margin-bottom: 0.5rem;
 }
 
 .Question_Keywords {
-  margin-left: 9.2rem;
+  margin-left: 20%;
   height: 60px;
-  width: 53%;
+  width: 55%;
   outline: none;
-  border-radius: 10px;
-  border: 2px $primary-blue solid;
-  padding: 5px;
+  border: none;
+  border-radius: 0px;
+  border-bottom: 2px $primary-blue solid;
+  padding: 1px;
   margin-bottom: 0.5rem;
   display: block;
 }
 
 .label {
-  width: 20%;
+  width: 15%;
   display: inline-block;
   font-size: small;
-  margin-left: 10rem;
+  margin-left: 20%;
   margin-bottom: 1.5rem;
 }
 
 .read_select {
   height: 40px;
-  width: 30%;
+  width: 40%;
   outline: none;
-  border-radius: 10px;
-  border: 2px $primary-blue solid;
-  padding: 5px;
+  border: none;
+  border-bottom: 2px $primary-blue solid;
+  border-radius: 0px;
+  padding: 1px;
 }
 
 .answer_select {
   height: 40px;
-  width: 30%;
+  width: 40%;
   outline: none;
-  border-radius: 10px;
-  border: 2px $primary-blue solid;
-  padding: 5px;
+  border: none;
+  border-bottom: 2px $primary-blue solid;
+  border-radius: 0px;
+  padding: 1px;
 }
 .add {
   margin-left: calc(50% - 75px);

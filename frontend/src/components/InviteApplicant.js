@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Card from './Card';
 //import ErrorModal from './ErrorModal'
 import './scss/invite.scss';
+import PhoneInput from 'react-phone-input-2';
 
 const InviteUser = (props) => {
   const [enteredName, setEnteredName] = useState('');
@@ -26,8 +27,8 @@ const InviteUser = (props) => {
     setEnteredEmail(event.target.value);
   };
 
-  const phoneHandler = (event) => {
-    setEnteredPhone(event.target.value);
+  const phoneHandler = (value) => {
+    setEnteredPhone(value);
   };
 
   // const errorHandler = () => {
@@ -44,6 +45,7 @@ const InviteUser = (props) => {
           />
         )} */}
       <Card className="input">
+        <h1 className="invite_label">Invite Applicant</h1>
         <form onSubmit={addUserHandler}>
           <label htmlFor="fullname">Full name</label>
           <input
@@ -62,14 +64,23 @@ const InviteUser = (props) => {
             required
           />
           <label htmlFor="phone">Phone no.</label>
-          <input
-            id="phone"
-            type="tel"
+          <PhoneInput
+            inputExtraProps={{
+              name: 'phone',
+              required: true,
+              autoFocus: true,
+              disabled: false,
+            }}
+            defaultCountry={'sg'}
             value={enteredPhoneNo}
+            onlyCountries={['cu', 'cw', 'kz']}
             onChange={phoneHandler}
           />
           <button className="invite" type="submit">
-            Add User
+            Invite User
+          </button>
+          <button className="file" type="submit">
+            Import from a file
           </button>
         </form>
       </Card>

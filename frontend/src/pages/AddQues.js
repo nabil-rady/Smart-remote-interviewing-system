@@ -1,14 +1,11 @@
 import React, { useState, useRef } from 'react';
-import './scss/image-slider.scss';
 import NavBar from '../components/NavBar';
 import SideMenu from '../components/SideMenu';
 import Card from '../components/Card';
 import './scss/Add.scss';
 
-let count = 1;
-let nums = [];
-nums.push(count);
 function AddQues() {
+  const [count, setCount] = useState(1);
   const sideMenu = useRef(null);
   const [cards, setCard] = useState([]);
   const handleToggleButtonClick = () =>
@@ -16,8 +13,7 @@ function AddQues() {
   const AddHandler = () => {
     let element = document.querySelector('.card_Question');
     let copy = element.cloneNode(true);
-    count++;
-    nums.push(count);
+    setCount(count + 1);
     copy.querySelector('.Question_text').value = '';
     copy.querySelector('.read_select').value = '';
     copy.querySelector('.answer_select').value = '';
@@ -55,12 +51,12 @@ function AddQues() {
         burgerButton={true}
       />
       <SideMenu ref={sideMenu} />
+      <Card className="label_Card">
+        <h2 className="Question_label">Question {count} </h2>
+        <button className="delete" id="1"></button>
+      </Card>
 
       <Card className="card_Question" id="Q1">
-        <p className="Question_label">{count}</p>
-        <button className="delete" id="1">
-          Delete
-        </button>
         <input
           type="text"
           placeholder="Full Question"
@@ -69,7 +65,7 @@ function AddQues() {
 
         <div>
           <p htmlFor="Time_to_read" className="label">
-            Time To Read The Question
+            Time To Think
           </p>
           <input type="number" name="Time_to_read" className="read_select" />
         </div>

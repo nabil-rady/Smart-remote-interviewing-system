@@ -9,9 +9,9 @@ const UsersList = (props) => {
       {props.users.map((user) => (
         <li key={user.id}>
           <Card className="users">
-            <p>{user.name}</p>
-            <p>{user.email}</p>
-            <p>{user.phone}</p>
+            <h2 className="uname">{user.name}</h2>
+            <p className="uemail">{user.email}</p>
+            <p className="uphone">{user.phone}</p>
           </Card>
         </li>
       ))}
