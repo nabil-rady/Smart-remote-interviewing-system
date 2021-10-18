@@ -1,46 +1,37 @@
-const { validationResult } = require('express-validator/check');
+const { validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const customId = require('custom-id');
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
 
-module.exports.postSignup = (req, res, next) => {
+module.exports.postSignup = async (req, res, next) => {
   // Check for validation errors
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    const error = new Error('Validation failed.');
+    const error = new Error(`Validation failed.`);
     error.statusCode = 422; // Validation error
     error.data = errors.array();
-    throw error;
+    return next(error);
   }
 
   const { firstName, lastName, companyName, email, password } = req.body;
-
-  let newId, exist;
-  User.findAll({
-    // fetch all users ids
-    attributes: ['userId'],
-  })
-    .then((users) => {
-      const oldIds = users.map((user) => user.dataValues.userId);
-      do {
-        // create a unique id user id
-        exist = false;
-        newId = customId({
-          name: firstName + lastName + companyName,
-          email: email,
-        });
-
-        for (let id of oldIds) {
-          if (id === newId) {
-            exist = true;
-            break;
-          }
-        }
-      } while (exist);
-      return bcrypt.hash(password, 12); // hash the password
-    })
+  let userId, newId;
+  do {
+    newId = customId({
+      name: firstName + lastName + companyName,
+      email: email,
+    });
+    userId = await User.findOne({
+      // fetch this generated id
+      attributes: ['userId'],
+      where: {
+        userId: newId,
+      },
+    });
+  } while (userId !== null);
+  bcrypt
+    .hash(password, 12) // hash the password
     .then((hashedPassword) => {
       return User.create({
         // Store the user in the dataBase
@@ -65,7 +56,6 @@ module.exports.postSignup = (req, res, next) => {
       next(err);
     });
 };
-
 module.exports.postLogin = (req, res, next) => {
   const { email, password } = req.body;
   let fetchedUser;
@@ -109,7 +99,6 @@ module.exports.postLogin = (req, res, next) => {
       );
       const tokenExpireDate = new Date(0);
       tokenExpireDate.setUTCSeconds(jwt.decode(token).exp);
-      const localTokenExpireDate = tokenExpireDate.toLocaleString();
 
       const { password, ...user } = fetchedUser.dataValues;
       res.status(200).json({
@@ -126,7 +115,7 @@ module.exports.postLogin = (req, res, next) => {
     });
 };
 
-module.exports.deleteLogOut = (req, res, next) => {
+module.exports.postLogOut = (req, res, next) => {
   // for logout we return an expired token just for now.
   res.status(200).json({
     token: jwt.sign(
