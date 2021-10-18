@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -10,6 +9,11 @@ import './providers/auth_provider.dart';
 import './screens/ques_position_screen.dart';
 import './providers/questions.dart';
 import './screens/home_screen.dart';
+import '../screens/to_evaluate_screen.dart';
+import '../providers/interview_provider.dart';
+import 'package:graduation_project/providers/position_provider.dart';
+import '../screens/applicant_details_screen.dart';
+import '../screens/video_evaluation_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -25,6 +29,12 @@ class MyApp extends StatelessWidget {
           ),
           ChangeNotifierProvider(
             create: (ctx) => Questions(),
+          ),
+          ChangeNotifierProvider(
+            create: (ctx) => Interviews(),
+          ),
+          ChangeNotifierProvider(
+            create: (ctx) => Positions(),
           ),
         ],
         child: MaterialApp(
@@ -64,6 +74,9 @@ class MyApp extends StatelessWidget {
             PositionScreen.routeName: (ctx) => PositionScreen(),
             QuestionPositionScreen.routeName: (ctx) => QuestionPositionScreen(),
             HomeScreen.routeName: (ctx) => HomeScreen(),
+            ToEvaluateScreen.routeName: (ctx) => ToEvaluateScreen(),
+            ApplicantDetailScreen.routeName: (ctx) => ApplicantDetailScreen(),
+            VedioEvaluationScreen.routeName: (ctx) => VedioEvaluationScreen(),
           },
         ));
   }
