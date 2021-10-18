@@ -2,8 +2,19 @@ const { validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const customId = require('custom-id');
 const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
+const sendgridTransport = require('nodemailer-sendgrid-transport');
 
 const User = require('../models/user');
+
+const transporter = nodemailer.createTransport(
+  sendgridTransport({
+    auth: {
+      api_key:
+        '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',
+    },
+  })
+);
 
 module.exports.postSignup = async (req, res, next) => {
   // Check for validation errors
@@ -48,7 +59,15 @@ module.exports.postSignup = async (req, res, next) => {
       res.status(201).json({
         user,
       });
+      // sending email
+      return transporter.sendMail({
+        to: user.email,
+        from: 'mohamed.medhat2199@gmail.com',
+        subject: 'Signup succeeded!',
+        html: '<h1>You successfully signed up!</h1>',
+      });
     })
+    .then((mail) => console.log(mail))
     .catch((err) => {
       if (!err.statusCode) {
         err.statusCode = 500; // serverSide error
