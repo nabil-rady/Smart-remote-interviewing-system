@@ -1,5 +1,8 @@
+import 'package:country_pickers/country.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:country_pickers/country_pickers.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import '../screens/position_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -14,6 +17,7 @@ class EmployerAuth extends StatefulWidget {
 }
 
 class _EmployerAuthState extends State<EmployerAuth> {
+  bool hasIntrnet = false;
   Map<String, String> authData = {
     'firstName': '',
     'lastName': '',
@@ -22,7 +26,9 @@ class _EmployerAuthState extends State<EmployerAuth> {
     'password': '',
     'confirmPassword': '',
     'phone': '',
+    'countryCode': '',
   };
+
   final _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey();
   AuthMode _authMode = AuthMode.login;
@@ -86,6 +92,13 @@ class _EmployerAuthState extends State<EmployerAuth> {
           authData['email'].toString(),
           authData['password'].toString(),
         );
+        // InternetConnectionChecker().onStatusChange.listen((status) {
+        //   final hasIntrnet = status == InternetConnectionStatus.connected;
+        //   setState(() {
+        //     this.hasIntrnet = hasIntrnet;
+        //     if (!hasIntrnet) _showErrorDialog('no conniction');
+        //   });
+        // });
         Navigator.of(context).pushReplacementNamed('/home_screen');
       } else {
         // Sign user up
@@ -103,15 +116,7 @@ class _EmployerAuthState extends State<EmployerAuth> {
       var errorMessage = 'Authentication failed';
       if (error.toString().contains('Email not found')) {
         errorMessage = 'This email address is not found.';
-      }
-      // else if (error.toString().contains('INVALID_EMAIL')) {
-      //   errorMessage = 'This is not a valid email address';
-      // } else if (error.toString().contains('WEAK_PASSWORD')) {
-      //   errorMessage = 'This password is too weak.';
-      // } else if (error.toString().contains('EMAIL_NOT_FOUND')) {
-      //   errorMessage = 'Could not find a user with that email.';
-      // }
-      else if (error.toString().contains('Incorrect password')) {
+      } else if (error.toString().contains('Incorrect password')) {
         errorMessage = 'Invalid password.';
       }
       _showErrorDialog(errorMessage);
@@ -219,20 +224,37 @@ class _EmployerAuthState extends State<EmployerAuth> {
                       authData['confirmPassword'] = value.toString();
                     },
                   ),
+                const SizedBox(
+                  height: 10,
+                ),
                 if (_authMode == AuthMode.signup)
-                  TextFormField(
-                    decoration:
-                        const InputDecoration(labelText: 'Phone number'),
-                    keyboardType: TextInputType.phone,
-                    // controller: _passwordController,
-                    validator: (value) {
-                      if (value!.isEmpty || value.length != 11) {
-                        return 'invalid phone number!';
-                      }
-                    },
-                    onSaved: (value) {
-                      authData['phone'] = value.toString();
-                    },
+                  Row(
+                    children: [
+                      CountryPickerDropdown(
+                        initialValue: 'EG',
+                        //itemBuilder: _buildDropdownItem,
+                        onValuePicked: (Country country) {
+                          print("${country.phoneCode}");
+                          authData['countyCode'] = country.phoneCode.toString();
+                        },
+                      ),
+                      Expanded(
+                        child: TextFormField(
+                          decoration:
+                              const InputDecoration(labelText: 'Phone number'),
+                          keyboardType: TextInputType.phone,
+                          // controller: _passwordController,
+                          validator: (value) {
+                            if (value!.isEmpty || value.length != 11) {
+                              return 'invalid phone number!';
+                            }
+                          },
+                          onSaved: (value) {
+                            authData['phone'] = value.toString();
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                 const SizedBox(
                   height: 20,

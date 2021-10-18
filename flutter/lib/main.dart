@@ -34,6 +34,7 @@ class MyApp extends StatelessWidget {
             //brightness: Brightness.dark,
             //primarySwatch: Colors.deepPurple,
             primaryColor: const Color(0xFF165DC0),
+            canvasColor: const Color(0XFFFAFAFA),
             textTheme: const TextTheme(
               headline1: TextStyle(
                 fontSize: 20.0,
