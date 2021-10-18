@@ -22,6 +22,12 @@ class AppDrawer extends StatelessWidget {
             decoration: BoxDecoration(color: Theme.of(context).primaryColor),
           ),
           _buildListTile(
+              Icons.notifications,
+              'Notifications',
+              () => Navigator.of(context)
+                  .pushReplacementNamed('/notification_screen')),
+          const Divider(),
+          _buildListTile(
               Icons.dashboard,
               'Dashboard',
               () => Navigator.of(context)

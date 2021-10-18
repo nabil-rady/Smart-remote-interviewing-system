@@ -14,6 +14,7 @@ import '../providers/interview_provider.dart';
 import 'package:graduation_project/providers/position_provider.dart';
 import '../screens/applicant_details_screen.dart';
 import '../screens/video_evaluation_screen.dart';
+import '../screens/notifications_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -77,6 +78,7 @@ class MyApp extends StatelessWidget {
             ToEvaluateScreen.routeName: (ctx) => ToEvaluateScreen(),
             ApplicantDetailScreen.routeName: (ctx) => ApplicantDetailScreen(),
             VedioEvaluationScreen.routeName: (ctx) => VedioEvaluationScreen(),
+            NotificationScreen.routeName: (ctx) => NotificationScreen(),
           },
         ));
   }
