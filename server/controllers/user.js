@@ -1,46 +1,48 @@
-const { validationResult } = require('express-validator/check');
+const { validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const customId = require('custom-id');
 const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
+const sendgridTransport = require('nodemailer-sendgrid-transport');
 
 const User = require('../models/user');
 
-module.exports.postSignup = (req, res, next) => {
+const transporter = nodemailer.createTransport(
+  sendgridTransport({
+    auth: {
+      api_key:
+        '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',
+    },
+  })
+);
+
+module.exports.postSignup = async (req, res, next) => {
   // Check for validation errors
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    const error = new Error('Validation failed.');
+    const error = new Error(`Validation failed.`);
     error.statusCode = 422; // Validation error
     error.data = errors.array();
-    throw error;
+    return next(error);
   }
 
   const { firstName, lastName, companyName, email, password } = req.body;
-
-  let newId, exist;
-  User.findAll({
-    // fetch all users ids
-    attributes: ['userId'],
-  })
-    .then((users) => {
-      const oldIds = users.map((user) => user.dataValues.userId);
-      do {
-        // create a unique id user id
-        exist = false;
-        newId = customId({
-          name: firstName + lastName + companyName,
-          email: email,
-        });
-
-        for (let id of oldIds) {
-          if (id === newId) {
-            exist = true;
-            break;
-          }
-        }
-      } while (exist);
-      return bcrypt.hash(password, 12); // hash the password
-    })
+  let userId, newId;
+  do {
+    newId = customId({
+      name: firstName + lastName + companyName,
+      email: email,
+    });
+    userId = await User.findOne({
+      // fetch this generated id
+      attributes: ['userId'],
+      where: {
+        userId: newId,
+      },
+    });
+  } while (userId !== null);
+  bcrypt
+    .hash(password, 12) // hash the password
     .then((hashedPassword) => {
       return User.create({
         // Store the user in the dataBase
@@ -57,7 +59,15 @@ module.exports.postSignup = (req, res, next) => {
       res.status(201).json({
         user,
       });
+      // sending email
+      return transporter.sendMail({
+        to: user.email,
+        from: 'mohamed.medhat2199@gmail.com',
+        subject: 'Signup succeeded!',
+        html: '<h1>You successfully signed up!</h1>',
+      });
     })
+    .then((mail) => console.log(mail))
     .catch((err) => {
       if (!err.statusCode) {
         err.statusCode = 500; // serverSide error
@@ -65,7 +75,6 @@ module.exports.postSignup = (req, res, next) => {
       next(err);
     });
 };
-
 module.exports.postLogin = (req, res, next) => {
   const { email, password } = req.body;
   let fetchedUser;
@@ -109,7 +118,6 @@ module.exports.postLogin = (req, res, next) => {
       );
       const tokenExpireDate = new Date(0);
       tokenExpireDate.setUTCSeconds(jwt.decode(token).exp);
-      const localTokenExpireDate = tokenExpireDate.toLocaleString();
 
       const { password, ...user } = fetchedUser.dataValues;
       res.status(200).json({
@@ -126,7 +134,7 @@ module.exports.postLogin = (req, res, next) => {
     });
 };
 
-module.exports.deleteLogOut = (req, res, next) => {
+module.exports.postLogOut = (req, res, next) => {
   // for logout we return an expired token just for now.
   res.status(200).json({
     token: jwt.sign(

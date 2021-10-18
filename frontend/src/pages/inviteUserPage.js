@@ -21,7 +21,6 @@ function InvitationPage() {
       ];
     });
   };
-
   return (
     <>
       <NavBar

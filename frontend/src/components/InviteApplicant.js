@@ -44,7 +44,9 @@ const InviteUser = (props) => {
       <Card className="input">
         <h1 className="invite_label">Invite Applicant</h1>
         <form onSubmit={addUserHandler}>
-          <label htmlFor="fullname">Full name</label>
+          <label htmlFor="fullname" className="invite-labels">
+            Full name
+          </label>
           <input
             id="fullname"
             type="text"
@@ -52,7 +54,9 @@ const InviteUser = (props) => {
             onChange={nameHandler}
             required
           />
-          <label htmlFor="email">Email</label>
+          <label htmlFor="email" className="invite-labels">
+            Email
+          </label>
           <input
             id="email"
             type="email"
@@ -60,7 +64,9 @@ const InviteUser = (props) => {
             onChange={emailHandler}
             required
           />
-          <label htmlFor="phone">Phone no.</label>
+          <label htmlFor="phone" className="invite-labels">
+            Phone no.
+          </label>
           <PhoneInput
             inputProps={{
               name: 'phone',
@@ -68,9 +74,13 @@ const InviteUser = (props) => {
               autoFocus: true,
               disabled: false,
             }}
+            className="phone"
             country={'eg'}
             value={enteredPhoneNo}
-            onChange={(phone) => setEnteredPhone(phone)}
+            onChange={(phone) => {
+              console.log(enteredPhoneNo);
+              setEnteredPhone(phone);
+            }}
             enableSearch={true}
           />
           <button className="invite" type="submit">
