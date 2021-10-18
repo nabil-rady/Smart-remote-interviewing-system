@@ -1,14 +1,15 @@
 @import '../../sassConfig/colors';
 @import '../../sassConfig/transition';
 
-#signup {
-  margin-left: calc(50% - 60px);
-  width: 120px;
+.save {
+  margin-left: calc(50% - 65px);
+  width: 130px;
   height: 40px;
-  display: flex;
+  display: inline-block;
   justify-content: center;
   align-items: center;
   border: none;
+  padding: 2px;
   border-radius: 20px;
   cursor: pointer;
   background-color: $primary-blue;
@@ -26,4 +27,66 @@
     background-color: gray;
     color: black;
   }
+}
+.profilecard {
+  width: 40%;
+  padding: 20px 30px;
+  margin-left: 30%;
+  margin-top: 2.5%;
+}
+.change-inputs {
+  font: inherit;
+  display: flex;
+  width: 80%;
+  border: none;
+  border-bottom: 1px solid $primary-blue;
+  padding: 0.15rem;
+  margin-bottom: 1.5rem;
+  margin-left: 12%;
+  margin-top: 4%;
+  outline: none;
+}
+.disabled-inputs {
+  cursor: not-allowed;
+  font: inherit;
+  display: flex;
+  width: 80%;
+  border: none;
+  border-bottom: 1px solid $primary-blue;
+  padding: 0.15rem;
+  margin-bottom: 1.5rem;
+  margin-left: 12%;
+  margin-top: 4%;
+  outline: none;
+}
+.profile-label {
+  color: $primary-blue;
+  margin-bottom: 2rem;
+  margin-left: calc(50% - 85px);
+}
+
+.change-label {
+  margin-left: 12%;
+  font-weight: bold;
+  color: $primary-blue;
+}
+a {
+  text-decoration: none;
+  color: $primary-blue;
+}
+.changepass {
+  margin-left: calc(50% - 235px);
+  width: 160px;
+  height: 40px;
+  padding: 5px;
+  display: inline-block;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid $primary-blue;
+  border-radius: 20px;
+  cursor: pointer;
+  background-color: white;
+  color: $primary-blue;
+  font-weight: 500;
+  font-size: 1.1rem;
 }

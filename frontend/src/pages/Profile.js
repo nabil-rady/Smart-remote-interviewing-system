@@ -1,57 +1,98 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import '../components/scss/utility.scss';
-import LoginForm from '../components/LoginForm';
 import NavBar from '../components/NavBar';
-import './scss/login.scss';
+import './scss/profile.scss';
 import { UserContext } from '../App';
 import Card from '../components/Card';
 
 function LoginPage() {
-  const authUser = useContext(UserContext);
+  const authUser = useContext(UserContext).authUser;
+  const [newCompanyName, setCompanyName] = useState();
+  const [newEmailName, setEmailName] = useState();
+  const [newPhoneNo, setPhoneNo] = useState();
   const submitHandler = (e) => {
     e.preventDefault();
+  };
+
+  const changeCompanyHandler = (e) => {
+    setCompanyName(e.target.value);
+  };
+  const changeEmailHandler = (e) => {
+    setEmail(e.target.value);
+  };
+  const changePhoneNoHandler = (e) => {
+    setPhoneNo(e.target.value);
   };
   return (
     <>
       <NavBar />
       <Card className="profilecard">
-        <form onSubmit={submitHandler} id="employerform">
+        <h1 className="profile-label">Profile Info</h1>
+        <form onSubmit={submitHandler} className="profile-form">
+          <label htmlFor="firstName" className="change-label">
+            First Name
+          </label>
           <input
-            className="inputs"
+            id="firstName"
+            className="disabled-inputs"
             type="text"
             placeholder="Your First Name"
             value={authUser.firstName}
-            required
+            disabled
           />
+          <label htmlFor="lastName" className="change-label">
+            Last Name
+          </label>
           <input
-            className="inputs"
+            id="lastName"
+            className="disabled-inputs"
             type="text"
             placeholder="Your Last Name"
             value={authUser.lastName}
-            required
+            disabled
           />
+          <label htmlFor="CompanyName" className="change-label">
+            Company Name
+          </label>
           <input
-            className="inputs"
+            id="CompanyName"
+            className="change-inputs"
             type="text"
             placeholder="Company Name"
             value={authUser.CompanyName}
             required
+            onChange={changeCompanyHandler}
           />
+          <label htmlFor="Email" className="change-label">
+            Email
+          </label>
           <input
-            className="inputs"
+            id="Email"
+            className="change-inputs"
             type="email"
             placeholder="E-mail"
-            value={authUser.Email}
+            value={authUser.email}
             required
+            onChange={changeEmailHandler}
           />
+          <label htmlFor="PhoneNo" className="change-label">
+            Phone Number
+          </label>
           <input
-            className="inputs"
+            id="PhoneNo"
+            className="change-inputs"
             type="tel"
             placeholder="Phone No."
-            value={authUser.phoneNo}
+            value={authUser.PhoneNo}
+            onChange={changePhoneNoHandler}
             required
           />
-          <button className="save">Save</button>
+          <button className="changepass">
+            <a href="/changepass">Change Password</a>
+          </button>
+          <button className="save" type="submit">
+            Save Cahnges
+          </button>
         </form>
       </Card>
     </>

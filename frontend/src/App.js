@@ -13,7 +13,7 @@ import PositionForm from './pages/SelectPosition';
 import Profile from './pages/Profile';
 import AddQues from './pages/AddQues';
 import InvitationPage from './pages/inviteUserPage';
-import InviteUser from './components/InviteApplicant';
+import ChangePassword from './pages/ChagePass';
 
 const mockUserObject = {
   userId: 'ABC123',
@@ -22,6 +22,7 @@ const mockUserObject = {
   lastName: 'Moussa',
   CompanyName: 'Mentor',
   email: 'mm9079381@gmail.com',
+  PhoneNo: '01125894119',
   avatarURL: avatar,
 };
 
@@ -64,6 +65,9 @@ function App() {
         </Route>
         <Route path="/invite">
           <InvitationPage />
+        </Route>
+        <Route path="/changepass">
+          <ChangePassword />
         </Route>
       </UserContext.Provider>
     </>

@@ -1,39 +1,36 @@
 @import '../../sassConfig/colors';
 @import '../../sassConfig/transition';
-.users {
-  margin: 2rem auto;
-  width: 90%;
-  max-width: 40rem;
-  padding: 2rem;
-}
 
-.users ul {
-  list-style: none;
-  padding: 1rem;
-}
-
-.users li {
-  border: 1px solid #ccc;
-  margin: 0.5rem 0;
-  padding: 0.5rem;
-}
-
-.uname {
-  color: $primary-blue;
-  margin: 0.5rem auto;
-}
-
-.uphone {
-  margin: 0.5rem auto;
-}
-
-.show-more {
-  margin-left: calc(50% - 75px);
-  width: 150px;
-  height: 40px;
-  margin-top: 1rem;
-  margin-bottom: 2rem;
+.password-inputs {
+  font: inherit;
   display: flex;
+  width: 80%;
+  border: none;
+  border-bottom: 1px solid $primary-blue;
+  padding: 0.15rem;
+  margin-bottom: 1.5rem;
+  margin-left: 12%;
+  margin-top: 4%;
+  outline: none;
+}
+.password-card {
+  width: 40%;
+  padding: 4% 4%;
+  margin-left: 28%;
+  margin-top: 10%;
+}
+
+.changepass-label {
+  color: $primary-blue;
+  margin-bottom: 2rem;
+  margin-left: calc(50% - 125px);
+}
+
+.change-pass {
+  margin-left: calc(50% - 65px);
+  width: 130px;
+  height: 40px;
+  display: inline-block;
   justify-content: center;
   align-items: center;
   border: none;
