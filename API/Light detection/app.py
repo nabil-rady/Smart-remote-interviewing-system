@@ -3,7 +3,6 @@ from LightDetect import VideoCamera, VideoCamera1
 
 app = Flask(__name__)
 
-x = False
 
 @app.route('/')
 def index():
