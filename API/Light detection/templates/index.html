@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Test</title>
+</head>
+<body>
+	<h2>hi</h2>
+	<img src="{{url_for('video')}}" id = "imageID">
+	<script type="text/javascript">
+		/*setTimeout(function() {
+		  document.getElementById('imageID').style.display='none'
+		}, 40*1000);*/
+		fetch('http://127.0.0.1:5000/check')
+		.then(resp => resp.json())
+		.then(jsonData => {console.log(jsonData);})
+		.then(clearImg => {if (clearImg == 1) document.getElementById('imageID').style.display='none'});
+	</script>
+</body>
+</html>
