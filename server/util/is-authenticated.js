@@ -26,9 +26,5 @@ module.exports = (req, res, next) => {
   }
   // attach the user info to the req, if the token is verified.
   req.userId = decodedToken.userId;
-  req.email = decodedToken.email;
-  req.firstName = decodedToken.firstName;
-  req.lastName = decodedToken.lastName;
-  req.companyName = decodedToken.companyName;
   next();
 };

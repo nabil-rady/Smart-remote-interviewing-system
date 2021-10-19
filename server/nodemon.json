@@ -1,10 +1,12 @@
 {
   "env": {
+    "NODE_ENV": "development",
     "TOKEN_SECRET": "1a48c50885c8368df255f6885aa80f44a5f1cae975cf0f6975932b6122e2dc2d767df7ae6a9ae05817692ba467694b44fda4f49f2099a41e39ef625adcc9a212",
-    "REFRESH_TOKEN_SECRET": "dfe6904d45fdf348cead35903f1290de3d157add954e36aecae3e03b87007adbdf1ef684c784738379d01d73e1fcfdf05c34de97cbed33c5782ba02b896d5269",
+    "mailTOKEN_SECRET": "dfe6904d45fdf348cead35903f1290de3d157add954e36aecae3e03b87007adbdf1ef684c784738379d01d73e1fcfdf05c34de97cbed33c5782ba02b896d5269",
     "db": "sevi",
     "host": "sevi.cisbfdavufvq.us-east-2.rds.amazonaws.com",
     "dbRoot": "admin",
-    "dbPassowrd": "nfy3WiNRHeKfMU"
+    "dbPassowrd": "nfy3WiNRHeKfMU",
+    "sendgridTransportApiKey": "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"
   }
 }

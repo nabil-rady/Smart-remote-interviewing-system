@@ -20,14 +20,14 @@ const User = sequelize.define('User', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  // phoneCode: {
-  //   type: DataTypes.STRING(5),
-  //   allowNull: true,
-  // },
-  // phoneNumber: {
-  //   type: DataTypes.STRING(15),
-  //   allowNull: true,
-  // },
+  phoneCode: {
+    type: DataTypes.STRING(5),
+    allowNull: true,
+  },
+  phoneNumber: {
+    type: DataTypes.STRING(15),
+    allowNull: true,
+  },
   email: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -36,6 +36,16 @@ const User = sequelize.define('User', {
   password: {
     type: DataTypes.STRING,
     allowNull: false,
+  },
+  loggedIn: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+  },
+  emailConfirmed: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
   },
 });
 

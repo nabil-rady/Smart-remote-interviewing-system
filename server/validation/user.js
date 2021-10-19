@@ -8,7 +8,6 @@ const postSignupValidation = [
       max: 255,
     })
     .isEmail()
-    .normalizeEmail()
     .custom((value) => {
       return User.findOne({
         attributes: ['email'],
@@ -52,6 +51,26 @@ const postSignupValidation = [
     .isLength({
       min: 1,
       max: 255,
+    }),
+  body('phoneCode', 'Phone code should be between 2 and 5 characters length.')
+    .trim()
+    .isLength({
+      min: 2,
+      max: 5,
+    }),
+  body('phoneNumber', 'Phone number should be between 7 and 15 numbers length.')
+    .trim()
+    .isLength({
+      min: 7,
+      max: 15,
+    })
+    .custom((value) => {
+      for (let num of value) {
+        if (num < '0' || num > '9') {
+          return Promise.reject('Phone number should contain numbers only');
+        }
+      }
+      return true;
     }),
 ];
 

@@ -2,19 +2,11 @@ const { validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const customId = require('custom-id');
 const jwt = require('jsonwebtoken');
-const nodemailer = require('nodemailer');
-const sendgridTransport = require('nodemailer-sendgrid-transport');
+const createToken = require('../util/create-token');
+const verifyEmailToken = require('../util/verify-email-token');
+const sendConfirmMail = require('../util/send-confirm-mail');
 
 const User = require('../models/user');
-
-const transporter = nodemailer.createTransport(
-  sendgridTransport({
-    auth: {
-      api_key:
-        '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',
-    },
-  })
-);
 
 module.exports.postSignup = async (req, res, next) => {
   // Check for validation errors
@@ -26,7 +18,15 @@ module.exports.postSignup = async (req, res, next) => {
     return next(error);
   }
 
-  const { firstName, lastName, companyName, email, password } = req.body;
+  const {
+    firstName,
+    lastName,
+    companyName,
+    email,
+    password,
+    phoneCode,
+    phoneNumber,
+  } = req.body;
   let userId, newId;
   do {
     newId = customId({
@@ -52,6 +52,8 @@ module.exports.postSignup = async (req, res, next) => {
         companyName,
         email,
         password: hashedPassword,
+        phoneCode: phoneCode.toString(),
+        phoneNumber: phoneNumber.toString(),
       });
     })
     .then((createdUser) => {
@@ -59,15 +61,7 @@ module.exports.postSignup = async (req, res, next) => {
       res.status(201).json({
         user,
       });
-      // sending email
-      return transporter.sendMail({
-        to: user.email,
-        from: 'mohamed.medhat2199@gmail.com',
-        subject: 'Signup succeeded!',
-        html: '<h1>You successfully signed up!</h1>',
-      });
     })
-    .then((mail) => console.log(mail))
     .catch((err) => {
       if (!err.statusCode) {
         err.statusCode = 500; // serverSide error
@@ -75,9 +69,83 @@ module.exports.postSignup = async (req, res, next) => {
       next(err);
     });
 };
+
+// if the user did not confirm his/her email during signup.
+module.exports.getConfirmEmail = (req, res, next) => {
+  const { userId } = req;
+  User.findOne({
+    // fetch this generated id
+    attributes: ['email'],
+    where: {
+      userId: userId,
+    },
+  })
+    .then((user) => {
+      if (!user) {
+        // check if the email does not exist.
+        const error = new Error('Email not found');
+        error.statusCode = 404;
+        throw error;
+      }
+      return sendConfirmMail(userId, user.dataValues.email);
+    })
+    .then((mail) => {
+      console.log(mail);
+      res.status(200).json({
+        message: `Email confirmation has been send to the user`,
+      });
+    })
+    .catch((err) => {
+      if (!err.statusCode) {
+        err.statusCode = 500; // serverSide error
+      }
+      next(err);
+    });
+};
+
+module.exports.getVerifyEmail = (req, res, next) => {
+  const { verifyToken } = req.params;
+  if (!verifyToken) {
+    // if we cannot extract the token.
+    const error = new Error('No token is provided.');
+    error.statusCode = 401;
+    throw error;
+  }
+  const userId = verifyEmailToken(verifyToken);
+  if (!userId) {
+    // if the user id is null.
+    const error = new Error('No user id.');
+    error.statusCode = 404;
+    throw error;
+  }
+
+  // emailConfirmed => true
+  User.update(
+    {
+      emailConfirmed: true,
+    },
+    {
+      where: {
+        userId: userId,
+      },
+    }
+  )
+    .then((updatesUser) => {
+      res.status(200).json({
+        message: `User's email has been successfully verified.`,
+      });
+    })
+    .catch((err) => {
+      if (!err.statusCode) {
+        err.statusCode = 500; // serverSide error
+      }
+      next(err);
+    });
+};
+
 module.exports.postLogin = (req, res, next) => {
   const { email, password } = req.body;
-  let fetchedUser;
+  let fetchedUser, token, tokenExpireDate;
   User.findOne({
     // fetch the user
     where: {
@@ -86,7 +154,7 @@ module.exports.postLogin = (req, res, next) => {
   })
     .then((user) => {
       if (!user) {
-        // check if the user exists
+        // check if the user does not exist.
         const error = new Error('Email not found');
         error.statusCode = 404;
         throw error;
@@ -101,25 +169,29 @@ module.exports.postLogin = (req, res, next) => {
         error.statusCode = 401; // Authentication faild
         throw error;
       }
-      const token = jwt.sign(
-        // create the token
-        {
-          // user's info stored in the token
-          userId: fetchedUser.dataValues.userId,
-          email: fetchedUser.dataValues.email,
-          firstName: fetchedUser.dataValues.firstName,
-          lastName: fetchedUser.dataValues.lastName,
-          companyName: fetchedUser.dataValues.companyName,
-        },
-        process.env.TOKEN_SECRET, // SECRET KEY
-        {
-          expiresIn: '10h',
-        }
+      token = createToken(
+        fetchedUser.dataValues.userId,
+        process.env.TOKEN_SECRET,
+        '10h'
       );
-      const tokenExpireDate = new Date(0);
+      tokenExpireDate = new Date(0);
       tokenExpireDate.setUTCSeconds(jwt.decode(token).exp);
 
-      const { password, ...user } = fetchedUser.dataValues;
+      // loggedIn => true
+      return User.update(
+        {
+          loggedIn: true,
+        },
+        {
+          where: {
+            userId: fetchedUser.dataValues.userId,
+          },
+        }
+      );
+    })
+    .then((updatedsUser) => {
+      const { password, loggedIn, ...user } = fetchedUser.dataValues;
+      user.loggedIn = true;
       res.status(200).json({
         user,
         token,
@@ -135,22 +207,30 @@ module.exports.postLogin = (req, res, next) => {
 };
 
 module.exports.postLogOut = (req, res, next) => {
-  // for logout we return an expired token just for now.
-  res.status(200).json({
-    token: jwt.sign(
-      {
-        userId: req.userId,
-        email: req.email,
-        firstName: req.firstName,
-        lastName: req.lastName,
-        companyName: req.companyName,
+  const { userId } = req;
+
+  // loggedIn => falsse, and return invalid token
+  User.update(
+    {
+      loggedIn: false,
+    },
+    {
+      where: {
+        userId: userId,
       },
-      process.env.TOKEN_SECRET,
-      {
-        expiresIn: '-10s',
+    }
+  )
+    .then((updatesUser) => {
+      res.status(200).json({
+        token: createToken(userId, process.env.TOKEN_SECRET, '-10s'),
+      });
+    })
+    .catch((err) => {
+      if (!err.statusCode) {
+        err.statusCode = 500; // serverSide error
       }
-    ),
-  });
+      next(err);
+    });
 };
 
 module.exports.getInfo = (req, res, next) => {

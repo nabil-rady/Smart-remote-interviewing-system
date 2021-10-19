@@ -57,6 +57,49 @@ paths:
           description: Input validation faild.
         '500':
           description: Server side error.
+  /user/confirm-email:
+    get:
+      summary: Send Email confirmation to the user.
+      responses:
+        '200':
+          description: Get the information successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '404':
+          description: User not found.
+        '500':
+          description: Server side error.
+  /user/verify/{verifyToken}:
+    get:
+      summary: Confirm user's email in the database (will be used by backend ONLY).
+      parameters:
+        - name: verifyToken
+          in: path
+          required: true
+          description: The token that identifies the user.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Get the information successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '401':
+          description: No token is provided.
+        '404':
+          description: User not found.
+        '500':
+          description: Server side error.
   /user/login:
     post:
       summary: Login a recruiter.
