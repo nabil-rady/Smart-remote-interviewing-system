@@ -8,6 +8,11 @@ const User = sequelize.define('User', {
     primaryKey: true,
     unique: true,
   },
+  verificationCode: {
+    type: DataTypes.CHAR(8),
+    allowNull: true,
+    unique: true,
+  },
   firstName: {
     type: DataTypes.STRING,
     allowNull: false,

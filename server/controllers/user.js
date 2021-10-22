@@ -3,8 +3,8 @@ const bcrypt = require('bcryptjs');
 const customId = require('custom-id');
 const jwt = require('jsonwebtoken');
 const createToken = require('../util/create-token');
-const verifyEmailToken = require('../util/verify-email-token');
-const sendConfirmMail = require('../util/send-confirm-mail');
+const nodemailer = require('nodemailer');
+const sendgridTransport = require('nodemailer-sendgrid-transport');
 
 const User = require('../models/user');
 
@@ -70,24 +70,78 @@ module.exports.postSignup = async (req, res, next) => {
     });
 };
 
-// if the user did not confirm his/her email during signup.
-module.exports.getConfirmEmail = (req, res, next) => {
-  const { userId } = req;
-  User.findOne({
-    // fetch this generated id
-    attributes: ['email'],
+module.exports.postConfirmEmail = async (req, res, next) => {
+  // Check for validation errors
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const error = new Error(`User id is not encluded.`);
+    error.statusCode = 422; // Validation error
+    error.data = errors.array();
+    return next(error);
+  }
+
+  const { userId } = req.body;
+  const user = await User.findOne({
+    // fetch the user's data
     where: {
       userId: userId,
     },
-  })
-    .then((user) => {
-      if (!user) {
-        // check if the email does not exist.
-        const error = new Error('Email not found');
-        error.statusCode = 404;
-        throw error;
-      }
-      return sendConfirmMail(userId, user.dataValues.email);
+  });
+  if (!user) {
+    // check if the email does not exist.
+    const error = new Error('User is not found');
+    error.statusCode = 404;
+    return next(error);
+  }
+
+  // create a confirmation code.
+  let fetchedCode, generatedCode;
+  do {
+    generatedCode = customId({
+      name:
+        user.dataValues.firstName +
+        user.dataValues.lastName +
+        user.dataValues.companyName,
+      email: user.dataValues.email,
+    });
+    fetchedCode = await User.findOne({
+      // fetch this generated id
+      attributes: ['userId'],
+      where: {
+        verificationCode: generatedCode,
+      },
+    });
+  } while (fetchedCode !== null);
+
+  // store the generated id into the database
+  User.update(
+    {
+      verificationCode: generatedCode,
+    },
+    {
+      where: {
+        userId: userId,
+      },
+    }
+  )
+    .then((updatedsUser) => {
+      // create a transporter with the mailing service.
+      const transporter = nodemailer.createTransport(
+        sendgridTransport({
+          auth: {
+            api_key: process.env.sendgridTransportApiKey,
+          },
+        })
+      );
+
+      // sending email with verification link.
+      return transporter.sendMail({
+        to: user.dataValues.email,
+        from: 'mohamed.medhat2199@gmail.com',
+        subject: 'Email confirmation.',
+        html: `<h1>Please, confirm your email</h1>
+             <p>Your verificatin code is <b>${generatedCode}</b> .</p>`,
+      });
     })
     .then((mail) => {
       console.log(mail);
@@ -103,33 +157,52 @@ module.exports.getConfirmEmail = (req, res, next) => {
     });
 };
 
-module.exports.getVerifyEmail = (req, res, next) => {
-  const { verifyToken } = req.params;
-  if (!verifyToken) {
-    // if we cannot extract the token.
-    const error = new Error('No token is provided.');
-    error.statusCode = 401;
-    throw error;
-  }
-  const userId = verifyEmailToken(verifyToken);
-  if (!userId) {
-    // if the user id is null.
-    const error = new Error('No user id.');
-    error.statusCode = 404;
+module.exports.postVerifyEmail = (req, res, next) => {
+  // Check for validation errors
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const error = new Error(`Verification faild.`);
+    error.statusCode = 422; // Validation error
+    error.data = errors.array();
     throw error;
   }
 
-  // emailConfirmed => true
-  User.update(
-    {
-      emailConfirmed: true,
+  const { verificationCode, userId } = req.body;
+
+  User.findOne({
+    // fetch the user.
+    where: {
+      userId: userId,
     },
-    {
-      where: {
-        userId: userId,
-      },
-    }
-  )
+  })
+    .then((fetchedUser) => {
+      if (!fetchedUser) {
+        // check if the email does not exist.
+        const error = new Error('User is not found');
+        error.statusCode = 404;
+        throw error;
+      }
+      if (fetchedUser.dataValues.emailConfirmed) {
+        const error = new Error(`User's email already verified.`);
+        error.statusCode = 422;
+        throw error;
+      } else if (verificationCode !== fetchedUser.dataValues.verificationCode) {
+        const error = new Error('Wrong verification code.');
+        error.statusCode = 422;
+        throw error;
+      }
+      // emailConfirmed => true
+      return User.update(
+        {
+          emailConfirmed: true,
+        },
+        {
+          where: {
+            userId: userId,
+          },
+        }
+      );
+    })
     .then((updatesUser) => {
       res.status(200).json({
         message: `User's email has been successfully verified.`,

@@ -74,4 +74,35 @@ const postSignupValidation = [
     }),
 ];
 
-module.exports = { postSignupValidation };
+const postConfirmEmail = [
+  body('userId', 'User id is not correct.').custom((value) => {
+    if (value.length !== 8) {
+      return false;
+    }
+    return true;
+  }),
+];
+
+const postVerifyEmail = [
+  body(
+    'verificationCode',
+    'Verification code should be 8 characters length.'
+  ).custom((value) => {
+    if (value.length !== 8) {
+      return false;
+    }
+    return true;
+  }),
+  body('userId', 'User id is not correct.').custom((value) => {
+    if (value.length !== 8) {
+      return false;
+    }
+    return true;
+  }),
+];
+
+module.exports = {
+  postSignupValidation,
+  postConfirmEmail,
+  postVerifyEmail,
+};

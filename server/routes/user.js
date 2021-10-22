@@ -17,8 +17,16 @@ router.post(
   userValidations.postSignupValidation,
   userControllers.postSignup
 );
-router.get('/confirm-email', isAuth, userControllers.getConfirmEmail);
-router.get('/verify/:verifyToken', userControllers.getVerifyEmail);
+router.post(
+  '/confirm-email',
+  userValidations.postConfirmEmail,
+  userControllers.postConfirmEmail
+);
+router.post(
+  '/verify/',
+  userValidations.postVerifyEmail,
+  userControllers.postVerifyEmail
+);
 router.post('/login', userControllers.postLogin);
 router.post('/logout', isAuth, userControllers.postLogOut);
 
