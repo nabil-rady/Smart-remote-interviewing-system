@@ -1,5 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:graduation_project/providers/auth_provider.dart';
+import 'package:provider/provider.dart';
 
 class AppDrawer extends StatelessWidget {
   @override
@@ -46,6 +50,9 @@ class AppDrawer extends StatelessWidget {
                   .pushReplacementNamed('/to_evaluate_screen')),
           const Divider(),
           _buildListTile(Icons.exit_to_app, 'Log out', () {
+            Provider.of<Auth>(context, listen: false).logOut(
+                Provider.of<Auth>(context, listen: false).employer.token);
+            inspect(Provider.of<Auth>(context, listen: false).employer);
             Navigator.pop(context);
             Navigator.of(context).pushReplacementNamed('/company_signup');
           }),
