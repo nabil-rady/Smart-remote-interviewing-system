@@ -24,7 +24,7 @@ class _ApplicantDetailScreenState extends State<ApplicantDetailScreen> {
     final loadedApplicant =
         Provider.of<Interviews>(context).findById(interviewId);
     // هيتغير برضو
-    final _questions = Provider.of<Positions>(context)
+    final _questions = Provider.of<Positionsmm>(context)
         .findBypositionName(loadedApplicant.positionName);
     return Scaffold(
       appBar: AppBar(

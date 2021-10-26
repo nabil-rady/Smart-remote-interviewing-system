@@ -28,7 +28,7 @@ class _VedioEvaluationScreenState extends State<VedioEvaluationScreen> {
     final applicantId = ModalRoute.of(context)!.settings.arguments as String;
     final loadedApplicant =
         Provider.of<Interviews>(context).findById(applicantId);
-    final _questions = Provider.of<Positions>(context)
+    final _questions = Provider.of<Positionsmm>(context)
         .findBypositionName(loadedApplicant.positionName);
 
     return Scaffold(

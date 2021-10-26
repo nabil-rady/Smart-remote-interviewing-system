@@ -13,7 +13,9 @@ class PositionForm extends StatefulWidget {
 
 class _PositionFormState extends State<PositionForm> {
   final _positionController = TextEditingController();
-  var position = Position(DateTime.now().toString(), '', []);
+  var position =
+      Position(id: DateTime.now().toString(), position: '', questions: []);
+//  Position(DateTime.now().toString(), '', []);
 
   bool posFlag = false;
 
@@ -52,8 +54,11 @@ class _PositionFormState extends State<PositionForm> {
             RaisedButton(
               onPressed: () {
                 if (validateTextField(_positionController.text)) {
-                  position = Position(position.id, _positionController.text,
-                      position.questions);
+                  position = Position(
+                      id: position.id,
+                      position: _positionController.text,
+                      questions: position.questions);
+                  //Position(position.id, _positionController.text, position.questions);
                   Navigator.of(context).pushNamed(LastQuestionScreen.routeName,
                       arguments: position);
 

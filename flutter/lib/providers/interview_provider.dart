@@ -57,9 +57,9 @@ class Interviews with ChangeNotifier {
     notifyListeners();
   }
 
-  // Interview findById(String id) {
-  //   return _items.firstWhere((element) => element.id == id);
-  // }
+  Interview findById(String id) {
+    return _items.firstWhere((element) => element.id == id);
+  }
 
   // void rateApplicant(String id, var rate) {
   //   Interview applicant = findById(id);

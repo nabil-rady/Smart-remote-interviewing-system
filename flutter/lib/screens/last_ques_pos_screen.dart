@@ -42,7 +42,9 @@ class _LastQuestionScreenState extends State<LastQuestionScreen> {
     final id = arguments.id;
     final positionName = arguments.position;
 
-    var singlePosition = Position(id, positionName, []);
+    var singlePosition =
+        Position(id: id, position: positionName, questions: []);
+    //   Position(id, positionName, []);
     // var question = Question(
     //     titleQuestion: '', answerTime: 0, keywords: '', thinkingTime: 0);
     // List<Question> questions = [];
@@ -55,7 +57,9 @@ class _LastQuestionScreenState extends State<LastQuestionScreen> {
           IconButton(
             icon: Icon(Icons.done),
             onPressed: () {
-              singlePosition = Position(id, positionName, questions);
+              singlePosition = Position(
+                  id: id, position: positionName, questions: questions);
+              // Position(id, positionName, questions);
               Navigator.of(context)
                   .pushReplacementNamed(PositionScreen.routeName);
               print(singlePosition.id);

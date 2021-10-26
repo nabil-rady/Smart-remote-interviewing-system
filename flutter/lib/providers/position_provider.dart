@@ -13,7 +13,7 @@ class Position {
   });
 }
 
-class Positions with ChangeNotifier {
+class Positionsmm with ChangeNotifier {
   List<Position> _items = [
     Position(id: '1234567', positionName: 'software engineer', questions: [
       'tell us about your experience.',
