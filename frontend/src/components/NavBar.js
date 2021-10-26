@@ -1,27 +1,18 @@
 import React, { useContext, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { UserContext } from '../App';
+import MobileBurgerButtons from './MobileBurgerButtons';
 import './scss/navbar.scss';
 
 const NavBar = (props) => {
   const authUser = useContext(UserContext).authUser; // Object or null
   const isLoggedIn = !!authUser;
-  const displayBurgerButton = () => {
-    if (props.burgerButton === true) {
-      return (
-        <div id="toggle-icon" onClick={props.handleToggleButtonClick}>
-          <div className="bar1"></div>
-          <div className="bar2"></div>
-          <div className="bar3"></div>
-        </div>
-      );
-    }
-    return null;
-  };
-
   return (
     <header className="header">
-      {displayBurgerButton()}
-      <div className="header__logo">Hire Mi</div>
+      <MobileBurgerButtons />
+      <div className="header__logo">
+        <Link to="/">Hire Mi</Link>
+      </div>
       <nav className="header__navbar">
         <ul className={`header__navbar__ul ${isLoggedIn ? '' : 'hidden'}`}>
           <li className="header__navbar__ul__li">

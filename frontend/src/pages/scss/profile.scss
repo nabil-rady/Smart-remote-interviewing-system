@@ -1,15 +1,21 @@
 @import '../../sassConfig/colors';
 @import '../../sassConfig/transition';
 
+.profilecard {
+  width: 70%;
+  max-width: 500px;
+  padding: 1.5rem 2rem;
+  margin: 4rem auto;
+}
+
 .save {
-  margin-left: calc(50% - 65px);
-  width: 130px;
+  width: 240px;
   height: 40px;
-  display: inline-block;
+  display: flex;
+  margin: 1rem;
   justify-content: center;
   align-items: center;
   border: none;
-  padding: 2px;
   border-radius: 20px;
   cursor: pointer;
   background-color: $primary-blue;
@@ -27,12 +33,6 @@
     background-color: gray;
     color: black;
   }
-}
-.profilecard {
-  width: 40%;
-  padding: 20px 30px;
-  margin-left: 30%;
-  margin-top: 2.5%;
 }
 .change-inputs {
   font: inherit;
@@ -70,16 +70,13 @@
   font-weight: bold;
   color: $primary-blue;
 }
-a {
-  text-decoration: none;
-  color: $primary-blue;
-}
+
 .changepass {
-  margin-left: calc(50% - 235px);
-  width: 160px;
+  width: 240px;
+  width: 70%;
   height: 40px;
-  padding: 5px;
-  display: inline-block;
+  margin: 1rem;
+  display: flex;
   justify-content: center;
   align-items: center;
   border: 2px solid $primary-blue;
@@ -89,4 +86,15 @@ a {
   color: $primary-blue;
   font-weight: 500;
   font-size: 1.1rem;
+}
+
+@media only screen and (max-width: 670px) {
+  .changepass {
+    width: 75%;
+    margin: 1rem auto;
+  }
+  .save {
+    width: 75%;
+    margin: 1rem auto;
+  }
 }

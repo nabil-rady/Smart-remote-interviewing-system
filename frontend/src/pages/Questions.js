@@ -8,7 +8,7 @@ function Counterpage() {
     document.addEventListener('click', () => {
       const btn = document.querySelector('.start');
       setQuestion('How Old Are You ?');
-      btn.style.display = 'none';
+      if (btn) btn.style.display = 'none';
     })
   );
   return (

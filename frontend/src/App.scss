@@ -4,3 +4,23 @@
   font-family: 'Roboto', sans-serif;
   box-sizing: border-box;
 }
+
+.flex {
+  display: flex !important;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+@media only screen and (max-width: 670px) {
+  .flex {
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+  .top-margin {
+    margin-top: 7rem !important;
+  }
+}
