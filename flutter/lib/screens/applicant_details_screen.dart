@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:graduation_project/providers/positions.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/interview_provider.dart';
@@ -24,7 +25,9 @@ class _ApplicantDetailScreenState extends State<ApplicantDetailScreen> {
     final loadedApplicant =
         Provider.of<Interviews>(context).findById(interviewId);
     // هيتغير برضو
-    final _questions = Provider.of<Positionsmm>(context)
+    // final _questions = Provider.of<Positionsmm>(context)
+    //     .findBypositionName(loadedApplicant.positionName);
+    final _questions = Provider.of<Positions>(context)
         .findBypositionName(loadedApplicant.positionName);
     return Scaffold(
       appBar: AppBar(

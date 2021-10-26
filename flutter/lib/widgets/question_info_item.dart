@@ -17,21 +17,25 @@ class QuestionInfoItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: Row(children: <Widget>[
-        Column(
+      child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Text(questionTitle),
-            Text(thinkingTime.toString()),
-            Text(answerTime.toString()),
-            Text(keywords)
-          ],
-        ),
-        IconButton(
-            onPressed: () {
-              Provider.of<Questions>(context, listen: false).deleteForm(id);
-            },
-            icon: Icon(Icons.delete))
-      ]),
+            Column(
+              children: <Widget>[
+                Text(questionTitle),
+                Text(thinkingTime.toString()),
+                Text(answerTime.toString()),
+                Text(keywords)
+              ],
+            ),
+            IconButton(
+              onPressed: () {
+                Provider.of<Questions>(context, listen: false).deleteForm(id);
+              },
+              icon: Icon(Icons.delete),
+              color: Colors.red,
+            )
+          ]),
     );
   }
 }

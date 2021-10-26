@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:graduation_project/widgets/drawer.dart';
 import 'package:provider/provider.dart';
 
 import '../widgets/position_form.dart';
@@ -20,7 +21,9 @@ class _PositionScreenState extends State<PositionScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Positions'),
+        backgroundColor: Theme.of(context).primaryColor,
       ),
+      drawer: AppDrawer(),
       body: Container(
         child: Column(
           children: <Widget>[

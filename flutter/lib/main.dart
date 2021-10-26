@@ -10,7 +10,6 @@ import './providers/questions.dart';
 import './screens/home_screen.dart';
 import '../screens/to_evaluate_screen.dart';
 import '../providers/interview_provider.dart';
-import './providers/position_provider.dart';
 import '../screens/applicant_details_screen.dart';
 import '../screens/video_evaluation_screen.dart';
 import '../screens/notifications_screen.dart';
@@ -38,9 +37,6 @@ class MyApp extends StatelessWidget {
           ),
           ChangeNotifierProvider(
             create: (ctx) => Interviews(),
-          ),
-          ChangeNotifierProvider(
-            create: (ctx) => Positionsmm(),
           ),
           ChangeNotifierProvider(
             create: (ctx) => Positions(),

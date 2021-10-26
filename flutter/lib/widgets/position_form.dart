@@ -36,6 +36,7 @@ class _PositionFormState extends State<PositionForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).primaryColor,
         title: Text('Position'),
       ),
       body: Container(

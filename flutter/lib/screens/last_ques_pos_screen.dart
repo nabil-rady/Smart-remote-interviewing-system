@@ -53,6 +53,7 @@ class _LastQuestionScreenState extends State<LastQuestionScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Questions'),
+        backgroundColor: Theme.of(context).primaryColor,
         actions: [
           IconButton(
             icon: Icon(Icons.done),
@@ -99,6 +100,7 @@ class _LastQuestionScreenState extends State<LastQuestionScreen> {
       // ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Theme.of(context).primaryColor,
         onPressed: () {
           startAddNewQuestion(context);
         },

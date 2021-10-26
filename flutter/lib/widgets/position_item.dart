@@ -25,11 +25,13 @@ class PositionItem extends StatelessWidget {
                 padding: EdgeInsets.only(bottom: 5, top: 5, left: 8),
               ),
               IconButton(
-                  onPressed: () {
-                    Provider.of<Positions>(context, listen: false)
-                        .removePosition(id);
-                  },
-                  icon: Icon(Icons.delete))
+                onPressed: () {
+                  Provider.of<Positions>(context, listen: false)
+                      .removePosition(id);
+                },
+                icon: Icon(Icons.delete),
+                color: Colors.red,
+              )
             ],
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
           ),
