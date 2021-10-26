@@ -57,18 +57,18 @@ class Interviews with ChangeNotifier {
     notifyListeners();
   }
 
-  Interview findById(String id) {
-    return _items.firstWhere((element) => element.id == id);
-  }
+  // Interview findById(String id) {
+  //   return _items.firstWhere((element) => element.id == id);
+  // }
 
-  void rateApplicant(String id, var rate) {
-    Interview applicant = findById(id);
-    applicant.rate = rate;
-    applicant.isRated = true;
-    notifyListeners();
-  }
+  // void rateApplicant(String id, var rate) {
+  //   Interview applicant = findById(id);
+  //   applicant.rate = rate;
+  //   applicant.isRated = true;
+  //   notifyListeners();
+  // }
 
-  int toBeEvaluate() {
-    return _items.where((element) => element.isRated == false).toList().length;
-  }
+  // int toBeEvaluate() {
+  //   return _items.where((element) => element.isRated == false).toList().length;
+  // }
 }

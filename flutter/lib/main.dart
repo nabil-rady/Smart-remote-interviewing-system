@@ -15,6 +15,12 @@ import 'package:graduation_project/providers/position_provider.dart';
 import '../screens/applicant_details_screen.dart';
 import '../screens/video_evaluation_screen.dart';
 import '../screens/notifications_screen.dart';
+import './providers/interview_provider.dart';
+import './providers/positions.dart';
+import './screens/position_screen.dart';
+import './screens/last_ques_pos_screen.dart';
+import './screens/invitation_screen.dart';
+import './widgets/position_form.dart';
 
 void main() {
   runApp(MyApp());
@@ -72,13 +78,15 @@ class MyApp extends StatelessWidget {
             CompanySignupScreen.routeName: (ctx) => CompanySignupScreen(),
             SplashScreen.routeName: (ctx) => SplashScreen(),
             IntroScreen.routeName: (ctx) => IntroScreen(),
-            PositionScreen.routeName: (ctx) => PositionScreen(),
-            QuestionPositionScreen.routeName: (ctx) => QuestionPositionScreen(),
             HomeScreen.routeName: (ctx) => HomeScreen(),
             ToEvaluateScreen.routeName: (ctx) => ToEvaluateScreen(),
             ApplicantDetailScreen.routeName: (ctx) => ApplicantDetailScreen(),
             VedioEvaluationScreen.routeName: (ctx) => VedioEvaluationScreen(),
             NotificationScreen.routeName: (ctx) => NotificationScreen(),
+            InvitationScreen.routeName: (ctx) => InvitationScreen(),
+            LastQuestionScreen.routeName: (ctx) => LastQuestionScreen(),
+            PositionForm.routeName: (ctx) => PositionForm(),
+            PositionScreen.routeName: (ctx) => PositionScreen(),
           },
         ));
   }

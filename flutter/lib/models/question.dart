@@ -1,13 +1,31 @@
 import 'package:flutter/material.dart';
 
 class Question {
-  String titleQuestion = '';
-  double answerTime = 0;
-  double thinkingTime = 0;
-  String keywords = '';
-  bool showButton = true;
+  final titleQuestion;
+  final answerTime;
+  final thinkingTime;
+  final keywords;
   final String id;
-  Question(this.id);
+  // bool showButton = true;
+  // bool isValid(GlobalKey<FormState> _form) {
+  //   var valid = _form.currentState!.validate();
+  //   if (!valid) {
+  //     return false;
+  //   }
+  //   _form.currentState!.save();
+  //   return true;
+
+  //   // print(ques.titleQuestion);
+  //   // print(ques.answerTime);
+  // }
+
+  // final String position;
+  Question(
+      {required this.titleQuestion,
+      required this.answerTime,
+      required this.thinkingTime,
+      required this.keywords,
+      required this.id});
   //int saveFlag = 0;
   // Question(
   //    this.titleQuestion,
