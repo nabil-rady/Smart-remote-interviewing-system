@@ -5,7 +5,7 @@ const sequelize = require('./util/db');
 
 // import models
 const Interview = require('./models/interview');
-const JobListing = require('./models/job-listing');
+const JobListing = require('./models/jobListing');
 const Question = require('./models/question');
 const User = require('./models/user');
 const Video = require('./models/video');
@@ -13,6 +13,7 @@ const Keyword = require('./models/keyword');
 
 // import routes
 const userRoutes = require('./routes/user');
+const jobListingRoutes = require('./routes/jobListing');
 
 const app = express();
 
@@ -37,6 +38,7 @@ app.use((req, res, next) => {
 
 // Routes
 app.use('/user', userRoutes);
+app.use('/job-listing', jobListingRoutes);
 
 // Error handling
 app.use((error, req, res, next) => {

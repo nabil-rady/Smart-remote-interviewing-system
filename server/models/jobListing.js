@@ -3,11 +3,15 @@ const sequelize = require('../util/db');
 const User = require('./user');
 
 const JobListing = sequelize.define('JobListing', {
-  listingId: {
+  jobListingId: {
     type: DataTypes.CHAR(8),
     allowNull: false,
     primaryKey: true,
     unique: true,
+  },
+  positionName: {
+    type: DataTypes.STRING,
+    allowNull: false,
   },
   creator: {
     type: DataTypes.CHAR(8),

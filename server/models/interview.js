@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../util/db');
-const JobListing = require('./job-listing');
+const JobListing = require('./jobListing');
 
 const Interview = sequelize.define('Interview', {
   interviewId: {
@@ -35,7 +35,7 @@ const Interview = sequelize.define('Interview', {
     allowNull: false,
     references: {
       model: JobListing,
-      key: 'ListingId',
+      key: 'jobListingId',
     },
   },
   submitedAt: {
