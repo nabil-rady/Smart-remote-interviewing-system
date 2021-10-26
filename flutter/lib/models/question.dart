@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class Question {
-  final titleQuestion;
-  final answerTime;
-  final thinkingTime;
-  final keywords;
+  final String titleQuestion;
+  final int answerTime;
+  final int thinkingTime;
+  final String keywords;
   final String id;
   // bool showButton = true;
   // bool isValid(GlobalKey<FormState> _form) {

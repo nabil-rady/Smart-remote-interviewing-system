@@ -7,16 +7,16 @@ class Positions with ChangeNotifier {
     Position(id: '1244', position: 'software', questions: [
       Question(
           titleQuestion: 'what',
-          answerTime: '3',
-          thinkingTime: '5',
+          answerTime: 3,
+          thinkingTime: 5,
           keywords: 'efegreg',
           id: '23'),
     ]),
     Position(id: '12666', position: 'callsenter', questions: [
       Question(
           titleQuestion: 'hhhh',
-          answerTime: '3',
-          thinkingTime: '5',
+          answerTime: 3,
+          thinkingTime: 5,
           keywords: 'efegreg',
           id: '23'),
     ]),

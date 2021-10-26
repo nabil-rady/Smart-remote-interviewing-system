@@ -19,7 +19,7 @@ class _PositionScreenState extends State<PositionScreen> {
     final positions = positionData.positionsItems;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Positions'),
+        title: const Text('Positions'),
       ),
       body: Container(
         child: Column(
@@ -51,8 +51,8 @@ class _PositionScreenState extends State<PositionScreen> {
                   // Provider.of<Questions>(context, listen: false)
                   //     .addFirstForm(Question(DateTime.now().toString()));
                 },
-                icon: Icon(Icons.add)),
-            Text('Add new position'),
+                icon: const Icon(Icons.add)),
+            const Text('Add new position'),
             // Flexible(
             //   child: Padding(
             //     padding: EdgeInsets.symmetric(horizontal: 80, vertical: 20),

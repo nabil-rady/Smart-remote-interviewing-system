@@ -59,7 +59,8 @@ class _PositionFormState extends State<PositionForm> {
                       position: _positionController.text,
                       questions: position.questions);
                   //Position(position.id, _positionController.text, position.questions);
-                  Navigator.of(context).pushNamed(LastQuestionScreen.routeName,
+                  Navigator.of(context).pushReplacementNamed(
+                      LastQuestionScreen.routeName,
                       arguments: position);
 
                   Provider.of<Positions>(context, listen: false)
