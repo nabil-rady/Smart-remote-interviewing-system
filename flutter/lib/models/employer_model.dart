@@ -9,7 +9,10 @@ class Employer with ChangeNotifier {
   String token;
   String createdAt;
   String updatedAt;
-  //final String phone;
+  String phone;
+  String countryCode;
+  bool emailConfirmed;
+  bool loggedIn;
 
   Employer({
     required this.userId,
@@ -20,6 +23,9 @@ class Employer with ChangeNotifier {
     required this.updatedAt,
     required this.token,
     required this.email,
-    // required this.phone,
+    required this.phone,
+    required this.countryCode,
+    required this.emailConfirmed,
+    required this.loggedIn,
   });
 }

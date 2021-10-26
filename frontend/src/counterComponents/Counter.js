@@ -56,23 +56,23 @@ function Counter() {
   };
   return (
     <div id="app">
-      <div class="base-timer">
+      <div className="base-timer">
         <svg
-          class="base-timer__svg"
+          className="base-timer__svg"
           viewBox="0 0 100 100"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <g class="base-timer__circle">
+          <g className="base-timer__circle">
             <circle
-              class="base-timer__path-elapsed"
+              className="base-timer__path-elapsed"
               cx="50"
               cy="50"
               r="45"
             ></circle>
             <path
               id="base-timer-path-remaining"
-              stroke-dasharray="283"
-              class="base-timer__path-remaining"
+              strokeDasharray="283"
+              className="base-timer__path-remaining"
               d="
                     M 50, 50
                     m -45, 0
@@ -82,7 +82,7 @@ function Counter() {
             ></path>
           </g>
         </svg>
-        <span id="base-timer-label" class="base-timer__label">
+        <span id="base-timer-label" className="base-timer__label">
           {formatTime(timeLeft)}
         </span>
         <button className="start" onClick={clickHandler}>

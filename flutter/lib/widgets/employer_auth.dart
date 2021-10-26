@@ -18,6 +18,7 @@ class EmployerAuth extends StatefulWidget {
 
 class _EmployerAuthState extends State<EmployerAuth> {
   bool hasIntrnet = false;
+  String confirmCode = '';
   Map<String, String> authData = {
     'firstName': '',
     'lastName': '',
@@ -26,11 +27,12 @@ class _EmployerAuthState extends State<EmployerAuth> {
     'password': '',
     'confirmPassword': '',
     'phone': '',
-    'countryCode': '',
+    'countryCode': '+20',
   };
 
   final _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey();
+  final GlobalKey<FormState> _confirmFormKey = GlobalKey();
   AuthMode _authMode = AuthMode.login;
 
   var _isLoading = false;
@@ -76,6 +78,75 @@ class _EmployerAuthState extends State<EmployerAuth> {
     );
   }
 
+  void _showConfirmDialog() {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(
+          'Enter code!',
+          style: Theme.of(context).textTheme.headline1,
+        ),
+        content: Form(
+          key: _confirmFormKey,
+          child: TextFormField(
+            decoration: const InputDecoration(labelText: 'enter 8 characters'),
+            validator: (value) {
+              if (value!.isEmpty) {
+                return 'Invalid code!';
+              }
+            },
+            onSaved: (value) {
+              confirmCode = value.toString();
+            },
+          ),
+        ),
+        actions: <Widget>[
+          FlatButton(
+            child: const Text('okay'),
+            onPressed: () async {
+              if (!_confirmFormKey.currentState!.validate()) {
+                // Invalid!
+                return;
+              }
+              _confirmFormKey.currentState!.save();
+              /////////////////////////////////////
+              try {
+                print(confirmCode);
+                await Provider.of<Auth>(context, listen: false).confirmEmail(
+                  Provider.of<Auth>(context, listen: false).employer.userId,
+                  confirmCode,
+                );
+                setState(() {
+                  _authMode = AuthMode.login;
+                });
+                Navigator.of(ctx).pop();
+                //Navigator.of(context).pushReplacementNamed('/home_screen');
+              } on HttpException catch (error) {
+                // print(error);
+                _showErrorDialog('Wrong verification code');
+              } catch (error) {
+                _showErrorDialog('Wrong verification code');
+              }
+            },
+          ),
+          FlatButton(
+            child: const Text('Resend'),
+            onPressed: () async {
+              try {
+                print(confirmCode);
+                await Provider.of<Auth>(context, listen: false).sendEmail(
+                  Provider.of<Auth>(context, listen: false).employer.userId,
+                );
+              } catch (error) {
+                _showErrorDialog(error.toString());
+              }
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) {
       // Invalid!
@@ -99,18 +170,27 @@ class _EmployerAuthState extends State<EmployerAuth> {
         //     if (!hasIntrnet) _showErrorDialog('no conniction');
         //   });
         // });
+
         Navigator.of(context).pushReplacementNamed('/home_screen');
       } else {
         // Sign user up
+        //print(authData['countryCode']);
         await Provider.of<Auth>(context, listen: false).signup(
           authData['firstName'].toString(),
           authData['lastName'].toString(),
           authData['companyName'].toString(),
           authData['email'].toString(),
           authData['password'].toString(),
-          authData['password'].toString(),
+          authData['confirmPassword'].toString(),
+          authData['phone'].toString(),
+          authData['countryCode'].toString(),
         );
-        Navigator.of(context).pushReplacementNamed('/home_screen');
+        _formKey.currentState!.reset();
+        _passwordController.clear();
+        _showConfirmDialog();
+        //_showErrorDialog('all done');
+        //if(Provider.of<Auth>(context).)
+        //  Navigator.of(context).pushReplacementNamed('/home_screen');
       }
     } on HttpException catch (error) {
       var errorMessage = 'Authentication failed';
@@ -121,6 +201,15 @@ class _EmployerAuthState extends State<EmployerAuth> {
       }
       _showErrorDialog(errorMessage);
     } catch (error) {
+      // print(authData['firstName'].toString() +
+      //     authData['lastName'].toString() +
+      //     authData['companyName'].toString() +
+      //     authData['email'].toString() +
+      //     authData['password'].toString() +
+      //     authData['confirmPassword'].toString() +
+      //     authData['phone'].toString() +
+      //     authData['countyCode'].toString());
+      print(error);
       const errorMessage =
           'Could not authenticate you. Please try again later.';
       _showErrorDialog(errorMessage);
@@ -233,11 +322,27 @@ class _EmployerAuthState extends State<EmployerAuth> {
                       CountryPickerDropdown(
                         initialValue: 'EG',
                         //itemBuilder: _buildDropdownItem,
+
                         onValuePicked: (Country country) {
-                          print("${country.phoneCode}");
-                          authData['countyCode'] = country.phoneCode.toString();
+                          authData['countryCode'] =
+                              '+' + country.phoneCode.toString();
+
+                          //print("${country.phoneCode}");
+                          //print(country.phoneCode);
                         },
                       ),
+                      // Expanded(
+                      //   child: TextFormField(
+                      //     decoration:
+                      //         const InputDecoration(labelText: 'country code'),
+                      //     //keyboardType: TextInputType.phone,
+                      //     // controller: _passwordController,
+
+                      //     onSaved: (value) {
+                      //       authData['countryCode'] = value.toString();
+                      //     },
+                      //   ),
+                      // ),
                       Expanded(
                         child: TextFormField(
                           decoration:

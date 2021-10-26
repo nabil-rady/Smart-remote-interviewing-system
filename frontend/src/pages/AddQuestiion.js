@@ -8,9 +8,9 @@ function QuestionsPage(props) {
   return (
     <div>
       {/* <Nav /> */}
-      {[...Array(props.counter)].map((e, i) => (
+      {/* {[...Array(props.counter)].map((e, i) => (
         <Field id={i + 1} key={i} />
-      ))}
+      ))} */}
     </div>
   );
 }

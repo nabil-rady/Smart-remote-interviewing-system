@@ -71,6 +71,7 @@ class _VedioEvaluationScreenState extends State<VedioEvaluationScreen> {
                       padding: const EdgeInsets.all(10),
                       child: Text(
                         'Question${(index + 1).toString()}: ${_questions.questions[index]}',
+                        style: Theme.of(context).textTheme.bodyText1,
                       )),
                   VideoPlayerwidget(
                     videoPlayerController: VideoPlayerController.network(
@@ -85,7 +86,10 @@ class _VedioEvaluationScreenState extends State<VedioEvaluationScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        const Text('Rate Question:'),
+                        Text(
+                          'Rate Question:',
+                          style: Theme.of(context).textTheme.bodyText1,
+                        ),
                         Container(
                           alignment: Alignment.center,
                           child: Container(
@@ -100,6 +104,7 @@ class _VedioEvaluationScreenState extends State<VedioEvaluationScreen> {
                               controller: _controllers[index],
                               decoration: const InputDecoration(
                                   hintText: 'Rate from 0% to 100%',
+                                  //hintStyle: ,
                                   contentPadding: EdgeInsets.all(15),
                                   border: InputBorder.none),
                             ),

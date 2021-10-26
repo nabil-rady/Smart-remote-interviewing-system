@@ -12,14 +12,19 @@ import 'package:flutter/material.dart';
 
 class Auth with ChangeNotifier {
   Employer _employer = Employer(
-      firstName: '',
-      lastName: '',
-      companyName: '',
-      createdAt: '',
-      updatedAt: '',
-      token: '',
-      email: '',
-      userId: '');
+    firstName: '',
+    lastName: '',
+    companyName: '',
+    createdAt: '',
+    updatedAt: '',
+    token: '',
+    email: '',
+    userId: '',
+    countryCode: '',
+    phone: '',
+    emailConfirmed: false,
+    loggedIn: false,
+  );
 
   late DateTime _expiryDate;
 
@@ -42,8 +47,18 @@ class Auth with ChangeNotifier {
     return _employer.userId;
   }
 
-  Future<void> signup(String firstName, String lastName, String companyName,
-      String email, String password, String confirmPassword) async {
+  Future<void> signup(
+      String firstName,
+      String lastName,
+      String companyName,
+      String email,
+      String password,
+      String confirmPassword,
+      String phone,
+      String countryCode) async {
+    // print(countryCode);
+    // print(phone);
+    // print(email);
     final response = await http.post(
       Uri.parse('https://vividly-api.herokuapp.com/user/signup'),
       headers: <String, String>{
@@ -56,14 +71,16 @@ class Auth with ChangeNotifier {
         'email': email,
         'password': password,
         'confirmPassword': confirmPassword,
-        // 'phone': '',
+        'phoneCode': countryCode,
+        'phoneNumber': phone,
       }),
     );
     final responseData = json.decode(response.body);
-    //print(responseData['details'][0]['msg']);
+    print(responseData);
     if (response.statusCode == 201) {
       final responseData = json.decode(response.body);
-      _employer.userId = responseData['userId'];
+      _employer.userId = responseData['user']['userId'];
+      sendEmail(_employer.userId);
     } else if (response.statusCode == 422) {
       throw Exception(responseData['details'][0]['msg']);
     } else {
@@ -83,7 +100,7 @@ class Auth with ChangeNotifier {
       }),
     );
     final responseData = json.decode(response.body);
-    // print(responseData);
+    print(responseData);
     // print(responseData['message']);
 
     if (response.statusCode == 200) {
@@ -96,11 +113,74 @@ class Auth with ChangeNotifier {
       _employer.email = responseData['user']['email'];
       _employer.createdAt = responseData['user']['createdAt'];
       _employer.updatedAt = responseData['user']['updatedAt'];
-      //inspect(_employer);
-      //print(_employer.companyName +_employer.createdAt + _employer.email+ _employer.firstName+_employer.lastName);
+      _employer.countryCode = responseData['user']['phoneCode'];
+      _employer.phone = responseData['user']['phoneNumber'];
+      _employer.loggedIn = responseData['user']['loggedIn'];
+      _employer.emailConfirmed = responseData['user']['emailConfirmed'];
     } else {
       throw HttpException(responseData['message']);
     }
+  }
+
+  Future<void> confirmEmail(String userId, String code) async {
+    final response = await http.post(
+      Uri.parse('https://vividly-api.herokuapp.com/user/verify'),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode(<String, String>{
+        'userId': userId,
+        'verificationCode': code,
+      }),
+    );
+    final responseConfirmData = json.decode(response.body);
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      _employer.emailConfirmed = true;
+      print(responseConfirmData);
+    } else {
+      print(responseConfirmData['message']);
+      throw HttpException(responseConfirmData['message']);
+    }
+  }
+
+  Future<void> sendEmail(String userId) async {
+    final validationResponse = await http.post(
+      Uri.parse('https://vividly-api.herokuapp.com/user/confirm-email'),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode(<String, String>{
+        'userId': userId,
+      }),
+    );
+    final validationResponseData = json.decode(validationResponse.body);
+    print(validationResponseData);
+  }
+
+  Future<void> logOut(String token) async {
+    final response = await http.post(
+      Uri.parse('https://vividly-api.herokuapp.com/user/logout'),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': token,
+      },
+    );
+    final logoutResponse = json.decode(response.body);
+    // print(logoutResponse);
+    // _employer.token = '';
+    // _employer.token = '';
+    // _employer.userId = '';
+    // _employer.firstName = '';
+    // _employer.lastName = '';
+    // _employer.companyName = '';
+    // _employer.email = '';
+    // _employer.createdAt = '';
+    // _employer.updatedAt = '';
+    // _employer.countryCode = '';
+    // _employer.phone = '';
+    // _employer.loggedIn = false;
+    // _employer.emailConfirmed = false;
   }
 
   Employer get employer {

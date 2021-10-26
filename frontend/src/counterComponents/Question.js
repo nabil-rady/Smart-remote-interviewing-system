@@ -4,7 +4,7 @@ import './scss/question.scss';
 
 function Question(props) {
   return (
-    <Card className="questioncard">
+    <Card className="questioncard top-margin">
       <p className="question">{props.question}</p>
     </Card>
   );

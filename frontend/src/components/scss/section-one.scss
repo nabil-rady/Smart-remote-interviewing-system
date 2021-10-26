@@ -43,3 +43,10 @@
     fill: white;
   }
 }
+
+@media only screen and (max-width: 670px) {
+  .section-1 {
+    margin-top: 0;
+    padding-top: 9rem;
+  }
+}

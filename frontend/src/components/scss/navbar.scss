@@ -145,3 +145,21 @@
 .elements:hover {
   background-color: $gradient-blue;
 }
+
+@media only screen and (max-width: 670px) {
+  .header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    margin-bottom: 3rem;
+    &__logo {
+      width: 100%;
+      text-align: center;
+      padding-top: 1rem;
+      margin: 0 auto;
+    }
+    &__navbar {
+      display: none;
+    }
+  }
+}

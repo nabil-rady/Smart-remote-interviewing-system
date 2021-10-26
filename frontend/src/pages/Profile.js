@@ -5,10 +5,10 @@ import './scss/profile.scss';
 import { UserContext } from '../App';
 import Card from '../components/Card';
 
-function LoginPage() {
+function ProfilePage() {
   const authUser = useContext(UserContext).authUser;
   const [newCompanyName, setCompanyName] = useState();
-  const [newEmailName, setEmailName] = useState();
+  const [newEmail, setEmail] = useState();
   const [newPhoneNo, setPhoneNo] = useState();
   const submitHandler = (e) => {
     e.preventDefault();
@@ -26,7 +26,7 @@ function LoginPage() {
   return (
     <>
       <NavBar />
-      <Card className="profilecard">
+      <Card className="profilecard top-margin">
         <h1 className="profile-label">Profile Info</h1>
         <form onSubmit={submitHandler} className="profile-form">
           <label htmlFor="firstName" className="change-label">
@@ -87,16 +87,18 @@ function LoginPage() {
             onChange={changePhoneNoHandler}
             required
           />
-          <button className="changepass">
-            <a href="/changepass">Change Password</a>
-          </button>
-          <button className="save" type="submit">
-            Save Cahnges
-          </button>
+          <div className="flex">
+            <button className="changepass">
+              <a href="/changepass">Change Password</a>
+            </button>
+            <button className="save" type="submit">
+              Save Changes
+            </button>
+          </div>
         </form>
       </Card>
     </>
   );
 }
 
-export default LoginPage;
+export default ProfilePage;
