@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:graduation_project/providers/positions.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 
@@ -28,6 +29,8 @@ class _VedioEvaluationScreenState extends State<VedioEvaluationScreen> {
     final applicantId = ModalRoute.of(context)!.settings.arguments as String;
     final loadedApplicant =
         Provider.of<Interviews>(context).findById(applicantId);
+    // final _questions = Provider.of<Positionsmm>(context)
+    //     .findBypositionName(loadedApplicant.positionName);
     final _questions = Provider.of<Positions>(context)
         .findBypositionName(loadedApplicant.positionName);
 
@@ -70,7 +73,7 @@ class _VedioEvaluationScreenState extends State<VedioEvaluationScreen> {
                   Padding(
                       padding: const EdgeInsets.all(10),
                       child: Text(
-                        'Question${(index + 1).toString()}: ${_questions.questions[index]}',
+                        'Question${(index + 1).toString()}: ${_questions.questions[index].titleQuestion}',
                         style: Theme.of(context).textTheme.bodyText1,
                       )),
                   VideoPlayerwidget(

@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:graduation_project/providers/auth_provider.dart';
+import 'package:graduation_project/screens/position_screen.dart';
 import 'package:provider/provider.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -30,18 +31,18 @@ class AppDrawer extends StatelessWidget {
               'Notifications',
               () => Navigator.of(context)
                   .pushReplacementNamed('/notification_screen')),
-          const Divider(),
-          _buildListTile(
-              Icons.dashboard,
-              'Dashboard',
-              () => Navigator.of(context)
-                  .pushReplacementNamed('/employer-dashboard')),
+          // const Divider(),
+          // _buildListTile(
+          //     Icons.dashboard,
+          //     'Dashboard',
+          //     () => Navigator.of(context)
+          //         .pushReplacementNamed('/employer-dashboard')),
           const Divider(),
           _buildListTile(
               Icons.app_registration_sharp,
               'Job positions',
               () => Navigator.of(context)
-                  .pushReplacementNamed('/positions_screen')),
+                  .pushReplacementNamed(PositionScreen.routeName)),
           const Divider(),
           _buildListTile(
               Icons.people_alt_outlined,
