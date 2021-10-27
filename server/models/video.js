@@ -4,7 +4,8 @@ const Interview = require('./interview');
 
 const Video = sequelize.define('Video', {
   videoId: {
-    type: DataTypes.CHAR(8),
+    type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV4,
     allowNull: false,
     primaryKey: true,
     unique: true,
@@ -13,19 +14,18 @@ const Video = sequelize.define('Video', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  interview: {
-    type: DataTypes.CHAR(8),
-    allowNull: false,
-    references: {
-      model: Interview,
-      key: 'interviewId',
-    },
-  },
+  // interview: {
+  //   type: DataTypes.CHAR(8),
+  //   allowNull: false,
+  //   references: {
+  //     model: Interview,
+  //     key: 'interviewId',
+  //   },
+  // },
 });
 
-Video.belongsTo(Interview);
 Interview.hasMany(Video, {
-  foreignKey: 'interview',
+  foreignKey: 'interviewId',
   onDelete: 'CASCADE',
 });
 

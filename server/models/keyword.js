@@ -4,7 +4,8 @@ const Question = require('./question');
 
 const Keyword = sequelize.define('Keyword', {
   keywordId: {
-    type: DataTypes.CHAR(8),
+    type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV4,
     allowNull: false,
     primaryKey: true,
     unique: true,
@@ -13,19 +14,18 @@ const Keyword = sequelize.define('Keyword', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  question: {
-    type: DataTypes.CHAR(8),
-    allowNull: false,
-    references: {
-      model: Question,
-      key: 'questionId',
-    },
-  },
+  // question: {
+  //   type: DataTypes.CHAR(8),
+  //   allowNull: false,
+  //   references: {
+  //     model: Question,
+  //     key: 'questionId',
+  //   },
+  // },
 });
 
-Keyword.belongsTo(Question);
 Question.hasMany(Keyword, {
-  foreignKey: 'question',
+  foreignKey: 'questionId',
   onDelete: 'CASCADE',
 });
 

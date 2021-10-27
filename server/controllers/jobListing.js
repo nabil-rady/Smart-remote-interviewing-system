@@ -18,21 +18,6 @@ module.exports.postCreateListing = async (req, res, next) => {
 
   const creatorId = req.userId;
   const { positionName, expiryDate, questions } = req.body;
-  let newId = '',
-    jobListingId;
-  do {
-    newId = customId({
-      name: positionName,
-      email: positionName,
-    });
-    jobListingId = await JobListing.findOne({
-      attributes: ['jobListingId'],
-      where: {
-        jobListingId: newId,
-      },
-    });
-  } while (jobListingId !== null);
-
   User.findOne({
     where: {
       userId: creatorId,
@@ -50,9 +35,13 @@ module.exports.postCreateListing = async (req, res, next) => {
         err.statusCode = 401;
         throw err;
       }
-      return JobListing.create({
-        jobListingId: newId,
-        creator: creator.dataValues.userId,
+      // return JobListing.create({
+      //   jobListingId: newId,
+      //   creator: creator.dataValues.userId,
+      //   positionName,
+      //   expiryDate,
+      // });
+      return creator.createJobListing({
         positionName,
         expiryDate,
       });
@@ -65,23 +54,29 @@ module.exports.postCreateListing = async (req, res, next) => {
       return Promise.all(
         questions.map(async (question) => {
           try {
-            const createdQuestion = await Question.create({
-              questionId: customId({
-                name: question.statement,
-              }),
+            // const createdQuestion = await Question.create({
+            //   questionId: customId({
+            //     name: question.statement,
+            //   }),
+            //   ...question,
+            //   jobListing: createdJob.dataValues.jobListingId,
+            // });
+            const createdQuestion = await createdJob.createQuestion({
               ...question,
-              jobListing: createdJob.dataValues.jobListingId,
             });
             if (question.keywords) {
               await Promise.all(
                 question.keywords.map((keyword) => {
                   try {
-                    return Keyword.create({
-                      keywordId: customId({
-                        name: keyword,
-                      }),
+                    // return Keyword.create({
+                    //   keywordId: customId({
+                    //     name: keyword,
+                    //   }),
+                    //   value: keyword,
+                    //   question: createdQuestion.dataValues.questionId,
+                    // });
+                    return createdQuestion.createKeyword({
                       value: keyword,
-                      question: createdQuestion.dataValues.questionId,
                     });
                   } catch (err) {
                     next(err);

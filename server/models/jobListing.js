@@ -4,7 +4,8 @@ const User = require('./user');
 
 const JobListing = sequelize.define('JobListing', {
   jobListingId: {
-    type: DataTypes.CHAR(8),
+    type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV4,
     allowNull: false,
     primaryKey: true,
     unique: true,
@@ -13,23 +14,22 @@ const JobListing = sequelize.define('JobListing', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  creator: {
-    type: DataTypes.CHAR(8),
-    allowNull: false,
-    references: {
-      model: User,
-      key: 'userId',
-    },
-  },
+  // creator: {
+  //   type: DataTypes.CHAR(8),
+  //   allowNull: false,
+  //   references: {
+  //     model: User,
+  //     key: 'userId',
+  //   },
+  // },
   expiryDate: {
     type: DataTypes.DATE,
     allowNull: false,
   },
 });
 
-JobListing.belongsTo(User);
 User.hasMany(JobListing, {
-  foreignKey: 'creator',
+  foreignKey: 'userId',
   onDelete: 'CASCADE',
 });
 

@@ -8,7 +8,7 @@ const sendgridTransport = require('nodemailer-sendgrid-transport');
 
 const User = require('../models/user');
 
-module.exports.postSignup = async (req, res, next) => {
+module.exports.postSignup = (req, res, next) => {
   // Check for validation errors
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -27,26 +27,11 @@ module.exports.postSignup = async (req, res, next) => {
     phoneCode,
     phoneNumber,
   } = req.body;
-  let userId, newId;
-  do {
-    newId = customId({
-      name: firstName + lastName + companyName,
-      email: email,
-    });
-    userId = await User.findOne({
-      // fetch this generated id
-      attributes: ['userId'],
-      where: {
-        userId: newId,
-      },
-    });
-  } while (userId !== null);
   bcrypt
     .hash(password, 12) // hash the password
     .then((hashedPassword) => {
       return User.create({
         // Store the user in the dataBase
-        userId: newId,
         firstName,
         lastName,
         companyName,

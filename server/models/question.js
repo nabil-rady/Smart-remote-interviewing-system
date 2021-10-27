@@ -4,7 +4,8 @@ const JobListing = require('./jobListing');
 
 const Question = sequelize.define('Question', {
   questionId: {
-    type: DataTypes.CHAR(8),
+    type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV4,
     allowNull: false,
     primaryKey: true,
     unique: true,
@@ -21,19 +22,18 @@ const Question = sequelize.define('Question', {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  jobListing: {
-    type: DataTypes.CHAR(8),
-    allowNull: false,
-    references: {
-      model: JobListing,
-      key: 'jobListingId',
-    },
-  },
+  // jobListing: {
+  //   type: DataTypes.CHAR(8),
+  //   allowNull: false,
+  //   references: {
+  //     model: JobListing,
+  //     key: 'jobListingId',
+  //   },
+  // },
 });
 
-Question.belongsTo(JobListing);
 JobListing.hasMany(Question, {
-  foreignKey: 'jobListing',
+  foreignKey: 'jobListingId',
   onDelete: 'CASCADE',
 });
 
