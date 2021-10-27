@@ -22,7 +22,7 @@ const PositionForm = () => {
         burgerButton={true}
       />
       <SideMenu ref={sideMenu} />
-      <Card className="cardQuestion">
+      <Card className="cardQuestion top-margin">
         <form onSubmit={submitHandler} className="Selectingform">
           <input
             className="Qtext"

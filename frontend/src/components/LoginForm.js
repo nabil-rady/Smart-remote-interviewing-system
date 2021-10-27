@@ -84,7 +84,7 @@ const LoginForm = () => {
           onConfirm={errorHandler}
         />
       )}
-      <Card className="cardemployer">
+      <Card className="cardemployer top-margin">
         <form onSubmit={submitHandler} id="employerform">
           <input
             className="inputs"

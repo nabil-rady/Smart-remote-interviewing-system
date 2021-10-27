@@ -27,7 +27,7 @@ const ChangePassword = () => {
         burgerButton={true}
       />
       <SideMenu ref={sideMenu} />
-      <Card className="password-card">
+      <Card className="password-card top-margin">
         <h1 className="changepass-label"> Change Password </h1>
         <form onSubmit={submitHandler} className="password-form">
           <input

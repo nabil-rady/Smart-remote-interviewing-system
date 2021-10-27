@@ -14,16 +14,16 @@
   outline: none;
 }
 .password-card {
-  width: 40%;
-  padding: 4% 4%;
-  margin-left: 28%;
-  margin-top: 10%;
+  width: 75%;
+  max-width: 550px;
+  margin: 5rem auto;
+  padding: 3rem 1rem;
 }
 
 .changepass-label {
   color: $primary-blue;
   margin-bottom: 2rem;
-  margin-left: calc(50% - 125px);
+  text-align: center;
 }
 
 .change-pass {

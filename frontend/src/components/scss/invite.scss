@@ -1,37 +1,37 @@
 @import '../../sassConfig/colors';
 @import '../../sassConfig/transition';
-.input {
-  margin: 2rem auto;
-  padding: 1rem;
-  width: 90%;
-  max-width: 40rem;
-}
-
-.input label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-}
-
-.input input {
-  font: inherit;
-  display: block;
-  width: 100%;
-  border: none;
-  border-bottom: 1px solid $primary-blue;
-  padding: 0.15rem;
-  margin-bottom: 0.5rem;
-}
-
-.input input:focus {
-  outline: none;
-}
 .invite {
-  margin-left: 1rem;
+  margin: 4.2rem auto;
+  padding: 2rem;
+  width: 75%;
+  max-width: 550px;
+  &_label {
+    color: $primary-blue;
+    margin-bottom: 1rem;
+  }
+  & label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  & input {
+    display: block;
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid $primary-blue;
+    padding: 0.15rem;
+    margin-bottom: 0.5rem;
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+.invite-button {
   margin-top: 1rem;
   width: 120px;
   height: 40px;
-  display: inline-block;
+  display: flex;
   justify-content: center;
   align-items: center;
   border: none;
@@ -55,8 +55,8 @@
 }
 
 .file {
-  margin-left: 1rem;
-  margin-top: 1rem;
+  margin: 1rem;
+  margin-bottom: 0;
   width: 170px;
   height: 40px;
   display: inline-block;
@@ -76,7 +76,9 @@
     color: black;
   }
 }
-.invite_label {
-  color: $primary-blue;
-  margin-bottom: 1rem;
-}
+
+// @media only screen and (max-width: 670px) {
+//   .invite-button {
+//     margin:
+//   }
+// }

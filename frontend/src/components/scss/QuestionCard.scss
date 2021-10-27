@@ -2,16 +2,14 @@
 @import '../../sassConfig/transition';
 
 .card-question {
-  width: 50%;
-  margin-top: 2%;
-  margin-bottom: 3%;
-  padding: 15px;
-  margin-left: 25%;
+  width: 75%;
+  margin: 1rem auto;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
 }
 .label-card {
-  width: 50%;
-  margin-left: 25%;
-  margin-top: 4%;
+  width: 75%;
+  margin: 0 auto;
   text-align: center;
   background-color: $primary-blue;
   padding: 5px;
@@ -32,10 +30,10 @@
 }
 
 .question-text {
-  margin-left: 20%;
   height: 40px;
-  margin-top: 4%;
-  width: 55%;
+  margin-left: 4%;
+  margin-top: 10px;
+  width: 92%;
   outline: none;
   border: none;
   border-bottom: 2px $primary-blue solid;
@@ -43,36 +41,34 @@
 }
 
 .question-keywords {
-  margin-left: 20%;
   height: 40px;
-  margin-top: 4%;
-  width: 55%;
+  margin-left: 4%;
+  margin-top: 10px;
+  width: 92%;
   outline: none;
   border: none;
   border-radius: 0px;
   border-bottom: 2px $primary-blue solid;
   margin-bottom: 0.5rem;
   display: block;
-  margin-bottom: 4%;
 }
 
 .read-select {
-  margin-left: 20%;
   height: 40px;
-  margin-top: 4%;
-  width: 55%;
+  margin-left: 4%;
+  margin-top: 10px;
+  width: 92%;
   outline: none;
   border: none;
   border-bottom: 2px $primary-blue solid;
   border-radius: 0px;
-  padding: 1px;
 }
 
 .answer-select {
-  margin-left: 20%;
   height: 40px;
-  width: 55%;
-  margin-top: 4%;
+  width: 92%;
+  margin-left: 4%;
+  margin-top: 10px;
   outline: none;
   border: none;
   border-bottom: 2px $primary-blue solid;

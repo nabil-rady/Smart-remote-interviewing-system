@@ -41,7 +41,7 @@ const Interview = () => {
           onConfirm={errorHandler}
         />
       )}
-      <Card className="cardemployee">
+      <Card className="cardemployee top-margin">
         <form onSubmit={submitHandler} id="employeeform">
           <input
             type="text"

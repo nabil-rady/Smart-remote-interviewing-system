@@ -1,15 +1,23 @@
 .questioncard {
-  margin-top: 5%;
-  width: 120%;
-  height: 500%;
-  padding: 5%;
-  margin-left: 0%;
+  margin: 5rem;
+  padding: 5rem;
   background-color: #00299b;
-  margin-right: 5%;
 }
+
 .question {
   width: 100%;
+  margin: 1rem 0;
   text-align: left;
   color: white;
   font-weight: bold;
+}
+
+.questions {
+  width: 80%;
+  max-width: 950x;
+  margin: 5rem auto;
+  margin-bottom: 3rem;
+  & + .add {
+    margin-top: 0;
+  }
 }

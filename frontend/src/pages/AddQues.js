@@ -1,7 +1,6 @@
 import React, { useState, useRef } from 'react';
 import NavBar from '../components/NavBar';
 import SideMenu from '../components/SideMenu';
-import Card from '../components/Card';
 import QuestionCard from '../components/QuestionCard';
 import './scss/Add.scss';
 
@@ -104,8 +103,7 @@ function AddQues() {
       />
       <SideMenu ref={sideMenu} />
 
-      {renderQuestions()}
-
+      <div className="questions top-margin">{renderQuestions()}</div>
       <button className="add" onClick={addHandler}>
         Add Question
       </button>

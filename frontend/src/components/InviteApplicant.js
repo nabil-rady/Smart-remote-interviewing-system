@@ -41,7 +41,7 @@ const InviteUser = (props) => {
             onConfirm={errorHandler}
           />
         )} */}
-      <Card className="input">
+      <Card className="invite top-margin">
         <h1 className="invite_label">Invite Applicant</h1>
         <form onSubmit={addUserHandler}>
           <label htmlFor="fullname" className="invite-labels">
@@ -83,12 +83,14 @@ const InviteUser = (props) => {
             }}
             enableSearch={true}
           />
-          <button className="invite" type="submit">
-            Invite User
-          </button>
-          <button className="file" type="submit">
-            Import from a file
-          </button>
+          <div className="flex">
+            <button className="invite-button" type="submit">
+              Invite User
+            </button>
+            <button className="file" type="submit">
+              Import from a file
+            </button>
+          </div>
         </form>
       </Card>
     </div>
