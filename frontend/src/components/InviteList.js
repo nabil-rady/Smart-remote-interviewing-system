@@ -12,7 +12,9 @@ const UsersList = (props) => {
             <Card className="users">
               <h2 className="uname">{user.name}</h2>
               <p className="uemail">{user.email}</p>
-              <p className="uphone">{user.phone}</p>
+              <p className="uphone">
+                {user.phoneCode} {user.phone}
+              </p>
             </Card>
           </li>
         ))}

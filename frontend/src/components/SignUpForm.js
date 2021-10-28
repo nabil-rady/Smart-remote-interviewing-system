@@ -5,6 +5,9 @@ import ErrorModal from './ErrorModal';
 import { APIURL } from '../API/APIConstants';
 import { UserContext } from '../App';
 import handleError from '../utils/errorHandling';
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
+import EmailVerification from './EmailVerification';
 
 const SignUpForm = () => {
   const [Email, setEmail] = useState();
@@ -15,12 +18,16 @@ const SignUpForm = () => {
   const [LastName, setLastName] = useState();
   const [ConfirmPassword, setConfirmPassword] = useState();
   const [error, setError] = useState();
+  const [phoneCode, setCode] = useState();
+  const [verificationCard, setVerificationCard] = useState(false);
+  let formattedvalue = '';
   const setAuthUser = useContext(UserContext).setAuthUser;
 
   const submitHandler = (e) => {
     e.preventDefault();
     // Send data to backend
     let statusCode;
+    setVerification(true);
     fetch(`${APIURL}/user/signup`, {
       method: 'POST',
       headers: {
@@ -33,6 +40,8 @@ const SignUpForm = () => {
         email: Email,
         password: Password,
         confirmPassword: ConfirmPassword,
+        phoneNumber: Phone,
+        phoneCode: phoneCode,
       }),
     })
       .then((response) => {
@@ -42,6 +51,24 @@ const SignUpForm = () => {
       .then((data) => {
         console.log(data);
         if (statusCode === 201) {
+          console.log('Success');
+        } else handleError(statusCode, data, setError);
+        return fetch(`${APIURL}/user/confirm-email`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            userId: data.user.userId,
+          }),
+        });
+      })
+      .then((confirmResponse) => {
+        return confirmResponse.json();
+      })
+      .then((response) => {
+        console.log(response);
+        if (statusCode === 200) {
           console.log('Success');
         } else handleError(statusCode, data, setError);
       })
@@ -67,14 +94,36 @@ const SignUpForm = () => {
   const LastNameHandler = (e) => {
     setLastName(e.target.value);
   };
-  const PhoneHandler = (e) => {
-    setNum(e.target.value);
-  };
+  // const PhoneHandler = (e) => {
+  //   setNum(e.target.value);
+  // };
   const errorHandler = () => {
     setError(null);
   };
+  const Modify = () => {
+    let tests = formattedvalue.split(' ');
+    console.log(tests);
+    let num = '';
+    for (let i = 1; i < tests.length; i++) {
+      num += tests[i];
+    }
+    console.log(num);
+    setCode(tests[0]);
+    setNum(num);
+  };
+  const handleOnChange = (value, data, event, formattedValue) => {
+    formattedvalue = formattedValue;
+    Modify();
+  };
+
+  const verificationHandler = () => {
+    setVerificationCard(false);
+  };
   return (
     <>
+      {verificationCard && (
+        <EmailVerification verificationHandler={verificationHandler} />
+      )}
       {error && (
         <ErrorModal
           title={error.title}
@@ -126,13 +175,38 @@ const SignUpForm = () => {
             onChange={ConfirmPasswordHandler}
             required
           />
-          <input
+          <PhoneInput
+            inputProps={{
+              name: 'phone',
+              required: true,
+              autoFocus: true,
+              disabled: false,
+            }}
+            country={'eg'}
+            onChange={handleOnChange}
+            enableSearch={true}
+            inputStyle={{
+              display: 'block',
+              border: 'none',
+              borderBottom: '1px solid hsl(215deg, 79%, 42%)',
+              borderRadius: '0px',
+              height: '20px',
+              width: '80%',
+              outline: 'none',
+            }}
+            containerStyle={{
+              marginLeft: '10%',
+              marginBottom: '8%',
+              marginTop: '8%',
+            }}
+          />
+          {/* <input
             className="inputs"
             type="text"
             placeholder="Phone No."
             onChange={PhoneHandler}
             required
-          />
+          /> */}
           <button className="signup">Sign Up</button>
         </form>
         {/* <div id="havingacc">
@@ -148,5 +222,4 @@ const SignUpForm = () => {
     </>
   );
 };
-
 export default SignUpForm;

@@ -7,7 +7,7 @@
   // margin-left: 23%;
   margin: 1.4rem auto; //center div right and left
   border: none;
-  border-bottom: 1px solid rgb(78, 78, 78);
+  border-bottom: 1px solid $primary-blue;
   height: 20px;
   width: 80%;
   outline: none;
@@ -59,4 +59,14 @@
   width: 75%;
   height: 520px;
   max-width: 330px;
+}
+
+.phone-input {
+  display: block;
+  margin: 1.4rem auto; //center div right and left
+  border: none;
+  border-bottom: 1px solid $primary-blue;
+  height: 20px;
+  width: 80%;
+  outline: none;
 }

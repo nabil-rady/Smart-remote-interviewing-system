@@ -8,16 +8,23 @@ import 'react-phone-input-2/lib/style.css';
 const InviteUser = (props) => {
   const [enteredName, setEnteredName] = useState('');
   const [enteredEmail, setEnteredEmail] = useState('');
-  const [enteredPhoneNo, setEnteredPhone] = useState('');
+  const [enteredPhoneNo, setEnteredPhoneNo] = useState('');
+  const [enteredPhoneCode, setEnteredPhoneCode] = useState('');
   //const [error, setError] = useState();
-
+  let formattedvalue = '';
   const addUserHandler = (event) => {
     event.preventDefault();
 
-    props.onInviteUser(enteredName, enteredEmail, enteredPhoneNo);
+    props.onInviteUser(
+      enteredName,
+      enteredEmail,
+      enteredPhoneNo,
+      enteredPhoneCode
+    );
+    console.log(props.users);
     setEnteredName('');
     setEnteredEmail('');
-    setEnteredPhone('');
+    setEnteredPhoneNo('');
   };
 
   const nameHandler = (event) => {
@@ -31,7 +38,21 @@ const InviteUser = (props) => {
   // const errorHandler = () => {
   //   setError(null);
   // };
-
+  const Modify = () => {
+    let tests = formattedvalue.split(' ');
+    console.log(tests);
+    let num = '';
+    for (let i = 1; i < tests.length; i++) {
+      num += tests[i];
+    }
+    console.log(num);
+    setEnteredPhoneCode(tests[0]);
+    setEnteredPhoneNo(num);
+  };
+  const handleOnChange = (value, data, event, formattedValue) => {
+    formattedvalue = formattedValue;
+    Modify();
+  };
   return (
     <div>
       {/* {error && (
@@ -74,12 +95,20 @@ const InviteUser = (props) => {
               autoFocus: true,
               disabled: false,
             }}
-            className="phone"
             country={'eg'}
-            value={enteredPhoneNo}
-            onChange={(phone) => {
-              console.log(enteredPhoneNo);
-              setEnteredPhone(phone);
+            onChange={handleOnChange}
+            inputStyle={{
+              display: 'block',
+              border: 'none',
+              borderBottom: '1px solid hsl(215deg, 79%, 42%)',
+              borderRadius: '0px',
+              height: '20px',
+              width: '100%',
+              outline: 'none',
+            }}
+            containerStyle={{
+              marginBottom: '5%',
+              marginTop: '3%',
             }}
             enableSearch={true}
           />
