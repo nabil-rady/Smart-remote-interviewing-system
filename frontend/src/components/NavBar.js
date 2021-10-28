@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../App';
 import MobileBurgerButtons from './MobileBurgerButtons';
@@ -35,7 +35,7 @@ const NavBar = (props) => {
 
   return (
     <header className="header">
-      {Accvisibility &&<MobileBurgerButtons />}
+      <MobileBurgerButtons />
       <div className="header__logo">
         <Link to="/">Hire Mi</Link>
       </div>

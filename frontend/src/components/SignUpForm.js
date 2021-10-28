@@ -27,7 +27,7 @@ const SignUpForm = () => {
     e.preventDefault();
     // Send data to backend
     let statusCode;
-    setVerification(true);
+    setVerificationCard(true);
     fetch(`${APIURL}/user/signup`, {
       method: 'POST',
       headers: {
@@ -70,7 +70,7 @@ const SignUpForm = () => {
         console.log(response);
         if (statusCode === 200) {
           console.log('Success');
-        } else handleError(statusCode, data, setError);
+        } else handleError(statusCode, response.data, setError);
       })
       .catch((error) => {
         console.error('Error:', error);

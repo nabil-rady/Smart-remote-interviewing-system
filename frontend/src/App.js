@@ -74,9 +74,9 @@ function App() {
         <PrivateRoute isAuthenticated={!!authUser} path="/changepass" exact>
           <ChangePassword />
         </PrivateRoute>
-        <PrivateRoute path="/evaluate">
+        {/* <PrivateRoute path="/evaluate">
           <EvaluationPage />
-        </PrivateRoute>
+        </PrivateRoute> */}
       </UserContext.Provider>
     </>
   );
