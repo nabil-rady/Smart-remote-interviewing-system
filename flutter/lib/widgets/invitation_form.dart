@@ -121,16 +121,38 @@ class _InvitationFormState extends State<InvitationForm> {
                   ),
                 ],
               )),
-          RaisedButton(
-            onPressed: () {
-              _saveForms();
-            },
-            child: Text('Invite Candidate'),
+          const SizedBox(
+            height: 10,
           ),
-          RaisedButton(
-            onPressed: () {},
-            child: Text('Import from file'),
-          )
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              RaisedButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                color: Theme.of(context).primaryColor,
+                onPressed: () {
+                  _saveForms();
+                },
+                child: const Text(
+                  'Invite Candidate',
+                  style: const TextStyle(color: Colors.white),
+                ),
+              ),
+              RaisedButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                color: Theme.of(context).primaryColor,
+                onPressed: () {},
+                child: const Text(
+                  'Import from file',
+                  style: const TextStyle(color: Colors.white),
+                ),
+              )
+            ],
+          ),
         ],
       ),
     );

@@ -31,24 +31,21 @@ class AppDrawer extends StatelessWidget {
               'Notifications',
               () => Navigator.of(context)
                   .pushReplacementNamed('/notification_screen')),
-          // const Divider(),
-          // _buildListTile(
-          //     Icons.dashboard,
-          //     'Dashboard',
-          //     () => Navigator.of(context)
-          //         .pushReplacementNamed('/employer-dashboard')),
+          const Divider(),
+          _buildListTile(Icons.dashboard, 'Dashboard',
+              () => Navigator.of(context).pushReplacementNamed('/home_screen')),
           const Divider(),
           _buildListTile(
               Icons.app_registration_sharp,
               'Job positions',
               () => Navigator.of(context)
                   .pushReplacementNamed(PositionScreen.routeName)),
-          const Divider(),
-          _buildListTile(
-              Icons.people_alt_outlined,
-              'To evaluate',
-              () => Navigator.of(context)
-                  .pushReplacementNamed('/to_evaluate_screen')),
+          // const Divider(),
+          // _buildListTile(
+          //     Icons.people_alt_outlined,
+          //     'To evaluate',
+          //     () => Navigator.of(context)
+          //         .pushReplacementNamed('/to_evaluate_screen')),
           const Divider(),
           _buildListTile(Icons.exit_to_app, 'Log out', () {
             Provider.of<Auth>(context, listen: false).logOut(

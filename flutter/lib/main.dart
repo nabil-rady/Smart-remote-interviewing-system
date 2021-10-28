@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:graduation_project/screens/after_positions_screen.dart';
 import 'package:provider/provider.dart';
 
 import './screens/splash_screen.dart';
@@ -85,6 +86,7 @@ class MyApp extends StatelessWidget {
             LastQuestionScreen.routeName: (ctx) => LastQuestionScreen(),
             PositionForm.routeName: (ctx) => PositionForm(),
             PositionScreen.routeName: (ctx) => PositionScreen(),
+            AfterPositionsScreen.routeName: (ctx) => AfterPositionsScreen(),
           },
         ));
   }

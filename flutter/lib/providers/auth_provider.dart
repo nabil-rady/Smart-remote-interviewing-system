@@ -76,7 +76,7 @@ class Auth with ChangeNotifier {
       }),
     );
     final responseData = json.decode(response.body);
-    print(responseData);
+    //print(responseData);
     if (response.statusCode == 201) {
       final responseData = json.decode(response.body);
       _employer.userId = responseData['user']['userId'];
@@ -100,7 +100,7 @@ class Auth with ChangeNotifier {
       }),
     );
     final responseData = json.decode(response.body);
-    print(responseData);
+    //print(responseData);
     // print(responseData['message']);
 
     if (response.statusCode == 200) {
@@ -134,12 +134,12 @@ class Auth with ChangeNotifier {
       }),
     );
     final responseConfirmData = json.decode(response.body);
-    print(response.statusCode);
+    //rint(response.statusCode);
     if (response.statusCode == 200) {
       _employer.emailConfirmed = true;
-      print(responseConfirmData);
+      //print(responseConfirmData);
     } else {
-      print(responseConfirmData['message']);
+      //print(responseConfirmData['message']);
       throw HttpException(responseConfirmData['message']);
     }
   }
@@ -155,7 +155,7 @@ class Auth with ChangeNotifier {
       }),
     );
     final validationResponseData = json.decode(validationResponse.body);
-    print(validationResponseData);
+    //print(validationResponseData);
   }
 
   Future<void> logOut(String token) async {

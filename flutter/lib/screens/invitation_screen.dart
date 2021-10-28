@@ -21,7 +21,8 @@ class InvitationScreen extends StatelessWidget {
     final candidates = candidateInfo.items;
     return Scaffold(
       appBar: AppBar(
-        title: Text(ModalRoute.of(context)!.settings.arguments as String),
+        title: const Text('Evaluation'),
+        backgroundColor: Theme.of(context).primaryColor,
       ),
       body: ListView.builder(
         itemBuilder: (ctx, i) => CandidateInfoItem(
@@ -32,10 +33,13 @@ class InvitationScreen extends StatelessWidget {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Theme.of(context).primaryColor,
         onPressed: () {
           startAddNewCandidate(context);
         },
-        child: Icon(Icons.add),
+        child: const Icon(
+          Icons.add,
+        ),
       ),
     );
   }

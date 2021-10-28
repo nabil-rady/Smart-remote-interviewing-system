@@ -14,8 +14,10 @@ class PositionItem extends StatelessWidget {
       padding: EdgeInsets.all(8),
       child: InkWell(
         onTap: () {
+          // Navigator.of(context)
+          //     .pushNamed(InvitationScreen.routeName, arguments: position);
           Navigator.of(context)
-              .pushNamed(InvitationScreen.routeName, arguments: position);
+              .pushNamed('/after_positions_screen', arguments: position);
         },
         child: Card(
           child: Row(

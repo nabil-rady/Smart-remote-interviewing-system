@@ -53,6 +53,10 @@ class _PositionFormState extends State<PositionForm> {
                   hintText: 'Please write position name .'),
             ),
             RaisedButton(
+              child: const Text(
+                'Add Questions',
+                style: const TextStyle(color: Colors.white),
+              ),
               onPressed: () {
                 if (validateTextField(_positionController.text)) {
                   position = Position(
@@ -68,8 +72,29 @@ class _PositionFormState extends State<PositionForm> {
                       .addPosition(position);
                 }
               },
-              child: Text('Next'),
-            )
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30),
+              ),
+              color: Theme.of(context).primaryColor,
+            ),
+            // RaisedButton(
+            //   onPressed: () {
+            //     if (validateTextField(_positionController.text)) {
+            //       position = Position(
+            //           id: position.id,
+            //           position: _positionController.text,
+            //           questions: position.questions);
+            //       //Position(position.id, _positionController.text, position.questions);
+            //       Navigator.of(context).pushReplacementNamed(
+            //           LastQuestionScreen.routeName,
+            //           arguments: position);
+
+            //       Provider.of<Positions>(context, listen: false)
+            //           .addPosition(position);
+            //     }
+            //   },
+            //   child: Text('Next'),
+            // )
           ],
         ),
       ),

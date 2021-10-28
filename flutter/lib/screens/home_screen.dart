@@ -81,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 _confirmFormKey.currentState!.save();
                 /////////////////////////////////////
                 try {
-                  print(confirmCode);
+                  //print(confirmCode);
                   await Provider.of<Auth>(context, listen: false).confirmEmail(
                     Provider.of<Auth>(context, listen: false).employer.userId,
                     confirmCode,
@@ -103,7 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: const Text('Resend'),
               onPressed: () async {
                 try {
-                  print(confirmCode);
+                  //  print(confirmCode);
                   await Provider.of<Auth>(context, listen: false).sendEmail(
                     Provider.of<Auth>(context, listen: false).employer.userId,
                   );
@@ -119,7 +119,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
     inspect(employerData);
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: const Text('Dashboard'),
+        backgroundColor: Theme.of(context).primaryColor,
+      ),
       drawer: !employerData.emailConfirmed ? null : AppDrawer(),
       body: Column(
         children: [

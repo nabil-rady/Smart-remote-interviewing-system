@@ -115,10 +115,17 @@ class _QuestionFormState extends State<QuestionForm> {
                 ],
               )),
           RaisedButton(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
+            ),
+            color: Theme.of(context).primaryColor,
             onPressed: () {
               _saveForms();
             },
-            child: Text('add question'),
+            child: const Text(
+              'Add Question',
+              style: const TextStyle(color: Colors.white),
+            ),
           ),
         ],
       ),

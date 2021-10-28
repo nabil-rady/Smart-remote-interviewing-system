@@ -160,9 +160,10 @@ class _EmployerAuthState extends State<EmployerAuth> {
       if (_authMode == AuthMode.login) {
         //  Log user in
         await Provider.of<Auth>(context, listen: false).login(
-          authData['email'].toString(),
-          authData['password'].toString(),
-        );
+            // authData['email'].toString(),
+            // authData['password'].toString(),
+            'mariammohammad390@gmail.com',
+            '123456789');
         // InternetConnectionChecker().onStatusChange.listen((status) {
         //   final hasIntrnet = status == InternetConnectionStatus.connected;
         //   setState(() {

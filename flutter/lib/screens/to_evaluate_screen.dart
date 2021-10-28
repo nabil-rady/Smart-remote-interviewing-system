@@ -16,7 +16,6 @@ class ToEvaluateScreen extends StatelessWidget {
         title: Text('To Evaluate'),
         backgroundColor: Theme.of(context).primaryColor,
       ),
-      drawer: AppDrawer(),
       body: ListView.builder(
         itemCount: applicants.length,
         itemBuilder: (ctx, index) {
