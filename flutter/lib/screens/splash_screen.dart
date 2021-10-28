@@ -46,7 +46,7 @@ class _SplashScreenState extends State<SplashScreen>
             },
           ),
           Text(
-            "LOL",
+            "Vividly",
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Theme.of(context).primaryColor,

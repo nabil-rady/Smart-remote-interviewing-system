@@ -124,7 +124,7 @@ class _QuestionFormState extends State<QuestionForm> {
             },
             child: const Text(
               'Add Question',
-              style: const TextStyle(color: Colors.white),
+              style: TextStyle(color: Colors.white),
             ),
           ),
         ],
