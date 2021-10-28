@@ -1,4 +1,6 @@
 import { Route } from 'react-router-dom';
+import PublicRoute from './Routes/PublicRoute';
+import PrivateRoute from './Routes/PrivateRoute';
 import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
@@ -26,6 +28,8 @@ const mockUserObject = {
   avatarURL: avatar,
 };
 
+// const mockUserObject = null;
+
 const UserContext = React.createContext();
 
 function App() {
@@ -36,39 +40,39 @@ function App() {
         <Route path="/" exact>
           <LandingPage />
         </Route>
-        <Route path="/login" exact>
+        <PublicRoute isAuthenticated={!!authUser} path="/login" exact>
           <LoginPage />
-        </Route>
-        <Route path="/signup" exact>
+        </PublicRoute>
+        <PublicRoute isAuthenticated={!!authUser} path="/signup" exact>
           <SignUpPage />
-        </Route>
-        <Route path="/interview" exact>
+        </PublicRoute>
+        <PrivateRoute isAuthenticated={!!authUser} path="/interview" exact>
           <InterviewPage />
-        </Route>
-        <Route path="/question">
+        </PrivateRoute>
+        <PrivateRoute isAuthenticated={!!authUser} path="/question" exact>
           <CounterPage />
-        </Route>
-        <Route path="/instructions">
+        </PrivateRoute>
+        <PrivateRoute isAuthenticated={!!authUser} path="/instructions" exact>
           <ImageSlider />
-        </Route>
-        <Route path="/selectposition">
+        </PrivateRoute>
+        <PrivateRoute isAuthenticated={!!authUser} path="/selectposition" exact>
           <PositionForm />
-        </Route>
+        </PrivateRoute>
         {/* <Route path="/addquestions">
           <QuestionsPage />
         </Route> */}
-        <Route path="/profile">
+        <PrivateRoute isAuthenticated={!!authUser} path="/profile" exact>
           <Profile />
-        </Route>
-        <Route path="/add">
+        </PrivateRoute>
+        <PrivateRoute isAuthenticated={!!authUser} path="/add" exact>
           <AddQues />
-        </Route>
-        <Route path="/invite">
+        </PrivateRoute>
+        <PrivateRoute isAuthenticated={!!authUser} path="/invite" exact>
           <InvitationPage />
-        </Route>
-        <Route path="/changepass">
+        </PrivateRoute>
+        <PrivateRoute isAuthenticated={!!authUser} path="/changepass" exact>
           <ChangePassword />
-        </Route>
+        </PrivateRoute>
       </UserContext.Provider>
     </>
   );
