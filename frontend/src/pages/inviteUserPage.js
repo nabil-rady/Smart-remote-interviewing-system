@@ -8,7 +8,7 @@ function InvitationPage() {
   const sideMenu = useRef(null);
   const handleToggleButtonClick = () =>
     sideMenu.current.classList.toggle('change');
-  const InviteUserHandler = (uName, uEmail, uPhone) => {
+  const InviteUserHandler = (uName, uEmail, uPhone, uCode) => {
     setUsersList((prevUsersList) => {
       return [
         ...prevUsersList,
@@ -16,6 +16,7 @@ function InvitationPage() {
           name: uName,
           email: uEmail,
           phone: uPhone,
+          phoneCode: uCode,
           id: Math.random().toString(),
         },
       ];
@@ -28,7 +29,7 @@ function InvitationPage() {
         burgerButton={true}
       />
       <SideMenu ref={sideMenu} />
-      <InviteUser onInviteUser={InviteUserHandler} />
+      <InviteUser onInviteUser={InviteUserHandler} users={usersList} />
       <UsersList users={usersList} />
     </>
   );

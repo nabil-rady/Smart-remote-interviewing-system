@@ -14,6 +14,7 @@ import Profile from './pages/Profile';
 import AddQues from './pages/AddQues';
 import InvitationPage from './pages/inviteUserPage';
 import ChangePassword from './pages/ChagePass';
+import EvaluationPage from './pages/Evaluate';
 
 const mockUserObject = {
   userId: 'ABC123',
@@ -68,6 +69,9 @@ function App() {
         </Route>
         <Route path="/changepass">
           <ChangePassword />
+        </Route>
+        <Route path="/evaluate">
+          <EvaluationPage />
         </Route>
       </UserContext.Provider>
     </>

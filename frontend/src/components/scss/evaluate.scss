@@ -1,0 +1,38 @@
+@import '../../sassConfig/colors';
+@import '../../sassConfig/transition';
+
+.video {
+  margin-left: 15%;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.evaluation_card {
+  width: 50%;
+  margin-left: 25%;
+  padding: 10px;
+  margin-top: 2%;
+  margin-bottom: 2%;
+}
+
+.evaluation-rate {
+  font: inherit;
+  width: 50%;
+  border: none;
+  border-bottom: 1px solid $primary-blue;
+  padding: 0.15rem;
+  margin-bottom: 0.5rem;
+  outline: none;
+}
+
+.rate-label {
+  margin-left: 15%;
+  margin-right: 5%;
+}
+
+.question-title {
+  color: $primary-blue;
+  margin-left: 1rem;
+  margin-top: 2%;
+  font-weight: bold;
+}

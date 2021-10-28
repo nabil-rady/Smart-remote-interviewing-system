@@ -5,7 +5,6 @@ import QuestionCard from '../components/QuestionCard';
 import './scss/Add.scss';
 
 function AddQues() {
-  // const [numberOfQuestions, setNumberOfQuestions] = useState(1);
   const [questions, setQuestions] = useState([
     {
       fullQuestion: '',
@@ -72,6 +71,7 @@ function AddQues() {
         keywords: '',
       },
     ]);
+    console.log(questions);
   };
 
   const deleteHandler = (id) => {
