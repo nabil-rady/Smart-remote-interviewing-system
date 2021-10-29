@@ -41,9 +41,12 @@ class _LastQuestionScreenState extends State<LastQuestionScreen> {
     final arguments = ModalRoute.of(context)!.settings.arguments as Position;
     final id = arguments.id;
     final positionName = arguments.position;
-
-    var singlePosition =
-        Position(id: id, position: positionName, questions: []);
+    final expieryDate = arguments.expireyDate;
+    var singlePosition = Position(
+        id: id,
+        position: positionName,
+        questions: [],
+        expireyDate: expieryDate);
     //   Position(id, positionName, []);
     // var question = Question(
     //     titleQuestion: '', answerTime: 0, keywords: '', thinkingTime: 0);
@@ -52,6 +55,7 @@ class _LastQuestionScreenState extends State<LastQuestionScreen> {
     final questions = Provider.of<Questions>(context).items;
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text('Questions'),
         backgroundColor: Theme.of(context).primaryColor,
         actions: [
@@ -59,7 +63,10 @@ class _LastQuestionScreenState extends State<LastQuestionScreen> {
             icon: Icon(Icons.done),
             onPressed: () {
               singlePosition = Position(
-                  id: id, position: positionName, questions: questions);
+                  id: id,
+                  position: positionName,
+                  questions: questions,
+                  expireyDate: expieryDate);
               // Position(id, positionName, questions);
               Navigator.of(context)
                   .pushReplacementNamed(PositionScreen.routeName);

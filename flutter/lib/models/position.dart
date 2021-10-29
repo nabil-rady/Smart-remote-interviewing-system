@@ -6,5 +6,10 @@ class Position {
   final String position;
   //final String position;
   final String id;
-  Position({required this.id, required this.position, required this.questions});
+  final DateTime expireyDate;
+  Position(
+      {required this.id,
+      required this.position,
+      required this.questions,
+      required this.expireyDate});
 }

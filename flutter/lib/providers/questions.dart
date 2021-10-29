@@ -13,6 +13,12 @@ class Questions with ChangeNotifier {
     return [..._items];
   }
 
+  // void formatKeywords(String keywordString){
+
+  // List<String> result = keywordString.split(',');
+  // _items.
+  // }
+
   // set items_set(List<Question> lala) {
   //   lala = [];
   //   this._items = lala;

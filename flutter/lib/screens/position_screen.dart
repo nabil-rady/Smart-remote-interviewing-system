@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:graduation_project/widgets/drawer.dart';
+import '../widgets/drawer.dart';
 import 'package:provider/provider.dart';
 
 import '../widgets/position_form.dart';

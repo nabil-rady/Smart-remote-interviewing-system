@@ -5,6 +5,7 @@ class Question {
   final int answerTime;
   final int thinkingTime;
   final String keywords;
+  List<String> keywordsList = [];
   final String id;
   // bool showButton = true;
   // bool isValid(GlobalKey<FormState> _form) {
