@@ -2,7 +2,7 @@ import React from 'react';
 import Card from './Card';
 import './scss/EmailVerification.scss';
 
-const ErrorModal = (props) => {
+const EmailVerification = (props) => {
   const submitHandler = (e) => {
     e.preventDefault();
   };
@@ -35,4 +35,4 @@ const ErrorModal = (props) => {
   );
 };
 
-export default ErrorModal;
+export default EmailVerification;
