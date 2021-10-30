@@ -17,6 +17,7 @@ import AddQues from './pages/AddQues';
 import InvitationPage from './pages/inviteUserPage';
 import ChangePassword from './pages/ChagePass';
 import EvaluationPage from './pages/Evaluate';
+import NotificationPage from './pages/NotificationsPage';
 
 const mockUserObject = {
   userId: 'ABC123',
@@ -73,6 +74,9 @@ function App() {
         </PrivateRoute>
         <PrivateRoute isAuthenticated={!!authUser} path="/changepass" exact>
           <ChangePassword />
+        </PrivateRoute>
+        <PrivateRoute isAuthenticated={!!authUser} path="/notifications" exact>
+          <NotificationPage />
         </PrivateRoute>
         {/* <PrivateRoute path="/evaluate">
           <EvaluationPage />

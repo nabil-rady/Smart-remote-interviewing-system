@@ -1,0 +1,21 @@
+@import '../../sassConfig/colors';
+@import '../../sassConfig/transition';
+
+.notifications-list {
+  list-style: none;
+}
+.notfication-item {
+  border-bottom: 2px solid $primary-blue;
+  width: 100%;
+  height: 120px;
+  padding-top: 8%;
+}
+.notfication-item:hover {
+  background-color: rgb(233, 241, 252);
+  cursor: pointer;
+}
+.notificationBody {
+  margin-left: 10%;
+  font-size: large;
+  font-weight: bold;
+}

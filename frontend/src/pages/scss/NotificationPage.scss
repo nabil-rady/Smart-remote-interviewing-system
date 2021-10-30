@@ -1,0 +1,27 @@
+@import '../../sassConfig/colors';
+@import '../../sassConfig/transition';
+.notifications {
+  border-right: 1px solid $primary-blue;
+  border-left: 1px solid $primary-blue;
+  width: 35%;
+  margin-left: 30%;
+  height: 100%;
+}
+
+.notification-header {
+  border: 1px solid $primary-blue;
+  width: 35%;
+  margin-left: 30%;
+  margin-top: 1%;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  height: 70px;
+  padding-top: 1%;
+}
+
+.header-text {
+  text-align: center;
+  font-weight: bold;
+  color: $primary-blue;
+  font-size: xx-large;
+}

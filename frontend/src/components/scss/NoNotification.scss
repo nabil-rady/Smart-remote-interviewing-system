@@ -1,0 +1,23 @@
+.bell {
+  width: 35%;
+  justify-content: center;
+  display: flex;
+  position: relative;
+  align-items: center;
+  margin-left: 35%;
+  margin-top: 35%;
+}
+
+.notification-title {
+  color: rgb(158, 157, 157);
+  font-weight: bold;
+  text-align: center;
+  margin-top: 2%;
+  font-size: larger;
+}
+.notification-text {
+  color: rgb(190, 189, 189);
+  text-align: center;
+  margin-top: 2%;
+  font-size: large;
+}
