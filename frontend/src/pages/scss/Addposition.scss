@@ -1,0 +1,32 @@
+@import '../../sassConfig/colors';
+@import '../../sassConfig/transition';
+
+.addposition {
+  position: relative;
+  top: -1rem;
+  margin-left: calc(50% - 75px);
+  width: 150px;
+  height: 40px;
+  margin-bottom: 2rem;
+  display: inline-block;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  background-color: $primary-blue;
+  color: white;
+  font-weight: 500;
+  font-size: 1.1rem;
+  @include transition;
+  &:hover {
+    border: 2px solid $primary-blue;
+    background-color: white;
+    color: $primary-blue;
+  }
+  &:disabled,
+  &[disabled] {
+    background-color: gray;
+    color: black;
+  }
+}

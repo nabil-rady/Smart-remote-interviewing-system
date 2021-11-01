@@ -45,7 +45,7 @@ const QuestionCard = (props) => {
         />
         <input
           type="text"
-          placeholder="Keywords"
+          placeholder="Keywords ex:(keyword1,keyword2,keyword3,....)"
           className="question-keywords"
           value={props.keywords}
           onChange={(e) => props.keywordsHandler(e, props.number)}

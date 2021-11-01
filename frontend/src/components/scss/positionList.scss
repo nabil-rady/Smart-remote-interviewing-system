@@ -1,0 +1,13 @@
+@import '../../sassConfig/colors';
+@import '../../sassConfig/transition';
+.Position {
+  margin: 2rem auto;
+  width: 90%;
+  max-width: 40rem;
+  padding: 2rem;
+}
+
+.PositionName {
+  color: $primary-blue;
+  margin: 0.5rem auto;
+}

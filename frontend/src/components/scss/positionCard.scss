@@ -1,0 +1,32 @@
+@import '../../sassConfig/colors';
+@import '../../sassConfig/transition';
+
+.position-name {
+  height: 40px;
+  width: 92%;
+  margin-left: 4%;
+  margin-top: 10px;
+  outline: none;
+  border: none;
+  border-bottom: 2px $primary-blue solid;
+  border-radius: 0px;
+  padding: 1px;
+}
+
+.expiry-date {
+  height: 40px;
+  width: 92%;
+  margin-left: 4%;
+  margin-top: 10px;
+  outline: none;
+  border: none;
+  border-bottom: 2px $primary-blue solid;
+  border-radius: 0px;
+  padding: 1px;
+}
+.position-card {
+  width: 38%;
+  margin: 2rem auto;
+  margin-bottom: 1.5rem;
+  padding: 3rem;
+}

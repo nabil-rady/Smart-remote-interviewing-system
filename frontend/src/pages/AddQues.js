@@ -1,18 +1,28 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import NavBar from '../components/NavBar';
 import SideMenu from '../components/SideMenu';
 import QuestionCard from '../components/QuestionCard';
 import './scss/Add.scss';
-
+import PositionForm from '../components/position';
 function AddQues() {
   const [questions, setQuestions] = useState([
     {
       fullQuestion: '',
       timeToThink: '',
       timeToAnswer: '',
-      keywords: '',
+      keywords: [],
     },
   ]);
+  const [positionName, setPositionName] = useState('');
+  const [expiryDate, setExpiryDate] = useState('');
+  const [date, setDate] = useState('');
+  let position;
+  const expiryDateHandler = (e) => {
+    setExpiryDate(e.target.value);
+  };
+  const positionNameHandler = (e) => {
+    setPositionName(e.target.value);
+  };
   const fullQuestionHandler = (e, id) => {
     setQuestions((oldQuestions) =>
       oldQuestions.map((oldQuestion, index) => {
@@ -47,12 +57,17 @@ function AddQues() {
     );
   };
   const keywordsHandler = (e, id) => {
+    let kw = e.target.value.split(',');
+    const keywords = [];
+    for (let i = 0; i < kw.length; i++) {
+      keywords.push(kw[i]);
+    }
     setQuestions((oldQuestions) =>
       oldQuestions.map((oldQuestion, index) => {
         if (index + 1 !== id) return oldQuestion;
         return {
           ...oldQuestion,
-          keywords: e.target.value,
+          keywords: keywords,
         };
       })
     );
@@ -71,6 +86,7 @@ function AddQues() {
         keywords: '',
       },
     ]);
+
     console.log(questions);
   };
 
@@ -95,6 +111,14 @@ function AddQues() {
       />
     ));
   };
+  const saveHandler = () => {
+    position = {
+      positionName: positionName,
+      expiryDate: expiryDate,
+      questions: questions,
+    };
+    console.log(position);
+  };
   return (
     <>
       <NavBar
@@ -102,10 +126,18 @@ function AddQues() {
         burgerButton={true}
       />
       <SideMenu ref={sideMenu} />
-
+      <PositionForm
+        positionName={positionName}
+        expiryDate={expiryDate}
+        positionNameHandler={positionNameHandler}
+        expiryDateHandler={expiryDateHandler}
+      />
       <div className="questions top-margin">{renderQuestions()}</div>
       <button className="add" onClick={addHandler}>
         Add Question
+      </button>
+      <button className="save-position" onClick={saveHandler}>
+        Save
       </button>
     </>
   );
