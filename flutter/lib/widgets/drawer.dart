@@ -35,24 +35,15 @@ class AppDrawer extends StatelessWidget {
           _buildListTile(Icons.dashboard, 'Dashboard',
               () => Navigator.of(context).pushReplacementNamed('/home_screen')),
           const Divider(),
-          _buildListTile(
-              Icons.app_registration_sharp,
-              'Job positions',
-              () => Navigator.of(context)
-                  .pushReplacementNamed(PositionScreen.routeName)),
-          // const Divider(),
-          // _buildListTile(
-          //     Icons.people_alt_outlined,
-          //     'To evaluate',
-          //     () => Navigator.of(context)
-          //         .pushReplacementNamed('/to_evaluate_screen')),
+          _buildListTile(Icons.app_registration_sharp, 'Job positions', () {
+            Navigator.of(context)
+                .pushReplacementNamed(PositionScreen.routeName);
+          }),
           const Divider(),
           _buildListTile(Icons.exit_to_app, 'Log out', () {
-            Provider.of<Auth>(context, listen: false).logOut(
-                Provider.of<Auth>(context, listen: false).employer.token);
-            inspect(Provider.of<Auth>(context, listen: false).employer);
             Navigator.pop(context);
             Navigator.of(context).pushReplacementNamed('/company_signup');
+            Provider.of<Auth>(context, listen: false).logOut();
           }),
         ],
       ),

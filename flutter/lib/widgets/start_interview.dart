@@ -9,6 +9,12 @@ class StartIntrview extends StatefulWidget {
 
 class _StartIntrviewState extends State<StartIntrview> {
   final myController = TextEditingController();
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    myController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

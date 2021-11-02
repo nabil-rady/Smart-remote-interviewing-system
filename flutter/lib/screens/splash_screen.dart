@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import '../providers/auth_provider.dart';
+import '../screens/home_screen.dart';
+import '../screens/waiting_screen.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 
 import './main_screen.dart';
-import 'position_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   static const routeName = '/splash_screen';
@@ -26,7 +29,15 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _controller.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final auth = Provider.of<Auth>(context);
     return Scaffold(
       body: Column(
         children: [
@@ -41,7 +52,18 @@ class _SplashScreenState extends State<SplashScreen>
                 ..forward().whenComplete(() => Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => CompanySignupScreen()),
+                        builder: (context) => Provider.of<Auth>(context).isAuth
+                            ? HomeScreen()
+                            : FutureBuilder(
+                                future: Provider.of<Auth>(context).autoLogin(),
+                                builder: (ctx, authResultSnapshot) =>
+                                    authResultSnapshot.connectionState ==
+                                            ConnectionState.waiting
+                                        ? WaitingScreen()
+                                        : CompanySignupScreen(),
+                              ),
+                        //CompanySignupScreen(),
+                      ),
                     ));
             },
           ),

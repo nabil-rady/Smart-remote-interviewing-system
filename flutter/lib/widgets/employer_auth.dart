@@ -164,18 +164,9 @@ class _EmployerAuthState extends State<EmployerAuth> {
             // authData['password'].toString(),
             'mariammohammad390@gmail.com',
             '123456789');
-        // InternetConnectionChecker().onStatusChange.listen((status) {
-        //   final hasIntrnet = status == InternetConnectionStatus.connected;
-        //   setState(() {
-        //     this.hasIntrnet = hasIntrnet;
-        //     if (!hasIntrnet) _showErrorDialog('no conniction');
-        //   });
-        // });
-
-        Navigator.of(context).pushReplacementNamed('/home_screen');
+        //Navigator.of(context).pushReplacementNamed('/home_screen');
       } else {
         // Sign user up
-        //print(authData['countryCode']);
         await Provider.of<Auth>(context, listen: false).signup(
           authData['firstName'].toString(),
           authData['lastName'].toString(),
@@ -216,9 +207,9 @@ class _EmployerAuthState extends State<EmployerAuth> {
       _showErrorDialog(errorMessage);
     }
 
-    setState(() {
-      _isLoading = false;
-    });
+    // setState(() {
+    //   _isLoading = false;
+    // });
   }
 
   @override
@@ -400,11 +391,11 @@ class _EmployerAuthState extends State<EmployerAuth> {
                     ],
                   ),
                 ),
-                FlatButton(
-                    child: Text('position screen'),
-                    onPressed: () {
-                      Navigator.of(context).pushNamed(PositionScreen.routeName);
-                    })
+                // FlatButton(
+                //     child: Text('position screen'),
+                //     onPressed: () {
+                //       Navigator.of(context).pushNamed(PositionScreen.routeName);
+                //     })
               ],
             ),
           ),

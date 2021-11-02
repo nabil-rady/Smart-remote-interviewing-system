@@ -19,7 +19,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    final employerData = Provider.of<Auth>(context).employer;
+    final employerData = Provider.of<Auth>(context, listen: false).employer;
+    inspect(employerData);
     final GlobalKey<FormState> _confirmFormKey = GlobalKey();
     String confirmCode = '';
     var confirm = employerData.emailConfirmed;
@@ -118,7 +119,9 @@ class _HomeScreenState extends State<HomeScreen> {
       );
     }
 
-    inspect(employerData);
+    print(employerData.emailConfirmed);
+    //print(Provider.of<Auth>(context, listen: false).token);
+    //inspect(employerData);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Dashboard'),
@@ -173,9 +176,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                 ),
-              // Center(
-              //   child: Text(employerData.firstName),
-              // ),
+              Center(
+                child: Text(employerData.firstName),
+              ),
             ],
           ),
         ),

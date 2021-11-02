@@ -6,7 +6,7 @@ class Employer with ChangeNotifier {
   String lastName;
   String companyName;
   String email;
-  String token;
+  //String token;
   String createdAt;
   String updatedAt;
   String phone;
@@ -21,7 +21,7 @@ class Employer with ChangeNotifier {
     required this.companyName,
     required this.createdAt,
     required this.updatedAt,
-    required this.token,
+    //required this.token,
     required this.email,
     required this.phone,
     required this.countryCode,

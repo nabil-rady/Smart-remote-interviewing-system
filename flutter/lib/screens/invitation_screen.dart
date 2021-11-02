@@ -21,7 +21,7 @@ class InvitationScreen extends StatelessWidget {
     final candidates = candidateInfo.items;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Evaluation'),
+        title: const Text('Invate Applicant'),
         backgroundColor: Theme.of(context).primaryColor,
       ),
       body: ListView.builder(
