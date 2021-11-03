@@ -1,6 +1,5 @@
 const { validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
-const customId = require('custom-id');
 const jwt = require('jsonwebtoken');
 const createToken = require('../util/create-token');
 const nodemailer = require('nodemailer');
@@ -317,4 +316,56 @@ module.exports.getInfo = (req, res, next) => {
       }
       next(err);
     });
+};
+
+module.exports.putEditProfile = (req, res, next) => {
+  const userId = req.userId;
+  User.findOne({
+    // fetch the user
+    where: {
+      userId: userId.toString(),
+    },
+  }).then((returnedUser) => {
+    if (!returnedUser) {
+      // check if the user exists
+      const error = new Error('User not found');
+      error.statusCode = 404;
+      throw error;
+    }
+    const { companyName, phoneCode, phoneNumber } = req.body;
+
+    const [newCompanyName, newPhoneCode, newPhoneNumber] = [
+      companyName ? companyName : returnedUser.dataValues.companyName,
+      phoneCode ? phoneCode : returnedUser.dataValues.phoneCode,
+      phoneNumber ? phoneNumber : returnedUser.dataValues.phoneNumber,
+    ];
+
+    User.update(
+      {
+        companyName: newCompanyName,
+        phoneCode: newPhoneCode,
+        phoneNumber: newPhoneNumber,
+      },
+      {
+        where: {
+          userId,
+        },
+      }
+    )
+      .then((editedUser) => {
+        const { password, ...user } = returnedUser.dataValues;
+        res.status(200).json({
+          ...user,
+          companyName: newCompanyName,
+          phoneCode: newPhoneCode,
+          phoneNumber: newPhoneNumber,
+        });
+      })
+      .catch((err) => {
+        if (!err.statusCode) {
+          err.statusCode = 500; // serverSide error
+        }
+        next(err);
+      });
+  });
 };

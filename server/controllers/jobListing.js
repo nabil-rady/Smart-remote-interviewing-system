@@ -1,5 +1,4 @@
 const { validationResult } = require('express-validator');
-const customId = require('custom-id');
 
 const User = require('../models/user');
 const Question = require('../models/question');

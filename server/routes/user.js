@@ -33,4 +33,11 @@ router.post('/logout', isAuth, userControllers.postLogOut);
 // router.get('/:user_id', isAuth, userControllers.getInfo);
 router.get('/:user_id', userControllers.getInfo); // just for testing
 
+router.put(
+  '/edit',
+  isAuth,
+  userValidations.putEditProfile,
+  userControllers.putEditProfile
+);
+
 module.exports = router;

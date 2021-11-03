@@ -3,6 +3,7 @@ const User = require('../models/user');
 
 const postSignupValidation = [
   body('email', 'Please enter a valid email.')
+    .exists()
     .trim()
     .isLength({
       max: 255,
@@ -21,12 +22,14 @@ const postSignupValidation = [
       });
     }),
   body('password', 'Password length should between 9 and 225 characters.')
+    .exists()
     .trim()
     .isLength({
       min: 9,
       max: 255,
     }),
   body('confirmPassword')
+    .exists()
     .trim()
     .custom((value, { req }) => {
       if (value !== req.body.password) {
@@ -35,30 +38,35 @@ const postSignupValidation = [
       return true;
     }),
   body('firstName', 'First name length should be less than 225 characters.')
+    .exists()
     .trim()
     .isLength({
       min: 1,
       max: 255,
     }),
   body('lastName', 'Last name length should less than 225 characters.')
+    .exists()
     .trim()
     .isLength({
       min: 1,
       max: 255,
     }),
   body('companyName', 'Company name length should be less than 225 characters.')
+    .exists()
     .trim()
     .isLength({
-      min: 1,
+      min: 2,
       max: 255,
     }),
   body('phoneCode', 'Phone code should be between 2 and 5 characters length.')
+    .exists()
     .trim()
     .isLength({
       min: 2,
       max: 5,
     }),
   body('phoneNumber', 'Phone number should be between 7 and 15 numbers length.')
+    .exists()
     .trim()
     .isLength({
       min: 7,
@@ -75,12 +83,14 @@ const postSignupValidation = [
 ];
 
 const postConfirmEmail = [
-  body('userId', 'User id is not correct.').custom((value) => {
-    if (value.length !== 36) {
-      return false;
-    }
-    return true;
-  }),
+  body('userId', 'User id is not correct.')
+    .exists()
+    .custom((value) => {
+      if (value.length !== 36) {
+        return false;
+      }
+      return true;
+    }),
 ];
 
 const postVerifyEmail = [
@@ -101,8 +111,38 @@ const postVerifyEmail = [
   }),
 ];
 
+const putEditProfile = [
+  body('companyName').optional().trim().isLength({
+    min: 2,
+    max: 255,
+  }),
+  body('phoneCode', 'Phone code should be between 2 and 5 characters length.')
+    .optional()
+    .trim()
+    .isLength({
+      min: 2,
+      max: 5,
+    }),
+  body('phoneNumber', 'Phone number should be between 7 and 15 numbers length.')
+    .optional()
+    .trim()
+    .isLength({
+      min: 7,
+      max: 15,
+    })
+    .custom((value) => {
+      for (let num of value) {
+        if (num < '0' || num > '9') {
+          return Promise.reject('Phone number should contain numbers only');
+        }
+      }
+      return true;
+    }),
+];
+
 module.exports = {
   postSignupValidation,
   postConfirmEmail,
   postVerifyEmail,
+  putEditProfile,
 };
