@@ -140,9 +140,36 @@ const putEditProfile = [
     }),
 ];
 
+const putChangePassword = [
+  body('oldPassword', 'Password length should between 9 and 225 characters.')
+    .exists()
+    .trim()
+    .isLength({
+      min: 9,
+      max: 255,
+    }),
+  body('newPassword', 'Password length should between 9 and 225 characters.')
+    .exists()
+    .trim()
+    .isLength({
+      min: 9,
+      max: 255,
+    }),
+  body('newConfirmPassword')
+    .exists()
+    .trim()
+    .custom((value, { req }) => {
+      if (value !== req.body.password) {
+        return Promise.reject(`Passwords don't match.`);
+      }
+      return true;
+    }),
+];
+
 module.exports = {
   postSignupValidation,
   postConfirmEmail,
   postVerifyEmail,
   putEditProfile,
+  putChangePassword,
 };

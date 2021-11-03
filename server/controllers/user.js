@@ -298,7 +298,7 @@ module.exports.getInfo = (req, res, next) => {
       userId: id.toString(),
     },
   })
-    .then((returnedUser) => {
+    .then(() => {
       if (!returnedUser) {
         // check if the user exists
         const error = new Error('User not found');
@@ -368,4 +368,53 @@ module.exports.putEditProfile = (req, res, next) => {
         next(err);
       });
   });
+};
+
+module.exports.putChangePassword = (req, res, next) => {
+  const userId = req.userId;
+  const { oldPassword, newPassword, confirmNewPassowrd } = req.body;
+  User.findOne({
+    // fetch the user
+    where: {
+      userId: userId.toString(),
+    },
+  })
+    .then((returnedUser) => {
+      if (!returnedUser) {
+        // check if the user exists
+        const error = new Error('User not found');
+        error.statusCode = 404;
+        throw error;
+      }
+      return bcrypt.compare(
+        oldPassword.toString(),
+        returnedUser.dataValues.password
+      );
+    })
+    .then(async (isEqual) => {
+      if (!isEqual) {
+        const error = new Error('Incorrect password');
+        error.statusCode = 401; // Authentication faild
+        throw error;
+      }
+      return User.update(
+        {
+          password: await bcrypt.hash(newPassword, 12),
+        },
+        {
+          where: {
+            userId,
+          },
+        }
+      );
+    })
+    .then(() => {
+      res.sendStatus(204);
+    })
+    .catch((err) => {
+      if (!err.statusCode) {
+        err.statusCode = 500; // serverSide error
+      }
+      next(err);
+    });
 };

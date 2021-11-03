@@ -40,4 +40,11 @@ router.put(
   userControllers.putEditProfile
 );
 
+router.put(
+  '/changepassword',
+  isAuth,
+  userValidations.putChangePassword,
+  userControllers.putChangePassword
+);
+
 module.exports = router;
