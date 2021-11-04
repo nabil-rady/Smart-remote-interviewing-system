@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/interview_model.dart';
@@ -16,6 +18,11 @@ class InvitationForm extends StatefulWidget {
 }
 
 class _InvitationFormState extends State<InvitationForm> {
+  void readFileSync() {
+    String contents = new File('./assets/user.json').readAsStringSync();
+    print(contents);
+  }
+
   var candidate = Interview(
       name: '',
       email: '',
@@ -145,7 +152,19 @@ class _InvitationFormState extends State<InvitationForm> {
                   borderRadius: BorderRadius.circular(30),
                 ),
                 color: Theme.of(context).primaryColor,
-                onPressed: () {},
+                onPressed: () async {
+                  FilePickerResult? result = await FilePicker.platform
+                      .pickFiles(
+                          type: FileType.custom,
+                          allowedExtensions: ['.txt', '.xlsx']);
+
+                  if (result != null) {
+                    File file = File(result.files.single.path.toString());
+                  } else {
+                    //make a dialogue here to say that he must import a file or add participants manually
+                    // User canceled the picker
+                  }
+                },
                 child: const Text(
                   'Import from file',
                   style: const TextStyle(color: Colors.white),
