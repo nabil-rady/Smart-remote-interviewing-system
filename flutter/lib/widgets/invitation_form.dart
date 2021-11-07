@@ -52,8 +52,13 @@ class _InvitationFormState extends State<InvitationForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(10),
+    return Container(
+        child: SingleChildScrollView(
+      padding: EdgeInsets.only(
+          top: 10,
+          right: 10,
+          left: 10,
+          bottom: MediaQuery.of(context).viewInsets.bottom + 10),
       child: Column(
         children: <Widget>[
           Form(
@@ -174,6 +179,6 @@ class _InvitationFormState extends State<InvitationForm> {
           ),
         ],
       ),
-    );
+    ));
   }
 }

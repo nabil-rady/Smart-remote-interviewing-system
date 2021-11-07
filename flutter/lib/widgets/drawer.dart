@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:graduation_project/providers/auth_provider.dart';
 import 'package:graduation_project/screens/position_screen.dart';
+import 'package:graduation_project/screens/profile_screen.dart';
 import 'package:provider/provider.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -13,18 +14,23 @@ class AppDrawer extends StatelessWidget {
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
-          UserAccountsDrawerHeader(
-            accountName: Text('Mariam'),
-            accountEmail: Text('mariammohammad390@gmail.com'),
-            currentAccountPicture: CircleAvatar(
-              child: Text(
-                'M',
-                style: TextStyle(fontSize: 40),
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).pushNamed(ProfileScreen.routeName);
+            },
+            child: UserAccountsDrawerHeader(
+              accountName: Text('Mariam'),
+              accountEmail: Text('mariammohammad390@gmail.com'),
+              currentAccountPicture: CircleAvatar(
+                child: Text(
+                  'M',
+                  style: TextStyle(fontSize: 40),
+                ),
+                backgroundColor: Theme.of(context).canvasColor,
+                foregroundColor: Theme.of(context).primaryColor,
               ),
-              backgroundColor: Theme.of(context).canvasColor,
-              foregroundColor: Theme.of(context).primaryColor,
+              decoration: BoxDecoration(color: Theme.of(context).primaryColor),
             ),
-            decoration: BoxDecoration(color: Theme.of(context).primaryColor),
           ),
           _buildListTile(
               Icons.notifications,
