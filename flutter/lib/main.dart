@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graduation_project/screens/after_positions_screen.dart';
+import 'package:graduation_project/screens/change_pass.dart';
 import 'package:graduation_project/screens/profile_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -87,6 +88,7 @@ class MyApp extends StatelessWidget {
           PositionScreen.routeName: (ctx) => PositionScreen(),
           AfterPositionsScreen.routeName: (ctx) => AfterPositionsScreen(),
           ProfileScreen.routeName: (ctx) => ProfileScreen(),
+          ChangePassScreen.routeName: (ctx) => ChangePassScreen(),
         },
       ),
     );
