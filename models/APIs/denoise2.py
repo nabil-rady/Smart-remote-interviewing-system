@@ -4,17 +4,14 @@ import sys
 import math
 import contextlib
 
-#fname = 'x6.wav'
-outname = 'filtered_wel3.wav'
-
 cutOffFrequency = 500.0
 
-# from http://stackoverflow.com/questions/13728392/moving-average-or-running-mean
+
 def running_mean(x, windowSize):
   cumsum = np.cumsum(np.insert(x, 0, 0))
   return (cumsum[windowSize:] - cumsum[:-windowSize]) / windowSize
 
-# from http://stackoverflow.com/questions/2226853/interpreting-wav-data/2227174#2227174
+
 def interpret_wav(raw_bytes, n_frames, n_channels, sample_width, interleaved = True):
 
     if sample_width == 1:
@@ -37,7 +34,7 @@ def interpret_wav(raw_bytes, n_frames, n_channels, sample_width, interleaved = T
 
     return channels
 
-def denosing(fname):
+def denosing(fname,outname):
     with contextlib.closing(wave.open(fname, 'rb')) as spf:
         sampleRate = spf.getframerate()
         ampWidth = spf.getsampwidth()
@@ -50,7 +47,6 @@ def denosing(fname):
         channels = interpret_wav(signal, nFrames, nChannels, ampWidth, True)
 
         # get window size
-        # from http://dsp.stackexchange.com/questions/9966/what-is-the-cut-off-frequency-of-a-moving-average-filter
         freqRatio = (cutOffFrequency / sampleRate)
         N = int(math.sqrt(0.196196 + freqRatio ** 2) / freqRatio)
 
@@ -61,6 +57,3 @@ def denosing(fname):
         wav_file.setparams((1, ampWidth, sampleRate, nFrames, spf.getcomptype(), spf.getcompname()))
         wav_file.writeframes(filtered.tobytes('C'))
         wav_file.close()
-
-inname = 'Welcome.wav'
-denosing(inname)
