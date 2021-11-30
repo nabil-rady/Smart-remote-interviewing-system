@@ -13,7 +13,7 @@ class ToEvaluateScreen extends StatelessWidget {
     final applicants = Provider.of<Interviews>(context).items;
     return Scaffold(
       appBar: AppBar(
-        title: Text('To Evaluate'),
+        title: const Text('To Evaluate'),
         backgroundColor: Theme.of(context).primaryColor,
       ),
       body: ListView.builder(
