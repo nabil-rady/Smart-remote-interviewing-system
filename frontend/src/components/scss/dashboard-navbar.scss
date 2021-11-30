@@ -1,0 +1,104 @@
+@import '../../sassConfig/colors';
+@import '../../sassConfig/transition';
+
+.header {
+  width: 100%;
+  display: flex;
+  background-color: $primary-blue;
+  position: relative;
+  z-index: 5;
+  &__logo {
+    width: 12%;
+    padding: 0.9rem 1.5rem;
+    padding-right: 0rem;
+    font-size: 1.3rem;
+    color: white;
+    font-weight: 700;
+  }
+  &__navbar {
+    width: 100%;
+    display: flex;
+    &__ul {
+      list-style: none;
+      display: flex;
+      color: $hover-gray;
+      // padding: 1rem;
+      font-size: 1.2rem;
+      //border: 2px white solid;
+      margin-right: 2rem;
+      margin-left: auto;
+      border-radius: 5px;
+      padding: 0;
+      height: 35px;
+      margin-top: 0.8rem;
+      color: #e9efff;
+      &__li {
+        &:nth-child(1) {
+          cursor: pointer;
+          height: 20px;
+          color: #e9efff;
+          padding-top: 0.1rem;
+          color: #e9efff;
+          &:hover {
+            color: white;
+          }
+        }
+        padding: 0 0.3rem;
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+.dashboard-menu {
+  color: #e9efff;
+  margin-left: 0;
+  &__li {
+    padding: 1.2rem 1rem;
+    border-radius: 5px;
+    font-weight: 500;
+    margin-top: 3px;
+    margin: 0 0.3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    top: -5px;
+    cursor: pointer;
+    &:hover {
+      background-color: $ligh-blue;
+      color: white;
+    }
+  }
+}
+
+.user-icon,
+.arrow-icon {
+  fill: inherit;
+}
+
+.user-info {
+  color: $background-grey;
+  fill: $background-grey;
+  &:hover {
+    fill: white;
+    color: white;
+  }
+}
+
+.user-icon {
+  width: 20px;
+}
+
+.arrow-icon {
+  width: 16px;
+  position: relative;
+  top: 2px;
+}
+
+.username {
+  color: inherit !important;
+  &:hover {
+    color: white !important;
+  }
+}

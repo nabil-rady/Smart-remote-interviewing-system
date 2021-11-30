@@ -31,9 +31,9 @@ function NotificationPage() {
   };
   return (
     <>
-      {verificationCard && (
+      {/* {verificationCard && (
         <EmailVerification verificationHandler={cardClickHandler} />
-      )}
+      )} */}
       <NavBar
         handleToggleButtonClick={handleToggleButtonClick}
         burgerButton={true}

@@ -1,0 +1,29 @@
+@import '../../sassConfig/colors';
+
+.dashboard-sidemenu {
+  position: fixed;
+  top: 55px;
+  height: calc(100vh - 55px);
+  width: 210px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  background-color: white;
+  &__nav {
+    &__ul {
+      list-style: none;
+      &__li {
+        color: $primary-blue;
+        padding: 1.2rem;
+        font-size: 1.4rem;
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+.icon {
+  width: 1.2rem;
+  margin: 0.1rem 0;
+  position: relative;
+  top: 3px;
+  left: -4px;
+}

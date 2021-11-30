@@ -10,7 +10,7 @@ import ImageSlider from './pages/ImageSlider';
 import './App.scss';
 import InterviewPage from './pages/TakeInterview';
 import avatar from './user.jpg';
-import PositionForm from './pages/SelectPosition';
+// import PositionForm from './pages/SelectPosition';
 // import QuestionsPage from './pages/AddQuestiion';
 import Profile from './pages/Profile';
 import AddQues from './pages/AddQues';
@@ -19,6 +19,8 @@ import ChangePassword from './pages/ChagePass';
 import EvaluationPage from './pages/Evaluate';
 import NotificationPage from './pages/NotificationsPage';
 import AddPosition from './pages/AddPosition';
+import Dashboard from './pages/Dashboard';
+
 const mockUserObject = {
   userId: 'ABC123',
   token: 'aiwdjssqwijeoqiweoqu2398192381123',
@@ -57,9 +59,9 @@ function App() {
         <PrivateRoute isAuthenticated={!!authUser} path="/instructions" exact>
           <ImageSlider />
         </PrivateRoute>
-        <PrivateRoute isAuthenticated={!!authUser} path="/selectposition" exact>
+        {/* <PrivateRoute isAuthenticated={!!authUser} path="/selectposition" exact>
           <PositionForm />
-        </PrivateRoute>
+        </PrivateRoute> */}
         {/* <Route path="/addquestions">
           <QuestionsPage />
         </Route> */}
@@ -75,11 +77,14 @@ function App() {
         <PrivateRoute isAuthenticated={!!authUser} path="/changepass" exact>
           <ChangePassword />
         </PrivateRoute>
-        <PrivateRoute isAuthenticated={!!authUser} path="/notifications" exact>
+        {/* <PrivateRoute isAuthenticated={!!authUser} path="/notifications" exact>
           <NotificationPage />
-        </PrivateRoute>
+        </PrivateRoute> */}
         <PrivateRoute isAuthenticated={!!authUser} path="/positions" exact>
           <AddPosition />
+        </PrivateRoute>
+        <PrivateRoute isAuthenticated={!!authUser} path="/dashboard" exact>
+          <Dashboard />
         </PrivateRoute>
         {/* <PrivateRoute path="/evaluate">
           <EvaluationPage />
