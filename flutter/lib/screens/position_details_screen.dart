@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../providers/positions.dart';
@@ -56,12 +57,26 @@ class PositionDetailScreen extends StatelessWidget {
             // ),
             Column(
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Expirey Date: ${DateFormat.yMd().add_jm().format(position.expireyDate)}',
-                // style: Theme.of(context).textTheme.bodyText1,
+            const SizedBox(
+              height: 10,
+            ),
+            Card(
+              elevation: 20,
+              color: position.expireyDate.isBefore(DateTime.now())
+                  ? Colors.red
+                  : Colors.green,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(50)),
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Text(
+                    'Expirey Date: ${DateFormat.yMd().add_jm().format(position.expireyDate)}',
+                    style: const TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold)),
               ),
+            ),
+            const SizedBox(
+              height: 10,
             ),
             Expanded(
               //color: Colors.white,
@@ -82,44 +97,67 @@ class PositionDetailScreen extends StatelessWidget {
 
 Widget QuestionCard(String questionTitle, String answerTime,
     String thinkingTime, String keywords, int i) {
-  return Container(
-      padding: const EdgeInsets.all(5),
-      width: double.infinity,
+  return Padding(
+    padding: const EdgeInsets.only(bottom: 10),
+    child: Center(
       child: Card(
-          elevation: 5,
-          child: Padding(
-            padding: const EdgeInsets.only(left: 10, bottom: 10, right: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Question${i + 1}',
+        elevation: 5,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.0),
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(16.0),
+          child: Column(
+            children: <Widget>[
+              Container(
+                constraints: const BoxConstraints(
+                  maxHeight: double.infinity,
                 ),
-                Text(
-                  questionTitle,
-                  style: const TextStyle(
-                    fontSize: 19.0,
+                width: double.infinity,
+                color: const Color(0xFF165DC0),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Center(
+                    child: Text(
+                      ' $questionTitle',
+                      style: const TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ),
-                Text(
-                  'Thinking Time: $thinkingTime',
-                  style: const TextStyle(
-                    fontSize: 19.0,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      Text(
+                        'Thinking Time: $thinkingTime',
+                        style: const TextStyle(
+                          fontSize: 19.0,
+                        ),
+                      ),
+                      Text(
+                        'Answer Time: $answerTime',
+                        style: const TextStyle(
+                          fontSize: 19.0,
+                        ),
+                      ),
+                      Text(
+                        'Keywords: $keywords',
+                        style: const TextStyle(
+                          fontSize: 19.0,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                Text(
-                  'Answer Time: $answerTime',
-                  style: const TextStyle(
-                    fontSize: 19.0,
-                  ),
-                ),
-                Text(
-                  'Keywords: $keywords',
-                  style: const TextStyle(
-                    fontSize: 19.0,
-                  ),
-                ),
-              ],
-            ),
-          )));
+              ),
+            ],
+          ),
+        ),
+      ),
+    ),
+  );
 }
