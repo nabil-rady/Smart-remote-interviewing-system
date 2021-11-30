@@ -22,6 +22,12 @@ class Positions with ChangeNotifier {
               keywords: 'efegreg',
               id: '23'),
           Question(
+              titleQuestion: 'how old are you',
+              answerTime: 3,
+              thinkingTime: 5,
+              keywords: 'efegreg',
+              id: '23'),
+          Question(
               titleQuestion: 'what was your graduation year?',
               answerTime: 3,
               thinkingTime: 5,
@@ -33,6 +39,12 @@ class Positions with ChangeNotifier {
         position: 'software engineer',
         expireyDate: DateTime(2022),
         questions: [
+          Question(
+              titleQuestion: 'how old are you',
+              answerTime: 3,
+              thinkingTime: 5,
+              keywords: 'efegreg',
+              id: '23'),
           Question(
               titleQuestion: 'tell us ',
               answerTime: 3,

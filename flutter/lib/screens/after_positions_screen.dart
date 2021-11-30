@@ -17,7 +17,7 @@ class AfterPositionsScreen extends StatelessWidget {
         child: Column(
           children: [
             eachCard2('Position Details', 'assets/images/research.png', context,
-                '/to_evaluate_screen'),
+                '/position_details_screen'),
             const SizedBox(
               height: 9,
             ),
