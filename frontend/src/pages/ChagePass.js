@@ -32,7 +32,7 @@ const ChangePassword = () => {
         <form onSubmit={submitHandler} className="password-form">
           <input
             className="password-inputs"
-            type="email"
+            type="password"
             placeholder="Enter Old Password"
             required
             onChange={oldPassHandler}
