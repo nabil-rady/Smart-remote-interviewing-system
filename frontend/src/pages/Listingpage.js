@@ -4,6 +4,7 @@ import PositionCard from '../components/positionCard';
 import SideMenu from '../components/SideMenu';
 import NoNotification from '../components/NoNotification';
 import './scss/listingpage.scss';
+
 import im1 from '../solidBG/1.jpg';
 import im2 from '../solidBG/2.jpg';
 import im3 from '../solidBG/3.jpg';
@@ -34,6 +35,7 @@ import im27 from '../solidBG/27.jpg';
 import im28 from '../solidBG/28.jpg';
 import im29 from '../solidBG/29.jpg';
 import im30 from '../solidBG/30.jpg';
+
 function ListingPage() {
   let backgrounds = [
     im1,
@@ -94,7 +96,7 @@ function ListingPage() {
 
   const positions = [
     {
-      name: 'Software',
+      name: 'Softwarqweeqwqwweqwqeweqwqeewqewqewwqeewqweqe',
       expirydate: '2022-11-7',
       CandidatesNo: 5,
       Finishedinterviews: 4,

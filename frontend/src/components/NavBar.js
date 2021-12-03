@@ -2,12 +2,14 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../App';
 import MobileBurgerButtons from './MobileBurgerButtons';
+import './scss/utility.scss';
+import './scss/navbar.scss';
 import './scss/dashboard-navbar.scss';
 
 const DashboardNavBar = (props) => {
   const authUser = useContext(UserContext).authUser; // Object or null
   const isLoggedIn = !!authUser;
-
+  console.log(isLoggedIn);
   return (
     <header className="header">
       <MobileBurgerButtons />

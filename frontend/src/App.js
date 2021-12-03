@@ -21,6 +21,7 @@ import NotificationPage from './pages/NotificationsPage';
 import AddPosition from './pages/AddPosition';
 import Dashboard from './pages/Dashboard';
 import ListingPage from './pages/Listingpage';
+
 const mockUserObject = {
   userId: 'ABC123',
   token: 'aiwdjssqwijeoqiweoqu2398192381123',

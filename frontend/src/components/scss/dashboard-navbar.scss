@@ -11,7 +11,10 @@
     width: 12%;
     padding: 0.9rem 1.5rem;
     padding-right: 0rem;
-    font-size: 1.3rem;
+    & a {
+      font-size: 24px;
+      font-family: 'Baskerville Old Face', serif;
+    }
     color: white;
     font-weight: 700;
   }
@@ -63,7 +66,7 @@
     justify-content: center;
     align-items: center;
     position: relative;
-    top: -5px;
+    top: -3px;
     cursor: pointer;
     &:hover {
       background-color: $ligh-blue;
