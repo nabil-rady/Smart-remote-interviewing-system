@@ -56,12 +56,12 @@ class _SplashScreenState extends State<SplashScreen>
                             ? HomeScreen()
                             : FutureBuilder(
                                 future: Provider.of<Auth>(context).autoLogin(),
-                                builder: (ctx, authResultSnapshot) =>
-                                    authResultSnapshot.connectionState ==
-                                            ConnectionState.waiting
-                                        ? WaitingScreen()
-                                        : CompanySignupScreen(),
-                              ),
+                                builder: (ctx, authResultSnapshot) {
+                                  return authResultSnapshot.connectionState ==
+                                          ConnectionState.waiting
+                                      ? WaitingScreen()
+                                      : CompanySignupScreen();
+                                }),
                         //CompanySignupScreen(),
                       ),
                     ));
@@ -81,3 +81,15 @@ class _SplashScreenState extends State<SplashScreen>
     );
   }
 }
+
+// ? HomeScreen()
+//                             : FutureBuilder(
+//                                 future: Provider.of<Auth>(context).autoLogin(),
+//                                 builder: (ctx, authResultSnapshot) {
+//                                   print(authResultSnapshot.data);
+//                                   return authResultSnapshot.data == true
+//                                       // authResultSnapshot.connectionState ==
+//                                       //         ConnectionState.active
+//                                       ? HomeScreen()
+//                                       : CompanySignupScreen();
+//                                 }),

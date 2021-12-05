@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         theme: ThemeData(
           primaryColor: const Color(0xFF165DC0),
-          canvasColor: const Color(0XFFFAFAFA),
+          canvasColor: const Color(0xffe9efff),
           textTheme: const TextTheme(
             headline1: TextStyle(
               fontSize: 20.0,

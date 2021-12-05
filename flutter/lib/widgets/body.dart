@@ -39,7 +39,7 @@ class _BodyState extends State<Body> {
   int currentPage = 0;
   List<Map<String, String>> splashData = [
     {
-      "text": "Welcome to LoL, Let’s start interview!",
+      "text": "Welcome to Vividly, Let’s start interview!",
       "image": "assets/images/1.png"
     },
     {
@@ -60,7 +60,7 @@ class _BodyState extends State<Body> {
         child: Column(
           children: <Widget>[
             Expanded(
-              flex: 3,
+              flex: 5,
               child: PageView.builder(
                 onPageChanged: (value) {
                   setState(() {

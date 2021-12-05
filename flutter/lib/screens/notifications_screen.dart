@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import '../widgets/drawer.dart';
 
-class NotificationScreen extends StatelessWidget {
+class NotificationScreen extends StatefulWidget {
   const NotificationScreen({Key? key}) : super(key: key);
   static const routeName = '/notification_screen';
+
+  @override
+  State<NotificationScreen> createState() => _NotificationScreenState();
+}
+
+class _NotificationScreenState extends State<NotificationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,9 +51,21 @@ class NotificationScreen extends StatelessWidget {
                   'Refresh',
                   style: TextStyle(color: Colors.white),
                 ),
-                onPressed: () {},
-                // Navigator.of(context).pushNamed(EmployerScreen.routeName);
-
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => build(context)));
+                },
+                // () {
+                //   setState(() {
+                //     m = "egrwgherhtehate";
+                //   });
+                // },
+                // Navigator.pushReplacement(
+                //     context,
+                //     MaterialPageRoute(
+                //         builder: (BuildContext context) => super)),
+                // Navigator.of(context)
+                //     .pushReplacementNamed('notification_screen'),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
                 ),

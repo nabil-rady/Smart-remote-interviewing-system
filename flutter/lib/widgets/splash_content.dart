@@ -17,7 +17,7 @@ class SplashContent extends StatelessWidget {
       children: <Widget>[
         const Spacer(),
         Text(
-          "LOL",
+          "Vividly",
           style: TextStyle(
             fontSize: getProportionateScreenWidth(36),
             color: kPrimaryColor,
@@ -27,6 +27,9 @@ class SplashContent extends StatelessWidget {
         Text(
           text!,
           textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 20,
+          ),
         ),
         const Spacer(flex: 2),
         Image.asset(
