@@ -92,7 +92,7 @@ class MyApp extends StatelessWidget {
           ProfileScreen.routeName: (ctx) => ProfileScreen(),
           ChangePassScreen.routeName: (ctx) => ChangePassScreen(),
           PositionDetailScreen.routeName: (ctx) => PositionDetailScreen(),
-          DashboardScreen.routeName: (ctx) => DashboardScreen(),
+          // DashboardScreen.routeName: (ctx) => DashboardScreen(),
         },
       ),
     );
