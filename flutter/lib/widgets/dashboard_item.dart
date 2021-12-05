@@ -13,7 +13,8 @@ var list = [
   'assets/images/rand7.jpg',
   'assets/images/rand8.jpg',
   'assets/images/rand9.jpg',
-  'assets/images/rand10.jpg'
+  'assets/images/rand10.jpg',
+  'assets/images/rand11.jpg'
 ];
 
 T getRandomElement<T>(List<T> list) {
@@ -55,11 +56,11 @@ class DashboardItem extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: 8),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(15),
-                      child: Image(
+                      child: const Image(
                         fit: BoxFit.cover,
                         width: double.infinity,
                         height: 175,
-                        image: AssetImage(getRandomElement(list)),
+                        image: AssetImage('assets/images/rand11.jpg'),
                       ),
                     ),
                   ),
