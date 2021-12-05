@@ -40,7 +40,7 @@ class AppDrawer extends StatelessWidget {
                   .pushReplacementNamed('/notification_screen')),
           const Divider(),
           _buildListTile(Icons.dashboard, 'Dashboard',
-              () => Navigator.of(context).pushNamed(DashboardScreen.routeName)),
+              () => Navigator.of(context).pushNamed('/home_screen')),
           const Divider(),
           _buildListTile(Icons.app_registration_sharp, 'Job positions', () {
             Navigator.of(context)
