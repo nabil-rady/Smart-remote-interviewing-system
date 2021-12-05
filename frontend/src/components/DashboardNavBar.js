@@ -16,9 +16,18 @@ const DashboardNavBar = (props) => {
       </div>
       <nav className="header__navbar">
         <ul className={`header__navbar__ul dashboard-menu`}>
-          <li className={`dashboard-menu__li`}>Listings</li>
-          <li className={`dashboard-menu__li`}>Interviews</li>
-          <li className={`dashboard-menu__li`}>Edit Profile</li>
+          <li className={`dashboard-menu__li`} onClick={props.listingHandler}>
+            Listings
+          </li>
+          <li
+            className={`dashboard-menu__li`}
+            onClick={props.interviewsHandler}
+          >
+            Interviews
+          </li>
+          <li className={`dashboard-menu__li`} onClick={props.profileHandler}>
+            Edit Profile
+          </li>
         </ul>
         <ul
           className={`header__navbar__ul user-info ${

@@ -153,13 +153,13 @@
     width: 100%;
     margin-bottom: 3rem;
     &__logo {
-      width: 100%;
+      width: 90% !important;
       text-align: center;
       padding-top: 1rem;
       margin: 0 auto;
     }
     &__navbar {
-      display: none;
+      display: none !important;
     }
   }
 }

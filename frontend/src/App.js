@@ -20,6 +20,7 @@ import EvaluationPage from './pages/Evaluate';
 import NotificationPage from './pages/NotificationsPage';
 import AddPosition from './pages/AddPosition';
 import Dashboard from './pages/Dashboard';
+import ListingPage from './pages/Listingpage';
 
 const mockUserObject = {
   userId: 'ABC123',
@@ -85,6 +86,9 @@ function App() {
         </PrivateRoute>
         <PrivateRoute isAuthenticated={!!authUser} path="/dashboard" exact>
           <Dashboard />
+        </PrivateRoute>
+        <PrivateRoute isAuthenticated={!!authUser} path="/listing" exact>
+          <ListingPage />
         </PrivateRoute>
         {/* <PrivateRoute path="/evaluate">
           <EvaluationPage />

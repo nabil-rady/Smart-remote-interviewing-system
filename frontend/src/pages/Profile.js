@@ -25,7 +25,6 @@ function ProfilePage() {
   };
   return (
     <>
-      <NavBar />
       <Card className="profilecard top-margin">
         <h1 className="profile-label">Profile Info</h1>
         <form onSubmit={submitHandler} className="profile-form">
@@ -62,6 +61,7 @@ function ProfilePage() {
             value={authUser.CompanyName}
             required
             onChange={changeCompanyHandler}
+            disabled
           />
           <label htmlFor="Email" className="change-label">
             Email
@@ -74,6 +74,7 @@ function ProfilePage() {
             value={authUser.email}
             required
             onChange={changeEmailHandler}
+            disabled
           />
           <label htmlFor="PhoneNo" className="change-label">
             Phone Number
