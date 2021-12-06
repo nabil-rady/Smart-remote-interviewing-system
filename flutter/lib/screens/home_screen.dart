@@ -370,12 +370,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             )
-          : ListView.builder(
-              itemBuilder: (ctx, i) => DashboardItem(
-                positionName: positionData[i].position,
-                expieryDate: positionData[i].expireyDate.toString(),
+          : Padding(
+              padding: const EdgeInsets.only(bottom: 50),
+              child: ListView.builder(
+                itemBuilder: (ctx, i) => DashboardItem(
+                  positionName: positionData[i].position,
+                  expieryDate: positionData[i].expireyDate,
+                ),
+                itemCount: positionData.length,
               ),
-              itemCount: positionData.length,
             ),
     );
   }
