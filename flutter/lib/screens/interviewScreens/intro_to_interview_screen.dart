@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../size_config.dart';
-import '../widgets/body.dart';
+import '../../size_config.dart';
+import '../../widgets/body.dart';
 
 class IntroScreen extends StatelessWidget {
   static String routeName = "/intro_screen";

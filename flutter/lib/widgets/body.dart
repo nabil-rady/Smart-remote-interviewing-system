@@ -93,8 +93,8 @@ class _BodyState extends State<Body> {
                     DefaultButton(
                       text: "Continue",
                       press: () {
-                        // Navigator.of(context).pushNamed('/interview-screen',
-                        //     arguments: controller);
+                        Navigator.of(context).pushNamed('/interview-screen',
+                            arguments: controller);
                       },
                     ),
                     const Spacer(),

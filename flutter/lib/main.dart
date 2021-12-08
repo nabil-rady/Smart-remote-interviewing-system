@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:graduation_project/screens/after_positions_screen.dart';
-import 'package:graduation_project/screens/change_pass.dart';
-import 'package:graduation_project/screens/dashboard_screen.dart';
-import 'package:graduation_project/screens/position_details_screen.dart';
-import 'package:graduation_project/screens/profile_screen.dart';
+
 import 'package:provider/provider.dart';
 
+import './screens/after_positions_screen.dart';
+import './screens/change_pass.dart';
+import './screens/position_details_screen.dart';
+import './screens/profile_screen.dart';
 import './screens/splash_screen.dart';
 import './screens/main_screen.dart';
-import './screens/intro_to_interview_screen.dart';
-import 'screens/position_screen.dart';
+import './screens/interviewScreens/intro_to_interview_screen.dart';
+import './screens/interviewScreens/finish_interview.dart';
+import './screens/position_screen.dart';
 import './providers/auth_provider.dart';
 import './providers/questions.dart';
 import './screens/home_screen.dart';
@@ -24,6 +25,7 @@ import './screens/position_screen.dart';
 import './screens/last_ques_pos_screen.dart';
 import './screens/invitation_screen.dart';
 import './widgets/position_form.dart';
+import './screens/interviewScreens/interview_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -92,6 +94,8 @@ class MyApp extends StatelessWidget {
           ProfileScreen.routeName: (ctx) => ProfileScreen(),
           ChangePassScreen.routeName: (ctx) => ChangePassScreen(),
           PositionDetailScreen.routeName: (ctx) => PositionDetailScreen(),
+          FinishInterview.routeName: (ctx) => FinishInterview(),
+          IntrviewScreen.routeName: (ctx) => IntrviewScreen(),
           // DashboardScreen.routeName: (ctx) => DashboardScreen(),
         },
       ),

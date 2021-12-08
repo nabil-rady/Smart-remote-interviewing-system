@@ -10,7 +10,7 @@ import './scss/dashboard-navbar.scss';
 const NavBar = (props) => {
   const authUser = useContext(UserContext).authUser; // Object or null
   const isLoggedIn = !!authUser;
-  
+
   const handleClick = () => {
     const menu = document.querySelector('.navbar-dropdown');
     menu.classList.toggle('clicked');
@@ -18,7 +18,7 @@ const NavBar = (props) => {
 
   return (
     <header className="header">
-      <MobileBurgerButtons handleClick={handleClick}/>
+      <MobileBurgerButtons handleClick={handleClick} />
       <NavBarDropDownMenu />
       <div className="header__logo">
         <Link
