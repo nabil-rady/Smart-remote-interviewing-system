@@ -4,31 +4,34 @@
   top: 17px;
   left: 3vw;
   height: 21px;
-  z-index: 10;
+  z-index: 100;
 }
 
 .mobile-burger-button {
-  background-color: white;
+  background-color: black;
   width: 20px;
   height: 2px;
   border-radius: 1px;
   position: relative;
   margin-top: 10px;
+  z-index: 100;
   &::before {
     content: '';
     position: absolute;
     top: -6px;
-    background-color: white;
+    background-color: black;
     width: 20px;
     height: 2px;
+    z-index: 100;
   }
   &::after {
     content: '';
     position: absolute;
     top: 6px;
-    background-color: white;
+    background-color: black;
     width: 20px;
     height: 2px;
+    z-index: 100;
   }
 }
 

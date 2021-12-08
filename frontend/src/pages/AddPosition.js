@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Nav from '../components/NavBar';
 import { count } from './SelectPosition';
 import { Link } from 'react-router-dom';
 import './scss/Addposition.scss';
