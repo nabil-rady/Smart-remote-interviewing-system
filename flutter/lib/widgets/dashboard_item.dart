@@ -389,7 +389,8 @@ class DashboardItem extends StatelessWidget {
                       ],
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(6),
+                      padding:
+                          const EdgeInsets.only(right: 8, left: 8, bottom: 5),
                       child: Row(
                         children: <Widget>[
                           Text(
@@ -429,7 +430,8 @@ class DashboardItem extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(3),
+                      padding:
+                          const EdgeInsets.only(right: 8, left: 8, bottom: 5),
                       child: Row(
                         children: <Widget>[
                           Text(
@@ -469,7 +471,8 @@ class DashboardItem extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(3),
+                      padding:
+                          const EdgeInsets.only(right: 8, left: 8, bottom: 8),
                       child: Row(
                         children: <Widget>[
                           Text(
