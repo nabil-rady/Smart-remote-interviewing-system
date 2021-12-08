@@ -64,6 +64,7 @@ class _QuestionFormState extends State<QuestionForm> {
                       },
                     ),
                     TextFormField(
+                      keyboardType: TextInputType.number,
                       decoration: InputDecoration(labelText: 'Thinking Time'),
                       textInputAction: TextInputAction.next,
                       onSaved: (value) {
@@ -82,6 +83,7 @@ class _QuestionFormState extends State<QuestionForm> {
                       },
                     ),
                     TextFormField(
+                      keyboardType: TextInputType.number,
                       decoration: InputDecoration(labelText: 'Answer Time '),
                       textInputAction: TextInputAction.done,
                       onSaved: (value) {
