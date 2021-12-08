@@ -25,10 +25,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final employerData = Provider.of<Auth>(context).employer;
     return Scaffold(
         appBar: AppBar(
-          title: Text('name of employer'),
-        ),
+            title: Text('name of employer'),
+            backgroundColor: Theme.of(context).primaryColor),
         body: SingleChildScrollView(
           child: Card(
+              elevation: 5,
               margin: EdgeInsets.all(40),
               child: Padding(
                 padding: const EdgeInsets.all(15),

@@ -84,7 +84,7 @@ class _PositionFormState extends State<PositionForm> {
               SizedBox(
                 height: 15,
               ),
-              Row(
+              Column(
                 children: <Widget>[
                   Text(_chosenDate == DateTime(2000)
                       ? 'No Date Chosen !'

@@ -10,6 +10,7 @@ class ChangePassScreen extends StatelessWidget {
         ),
         body: SingleChildScrollView(
           child: Card(
+            elevation: 5,
             margin: EdgeInsets.all(40),
             child: Padding(
               padding: const EdgeInsets.all(15),
