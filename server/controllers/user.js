@@ -4,6 +4,8 @@ const jwt = require('jsonwebtoken');
 const createToken = require('../util/create-token');
 const nodemailer = require('nodemailer');
 const sendgridTransport = require('nodemailer-sendgrid-transport');
+const customId = require('custom-id');
+const uuid = require('uuid');
 
 const User = require('../models/user');
 
@@ -298,7 +300,7 @@ module.exports.getInfo = (req, res, next) => {
       userId: id.toString(),
     },
   })
-    .then(() => {
+    .then((returnedUser) => {
       if (!returnedUser) {
         // check if the user exists
         const error = new Error('User not found');

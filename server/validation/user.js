@@ -104,7 +104,7 @@ const postVerifyEmail = [
     return true;
   }),
   body('userId', 'User id is not correct.').custom((value) => {
-    if (value.length !== 8) {
+    if (value.length !== 36) {
       return false;
     }
     return true;

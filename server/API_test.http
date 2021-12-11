@@ -1,0 +1,104 @@
+@host = http://localhost:8080
+
+POST {{host}}/user/signup
+Content-Type: application/json
+
+{
+    "firstName": "Mohamed",
+    "lastName": "Medhat",
+    "companyName": "Vividly",
+    "email": "mohamed.medhat2199@gmail.com",
+    "password": 123456789,
+    "confirmPassword": 123456789,
+    "phoneCode": "+20",
+    "phoneNumber": 1155282790
+}
+
+###
+
+POST {{host}}/user/confirm-email
+Content-Type: application/json
+
+{
+    "userId": "302b1fc4-04af-4f77-bd23-f85228d51328"
+}
+
+###
+
+POST {{host}}/user/verify
+Content-Type: application/json
+
+{
+    "userId": "302b1fc4-04af-4f77-bd23-f85228d51328",
+    "verificationCode": "96HE98MG"
+}
+
+###
+
+POST {{host}}/user/login
+Content-Type: application/json
+
+{
+    "email": "mohamed.medhat2199@gmail.com",
+    "password": 123456789
+}
+
+###
+
+GET {{host}}/user/302b1fc4-04af-4f77-bd23-f85228d51328
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzMDJiMWZjNC0wNGFmLTRmNzctYmQyMy1mODUyMjhkNTEzMjgiLCJpYXQiOjE2MzkyNTM0OTMsImV4cCI6MTYzOTI4OTQ5M30.D5VdhRqVvZplMbJMjS4QT0zB_EamaAkC4G06X6aLwns
+
+###
+
+PUT {{host}}/user/edit
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzMDJiMWZjNC0wNGFmLTRmNzctYmQyMy1mODUyMjhkNTEzMjgiLCJpYXQiOjE2MzkyNTM0OTMsImV4cCI6MTYzOTI4OTQ5M30.D5VdhRqVvZplMbJMjS4QT0zB_EamaAkC4G06X6aLwns
+Content-Type: application/json
+
+{
+    "companyName": "Test",
+    "phoneCode": "+20",
+    "phoneNumber": 1111111111
+}
+
+###
+
+PUT {{host}}/user/changepassword
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzMDJiMWZjNC0wNGFmLTRmNzctYmQyMy1mODUyMjhkNTEzMjgiLCJpYXQiOjE2MzkyNTM0OTMsImV4cCI6MTYzOTI4OTQ5M30.D5VdhRqVvZplMbJMjS4QT0zB_EamaAkC4G06X6aLwns
+Content-Type: application/json
+
+{
+    "oldPassword": 1111111111,
+    "newPassword": 123456789,
+    "newConfirmPassword": 123456789
+}
+
+###
+
+POST {{host}}/user/logout
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzMDJiMWZjNC0wNGFmLTRmNzctYmQyMy1mODUyMjhkNTEzMjgiLCJpYXQiOjE2MzkyNTM0OTMsImV4cCI6MTYzOTI4OTQ5M30.D5VdhRqVvZplMbJMjS4QT0zB_EamaAkC4G06X6aLwns
+
+
+###
+
+POST {{host}}/job-listing/create
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzMDJiMWZjNC0wNGFmLTRmNzctYmQyMy1mODUyMjhkNTEzMjgiLCJpYXQiOjE2MzkyNTM0OTMsImV4cCI6MTYzOTI4OTQ5M30.D5VdhRqVvZplMbJMjS4QT0zB_EamaAkC4G06X6aLwns
+Content-Type: application/json
+
+{
+    "positionName": "Test",
+    "expiryDate": "2021-12-30",
+    "questions":[
+        {
+            "statement": "aaa",
+            "keywords": ["a", "b", "c"],
+            "timeToThink": 3,
+            "timeToAnswer": 5
+        },
+        {
+            "statement": "bbb",
+            "keywords": ["d", "e", "f"],
+            "timeToThink": 5,
+            "timeToAnswer": 10
+        }
+    ]
+}

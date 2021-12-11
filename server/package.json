@@ -16,13 +16,15 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
+    "custom-id": "^1.2.0",
     "express": "^4.17.1",
     "express-validator": "^6.12.2",
     "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.3.0",
     "nodemailer": "^6.7.0",
     "nodemailer-sendgrid-transport": "^0.2.0",
-    "sequelize": "^6.6.5"
+    "sequelize": "^6.6.5",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.13"

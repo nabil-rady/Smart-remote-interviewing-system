@@ -58,7 +58,7 @@ app.use((error, req, res, next) => {
 */
 sequelize
   .sync({
-    // force: true
+    // force: true,
   })
   .then((result) => {
     // Setup the server.

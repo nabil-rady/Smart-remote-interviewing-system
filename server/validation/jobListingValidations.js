@@ -23,10 +23,14 @@ const postCreateListing = [
   body('questions').custom((value) => {
     console.log(Array.isArray(value));
     if (!Array.isArray(value)) {
-      const obj = value;
-      value = [];
-      value.push(obj);
+      // const obj = value;
+      // value = [];
+      // value.push(obj);
       const err = new Error('Questions must be an array');
+      throw err;
+    }
+    if (value.length === 0) {
+      const err = new Error('Questions array can not be empty');
       throw err;
     }
     for (let question of value) {
