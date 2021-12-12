@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/interview_model.dart';
 import '../providers/interview_provider.dart';
+import 'package:excel/excel.dart';
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
+//import 'dart:html';
 
 class InvitationForm extends StatefulWidget {
   // final String fullName;
@@ -18,10 +22,37 @@ class InvitationForm extends StatefulWidget {
 }
 
 class _InvitationFormState extends State<InvitationForm> {
-  void readFileSync() {
-    String contents = new File('./assets/user.json').readAsStringSync();
-    print(contents);
+  var file = "";
+
+  Future<String> get _localPath async {
+    final directory = await getApplicationDocumentsDirectory();
+
+    return directory.path;
   }
+
+  Future<File> get _localFile async {
+    final path = await _localPath;
+    return File('$path/counter.txt');
+  }
+
+  Future<int> readExcelFile() async {
+    try {
+      final file = await _localFile;
+
+      // Read the file
+      final contents = await file.readAsString();
+
+      return int.parse(contents);
+    } catch (e) {
+      // If encountering an error, return 0
+      return 0;
+    }
+  }
+
+  // void readFileSync() {
+  //   String contents = new File('./assets/user.json').readAsStringSync();
+  //   print(contents);
+  // }
 
   var candidate = Interview(
       name: '',
@@ -38,7 +69,7 @@ class _InvitationFormState extends State<InvitationForm> {
 
   //bool flag = true;
 
-  void _saveForms() {
+  void _saveForms(context) {
     var valid = _form.currentState!.validate();
     if (!valid) {
       return;
@@ -145,7 +176,7 @@ class _InvitationFormState extends State<InvitationForm> {
                 ),
                 color: Theme.of(context).primaryColor,
                 onPressed: () {
-                  _saveForms();
+                  _saveForms(context);
                 },
                 child: const Text(
                   'Invite Candidate',
@@ -158,13 +189,34 @@ class _InvitationFormState extends State<InvitationForm> {
                 ),
                 color: Theme.of(context).primaryColor,
                 onPressed: () async {
+                  readExcelFile();
+
                   FilePickerResult? result = await FilePicker.platform
                       .pickFiles(
-                          type: FileType.custom,
-                          allowedExtensions: ['.txt', '.xlsx']);
+                          type: FileType.custom, allowedExtensions: ['.xlsx']);
 
                   if (result != null) {
                     File file = File(result.files.single.path.toString());
+
+                    //using mobile need to be tested
+                    // var uploadfile = result.files.single.bytes;
+                    // String filename = basename(result.files.single.name);
+
+                    // File file = File(filename);
+
+                    // // File file = File(result.files.single.path.toString());
+
+                    // late final bytes = file.readAsBytesSync();
+                    // late final excel = Excel.decodeBytes(bytes);
+
+                    // for (var table in excel.tables.keys) {
+                    //   print(table); //sheet Name
+                    //   print(excel.tables[table]!.maxCols);
+                    //   print(excel.tables[table]!.maxRows);
+                    //   for (var row in excel.tables[table]!.rows) {
+                    //     print("$row");
+                    //   }
+                    // }
                   } else {
                     //make a dialogue here to say that he must import a file or add participants manually
                     // User canceled the picker
