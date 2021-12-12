@@ -17,6 +17,7 @@ module.exports.postCreateListing = async (req, res, next) => {
 
   const creatorId = req.userId;
   const { positionName, expiryDate, questions } = req.body;
+  let jobListingId;
   User.findOne({
     where: {
       userId: creatorId,
@@ -34,32 +35,20 @@ module.exports.postCreateListing = async (req, res, next) => {
         err.statusCode = 401;
         throw err;
       }
-      // return JobListing.create({
-      //   jobListingId: newId,
-      //   creator: creator.dataValues.userId,
-      //   positionName,
-      //   expiryDate,
-      // });
       return creator.createJobListing({
         positionName,
         expiryDate,
       });
     })
     .then((createdJob) => {
-      console.log(questions);
+      // console.log(questions);
+      jobListingId = createdJob.dataValues.jobListingId;
       if (!Array.isArray(questions)) {
         questions = [questions];
       }
       return Promise.all(
         questions.map(async (question) => {
           try {
-            // const createdQuestion = await Question.create({
-            //   questionId: customId({
-            //     name: question.statement,
-            //   }),
-            //   ...question,
-            //   jobListing: createdJob.dataValues.jobListingId,
-            // });
             const createdQuestion = await createdJob.createQuestion({
               ...question,
             });
@@ -67,13 +56,6 @@ module.exports.postCreateListing = async (req, res, next) => {
               await Promise.all(
                 question.keywords.map((keyword) => {
                   try {
-                    // return Keyword.create({
-                    //   keywordId: customId({
-                    //     name: keyword,
-                    //   }),
-                    //   value: keyword,
-                    //   question: createdQuestion.dataValues.questionId,
-                    // });
                     return createdQuestion.createKeyword({
                       value: keyword,
                     });
@@ -91,11 +73,12 @@ module.exports.postCreateListing = async (req, res, next) => {
       );
     })
     .then((questionObjects) => {
-      res.status(201).json(
-        questionObjects.map((questionObject) => ({
+      res.status(201).json({
+        jobListingId,
+        questions: questionObjects.map((questionObject) => ({
           ...questionObject.dataValues,
-        }))
-      );
+        })),
+      });
     })
     .catch((err) => {
       if (!err.statusCode) {

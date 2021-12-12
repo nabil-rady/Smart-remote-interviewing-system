@@ -4,6 +4,7 @@ info:
   description: This is a simple documentation for our backend APIs
   version: '1.0.0'
   title: Vividly
+
 servers:
   # Added by API Auto Mocking Plugin
   - description: SwaggerHub API Auto Mocking
@@ -12,10 +13,11 @@ servers:
     description: This is the local development server
   - url: https://vividly-api.herokuapp.com/
     description: This is the remote development server
+
 paths:
   /user/signup:
     post:
-      summary: Signup new recruiters.
+      summary: Signup for the interviewer.
       requestBody:
         required: true
         content:
@@ -43,26 +45,47 @@ paths:
               schema:
                 type: object
                 properties:
-                  userId:
-                    type: string
-                  firstName:
-                    type: string
-                  lastName:
-                    type: string
-                  companyName:
-                    type: string
-                  email:
-                    type: string
+                  user:
+                    type: object
+                    properties:
+                      userId:
+                        type: string
+                      firstName:
+                        type: string
+                      lastName:
+                        type: string
+                      companyName:
+                        type: string
+                      email:
+                        type: string
+                      phoneCode:
+                        type: string
+                      phoneNumber:
+                        type: string
+                      loggedIn:
+                        type: boolean
+                      emailConfirmed:
+                        type: boolean
         '422':
           description: Input validation faild.
         '500':
           description: Server side error.
+
   /user/confirm-email:
-    get:
+    post:
       summary: Send Email confirmation to the user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
       responses:
         '200':
-          description: Get the information successfully.
+          description: Email confirmation has been sent.
           content:
             application/json:
               schema:
@@ -74,19 +97,24 @@ paths:
           description: User not found.
         '500':
           description: Server side error.
-  /user/verify/{verifyToken}:
-    get:
-      summary: Confirm user's email in the database (will be used by backend ONLY).
-      parameters:
-        - name: verifyToken
-          in: path
-          required: true
-          description: The token that identifies the user.
-          schema:
-            type: string
+
+  /user/verify/:
+    post:
+      summary: Confirm user's email in the database.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                verificationCode:
+                  type: string
       responses:
         '200':
-          description: Get the information successfully.
+          description: User's email has been confirmed.
           content:
             application/json:
               schema:
@@ -95,14 +123,15 @@ paths:
                   message:
                     type: string
         '401':
-          description: No token is provided.
+          description: Authentecation faild.
         '404':
           description: User not found.
         '500':
           description: Server side error.
+
   /user/login:
     post:
-      summary: Login a recruiter.
+      summary: Login for an interviewer.
       requestBody:
         required: true
         content:
@@ -135,24 +164,33 @@ paths:
                         type: string
                       email:
                         type: string
+                      phoneCode:
+                        type: string
+                      phoneNumber:
+                        type: string
+                      loggedIn:
+                        type: boolean
+                      emailConfirmed:
+                        type: boolean
                   token:
                     type: string
                   tokenExpireDate:
-                    type: string
+                    format: date-time
         '404':
-          description: Recruiter not found.
+          description: User not found.
         '401':
           description: Authentecation faild.
         '500':
           description: Server side error.
+
   /user/logout:
     post:
-      summary: Logout a recruiter.
+      summary: Logout for an interviewer.
       parameters:
         - name: Authorization
           in: header
           required: true
-          description: Parameter description in CommonMark or HTML.
+          description: jwt of the loggedin user.
           schema:
             type: string
       responses:
@@ -169,9 +207,10 @@ paths:
           description: Authentecation faild.
         '500':
           description: Server side error.
+
   /user/{user_id}:
     get:
-      summary: Get user info.
+      summary: Get an interviewer info.
       parameters:
         - name: user_id
           in: path
@@ -179,6 +218,13 @@ paths:
           description: The userId of the target user.
           schema:
             type: string
+        - name: Authorization
+          in: header
+          required: true
+          description: jwt of the loggedin user.
+          schema:
+            type: string
+
       responses:
         '200':
           description: Get the information successfully.
@@ -200,47 +246,183 @@ paths:
                         type: string
                       email:
                         type: string
+                      phoneCode:
+                        type: string
+                      phoneNumber:
+                        type: string
+                      loggedIn:
+                        type: boolean
+                      emailConfirmed:
+                        type: boolean
+        '401':
+          description: Authentecation faild.
         '404':
           description: User not found.
         '500':
           description: Server side error.
-  # /example/{userId}: <just a reference>
-  #   post:
-  #     summary: Returns a user by ID.
-  #     parameters:
-  #       - name: userId
-  #         in: path
-  #         required: true
-  #         description: Parameter description in CommonMark or HTML.
-  #         schema:
-  #           type : integer
-  #           format: int64
-  #           minimum: 1
-  #     requestBody:
-  #       required: true
-  #       content:
-  #         application/json:
-  #           schema:
-  #             type: object
-  #             properties:
-  #               username:
-  #                 type: string
-  #     responses:
-  #       '200':
-  #         description: A user object.
-  #         content:
-  #           application/json:
-  #             schema:
-  #               type: object
-  #               properties:
-  #                 id:
-  #                   type: integer
-  #                   format: int64
-  #                   example: 4
-  #                 name:
-  #                   type: string
-  #                   example: Jessica Smith
-  #       '400':
-  #         description: The specified user ID is invalid (not a number).
-  #       '404':
-  #         description: A user with the specified ID was not found.
+
+  /user/edit:
+    put:
+      summary: Edit profile for an interviewer.
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          description: jwt of the loggedin user.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                companyName:
+                  type: string
+                phoneCode:
+                  type: string
+                phoneNumber:
+                  type: string
+      responses:
+        '200':
+          description: Profile has been edited.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    type: object
+                    properties:
+                      userId:
+                        type: string
+                      firstName:
+                        type: string
+                      lastName:
+                        type: string
+                      companyName:
+                        type: string
+                      email:
+                        type: string
+                      phoneCode:
+                        type: string
+                      phoneNumber:
+                        type: string
+                      loggedIn:
+                        type: boolean
+                      emailConfirmed:
+                        type: boolean
+        '401':
+          description: Authentecation faild.
+        '404':
+          description: User not found.
+        '500':
+          description: Server side error
+
+  /user/changepassword:
+    put:
+      summary: Change password for an interviewer.
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          description: jwt of the loggedin user.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                oldPassword:
+                  type: string
+                newPassword:
+                  type: string
+                newConfirmPassword:
+                  type: string
+      responses:
+        '200':
+          description: Password has been changed.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '401':
+          description: Authentecation faild.
+        '404':
+          description: User not found.
+        '500':
+          description: Server side error.
+
+  /user/job-listing/create:
+    post:
+      summary: Create a job listing.
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          description: jwt of the loggedin user.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                positionName:
+                  type: string
+                expiryDate:
+                  format: date-time
+                questions:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      statement:
+                        type: string
+                      timeToThink:
+                        type: integer
+                      timeToAnswer:
+                        type: integer
+                      keywords:
+                        type: array
+                        items:
+                          type: string
+      responses:
+        '200':
+          description: Job listing has been created.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  jobListingId:
+                    type: string
+                  questions:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        questionId:
+                          type: string
+                        statement:
+                          type: string
+                        timeToThink:
+                          type: integer
+                        timeToAnswer:
+                          type: integer
+
+        '401':
+          description: Authentecation faild or unconfirmed email.
+        '422':
+          description: Validation error.
+        '500':
+          description: Server side error.

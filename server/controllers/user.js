@@ -43,7 +43,7 @@ module.exports.postSignup = (req, res, next) => {
       });
     })
     .then((createdUser) => {
-      const { password, ...user } = createdUser.dataValues;
+      const { password, verificationCode, ...user } = createdUser.dataValues;
       res.status(201).json({
         user,
       });
@@ -249,7 +249,8 @@ module.exports.postLogin = (req, res, next) => {
       );
     })
     .then((updatedsUser) => {
-      const { password, loggedIn, ...user } = fetchedUser.dataValues;
+      const { password, loggedIn, verificationCode, ...user } =
+        fetchedUser.dataValues;
       user.loggedIn = true;
       res.status(200).json({
         user,
@@ -307,7 +308,7 @@ module.exports.getInfo = (req, res, next) => {
         error.statusCode = 404;
         throw error;
       }
-      const { password, ...user } = returnedUser.dataValues;
+      const { password, verificationCode, ...user } = returnedUser.dataValues;
       res.status(200).json({
         user,
       });
@@ -355,12 +356,12 @@ module.exports.putEditProfile = (req, res, next) => {
       }
     )
       .then((editedUser) => {
-        const { password, ...user } = returnedUser.dataValues;
+        const { password, verificationCode, ...user } = returnedUser.dataValues;
+        user.companyName = newCompanyName;
+        user.phoneCode = newPhoneCode;
+        user.phoneNumber = newPhoneNumber;
         res.status(200).json({
-          ...user,
-          companyName: newCompanyName,
-          phoneCode: newPhoneCode,
-          phoneNumber: newPhoneNumber,
+          user,
         });
       })
       .catch((err) => {
@@ -411,7 +412,9 @@ module.exports.putChangePassword = (req, res, next) => {
       );
     })
     .then(() => {
-      res.sendStatus(204);
+      res.status(200).json({
+        message: 'Password has been changed.',
+      });
     })
     .catch((err) => {
       if (!err.statusCode) {
