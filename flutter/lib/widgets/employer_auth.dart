@@ -2,10 +2,7 @@ import 'package:country_pickers/country.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:country_pickers/country_pickers.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
-import '../screens/position_screen.dart';
 import 'package:provider/provider.dart';
-
 import '../providers/auth_provider.dart';
 import '../models/http_exception.dart';
 
@@ -192,6 +189,10 @@ class _EmployerAuthState extends State<EmployerAuth> {
         errorMessage = 'Invalid password.';
       }
       _showErrorDialog(errorMessage);
+
+      setState(() {
+        _isLoading = false;
+      });
     } catch (error) {
       // print(authData['firstName'].toString() +
       //     authData['lastName'].toString() +
@@ -205,6 +206,10 @@ class _EmployerAuthState extends State<EmployerAuth> {
       const errorMessage =
           'Could not authenticate you. Please try again later.';
       _showErrorDialog(errorMessage);
+
+      setState(() {
+        _isLoading = false;
+      });
     }
 
     // setState(() {
@@ -372,6 +377,7 @@ class _EmployerAuthState extends State<EmployerAuth> {
                     ),
                     color: Theme.of(context).primaryColor,
                   ),
+
                 RichText(
                   text: TextSpan(
                     text: _authMode == AuthMode.signup

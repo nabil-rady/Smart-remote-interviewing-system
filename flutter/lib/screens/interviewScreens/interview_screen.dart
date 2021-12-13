@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
-import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:graduation_project/size_config.dart';
 import 'package:graduation_project/widgets/default_button.dart';
 import 'package:provider/provider.dart';
@@ -27,15 +26,15 @@ class _IntrviewScreenState extends State<IntrviewScreen> {
   bool _endThinkingTimer = false;
   var index = 0;
 
-  CountDownController _thinkingController = CountDownController();
   final CustomTimerController _answerCounterController =
-      new CustomTimerController();
-
+      CustomTimerController();
+  final CustomTimerController _thinkingController = CustomTimerController();
   late ChewieController _chewieController;
   XFile? videoFile;
   late String vidPath;
   File? _storedVideo;
   bool _isSaved = false;
+
   Future<XFile?> stopVideoRecording() async {
     setState(() {
       _isSaved = true;
@@ -102,6 +101,16 @@ class _IntrviewScreenState extends State<IntrviewScreen> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    _answerCounterController.dispose();
+    _chewieController.dispose();
+    _thinkingController.dispose();
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     controller = ModalRoute.of(context)!.settings.arguments as CameraController;
     // hard code for id until i can take it from the url of th sesion
@@ -109,7 +118,7 @@ class _IntrviewScreenState extends State<IntrviewScreen> {
     final _position = Provider.of<Positions>(context).findById(id);
 
     final _questions = _position.questions;
-    int _thinkingDuration = _questions[index].thinkingTime + 1;
+    int _thinkingDuration = _questions[index].thinkingTime;
     int _answerDuration = _questions[index].answerTime;
 
     // print('##################3333');
@@ -118,184 +127,167 @@ class _IntrviewScreenState extends State<IntrviewScreen> {
     final screenSize = MediaQuery.of(context).size;
     double cameraScale = screenSize.aspectRatio * controller.value.aspectRatio;
     return Scaffold(
-        body: Stack(children: [
-      Transform.scale(
-        scale: cameraScale < 1 ? 1 / cameraScale : cameraScale,
-        child: Center(
-          child: CameraPreview(controller),
-        ),
-      ),
-      if (!_startThinkingTimer && !_endThinkingTimer)
-        Positioned(
-          bottom: 30,
-          left: 10.0,
-          right: 10.0,
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: getProportionateScreenWidth(20)),
-            child: DefaultButton(
-              text: "Start",
-              press: () {
-                _thinkingController.start();
-              },
+      body: Stack(
+        children: [
+          Transform.scale(
+            scale: cameraScale < 1 ? 1 / cameraScale : cameraScale,
+            child: Center(
+              child: CameraPreview(controller),
             ),
           ),
-        ),
-      if (!_endThinkingTimer)
-        Center(
-          child: CircularCountDownTimer(
-            duration: _thinkingDuration,
-            initialDuration: 0,
-            controller: _thinkingController,
-            width: MediaQuery.of(context).size.width / 2,
-            height: MediaQuery.of(context).size.height / 2,
-            ringColor: Colors.grey[300]!,
-            ringGradient: null,
-            fillColor: Theme.of(context).accentColor,
-            fillGradient: null,
-            backgroundColor: Theme.of(context).primaryColor,
-            backgroundGradient: null,
-            strokeWidth: 5.0,
-            strokeCap: StrokeCap.round,
-            textStyle: const TextStyle(
-                fontSize: 33.0,
-                color: Colors.white,
-                fontWeight: FontWeight.bold),
-            textFormat: CountdownTextFormat.S,
-            isReverse: true,
-            isReverseAnimation: true,
-            isTimerTextShown: true,
-            autoStart: false,
-            onStart: () {
-              setState(() {
-                _startThinkingTimer = true;
-              });
-              print('Countdown Started');
-            },
-            onComplete: () {
-              setState(() {
-                _endThinkingTimer = true;
-              });
-              Future.delayed(Duration(microseconds: 2), () {
-                _answerCounterController.start();
-                startVideoRecording().then((_) {
-                  if (mounted) setState(() {});
-                });
-              });
-            },
-          ),
-        ),
-      Positioned(
-        top: 30,
-        left: 10.0,
-        right: 10.0,
-        child: _startThinkingTimer
-            ? Card(
-                color: Colors.black.withOpacity(0.5),
+          if (!_startThinkingTimer && !_endThinkingTimer)
+            Positioned(
+              bottom: 30,
+              left: 10.0,
+              right: 10.0,
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: getProportionateScreenWidth(20)),
+                child: DefaultButton(
+                  text: "Start",
+                  press: () {
+                    _thinkingController.start();
+                  },
+                ),
+              ),
+            ),
+          if (!_endThinkingTimer)
+            Center(
+              child: Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0),
                 ),
-                child: Column(
-                  children: [
-                    Center(
-                      child: CustomTimer(
-                        controller: _answerCounterController,
-                        onFinish: _isSaved ? null : _saveVideo,
-                        from: Duration(seconds: _answerDuration),
-                        to: const Duration(hours: 0),
-                        builder: (CustomTimerRemainingTime remaining) {
-                          return Text(
-                            "${remaining.hours}:${remaining.minutes}:${remaining.seconds}",
-                            style: const TextStyle(
-                                fontSize: 30.0, color: Colors.white),
+                color: Colors.black.withOpacity(0.5),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: CustomTimer(
+                    controller: _thinkingController,
+                    onFinish: () {
+                      setState(() {
+                        _endThinkingTimer = true;
+                      });
+                      Future.delayed(Duration(microseconds: 2), () {
+                        _answerCounterController.start();
+                        startVideoRecording().then((_) {
+                          if (mounted) setState(() {});
+                        });
+                      });
+                    },
+                    onStart: () {
+                      setState(() {
+                        _startThinkingTimer = true;
+                      });
+                      print('Countdown Started');
+                    },
+                    from: Duration(seconds: _thinkingDuration),
+                    to: const Duration(hours: 0),
+                    builder: (CustomTimerRemainingTime remaining) {
+                      return Text(
+                        "${remaining.hours}:${remaining.minutes}:${remaining.seconds}",
+                        style: const TextStyle(
+                            fontSize: 30.0, color: Colors.white),
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ),
+          Positioned(
+            top: 30,
+            left: 10.0,
+            right: 10.0,
+            child: _startThinkingTimer
+                ? Card(
+                    color: Colors.black.withOpacity(0.5),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    child: Column(
+                      children: [
+                        Center(
+                          child: CustomTimer(
+                            controller: _answerCounterController,
+                            onFinish: _isSaved ? null : _saveVideo,
+                            from: Duration(seconds: _answerDuration),
+                            to: const Duration(hours: 0),
+                            builder: (CustomTimerRemainingTime remaining) {
+                              return Text(
+                                "${remaining.hours}:${remaining.minutes}:${remaining.seconds}",
+                                style: const TextStyle(
+                                    fontSize: 30.0, color: Colors.white),
+                              );
+                            },
+                          ),
+                        ),
+                        Container(
+                          constraints: const BoxConstraints(
+                            maxHeight: double.infinity,
+                          ),
+                          width: double.infinity,
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 8, left: 8),
+                            child: Center(
+                              child: Text(
+                                index < _questions.length
+                                    ? _questions[index].titleQuestion
+                                    : '',
+                                style: const TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: _endThinkingTimer ? _saveVideo : null,
+                          icon: const Icon(Icons.stop),
+                          color: Colors.white,
+                        ),
+                      ],
+                    ),
+                  )
+                : Container(),
+          ),
+          if (_isSaved)
+            index < _questions.length - 1
+                ? Positioned(
+                    bottom: 30,
+                    left: 10.0,
+                    right: 10.0,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: getProportionateScreenWidth(20)),
+                      child: DefaultButton(
+                        text: "Next question",
+                        press: () {
+                          setState(
+                            () {
+                              _storedVideo = null;
+                              _endThinkingTimer = false;
+                              _isSaved = false;
+                              _startThinkingTimer = false;
+                              index = index + 1;
+                              print(index);
+                            },
                           );
                         },
                       ),
-                    ),
-                    Container(
-                      constraints: const BoxConstraints(
-                        maxHeight: double.infinity,
+                    ))
+                : Positioned(
+                    bottom: 30,
+                    left: 10.0,
+                    right: 10.0,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: getProportionateScreenWidth(20)),
+                      child: DefaultButton(
+                        text: "Finish",
+                        press: () {
+                          Navigator.of(context)
+                              .pushReplacementNamed('/finish_screen');
+                        },
                       ),
-                      width: double.infinity,
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 8, left: 8),
-                        child: Center(
-                          child: Text(
-                            index < _questions.length
-                                ? _questions[index].titleQuestion
-                                : '',
-                            style: const TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: _endThinkingTimer ? _saveVideo : null,
-                      icon: const Icon(Icons.stop),
-                      color: Colors.white,
-                    ),
-                  ],
-                ),
-              )
-            : Container(),
+                    )),
+        ],
       ),
-      if (_isSaved)
-        index < _questions.length - 1
-            ? Positioned(
-                bottom: 30,
-                left: 10.0,
-                right: 10.0,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: getProportionateScreenWidth(20)),
-                  child: DefaultButton(
-                    text: "Next question",
-                    press: () {
-                      setState(() {
-                        _storedVideo = null;
-                        _endThinkingTimer = false;
-                        _isSaved = false;
-                        _startThinkingTimer = false;
-                        index = index + 1;
-                        print(index);
-                      });
-                    },
-                  ),
-                ))
-            : Positioned(
-                bottom: 30,
-                left: 10.0,
-                right: 10.0,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: getProportionateScreenWidth(20)),
-                  child: DefaultButton(
-                    text: "Finish",
-                    press: () {
-                      Navigator.of(context)
-                          .pushReplacementNamed('/finish_screen');
-                    },
-                  ),
-                )),
-    ]));
+    );
   }
 }
-
-// Widget counter(double time, CustomTimerController _answerCounterController,
-//     Function onfinish) {
-//   return Center(
-//     child: CustomTimer(
-//       controller: _answerCounterController,
-//       onFinish: onfinish(),
-//       //  _isSaved ? null : _saveVideo,
-//       from: Duration(seconds: 3),
-//       to: Duration(hours: 0),
-//       builder: (CustomTimerRemainingTime remaining) {
-//         return Text(
-//           "${remaining.hours}:${remaining.minutes}:${remaining.seconds}",
-//           style: const TextStyle(fontSize: 30.0),
-//         );
-//       },
-//     ),
-//   );
-// }
