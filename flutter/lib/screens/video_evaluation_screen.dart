@@ -31,8 +31,8 @@ class _VedioEvaluationScreenState extends State<VedioEvaluationScreen> {
         Provider.of<Interviews>(context).findById(applicantId);
     // final _questions = Provider.of<Positionsmm>(context)
     //     .findBypositionName(loadedApplicant.positionName);
-    final _questions = Provider.of<Positions>(context)
-        .findBypositionName(loadedApplicant.positionName);
+    final _questions = Provider.of<Positions>(context).positionsItems[0];
+    //.findBypositionName(loadedApplicant.positionName);
 
     return Scaffold(
       appBar: AppBar(
@@ -67,9 +67,6 @@ class _VedioEvaluationScreenState extends State<VedioEvaluationScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // SizedBox(
-                  //   height: 30,
-                  // ),
                   Padding(
                       padding: const EdgeInsets.all(10),
                       child: Text(

@@ -12,6 +12,7 @@ class Interviews with ChangeNotifier {
         date: DateTime.now(),
         videoAnswers: [
           'https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4',
+          'https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4',
           'https://images.all-free-download.com/footage_preview/mp4/airplane_water_plane_aeroboat_893.mp4',
           'https://images.all-free-download.com/footage_preview/mp4/architecture_skyscrapers_high_rises_606.mp4',
         ],
