@@ -21,6 +21,7 @@ import NotificationPage from './pages/NotificationsPage';
 import AddPosition from './pages/AddPosition';
 import Dashboard from './pages/Dashboard';
 import ListingPage from './pages/Listingpage';
+import WebcamStreamCapture from './pages/videoPage';
 
 const mockUserObject = {
   userId: 'ABC123',
@@ -83,6 +84,9 @@ function App() {
         </PrivateRoute> */}
         <PrivateRoute isAuthenticated={!!authUser} path="/positions" exact>
           <AddPosition />
+        </PrivateRoute>
+        <PrivateRoute isAuthenticated={!!authUser} path="/video" exact>
+          <WebcamStreamCapture />
         </PrivateRoute>
         <PrivateRoute isAuthenticated={!!authUser} path="/dashboard" exact>
           <Dashboard />
