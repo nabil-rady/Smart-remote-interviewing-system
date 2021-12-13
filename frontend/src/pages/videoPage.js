@@ -97,7 +97,7 @@ const WebcamStreamCapture = () => {
     <>
       <NavBar />
       {visibility && <Card>{Questions[counter].title}</Card>}
-      <Webcam audio={true} ref={webcamRef} />
+      <Webcam audio={true} ref={webcamRef} muted={true} />
       {start && <button onClick={Start}>Start Capture</button>}
       {stop && <button onClick={handleStopCaptureClick}>Stop Capture</button>}
       {next && <button onClick={handleNext}>Next Qusetion</button>}
