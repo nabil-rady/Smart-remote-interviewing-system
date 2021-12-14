@@ -28,7 +28,7 @@
       // padding: 1rem;
       font-size: 1.2rem;
       //border: 2px white solid;
-      margin-right: 2rem;
+      margin-right: 4rem;
       margin-left: auto;
       border-radius: 5px;
       padding: 0;
@@ -78,15 +78,6 @@
 .user-icon,
 .arrow-icon {
   fill: inherit;
-}
-
-.user-info {
-  color: $background-grey;
-  fill: $background-grey;
-  &:hover {
-    fill: white;
-    color: white;
-  }
 }
 
 .user-icon {

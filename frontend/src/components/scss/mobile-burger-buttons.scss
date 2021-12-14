@@ -8,27 +8,39 @@
 }
 
 .mobile-burger-button {
-  background-color: black;
+  background-color: white;
   width: 20px;
   height: 2px;
   border-radius: 1px;
   position: relative;
   margin-top: 10px;
   z-index: 100;
+  transition: background-color 0.3s ease-in-out;
+  &.black{
+    background-color: black;
+    &::before{
+      background-color: black;
+    }
+    &::after{
+      background-color: black;
+    }
+  }
   &::before {
     content: '';
+    transition: background-color 0.3s ease-in-out;
     position: absolute;
     top: -6px;
-    background-color: black;
+    background-color: white;
     width: 20px;
     height: 2px;
     z-index: 100;
   }
   &::after {
     content: '';
+    transition: background-color 0.3s ease-in-out;
     position: absolute;
     top: 6px;
-    background-color: black;
+    background-color: white;
     width: 20px;
     height: 2px;
     z-index: 100;

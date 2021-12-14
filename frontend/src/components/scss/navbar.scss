@@ -25,7 +25,7 @@
       // padding: 1rem;
       font-size: 1.2rem;
       //border: 2px white solid;
-      margin-right: 5rem;
+      margin-right: 4rem;
       border-radius: 5px;
       padding: 0;
       height: 35px;
@@ -144,6 +144,23 @@
 }
 .elements:hover {
   background-color: $gradient-blue;
+}
+
+
+.user-info {
+  color: $background-grey;
+  fill: $background-grey;
+  position: relative;
+  cursor: pointer;
+  &:hover {
+    fill: white;
+    color: white;
+  }
+  &:focus .user-info-menu{
+    overflow: visible;
+    max-height: 170px;
+    padding-top: 0.4rem;
+  }
 }
 
 @media only screen and (max-width: 670px) {

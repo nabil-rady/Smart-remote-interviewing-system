@@ -7,7 +7,7 @@
   height: 100vh;
   background-color: white;
   z-index: 15;
-  transition: left 0.3s ease-in-out;
+  display: none;
   &__logo {
     color: $primary-blue;
     text-align: center;
@@ -31,5 +31,12 @@
         border-top: 2px rgba(0, 0, 0, 0.3) solid;
       }
     }
+  }
+}
+
+@media only screen and (max-width: 670px) {
+  .navbar-dropdown {
+    display: block;
+    transition: left 0.3s ease-in-out;
   }
 }

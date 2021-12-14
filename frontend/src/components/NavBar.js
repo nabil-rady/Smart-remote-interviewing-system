@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { UserContext } from '../App';
 import MobileBurgerButtons from './MobileBurgerButtons';
 import NavBarDropDownMenu from './NavBarDropDownMenu';
+import NavBarUserInfoMenu from './NavBarUserInfoMenu';
 import './scss/utility.scss';
 import './scss/navbar.scss';
 import './scss/dashboard-navbar.scss';
@@ -13,7 +14,9 @@ const NavBar = (props) => {
 
   const handleClick = () => {
     const menu = document.querySelector('.navbar-dropdown');
+    const mobileBurgerButton = document.querySelector('.mobile-burger-button');
     menu.classList.toggle('clicked');
+    mobileBurgerButton.classList.toggle('black');
   };
 
   return (
@@ -30,10 +33,12 @@ const NavBar = (props) => {
       </div>
       <nav className="header__navbar">
         <ul
+          tabIndex="-1"
           className={`header__navbar__ul user-info ${
             isLoggedIn ? '' : 'hidden'
           }`}
         >
+         <NavBarUserInfoMenu /> 
           <svg
             className="user-icon"
             xmlns="http://www.w3.org/2000/svg"
