@@ -9,8 +9,31 @@ class CandidateInfoItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: Column(
-        children: <Widget>[Text(name), Text(email), Text(phoneNumber)],
+      margin: const EdgeInsets.symmetric(
+        horizontal: 15,
+        vertical: 4,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8),
+        child: ListTile(
+          title: Text(name),
+          // trailing: Text(
+          //   'email : ' + email,
+          //   style: const TextStyle(fontSize: 16, color: Colors.grey),
+          // ),
+          subtitle: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  'email : ' + email,
+                  style: const TextStyle(fontSize: 16, color: Colors.grey),
+                ),
+                Text(
+                  'Number : ' + phoneNumber,
+                  style: const TextStyle(fontSize: 16, color: Colors.grey),
+                ),
+              ]),
+        ),
       ),
     );
   }

@@ -1,7 +1,32 @@
 import 'package:flutter/material.dart';
 
-class ChangePassScreen extends StatelessWidget {
+class ChangePassScreen extends StatefulWidget {
   static const routeName = '/changePassScreen';
+
+  @override
+  State<ChangePassScreen> createState() => _ChangePassScreenState();
+}
+
+class _ChangePassScreenState extends State<ChangePassScreen> {
+  bool posFlag = false;
+
+  bool validateTextField(String userInput) {
+    if (userInput.isEmpty) {
+      setState(() {
+        posFlag = true;
+      });
+      return false;
+    }
+    setState(() {
+      posFlag = false;
+    });
+    return true;
+  }
+
+  final _oldPasswordController = TextEditingController();
+
+  final _newPasswordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,13 +44,22 @@ class ChangePassScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   TextField(
-                    decoration: InputDecoration(hintText: 'Enter Old Password'),
+                    controller: _oldPasswordController,
+                    decoration: InputDecoration(
+                      hintText: 'Enter Old Password',
+                      errorText: posFlag ? 'Please enter Old Password' : null,
+                      border: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.teal)),
+                    ),
                   ),
                   TextField(
-                    decoration: InputDecoration(hintText: 'Enter New Password'),
-                  ),
-                  TextField(
-                    decoration: InputDecoration(hintText: 'Confirm Password'),
+                    controller: _newPasswordController,
+                    decoration: InputDecoration(
+                      hintText: 'Enter New Password',
+                      errorText: posFlag ? 'Please enter New Password' : null,
+                      border: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.teal)),
+                    ),
                   ),
                   SizedBox(
                     height: 20,

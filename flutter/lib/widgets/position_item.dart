@@ -22,9 +22,16 @@ class PositionItem extends StatelessWidget {
         child: Card(
           child: Row(
             children: <Widget>[
-              Padding(
-                child: Text(position),
-                padding: EdgeInsets.only(bottom: 5, top: 5, left: 8),
+              Expanded(
+                child: Container(
+                  constraints: const BoxConstraints(
+                    maxHeight: double.infinity,
+                  ),
+                  child: Padding(
+                    child: Text(position),
+                    padding: EdgeInsets.only(bottom: 5, top: 5, left: 8),
+                  ),
+                ),
               ),
               IconButton(
                 onPressed: () {
