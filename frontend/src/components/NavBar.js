@@ -38,7 +38,7 @@ const NavBar = (props) => {
             isLoggedIn ? '' : 'hidden'
           }`}
         >
-         <NavBarUserInfoMenu /> 
+          <NavBarUserInfoMenu />
           <svg
             className="user-icon"
             xmlns="http://www.w3.org/2000/svg"

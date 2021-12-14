@@ -7,6 +7,7 @@ class ChangePassScreen extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: Text('Change Password'),
+          backgroundColor: Color(0xFF165DC0),
         ),
         body: SingleChildScrollView(
           child: Card(
@@ -21,7 +22,10 @@ class ChangePassScreen extends StatelessWidget {
                     decoration: InputDecoration(hintText: 'Enter Old Password'),
                   ),
                   TextField(
-                    decoration: InputDecoration(hintText: 'Enter Old Password'),
+                    decoration: InputDecoration(hintText: 'Enter New Password'),
+                  ),
+                  TextField(
+                    decoration: InputDecoration(hintText: 'Confirm Password'),
                   ),
                   SizedBox(
                     height: 20,

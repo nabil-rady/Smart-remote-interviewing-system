@@ -16,12 +16,12 @@
   margin-top: 10px;
   z-index: 100;
   transition: background-color 0.3s ease-in-out;
-  &.black{
+  &.black {
     background-color: black;
-    &::before{
+    &::before {
       background-color: black;
     }
-    &::after{
+    &::after {
       background-color: black;
     }
   }

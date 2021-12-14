@@ -146,7 +146,6 @@
   background-color: $gradient-blue;
 }
 
-
 .user-info {
   color: $background-grey;
   fill: $background-grey;
@@ -156,7 +155,7 @@
     fill: white;
     color: white;
   }
-  &:focus .user-info-menu{
+  &:focus .user-info-menu {
     overflow: visible;
     max-height: 170px;
     padding-top: 0.4rem;

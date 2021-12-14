@@ -7,6 +7,8 @@ import '../providers/interview_provider.dart';
 import 'package:excel/excel.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:universal_io/io.dart';
+
 //import 'dart:html';
 
 class InvitationForm extends StatefulWidget {
@@ -204,19 +206,19 @@ class _InvitationFormState extends State<InvitationForm> {
 
                     // File file = File(filename);
 
-                    // // File file = File(result.files.single.path.toString());
+                    // File file = File(result.files.single.path.toString());
 
-                    // late final bytes = file.readAsBytesSync();
-                    // late final excel = Excel.decodeBytes(bytes);
+                    late final bytes = file.readAsBytesSync();
+                    late final excel = Excel.decodeBytes(bytes);
 
-                    // for (var table in excel.tables.keys) {
-                    //   print(table); //sheet Name
-                    //   print(excel.tables[table]!.maxCols);
-                    //   print(excel.tables[table]!.maxRows);
-                    //   for (var row in excel.tables[table]!.rows) {
-                    //     print("$row");
-                    //   }
-                    // }
+                    for (var table in excel.tables.keys) {
+                      print(table); //sheet Name
+                      print(excel.tables[table]!.maxCols);
+                      print(excel.tables[table]!.maxRows);
+                      for (var row in excel.tables[table]!.rows) {
+                        print("$row");
+                      }
+                    }
                   } else {
                     //make a dialogue here to say that he must import a file or add participants manually
                     // User canceled the picker
