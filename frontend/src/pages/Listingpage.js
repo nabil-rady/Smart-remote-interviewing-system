@@ -31,10 +31,6 @@ import im23 from '../solidBG/23.jpg';
 import im24 from '../solidBG/24.jpg';
 import im25 from '../solidBG/25.jpg';
 import im26 from '../solidBG/26.jpg';
-import im27 from '../solidBG/27.jpg';
-import im28 from '../solidBG/28.jpg';
-import im29 from '../solidBG/29.jpg';
-import im30 from '../solidBG/30.jpg';
 
 function ListingPage() {
   let backgrounds = [
@@ -64,35 +60,7 @@ function ListingPage() {
     im24,
     im25,
     im26,
-    im27,
-    im28,
-    im29,
-    im30,
   ];
-  //   const [listItems, setListItems] = useState(Array.from(Array(9).keys(), n => n + 1));
-  //   const [isFetching, setIsFetching] = useState(false);
-
-  //   useEffect(() => {
-  //     window.addEventListener('scroll', handleScroll);
-  //     return () => window.removeEventListener('scroll', handleScroll);
-  //   }, []);
-
-  //   useEffect(() => {
-  //     if (!isFetching) return;
-  //     fetchMoreListItems();
-  //   }, [isFetching]);
-
-  //   function handleScroll() {
-  //     if (window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight || isFetching) return;
-  //     setIsFetching(true);
-  //   }
-
-  //   function fetchMoreListItems() {
-  //     setTimeout(() => {
-  //       setListItems(prevState => ([...prevState, ...Array.from(Array(6).keys(), n => n + prevState.length + 1)]));
-  //       setIsFetching(false);
-  //     }, 2000);
-  //   }
 
   const positions = [
     {

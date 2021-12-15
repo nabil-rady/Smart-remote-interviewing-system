@@ -25,6 +25,11 @@ a {
     align-items: center !important;
   }
   .top-margin {
-    margin-top: 8rem !important;
+    margin-top: 6rem !important;
   }
+}
+
+.resize-animation-stopper * {
+  animation: none !important;
+  transition: none !important;
 }

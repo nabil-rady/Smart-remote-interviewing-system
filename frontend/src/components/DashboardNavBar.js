@@ -2,15 +2,25 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../App';
 import MobileBurgerButtons from './MobileBurgerButtons';
+import NavBarSideMenu from './NavBarSideMenu';
+import NavBarUserInfoMenu from './NavBarUserInfoMenu';
 import './scss/dashboard-navbar.scss';
 
 const DashboardNavBar = (props) => {
   const authUser = useContext(UserContext).authUser; // Object or null
   const isLoggedIn = !!authUser;
 
+  const handleClick = () => {
+    const menu = document.querySelector('.navbar-sidemenu');
+    const mobileBurgerButton = document.querySelector('.mobile-burger-button');
+    menu.classList.toggle('clicked');
+    mobileBurgerButton.classList.toggle('black');
+  };
+
   return (
     <header className="header">
-      <MobileBurgerButtons />
+      <MobileBurgerButtons handleClick={handleClick} />
+      <NavBarSideMenu />
       <div className="header__logo">
         <Link to="/">Vividly</Link>
       </div>
@@ -30,10 +40,16 @@ const DashboardNavBar = (props) => {
           </li>
         </ul>
         <ul
+          tabIndex="-1"
           className={`header__navbar__ul user-info ${
             isLoggedIn ? '' : 'hidden'
           }`}
+          style={{
+            position: 'relative',
+            top: '2px',
+          }}
         >
+          <NavBarUserInfoMenu />
           <svg
             className="user-icon"
             xmlns="http://www.w3.org/2000/svg"

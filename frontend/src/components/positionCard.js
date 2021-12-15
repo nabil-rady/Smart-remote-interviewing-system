@@ -18,7 +18,7 @@ const PositionCard = (props) => {
         {props.positions.map((position, index) => (
           <Card key={index} className="positioncard">
             <img
-              src={props.backgrounds[Math.floor(Math.random() * 30)]}
+              src={props.backgrounds[Math.floor(Math.random() * 26)]}
               className="photo"
             />
             <p className="pos_name" title={position.name}>

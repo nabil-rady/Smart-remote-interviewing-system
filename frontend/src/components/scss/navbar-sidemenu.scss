@@ -1,6 +1,6 @@
 @import '../../sassConfig/colors';
 
-.navbar-dropdown {
+.navbar-sidemenu {
   position: fixed;
   left: -100vw;
   width: 100vw;
@@ -29,13 +29,17 @@
         font-size: 1.4rem;
         padding: 0.5rem 1.2rem;
         border-top: 2px rgba(0, 0, 0, 0.3) solid;
+        cursor: pointer;
+        &:hover {
+          font-weight: 700;
+        }
       }
     }
   }
 }
 
 @media only screen and (max-width: 670px) {
-  .navbar-dropdown {
+  .navbar-sidemenu {
     display: block;
     transition: left 0.3s ease-in-out;
   }

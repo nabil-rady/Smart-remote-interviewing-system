@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../App';
 import MobileBurgerButtons from './MobileBurgerButtons';
-import NavBarDropDownMenu from './NavBarDropDownMenu';
+import NavBarSideMenu from './NavBarSideMenu';
 import NavBarUserInfoMenu from './NavBarUserInfoMenu';
 import './scss/utility.scss';
 import './scss/navbar.scss';
@@ -13,7 +13,7 @@ const NavBar = (props) => {
   const isLoggedIn = !!authUser;
 
   const handleClick = () => {
-    const menu = document.querySelector('.navbar-dropdown');
+    const menu = document.querySelector('.navbar-sidemenu');
     const mobileBurgerButton = document.querySelector('.mobile-burger-button');
     menu.classList.toggle('clicked');
     mobileBurgerButton.classList.toggle('black');
@@ -22,7 +22,7 @@ const NavBar = (props) => {
   return (
     <header className="header">
       <MobileBurgerButtons handleClick={handleClick} />
-      <NavBarDropDownMenu />
+      <NavBarSideMenu />
       <div className="header__logo">
         <Link
           to="/"
