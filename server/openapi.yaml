@@ -4,7 +4,6 @@ info:
   description: This is a simple documentation for our backend APIs
   version: '1.0.0'
   title: Vividly
-
 servers:
   # Added by API Auto Mocking Plugin
   - description: SwaggerHub API Auto Mocking
@@ -13,7 +12,6 @@ servers:
     description: This is the local development server
   - url: https://vividly-api.herokuapp.com/
     description: This is the remote development server
-
 paths:
   /user/signup:
     post:
@@ -70,7 +68,6 @@ paths:
           description: Input validation faild.
         '500':
           description: Server side error.
-
   /user/confirm-email:
     post:
       summary: Send Email confirmation to the user.
@@ -97,7 +94,6 @@ paths:
           description: User not found.
         '500':
           description: Server side error.
-
   /user/verify/:
     post:
       summary: Confirm user's email in the database.
@@ -128,7 +124,6 @@ paths:
           description: User not found.
         '500':
           description: Server side error.
-
   /user/login:
     post:
       summary: Login for an interviewer.
@@ -182,7 +177,6 @@ paths:
           description: Authentecation faild.
         '500':
           description: Server side error.
-
   /user/logout:
     post:
       summary: Logout for an interviewer.
@@ -207,7 +201,6 @@ paths:
           description: Authentecation faild.
         '500':
           description: Server side error.
-
   /user/{user_id}:
     get:
       summary: Get an interviewer info.
@@ -419,6 +412,10 @@ paths:
                           type: integer
                         timeToAnswer:
                           type: integer
+                        keywords:
+                          type: array
+                          items:
+                            type: string
 
         '401':
           description: Authentecation faild or unconfirmed email.
