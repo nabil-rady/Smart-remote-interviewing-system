@@ -216,6 +216,33 @@ class Auth with ChangeNotifier {
     return true;
   }
 
+  //#################################################################
+
+  Future<void> changepassword(
+      String oldPassword, String newPassword, String confirmPassword) async {
+    final response = await http.put(
+      Uri.parse('https://vividly-api.herokuapp.com/user/changepassword'),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': _token.toString(),
+      },
+      body: jsonEncode(<String, String>{
+        'oldPassword': oldPassword,
+        'newPassword': newPassword,
+        'confirmPassword': confirmPassword,
+      }),
+    );
+    final responseData = json.decode(response.body);
+    print(response.body);
+    if (response.statusCode == 200) {
+      final responseData = json.decode(response.body);
+      print(responseData);
+    } else {
+      throw HttpException(responseData['message']);
+    }
+  }
+
+  //###########################################################33
   Employer get employer {
     return _employer;
   }

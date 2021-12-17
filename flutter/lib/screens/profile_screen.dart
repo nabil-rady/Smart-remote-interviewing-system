@@ -25,93 +25,78 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final employerData = Provider.of<Auth>(context).employer;
     return Scaffold(
         appBar: AppBar(
-            title: Text('name of employer'),
+            title: const Text('Your Profile'),
             backgroundColor: Theme.of(context).primaryColor),
         body: SingleChildScrollView(
           child: Card(
               elevation: 5,
-              margin: EdgeInsets.all(40),
+              margin: const EdgeInsets.all(30),
               child: Padding(
                 padding: const EdgeInsets.all(15),
                 child: Column(children: <Widget>[
                   Text(
-                    'Profile Info',
+                    'Profile Information',
                     style: TextStyle(
                       color: Theme.of(context).primaryColor,
                       fontSize: Theme.of(context).textTheme.bodyText2!.fontSize,
-                      fontFamily:
-                          Theme.of(context).textTheme.headline1!.fontFamily,
                       fontWeight:
                           Theme.of(context).textTheme.headline1!.fontWeight,
                     ),
-                    //  textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(
+                    height: 10,
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        'FirstName',
+                        'First Name',
                         style: TextStyle(
                           color: Theme.of(context).primaryColor,
                           fontSize:
                               Theme.of(context).textTheme.headline1!.fontSize,
-                          fontFamily:
-                              Theme.of(context).textTheme.headline1!.fontFamily,
-                          // fontWeight: Theme.of(context).textTheme.headline1!.fontWeight,
                         ),
                       ),
                       Text(
                         employerData.firstName,
                       ),
-                      Divider(),
+                      const Divider(),
                       Text(
                         'Last Name',
                         style: TextStyle(
                           color: Theme.of(context).primaryColor,
                           fontSize:
                               Theme.of(context).textTheme.headline1!.fontSize,
-                          fontFamily:
-                              Theme.of(context).textTheme.headline1!.fontFamily,
-                          // fontWeight: Theme.of(context).textTheme.headline1!.fontWeight,
                         ),
                       ),
                       Text(employerData.lastName),
-                      Divider(),
+                      const Divider(),
                       Text(
                         'Company Name',
                         style: TextStyle(
                           color: Theme.of(context).primaryColor,
                           fontSize:
                               Theme.of(context).textTheme.headline1!.fontSize,
-                          fontFamily:
-                              Theme.of(context).textTheme.headline1!.fontFamily,
-                          // fontWeight: Theme.of(context).textTheme.headline1!.fontWeight,
                         ),
                       ),
                       Text(employerData.companyName),
-                      Divider(),
+                      const Divider(),
                       Text(
                         'Email',
                         style: TextStyle(
                           color: Theme.of(context).primaryColor,
                           fontSize:
                               Theme.of(context).textTheme.headline1!.fontSize,
-                          fontFamily:
-                              Theme.of(context).textTheme.headline1!.fontFamily,
-                          // fontWeight: Theme.of(context).textTheme.headline1!.fontWeight,
                         ),
                       ),
                       Text(employerData.email),
-                      Divider(),
+                      const Divider(),
                       Text(
                         'Phone Number',
                         style: TextStyle(
                           color: Theme.of(context).primaryColor,
                           fontSize:
                               Theme.of(context).textTheme.headline1!.fontSize,
-                          fontFamily:
-                              Theme.of(context).textTheme.headline1!.fontFamily,
-                          // fontWeight: Theme.of(context).textTheme.headline1!.fontWeight,
                         ),
                       ),
                       Row(
@@ -126,7 +111,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ))
                               : Text(employerData.phone),
                           IconButton(
-                            icon: Icon(Icons.edit),
+                            icon: const Icon(Icons.edit),
                             onPressed: () {
                               setState(() {
                                 isTextFild = !isTextFild;
@@ -136,8 +121,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                         ],
                       ),
-                      Divider(),
-                      SizedBox(
+                      const Divider(),
+                      const SizedBox(
                         height: 20,
                       ),
                       Row(
