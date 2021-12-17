@@ -60,7 +60,7 @@ class _PositionFormState extends State<PositionForm> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
-        title: Text('Position'),
+        title: const Text('New Position'),
       ),
       body: Container(
         child: SingleChildScrollView(
@@ -74,14 +74,14 @@ class _PositionFormState extends State<PositionForm> {
               TextField(
                 controller: _positionController,
                 decoration: InputDecoration(
-                    labelText: 'Position',
+                    labelText: 'Position Name',
                     errorText: posFlag ? 'Please enter the position' : null,
-                    border: OutlineInputBorder(
+                    border: const OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.teal)),
                     //labelStyle: TextStyle(),
                     hintText: 'Please write position name .'),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               Column(
@@ -90,26 +90,28 @@ class _PositionFormState extends State<PositionForm> {
                       ? 'No Date Chosen !'
                       : 'Picked Expirey Date : ${DateFormat.yMd().format(_chosenDate)}'),
                   FlatButton(
-                      onPressed: () {
-                        _presentDatePicker();
-                        position = Position(
-                            id: position.id,
-                            position: position.position,
-                            questions: position.questions,
-                            expireyDate: _chosenDate);
-                      },
-                      child: Text(
-                        'Choose Expirey Date',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.blue),
-                      ))
+                    onPressed: () {
+                      _presentDatePicker();
+                      position = Position(
+                          id: position.id,
+                          position: position.position,
+                          questions: position.questions,
+                          expireyDate: _chosenDate);
+                    },
+                    child: const Text(
+                      'Choose Expirey Date',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF165DC0),
+                      ),
+                    ),
+                  ),
                 ],
               ),
-
               RaisedButton(
                 child: const Text(
                   'Add Questions',
-                  style: const TextStyle(color: Colors.white),
+                  style: TextStyle(color: Colors.white),
                 ),
                 onPressed: () {
                   if (validateTextField(_positionController.text) &&
@@ -119,11 +121,9 @@ class _PositionFormState extends State<PositionForm> {
                         position: _positionController.text,
                         questions: position.questions,
                         expireyDate: position.expireyDate);
-                    //Position(position.id, _positionController.text, position.questions);
                     Navigator.of(context).pushReplacementNamed(
                         LastQuestionScreen.routeName,
                         arguments: position);
-
                     Provider.of<Positions>(context, listen: false)
                         .addPosition(position);
                   }
@@ -133,24 +133,6 @@ class _PositionFormState extends State<PositionForm> {
                 ),
                 color: Theme.of(context).primaryColor,
               ),
-              // RaisedButton(
-              //   onPressed: () {
-              //     if (validateTextField(_positionController.text)) {
-              //       position = Position(
-              //           id: position.id,
-              //           position: _positionController.text,
-              //           questions: position.questions);
-              //       //Position(position.id, _positionController.text, position.questions);
-              //       Navigator.of(context).pushReplacementNamed(
-              //           LastQuestionScreen.routeName,
-              //           arguments: position);
-
-              //       Provider.of<Positions>(context, listen: false)
-              //           .addPosition(position);
-              //     }
-              //   },
-              //   child: Text('Next'),
-              // )
             ],
           ),
         ),

@@ -56,18 +56,17 @@ class _LastQuestionScreenState extends State<LastQuestionScreen> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text('Questions'),
+        title: const Text('Questions'),
         backgroundColor: Theme.of(context).primaryColor,
         actions: [
           IconButton(
-            icon: Icon(Icons.done),
+            icon: const Icon(Icons.done),
             onPressed: () {
               singlePosition = Position(
                   id: id,
                   position: positionName,
                   questions: questions,
                   expireyDate: expieryDate);
-              // Position(id, positionName, questions);
               Navigator.of(context)
                   .pushReplacementNamed(PositionScreen.routeName);
               print(singlePosition.id);
@@ -79,21 +78,7 @@ class _LastQuestionScreenState extends State<LastQuestionScreen> {
           )
         ],
       ),
-      body:
-          // Container(
-          //   child: Column(
-          //     children: <Widget>[
-          //       TextField(
-          //         decoration: InputDecoration(
-          //           labelText: 'Position Name',
-          //           border: OutlineInputBorder(),
-          //           errorText: posFlag ? 'Please enter the position' : null,
-          //         ),
-          //         controller: _positionNameController,
-          //         onChanged: (value) => singlePosition = Position(
-          //             DateTime.now().toString(), value.toString(), questions),
-          //       ),
-          ListView.builder(
+      body: ListView.builder(
         itemBuilder: (ctx, i) => QuestionInfoItem(
             questionTitle: questions[i].titleQuestion,
             answerTime: questions[i].answerTime,
@@ -102,16 +87,13 @@ class _LastQuestionScreenState extends State<LastQuestionScreen> {
             id: questions[i].id),
         itemCount: questions.length,
       ),
-      //     ],
-      //   ),
-      // ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).primaryColor,
         onPressed: () {
           startAddNewQuestion(context);
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }

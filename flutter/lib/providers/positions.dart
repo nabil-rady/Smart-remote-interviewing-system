@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/question.dart';
 import '../models/position.dart';
+import 'package:http/http.dart' as http;
 
 class Positions with ChangeNotifier {
   List<Position> _positionsItems = [
@@ -68,8 +69,6 @@ class Positions with ChangeNotifier {
 
   void addPosition(Position singlePosition) {
     _positionsItems.add(singlePosition);
-    // print(singlePosition.position);
-    // print(singlePosition.questions);
     notifyListeners();
   }
 

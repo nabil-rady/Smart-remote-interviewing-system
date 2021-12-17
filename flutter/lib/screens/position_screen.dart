@@ -40,34 +40,9 @@ class _PositionScreenState extends State<PositionScreen> {
                   Navigator.of(context).pushNamed(
                     PositionForm.routeName,
                   );
-                  // // print(_numberOfQuestions);
-                  // Navigator.of(context).pushNamed(
-                  //     // QuestionPositionScreen.routeName,
-                  //     NewQuesPosScreen.routeName);
-                  // setState(() {
-                  //   var myItems =
-                  //       Provider.of<Questions>(context, listen: false).items;
-                  //   myItems = [];
-                  // });
-
-                  ///edited
-                  // Provider.of<Questions>(context, listen: false)
-                  //     .addFirstForm(Question(DateTime.now().toString()));
                 },
                 icon: const Icon(Icons.add)),
             const Text('Add new position'),
-            // Flexible(
-            //   child: Padding(
-            //     padding: EdgeInsets.symmetric(horizontal: 80, vertical: 20),
-            //     child: TextField(
-            //       controller: _numberOfQuestions,
-            //       decoration: InputDecoration(
-            //           labelText: 'number of questions',
-            //           border: OutlineInputBorder(
-            //               borderSide: BorderSide(color: Colors.teal))),
-            //     ),
-            //   ),
-            // )
           ],
         ),
       ),
