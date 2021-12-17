@@ -1,4 +1,4 @@
-import React, { useRef, useState, useCallback } from 'react';
+import React, { useRef, useState, useCallback, useEffect } from 'react';
 import Webcam from 'react-webcam';
 import Card from '../components/Card';
 import NavBar from '../components/NavBar';
@@ -30,6 +30,14 @@ const WebcamStreamCapture = () => {
   const [stop, setStop] = useState(false);
   const [visibility, setVisibility] = useState(false);
   const [counter, setCounter] = useState(0);
+
+  let webSocket;
+
+  useEffect(() => {
+    webSocket = new WebSocket('ws://localhost:8080', 'echo-protocol');
+    return () => webSocket.close();
+  }, []);
+
   const Start = () => {
     setVisibility(true);
     setStart(false);
@@ -49,7 +57,7 @@ const WebcamStreamCapture = () => {
       'dataavailable',
       handleDataAvailable
     );
-    mediaRecorderRef.current.start();
+    mediaRecorderRef.current.start(1000 * 5);
     console.log('recording....');
     setStop(true);
   }, [webcamRef, setStart, mediaRecorderRef]);
@@ -57,6 +65,7 @@ const WebcamStreamCapture = () => {
   const handleDataAvailable = useCallback(
     ({ data }) => {
       if (data.size > 0) {
+        webSocket.send(data);
         setRecordedChunks((prev) => prev.concat(data));
       }
     },
