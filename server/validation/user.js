@@ -112,10 +112,6 @@ const postVerifyEmail = [
 ];
 
 const putEditProfile = [
-  body('companyName').optional().trim().isLength({
-    min: 2,
-    max: 255,
-  }),
   body('phoneCode', 'Phone code should be between 2 and 5 characters length.')
     .optional()
     .trim()

@@ -51,11 +51,10 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzMDJiMWZjNC0w
 ###
 
 PUT {{host}}/user/edit
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzMDJiMWZjNC0wNGFmLTRmNzctYmQyMy1mODUyMjhkNTEzMjgiLCJpYXQiOjE2MzkzMTE2NTksImV4cCI6MTYzOTM0NzY1OX0.cF2H3OPFsdbV8i3flEWpjGpQcltiEb5O_Xm7wnzYox0
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzMDJiMWZjNC0wNGFmLTRmNzctYmQyMy1mODUyMjhkNTEzMjgiLCJpYXQiOjE2Mzk4NDYxNzUsImV4cCI6MTYzOTg4MjE3NX0.xjlSnPP425aZTPLhNGig-oxln7p8s2wNsu2YDC7B21c
 Content-Type: application/json
 
 {
-    "companyName": "Vividly",
     "phoneCode": "+20",
     "phoneNumber": 1155282790
 }

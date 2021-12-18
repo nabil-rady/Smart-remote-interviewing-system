@@ -335,17 +335,15 @@ module.exports.putEditProfile = (req, res, next) => {
       error.statusCode = 404;
       throw error;
     }
-    const { companyName, phoneCode, phoneNumber } = req.body;
+    const { phoneCode, phoneNumber } = req.body;
 
-    const [newCompanyName, newPhoneCode, newPhoneNumber] = [
-      companyName ? companyName : returnedUser.dataValues.companyName,
+    const [newPhoneCode, newPhoneNumber] = [
       phoneCode ? phoneCode : returnedUser.dataValues.phoneCode,
       phoneNumber ? phoneNumber : returnedUser.dataValues.phoneNumber,
     ];
 
     User.update(
       {
-        companyName: newCompanyName,
         phoneCode: newPhoneCode,
         phoneNumber: newPhoneNumber,
       },
@@ -357,7 +355,6 @@ module.exports.putEditProfile = (req, res, next) => {
     )
       .then((editedUser) => {
         const { password, verificationCode, ...user } = returnedUser.dataValues;
-        user.companyName = newCompanyName;
         user.phoneCode = newPhoneCode;
         user.phoneNumber = newPhoneNumber;
         res.status(200).json({
