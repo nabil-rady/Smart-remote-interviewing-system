@@ -271,8 +271,6 @@ paths:
             schema:
               type: object
               properties:
-                companyName:
-                  type: string
                 phoneCode:
                   type: string
                 phoneNumber:
@@ -353,7 +351,7 @@ paths:
         '500':
           description: Server side error.
 
-  /user/job-listing/create:
+  /job-listing/create:
     post:
       summary: Create a job listing.
       parameters:
@@ -379,6 +377,10 @@ paths:
                   items:
                     type: object
                     properties:
+                      questionId:
+                        type: string
+                      jobListingId:
+                        type: string
                       statement:
                         type: string
                       timeToThink:
@@ -399,12 +401,114 @@ paths:
                 properties:
                   jobListingId:
                     type: string
+                  userId:
+                    type: string
+                  positionName:
+                    type: string
+                  expiryDate:
+                    format: date-time
                   questions:
                     type: array
                     items:
                       type: object
                       properties:
                         questionId:
+                          type: string
+                        statement:
+                          type: string
+                        timeToThink:
+                          type: integer
+                        timeToAnswer:
+                          type: integer
+                        keywords:
+                          type: array
+                          items:
+                            type: string
+
+        '401':
+          description: Authentecation faild or unconfirmed email.
+        '422':
+          description: Validation error.
+        '500':
+          description: Server side error.
+
+  /job-listing/get-listings:
+    get:
+      summary: get user's job listings.
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          description: jwt of the loggedin user.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: get all the user's listings.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  jobListings:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        jobListingId:
+                          type: string
+                        userId:
+                          type: string
+                        positionName:
+                          type: string
+                        expiryDate:
+                          format: date-time
+        '401':
+          description: Authentecation faild or unconfirmed email.
+        '422':
+          description: Validation error.
+        '500':
+          description: Server side error.
+  /job-listing/{listing_id}:
+    get:
+      summary: get the information of a single listing.
+      parameters:
+        - name: listing_id
+          in: path
+          required: true
+          description: The id of the target listing.
+          schema:
+            type: string
+        - name: Authorization
+          in: header
+          required: true
+          description: jwt of the loggedin user.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: get the listing info.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  jobListingId:
+                    type: string
+                  userId:
+                    type: string
+                  positionName:
+                    type: string
+                  expiryDate:
+                    format: date-time
+                  questions:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        questionId:
+                          type: string
+                        jobListingId:
                           type: string
                         statement:
                           type: string

@@ -19,4 +19,8 @@ router.post(
   jobListingControllers.postCreateListing
 );
 
+router.get('/get-listings', isAuth, jobListingControllers.getUserListings);
+
+router.get('/:listing_id', isAuth, jobListingControllers.getListing);
+
 module.exports = router;

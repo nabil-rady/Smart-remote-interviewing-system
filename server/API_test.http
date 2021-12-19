@@ -80,24 +80,34 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzMDJiMWZjNC0w
 ###
 
 POST {{host}}/job-listing/create
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzMDJiMWZjNC0wNGFmLTRmNzctYmQyMy1mODUyMjhkNTEzMjgiLCJpYXQiOjE2Mzk2NTc5NjcsImV4cCI6MTYzOTY5Mzk2N30.W6Tej7d3YE0R7JcarxwiwQbA2qmdxoGoAjKfCZc2yKc
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzMDJiMWZjNC0wNGFmLTRmNzctYmQyMy1mODUyMjhkNTEzMjgiLCJpYXQiOjE2Mzk5MjAxNDksImV4cCI6MTYzOTk1NjE0OX0.uDvacTw34WhvPoRmwDk4bS7zcmZ3t5_rzdvtpMhyvHs
 Content-Type: application/json
 
 {
-    "positionName": "Test3",
+    "positionName": "Test4",
     "expiryDate": "2022-01-31",
     "questions":[
         {
-            "statement": "a",
-            "keywords": ["aaa", "bba", "cca"],
-            "timeToThink": 2,
-            "timeToAnswer": 4
+            "statement": "aa",
+            "keywords": ["aa", "bb", "cc"],
+            "timeToThink": 3,
+            "timeToAnswer": 5
         },
         {
-            "statement": "b",
-            "keywords": ["dda", "eea", "ffa"],
-            "timeToThink": 6,
-            "timeToAnswer": 12
+            "statement": "bb",
+            "keywords": ["dd", "ee", "ff"],
+            "timeToThink": 7,
+            "timeToAnswer": 15
         }
     ]
 }
+
+###
+
+GET {{host}}/job-listing/get-listings
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzMDJiMWZjNC0wNGFmLTRmNzctYmQyMy1mODUyMjhkNTEzMjgiLCJpYXQiOjE2Mzk5MjAxNDksImV4cCI6MTYzOTk1NjE0OX0.uDvacTw34WhvPoRmwDk4bS7zcmZ3t5_rzdvtpMhyvHs
+
+###
+
+GET {{host}}/job-listing/a35c8739-285d-4ff9-8c76-464d98271f16
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzMDJiMWZjNC0wNGFmLTRmNzctYmQyMy1mODUyMjhkNTEzMjgiLCJpYXQiOjE2Mzk5MjAxNDksImV4cCI6MTYzOTk1NjE0OX0.uDvacTw34WhvPoRmwDk4bS7zcmZ3t5_rzdvtpMhyvHs

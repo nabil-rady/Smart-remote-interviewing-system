@@ -4,6 +4,7 @@ const User = require('../models/user');
 const Question = require('../models/question');
 const JobListing = require('../models/jobListing');
 const Keyword = require('../models/keyword');
+const { json } = require('body-parser');
 
 module.exports.postCreateListing = async (req, res, next) => {
   // Check for validation errors
@@ -91,8 +92,121 @@ module.exports.postCreateListing = async (req, res, next) => {
 
     // send the response
     res.status(201).json({
-      jobListingId: createdJob.dataValues.jobListingId,
+      ...createdJob.dataValues,
       questions: returnedQuestions,
+    });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500; // serverSide error
+    }
+    next(err);
+  }
+};
+
+module.exports.getUserListings = async (req, res, next) => {
+  const userId = req.userId;
+
+  try {
+    const user = await User.findOne({
+      where: {
+        userId,
+      },
+    });
+    // check if the creator is logged in
+    if (!user.dataValues.loggedIn) {
+      const err = new Error('Please log in');
+      err.statusCode = 401;
+      throw err;
+    }
+    // check if the creator's email is confirmed
+    if (!user.dataValues.emailConfirmed) {
+      const err = new Error('Please confirm your email');
+      err.statusCode = 401;
+      throw err;
+    }
+
+    // get the listings
+    const jobListings = await JobListing.findAll({
+      where: {
+        userId,
+      },
+    });
+    const returnedListings = jobListings.map((listing) => ({
+      ...listing.dataValues,
+    }));
+
+    res.status(200).json({
+      jobListings: returnedListings,
+    });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500; // serverSide error
+    }
+    next(err);
+  }
+};
+
+module.exports.getListing = async (req, res, next) => {
+  const userId = req.userId;
+  const listingId = req.params.listing_id;
+
+  try {
+    const user = await User.findOne({
+      where: {
+        userId,
+      },
+    });
+    // check if the creator is logged in
+    if (!user.dataValues.loggedIn) {
+      const err = new Error('Please log in');
+      err.statusCode = 401;
+      throw err;
+    }
+    // check if the creator's email is confirmed
+    if (!user.dataValues.emailConfirmed) {
+      const err = new Error('Please confirm your email');
+      err.statusCode = 401;
+      throw err;
+    }
+
+    // get the listing
+    const jobListing = await JobListing.findOne({
+      where: {
+        jobListingId: listingId,
+      },
+    });
+
+    // get the listing's questions
+    const questionObjects = await Question.findAll({
+      where: {
+        jobListingId: listingId,
+      },
+    });
+    let questions = questionObjects.map((questionObject) => ({
+      ...questionObject.dataValues,
+    }));
+
+    // attach the keywords to each question
+    for (let i = 0; i < questions.length; i++) {
+      const keywords = await Keyword.findAll({
+        where: {
+          questionId: questions[i].questionId,
+        },
+      });
+      questions[i].keywords = keywords.map(
+        (keyword) => keyword.dataValues.value
+      );
+    }
+
+    // construct the object
+    const returnedObject = {
+      ...jobListing.dataValues,
+      questions,
+    };
+
+    // send the response
+    res.status(201).json({
+      ...returnedObject,
     });
   } catch (err) {
     if (!err.statusCode) {
