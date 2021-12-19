@@ -150,13 +150,19 @@ const putChangePassword = [
     .isLength({
       min: 9,
       max: 255,
+    })
+    .custom((value, { req }) => {
+      if (value === req.body.oldPassword) {
+        return Promise.reject(`New password must be different.`);
+      }
+      return true;
     }),
   body('newConfirmPassword')
     .exists()
     .trim()
     .custom((value, { req }) => {
-      if (value !== req.body.password) {
-        return Promise.reject(`Passwords don't match.`);
+      if (value !== req.body.newPassword) {
+        return Promise.reject(`New passwords don't match.`);
       }
       return true;
     }),

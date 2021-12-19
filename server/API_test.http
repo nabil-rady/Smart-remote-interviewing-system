@@ -62,7 +62,7 @@ Content-Type: application/json
 ###
 
 PUT {{host}}/user/changepassword
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzMDJiMWZjNC0wNGFmLTRmNzctYmQyMy1mODUyMjhkNTEzMjgiLCJpYXQiOjE2MzkzMTE2NTksImV4cCI6MTYzOTM0NzY1OX0.cF2H3OPFsdbV8i3flEWpjGpQcltiEb5O_Xm7wnzYox0
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzMDJiMWZjNC0wNGFmLTRmNzctYmQyMy1mODUyMjhkNTEzMjgiLCJpYXQiOjE2Mzk5MjAxNDksImV4cCI6MTYzOTk1NjE0OX0.uDvacTw34WhvPoRmwDk4bS7zcmZ3t5_rzdvtpMhyvHs
 Content-Type: application/json
 
 {

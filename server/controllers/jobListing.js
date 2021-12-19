@@ -112,13 +112,13 @@ module.exports.getUserListings = async (req, res, next) => {
         userId,
       },
     });
-    // check if the creator is logged in
+    // check if the user is logged in
     if (!user.dataValues.loggedIn) {
       const err = new Error('Please log in');
       err.statusCode = 401;
       throw err;
     }
-    // check if the creator's email is confirmed
+    // check if the user's email is confirmed
     if (!user.dataValues.emailConfirmed) {
       const err = new Error('Please confirm your email');
       err.statusCode = 401;

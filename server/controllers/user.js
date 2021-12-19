@@ -322,6 +322,15 @@ module.exports.getInfo = (req, res, next) => {
 };
 
 module.exports.putEditProfile = (req, res, next) => {
+  // Check for validation errors
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const error = new Error(`Validation failed.`);
+    error.statusCode = 422; // Validation error
+    error.data = errors.array();
+    return next(error);
+  }
+
   const userId = req.userId;
   User.findOne({
     // fetch the user
@@ -334,6 +343,18 @@ module.exports.putEditProfile = (req, res, next) => {
       const error = new Error('User not found');
       error.statusCode = 404;
       throw error;
+    }
+    // check if the user is logged in
+    if (!returnedUser.dataValues.loggedIn) {
+      const err = new Error('Please log in');
+      err.statusCode = 401;
+      throw err;
+    }
+    // check if the user's email is confirmed
+    if (!returnedUser.dataValues.emailConfirmed) {
+      const err = new Error('Please confirm your email');
+      err.statusCode = 401;
+      throw err;
     }
     const { phoneCode, phoneNumber } = req.body;
 
@@ -371,6 +392,15 @@ module.exports.putEditProfile = (req, res, next) => {
 };
 
 module.exports.putChangePassword = (req, res, next) => {
+  // Check for validation errors
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const error = new Error(`Validation failed.`);
+    error.statusCode = 422; // Validation error
+    error.data = errors.array();
+    return next(error);
+  }
+
   const userId = req.userId;
   const { oldPassword, newPassword, confirmNewPassowrd } = req.body;
   User.findOne({
@@ -385,6 +415,18 @@ module.exports.putChangePassword = (req, res, next) => {
         const error = new Error('User not found');
         error.statusCode = 404;
         throw error;
+      }
+      // check if the user is logged in
+      if (!returnedUser.dataValues.loggedIn) {
+        const err = new Error('Please log in');
+        err.statusCode = 401;
+        throw err;
+      }
+      // check if the user's email is confirmed
+      if (!returnedUser.dataValues.emailConfirmed) {
+        const err = new Error('Please confirm your email');
+        err.statusCode = 401;
+        throw err;
       }
       return bcrypt.compare(
         oldPassword.toString(),
