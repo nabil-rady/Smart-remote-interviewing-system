@@ -16,23 +16,43 @@ class CandidateInfoItem extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(8),
         child: ListTile(
-          title: Text(name),
+          title: Text(
+            name,
+            style: TextStyle(fontSize: 20),
+          ),
           // trailing: Text(
           //   'email : ' + email,
           //   style: const TextStyle(fontSize: 16, color: Colors.grey),
           // ),
-          subtitle: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          subtitle: Column(children: <Widget>[
+            SizedBox(
+              height: 15,
+            ),
+            Row(
               children: <Widget>[
                 Text(
                   'email : ' + email,
                   style: const TextStyle(fontSize: 16, color: Colors.grey),
                 ),
+              ],
+              mainAxisAlignment: MainAxisAlignment.start,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: <Widget>[
                 Text(
                   'Number : ' + phoneNumber,
-                  style: const TextStyle(fontSize: 16, color: Colors.grey),
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: Colors.grey,
+                  ),
                 ),
-              ]),
+              ],
+              mainAxisAlignment: MainAxisAlignment.end,
+            ),
+          ]),
         ),
       ),
     );

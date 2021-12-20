@@ -6,6 +6,8 @@ import '../models/interview_model.dart';
 import '../providers/interview_provider.dart';
 import 'package:excel/excel.dart';
 import 'package:path/path.dart';
+import 'package:file_picker_cross/file_picker_cross.dart';
+import 'dart:async';
 import 'package:path_provider/path_provider.dart';
 //import 'package:universal_io/io.dart';
 
@@ -25,35 +27,50 @@ class InvitationForm extends StatefulWidget {
 
 class _InvitationFormState extends State<InvitationForm> {
   var file = "";
+  String fileName = '';
+  String _path = '';
+  String _extension = '';
+  late FileType _pickingType;
 
-  Future<String> get _localPath async {
-    final directory = await getApplicationDocumentsDirectory();
+  // Future<String> get _localPath async {
+  //   final directory = await getApplicationDocumentsDirectory();
+  //   print('lll');
+  //   return directory.path;
+  // }
 
-    return directory.path;
-  }
+  // Future<File> get _localFile async {
+  //   final path = await _localPath;
+  //   return File('$path/counter.txt');
+  // }
 
-  Future<File> get _localFile async {
-    final path = await _localPath;
-    return File('$path/counter.txt');
-  }
+  // Future<String> readExcelFile() async {
+  //   try {
+  //     final file = await _localFile;
 
-  Future<int> readExcelFile() async {
-    try {
-      final file = await _localFile;
+  //     // Read the file
+  //     final contents = await file.readAsString();
 
-      // Read the file
-      final contents = await file.readAsString();
-
-      return int.parse(contents);
-    } catch (e) {
-      // If encountering an error, return 0
-      return 0;
-    }
-  }
+  //     return contents;
+  //   } catch (e) {
+  //     // If encountering an error, return 0
+  //     return '';
+  //   }
+  // }
 
   // void readFileSync() {
   //   String contents = new File('./assets/user.json').readAsStringSync();
   //   print(contents);
+  // }
+  // void _openFileExp() async {
+  //   // if (_pickingType != FileType.custom) {
+  //   //   return;
+  //   try {
+  //     if (_pickingType == FileType.custom) {
+  //       _path = await FilePicker.platform.getDirectoryPath()
+
+  //     }
+  //   } catch (e) {}
+  //   //}
   // }
 
   var candidate = Interview(
@@ -191,38 +208,33 @@ class _InvitationFormState extends State<InvitationForm> {
                 ),
                 color: Theme.of(context).primaryColor,
                 onPressed: () async {
-                  readExcelFile();
+                  FilePickerCross myFile =
+                      await FilePickerCross.importFromStorage(
+                          type: FileTypeCross
+                              .any, // Available: `any`, `audio`, `image`, `video`, `custom`. Note: not available using FDE
+                          fileExtension:
+                              'xlsx' // Only if FileTypeCross.custom . May be any file extension like `dot`, `ppt,pptx,odp`
+                          );
+                  print(myFile.toString());
 
-                  FilePickerResult? result = await FilePicker.platform
-                      .pickFiles(
-                          type: FileType.custom, allowedExtensions: ['.xlsx']);
+                  //   String? selectedDirectory =
+                  //       await FilePicker.platform.getDirectoryPath();
 
-                  if (result != null) {
-                    File file = File(result.files.single.path.toString());
+                  //   if (selectedDirectory == null) {
+                  //     // User canceled the picker
+                  //   }
+                  //   String file = selectedDirectory.toString();
+                  //   var bytes = File(file).readAsBytesSync();
+                  //   var excel = Excel.decodeBytes(bytes);
 
-                    //using mobile need to be tested
-                    // var uploadfile = result.files.single.bytes;
-                    // String filename = basename(result.files.single.name);
-
-                    // File file = File(filename);
-
-                    // File file = File(result.files.single.path.toString());
-
-                    late final bytes = file.readAsBytesSync();
-                    late final excel = Excel.decodeBytes(bytes);
-
-                    for (var table in excel.tables.keys) {
-                      print(table); //sheet Name
-                      print(excel.tables[table]!.maxCols);
-                      print(excel.tables[table]!.maxRows);
-                      for (var row in excel.tables[table]!.rows) {
-                        print("$row");
-                      }
-                    }
-                  } else {
-                    //make a dialogue here to say that he must import a file or add participants manually
-                    // User canceled the picker
-                  }
+                  //   for (var table in excel.tables.keys) {
+                  //     print(table); //sheet Name
+                  //     print(excel.tables[table]?.maxCols);
+                  //     print(excel.tables[table]?.maxRows);
+                  //     for (var row in excel.tables[table]!.rows) {
+                  //       print("$row");
+                  //     }
+                  //   }
                 },
                 child: const Text(
                   'Import from file',

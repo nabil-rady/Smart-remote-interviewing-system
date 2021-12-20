@@ -14,7 +14,7 @@ packages:
       name: async
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.8.1"
+    version: "2.8.2"
   boolean_selector:
     dependency: transitive
     description:
@@ -49,7 +49,7 @@ packages:
       name: characters
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.0"
+    version: "1.2.0"
   charcode:
     dependency: transitive
     description:
@@ -120,6 +120,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.0.6"
+  disk_space:
+    dependency: transitive
+    description:
+      name: disk_space
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.1"
   equatable:
     dependency: transitive
     description:
@@ -162,6 +169,55 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.2.0"
+  file_picker_cross:
+    dependency: "direct main"
+    description:
+      name: file_picker_cross
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.5.0"
+  file_selector:
+    dependency: transitive
+    description:
+      name: file_selector
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.8.2+1"
+  file_selector_linux:
+    dependency: transitive
+    description:
+      name: file_selector_linux
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.2+1"
+  file_selector_macos:
+    dependency: transitive
+    description:
+      name: file_selector_macos
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.4+1"
+  file_selector_platform_interface:
+    dependency: transitive
+    description:
+      name: file_selector_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.2"
+  file_selector_web:
+    dependency: transitive
+    description:
+      name: file_selector_web
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.8.1+2"
+  file_selector_windows:
+    dependency: transitive
+    description:
+      name: file_selector_windows
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.2+1"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -281,7 +337,7 @@ packages:
       name: matcher
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.12.10"
+    version: "0.12.11"
   meta:
     dependency: transitive
     description:
@@ -289,6 +345,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.7.0"
+  mime:
+    dependency: transitive
+    description:
+      name: mime
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1"
   nested:
     dependency: transitive
     description:
@@ -296,6 +359,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
+  package_info:
+    dependency: transitive
+    description:
+      name: package_info
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.2"
   path:
     dependency: transitive
     description:
@@ -387,6 +457,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.1"
+  share:
+    dependency: transitive
+    description:
+      name: share
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.4"
   shared_preferences:
     dependency: "direct main"
     description:
@@ -482,7 +559,7 @@ packages:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.2"
+    version: "0.4.3"
   typed_data:
     dependency: transitive
     description:
@@ -496,7 +573,7 @@ packages:
       name: vector_math
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.0"
+    version: "2.1.1"
   video_player:
     dependency: "direct main"
     description:
