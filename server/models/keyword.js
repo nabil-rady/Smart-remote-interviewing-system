@@ -14,14 +14,6 @@ const Keyword = sequelize.define('Keyword', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  // question: {
-  //   type: DataTypes.CHAR(8),
-  //   allowNull: false,
-  //   references: {
-  //     model: Question,
-  //     key: 'questionId',
-  //   },
-  // },
 });
 
 Question.hasMany(Keyword, {

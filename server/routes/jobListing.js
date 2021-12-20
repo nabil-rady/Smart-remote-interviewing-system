@@ -23,4 +23,11 @@ router.get('/get-listings', isAuth, jobListingControllers.getUserListings);
 
 router.get('/:listing_id', isAuth, jobListingControllers.getListing);
 
+router.post(
+  '/invite',
+  isAuth,
+  jobListingValidations.postInvite,
+  jobListingControllers.postInvite
+);
+
 module.exports = router;

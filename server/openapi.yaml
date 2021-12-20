@@ -35,6 +35,10 @@ paths:
                   type: string
                 confirmPassword:
                   type: string
+                phoneCode:
+                  type: string
+                phoneNumber:
+                  type: string
       responses:
         '201':
           description: A new user is created.
@@ -523,6 +527,58 @@ paths:
 
         '401':
           description: Authentecation faild or unconfirmed email.
+        '422':
+          description: Validation error.
+        '500':
+          description: Server side error.
+
+  /job-listing/invite:
+    post:
+      summary: Invite candidates to an interview.
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          description: jwt of the loggedin user.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                listingId:
+                  type: string
+                candidates:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      email:
+                        type: string
+                      phoneCode:
+                        type: string
+                      phoneNumber:
+                        type: string
+
+      responses:
+        '200':
+          description: Job listing has been created.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '401':
+          description: Authentecation faild or unconfirmed email.
+        '404':
+          description: Listing not found.
         '422':
           description: Validation error.
         '500':

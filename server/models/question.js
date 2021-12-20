@@ -22,14 +22,6 @@ const Question = sequelize.define('Question', {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  // jobListing: {
-  //   type: DataTypes.CHAR(8),
-  //   allowNull: false,
-  //   references: {
-  //     model: JobListing,
-  //     key: 'jobListingId',
-  //   },
-  // },
 });
 
 JobListing.hasMany(Question, {

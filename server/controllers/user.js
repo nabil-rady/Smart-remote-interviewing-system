@@ -123,7 +123,7 @@ module.exports.postConfirmEmail = async (req, res, next) => {
       // sending email with verification link.
       return transporter.sendMail({
         to: user.dataValues.email,
-        from: 'mohamed.medhat2199@gmail.com',
+        from: 'vividlyinterviewing@gmail.com',
         subject: 'Email confirmation.',
         html: `<h1>Please, confirm your email</h1>
              <p>Your verificatin code is <b>${generatedCode}</b> .</p>`,

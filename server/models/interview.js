@@ -10,11 +10,15 @@ const Interview = sequelize.define('Interview', {
     primaryKey: true,
     unique: true,
   },
-  firstName: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  lastName: {
+  // firstName: {
+  //   type: DataTypes.STRING,
+  //   allowNull: false,
+  // },
+  // lastName: {
+  //   type: DataTypes.STRING,
+  //   allowNull: false,
+  // },
+  name: {
     type: DataTypes.STRING,
     allowNull: false,
   },
@@ -31,17 +35,18 @@ const Interview = sequelize.define('Interview', {
     type: DataTypes.STRING(15),
     allowNull: false,
   },
-  // listing: {
-  //   type: DataTypes.CHAR(8),
-  //   allowNull: false,
-  //   references: {
-  //     model: JobListing,
-  //     key: 'jobListingId',
-  //   },
-  // },
+  invitationCode: {
+    type: DataTypes.CHAR(8),
+    allowNull: false,
+    unique: true,
+  },
+  started: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  },
   submitedAt: {
     type: DataTypes.DATE,
-    allowNull: false,
+    defaultValue: null,
   },
 });
 
