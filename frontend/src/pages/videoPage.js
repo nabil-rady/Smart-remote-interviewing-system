@@ -2,12 +2,13 @@ import React, { useRef, useState, useCallback, useEffect } from 'react';
 import Webcam from 'react-webcam';
 import Card from '../components/Card';
 import NavBar from '../components/NavBar';
-
+import Countdown from 'react-countdown';
+import './scss/videopage.scss';
 const WebcamStreamCapture = () => {
   let Questions = [
     {
       title: 'How are you',
-      readTime: 5,
+      readTime: 7,
       answerTime: 10,
     },
     {
@@ -30,24 +31,35 @@ const WebcamStreamCapture = () => {
   const [stop, setStop] = useState(false);
   const [visibility, setVisibility] = useState(false);
   const [counter, setCounter] = useState(0);
-
+  const [readTimer, setReadTimer] = useState(true);
   let webSocket;
+  const ref = useRef();
+
+  const handleStart = (e) => {
+    ref.current?.start();
+  };
+
+  const handlePause = (e) => {
+    ref.current?.pause();
+  };
 
   useEffect(() => {
     webSocket = new WebSocket('ws://localhost:8080', 'echo-protocol');
     return () => webSocket.close();
   }, []);
 
-  const Start = () => {
+  const startInterview = () => {
     setVisibility(true);
     setStart(false);
+    handleStart();
     setTimeout(handleStartCaptureClick, Questions[counter].readTime * 1000);
-    setTimeout(() => {
-      setNext(true);
-      if (stop) {
+    if (stop) {
+      setTimeout(() => {
+        setNext(true);
+        setStop(false);
         handleStopCaptureClick();
-      }
-    }, Questions[counter].readTime * 1000 + Questions[counter].answerTime * 1000);
+      }, Questions[counter].readTime * 1000 + Questions[counter].answerTime * 1000);
+    }
   };
   const handleStartCaptureClick = useCallback(() => {
     mediaRecorderRef.current = new MediaRecorder(webcamRef.current.stream, {
@@ -60,6 +72,7 @@ const WebcamStreamCapture = () => {
     mediaRecorderRef.current.start(1000 * 5);
     console.log('recording....');
     setStop(true);
+    setReadTimer(false);
   }, [webcamRef, setStart, mediaRecorderRef]);
 
   const handleDataAvailable = useCallback(
@@ -73,6 +86,7 @@ const WebcamStreamCapture = () => {
   );
 
   const handleStopCaptureClick = useCallback(() => {
+    setNext(true);
     mediaRecorderRef.current.stop();
     //   setStart(false)
     setStop(false);
@@ -95,21 +109,49 @@ const WebcamStreamCapture = () => {
       setRecordedChunks([]);
     }
   }, [recordedChunks]);
+  const renderer = ({ api }) => {
+    api.start();
+  };
   const handleNext = () => {
     setCounter((counter) => counter + 1);
     setNext(false);
     setStart(true);
+    setReadTimer(true);
     setVisibility(false);
     setStop(false);
   };
   return (
     <>
       <NavBar />
-      {visibility && <Card>{Questions[counter].title}</Card>}
-      <Webcam audio={true} ref={webcamRef} muted={true} />
-      {start && <button onClick={Start}>Start Capture</button>}
-      {stop && <button onClick={handleStopCaptureClick}>Stop Capture</button>}
-      {next && <button onClick={handleNext}>Next Qusetion</button>}
+      {visibility && (
+        <Card className="questions">
+          <p className="questionTitle">{Questions[counter].title}</p>
+        </Card>
+      )}
+      <Webcam audio={true} ref={webcamRef} muted={true} className="video" />
+      {readTimer && (
+        <Countdown
+          date={Date.now() + Questions[counter].readTime * 1000}
+          autoStart={false}
+          ref={ref}
+        />
+      )}{' '}
+      <br />
+      {start && (
+        <button onClick={startInterview} className="buttons">
+          Start Capture
+        </button>
+      )}
+      {stop && (
+        <button onClick={handleStopCaptureClick} className="buttons">
+          Stop Capture
+        </button>
+      )}
+      {next && (
+        <button onClick={handleNext} className="buttons">
+          Next Qusetion
+        </button>
+      )}
       {recordedChunks.length > 0 && (
         <button onClick={handleDownload}>Download</button>
       )}

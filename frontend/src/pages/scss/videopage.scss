@@ -1,0 +1,43 @@
+@import '../../sassConfig/colors';
+@import '../../sassConfig/transition';
+
+.buttons {
+  margin-left: calc(50% - 60px);
+  width: 120px;
+  height: 40px;
+  float: right;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  background-color: $primary-blue;
+  color: white;
+  font-weight: 500;
+  font-size: 1.1rem;
+  @include transition;
+  &:hover {
+    border: 2px solid $primary-blue;
+    background-color: white;
+    color: $primary-blue;
+  }
+  &:disabled,
+  &[disabled] {
+    background-color: gray;
+    color: black;
+  }
+}
+
+.questions {
+  float: right;
+  width: 40%;
+  padding: 10px;
+}
+.questionTitle {
+  text-align: center;
+  color: $primary-blue;
+  font-weight: bold;
+}
+.video {
+  margin-left: 5%;
+}
