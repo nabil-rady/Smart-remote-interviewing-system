@@ -14,14 +14,6 @@ const JobListing = sequelize.define('JobListing', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  // creator: {
-  //   type: DataTypes.CHAR(8),
-  //   allowNull: false,
-  //   references: {
-  //     model: User,
-  //     key: 'userId',
-  //   },
-  // },
   expiryDate: {
     type: DataTypes.DATE,
     allowNull: false,

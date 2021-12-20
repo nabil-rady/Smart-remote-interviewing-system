@@ -7,6 +7,8 @@
     "host": "sevi.cisbfdavufvq.us-east-2.rds.amazonaws.com",
     "dbRoot": "admin",
     "dbPassowrd": "nfy3WiNRHeKfMU",
-    "sendgridTransportApiKey": "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"
+    "sendgridTransportApiKey": "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",
+    "vividlyGmail": "vividlyinterviewing@gmail.com",
+    "vividlyGmailPassword": "Vi123456789vidly"
   }
 }

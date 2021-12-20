@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../util/db');
 const Interview = require('./interview');
+const Question = require('./question');
 
 const Video = sequelize.define('Video', {
   videoId: {
@@ -14,18 +15,15 @@ const Video = sequelize.define('Video', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  // interview: {
-  //   type: DataTypes.CHAR(8),
-  //   allowNull: false,
-  //   references: {
-  //     model: Interview,
-  //     key: 'interviewId',
-  //   },
-  // },
 });
 
 Interview.hasMany(Video, {
   foreignKey: 'interviewId',
+  onDelete: 'CASCADE',
+});
+
+Question.hasOne(Video, {
+  foreignKey: 'questionId',
   onDelete: 'CASCADE',
 });
 

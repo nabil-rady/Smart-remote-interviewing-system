@@ -1,10 +1,14 @@
 const { validationResult } = require('express-validator');
+const nodemailer = require('nodemailer');
+const sendgridTransport = require('nodemailer-sendgrid-transport');
+const customId = require('custom-id');
+const { json } = require('body-parser');
 
 const User = require('../models/user');
 const Question = require('../models/question');
 const JobListing = require('../models/jobListing');
 const Keyword = require('../models/keyword');
-const { json } = require('body-parser');
+const Interview = require('../models/interview');
 
 module.exports.postCreateListing = async (req, res, next) => {
   // Check for validation errors
@@ -207,6 +211,90 @@ module.exports.getListing = async (req, res, next) => {
     // send the response
     res.status(201).json({
       ...returnedObject,
+    });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500; // serverSide error
+    }
+    next(err);
+  }
+};
+
+module.exports.postInvite = async (req, res, next) => {
+  // Check for validation errors
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const error = new Error(`Validation failed.`);
+    error.statusCode = 422; // Validation error
+    error.data = errors.array();
+    return next(error);
+  }
+
+  const userId = req.userId;
+  const { listingId, candidates } = req.body;
+
+  try {
+    // get the listing
+    const listing = await JobListing.findOne({
+      where: {
+        jobListingId: listingId,
+      },
+    });
+    if (!listing) {
+      // check if the listing does not exist.
+      const error = new Error('Listing not found');
+      error.statusCode = 404;
+      throw error;
+    }
+
+    // create interview, and send invitation to each candidate
+    for (let candidate of candidates) {
+      // create the invitation code.
+      let fetchedCode, generatedCode;
+      do {
+        generatedCode = customId({
+          name: candidate.name,
+          email: candidate.email,
+        });
+        fetchedCode = await Interview.findOne({
+          // fetch this generated id
+          attributes: ['interviewId'],
+          where: {
+            invitationCode: generatedCode,
+          },
+        });
+      } while (fetchedCode !== null);
+
+      // create an interview
+      const interview = await listing.createInterview({
+        name: candidate.name,
+        email: candidate.email,
+        phoneCode: candidate.phoneCode,
+        phoneNumber: candidate.phoneNumber,
+        invitationCode: generatedCode,
+      });
+
+      // send the invitation code
+      // create a transporter with the mailing service.
+      const transporter = nodemailer.createTransport(
+        sendgridTransport({
+          auth: {
+            api_key: process.env.sendgridTransportApiKey,
+          },
+        })
+      );
+      // sending email with invitation code.
+      const mail = await transporter.sendMail({
+        to: candidate.email,
+        from: 'vividlyinterviewing@gmail.com',
+        subject: 'Interview invitaion.',
+        html: `<h1>You have been invited for an interview about ${listing.dataValues.positionName}</h1>
+             <p>Your invitation code is <b>${generatedCode}</b>, please submit you interview befor ${listing.dataValues.expiryDate}.</p>`,
+      });
+    }
+
+    res.status(200).json({
+      message: 'Invitaions have been sent successfully',
     });
   } catch (err) {
     if (!err.statusCode) {
