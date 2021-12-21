@@ -4,8 +4,6 @@ import 'package:provider/provider.dart';
 
 import '../providers/interview_provider.dart';
 import '../widgets/applicant_info_card.dart';
-//لازم هتتغير بالبروفايدر بتاع مونيكا
-import '../providers/position_provider.dart';
 
 class ApplicantDetailScreen extends StatefulWidget {
   static const routeName = '/applicant_details';

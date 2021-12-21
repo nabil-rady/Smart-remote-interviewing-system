@@ -40,6 +40,10 @@ class Auth with ChangeNotifier {
     return _employer.userId;
   }
 
+  String? get authtoken {
+    return _token;
+  }
+
   Future<void> signup(
       String firstName,
       String lastName,
