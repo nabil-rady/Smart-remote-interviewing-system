@@ -225,7 +225,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final employerData = Provider.of<Auth>(context, listen: false).employer;
-    final positionData = Provider.of<Positions>(context).positionsItems;
+    // final positionData = Provider.of<Positions>(context).positionsItems;
     inspect(employerData);
     final GlobalKey<FormState> _confirmFormKey = GlobalKey();
     String confirmCode = '';

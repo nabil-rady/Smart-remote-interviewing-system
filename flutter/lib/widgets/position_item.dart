@@ -4,10 +4,10 @@ import '../providers/positions.dart';
 import '../screens/invitation_screen.dart';
 
 class PositionItem extends StatelessWidget {
-  final String position;
+  final String positionName;
+  final String positionId;
 
-  final String id;
-  PositionItem(this.position, this.id);
+  PositionItem(this.positionName, this.positionId);
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -16,8 +16,8 @@ class PositionItem extends StatelessWidget {
         onTap: () {
           // Navigator.of(context)
           //     .pushNamed(InvitationScreen.routeName, arguments: position);
-          Navigator.of(context)
-              .pushNamed('/after_positions_screen', arguments: position);
+          Navigator.of(context).pushNamed('/after_positions_screen',
+              arguments: [positionName, positionId]);
         },
         child: Card(
           child: Row(
@@ -28,17 +28,17 @@ class PositionItem extends StatelessWidget {
                     maxHeight: double.infinity,
                   ),
                   child: Padding(
-                    child: Text(position),
-                    padding: EdgeInsets.only(bottom: 5, top: 5, left: 8),
+                    child: Text(positionName),
+                    padding: const EdgeInsets.only(bottom: 5, top: 5, left: 8),
                   ),
                 ),
               ),
               IconButton(
                 onPressed: () {
                   Provider.of<Positions>(context, listen: false)
-                      .removePosition(id);
+                      .removePosition(positionId);
                 },
-                icon: Icon(Icons.delete),
+                icon: const Icon(Icons.delete),
                 color: Colors.red,
               )
             ],
