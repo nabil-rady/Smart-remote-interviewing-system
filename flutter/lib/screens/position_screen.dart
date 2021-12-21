@@ -94,7 +94,8 @@ class _PositionScreenState extends State<PositionScreen> {
             future: _positionsFuture,
             builder: (ctx, dataSnapshot) {
               if (dataSnapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
+                return const Center(
+                    child: CircularProgressIndicator(color: Color(0xFF165DC0)));
               } else {
                 if (dataSnapshot.error != null) {
                   // ...

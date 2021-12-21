@@ -191,6 +191,7 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:graduation_project/models/http_exception.dart';
+import 'package:graduation_project/providers/dashboard_provider.dart';
 import 'package:graduation_project/providers/positions.dart';
 import 'package:graduation_project/widgets/dashboard_item.dart';
 import 'package:graduation_project/widgets/drawer.dart';
@@ -207,6 +208,20 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  /////////////////////////////////////////////////////////////////
+  late Future _positionsFuture;
+  Future _getPositionsFuture() {
+    return Provider.of<DashboardPositions>(context, listen: false)
+        .getListings();
+  }
+
+  @override
+  void initState() {
+    _positionsFuture = _getPositionsFuture();
+    super.initState();
+  }
+
+/////////////////////////////////////////////////////
   @override
   Widget build(BuildContext context) {
     final employerData = Provider.of<Auth>(context, listen: false).employer;
@@ -370,15 +385,42 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             )
-          : Padding(
-              padding: const EdgeInsets.only(bottom: 50),
-              child: ListView.builder(
-                itemBuilder: (ctx, i) => DashboardItem(
-                  positionName: positionData[i].position,
-                  expieryDate: positionData[i].expireyDate,
-                ),
-                itemCount: positionData.length,
-              ),
+          : FutureBuilder(
+              future: _positionsFuture,
+              builder: (ctx, dataSnapshot) {
+                if (dataSnapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                      child:
+                          CircularProgressIndicator(color: Color(0xFF165DC0)));
+                } else {
+                  if (dataSnapshot.error != null) {
+                    // ...
+                    // Do error handling stuff
+                    return const Center(
+                      child: Text('An error occurred!'),
+                    );
+                  } else {
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 50),
+                      child: Consumer<DashboardPositions>(
+                        builder: (ctx, positionData, child) => ListView.builder(
+                          itemBuilder: (ctx, i) => DashboardItem(
+                            positionName:
+                                positionData.positionsItems[i].position,
+                            expieryDate:
+                                positionData.positionsItems[i].expireyDate,
+                            candidates:
+                                positionData.positionsItems[i].candidates,
+                            interviews:
+                                positionData.positionsItems[i].interwievs,
+                          ),
+                          itemCount: positionData.positionsItems.length,
+                        ),
+                      ),
+                    );
+                  }
+                }
+              },
             ),
     );
   }

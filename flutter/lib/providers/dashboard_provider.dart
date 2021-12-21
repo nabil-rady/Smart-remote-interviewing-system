@@ -64,14 +64,10 @@ class DashboardPositions with ChangeNotifier {
       },
     );
     final responseData = json.decode(response.body);
-    // print(response.body);
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
-      //print(responseData['jobListings'] as List<dynamic>);
-      //final extractedData = responseData['jobListings']  as List<dynamic>;
-      //print(extractedData);
-
       final extractedData = responseData['jobListings'] as List<dynamic>;
+      //  print(extractedData);
       final List<PositionForDashboard> _finalList = [];
       extractedData
           .map((positionvalue) =>
@@ -91,6 +87,5 @@ class DashboardPositions with ChangeNotifier {
     } else {
       throw HttpException(responseData['message']);
     }
-    //print(validationResponseData);
   }
 }

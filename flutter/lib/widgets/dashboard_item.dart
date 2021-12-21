@@ -289,10 +289,14 @@ T getRandomElement<T>(List<T> list) {
 class DashboardItem extends StatelessWidget {
   final String positionName;
   final DateTime expieryDate;
+  final int candidates;
+  final int interviews;
 
   DashboardItem({
     required this.positionName,
     required this.expieryDate,
+    required this.candidates,
+    required this.interviews,
   });
   @override
   Widget build(BuildContext context) {
@@ -452,7 +456,7 @@ class DashboardItem extends StatelessWidget {
                                     .fontFamily),
                           ),
                           Text(
-                            "Dummy",
+                            candidates.toString(),
                             style: TextStyle(
                                 fontWeight: Theme.of(context)
                                     .textTheme
@@ -493,7 +497,7 @@ class DashboardItem extends StatelessWidget {
                                     .fontFamily),
                           ),
                           Text(
-                            'Dummy',
+                            interviews.toString(),
                             style: TextStyle(
                                 fontWeight: Theme.of(context)
                                     .textTheme
