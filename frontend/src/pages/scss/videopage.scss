@@ -2,14 +2,14 @@
 @import '../../sassConfig/transition';
 
 .buttons {
-  margin-left: calc(50% - 60px);
-  width: 120px;
+  margin-left: calc(50% - 75px);
+  width: 150px;
   height: 40px;
-  float: right;
   justify-content: center;
   align-items: center;
   border: none;
   border-radius: 20px;
+  padding: 5px;
   cursor: pointer;
   background-color: $primary-blue;
   color: white;
@@ -29,15 +29,49 @@
 }
 
 .questions {
-  float: right;
-  width: 40%;
+  width: 500px;
+  margin-left: calc(50% - 250px);
   padding: 10px;
+  height: auto;
 }
 .questionTitle {
   text-align: center;
   color: $primary-blue;
   font-weight: bold;
+  display: block;
+  width: 100%;
+  font-size: xx-large;
 }
 .video {
   margin-left: 5%;
+  float: left;
+  margin-top: 5rem;
+}
+
+.answertimer {
+  color: $primary-blue;
+  width: 100%;
+  margin-bottom: 1.2rem;
+  font-weight: bolder;
+  text-align: center;
+  display: block;
+}
+
+.readCard {
+  width: 155px;
+  padding: 10px;
+  margin-left: calc(50% - 75.5px);
+  margin-top: 3rem;
+  margin-bottom: 7rem;
+}
+.readtimer {
+  color: $primary-blue;
+  text-align: center;
+  font-size: x-large;
+  font-weight: bold;
+}
+.questionspart {
+  float: right;
+  margin-right: 8%;
+  width: 40%;
 }
