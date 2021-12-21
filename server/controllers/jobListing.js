@@ -3,6 +3,7 @@ const nodemailer = require('nodemailer');
 const sendgridTransport = require('nodemailer-sendgrid-transport');
 const customId = require('custom-id');
 const { json } = require('body-parser');
+const sequelize = require('../util/db');
 
 const User = require('../models/user');
 const Question = require('../models/question');
@@ -135,9 +136,31 @@ module.exports.getUserListings = async (req, res, next) => {
         userId,
       },
     });
+
     const returnedListings = jobListings.map((listing) => ({
       ...listing.dataValues,
     }));
+
+    for (let listing of returnedListings) {
+      const invitations = await Interview.findAll({
+        where: {
+          jobListingId: listing.jobListingId,
+        },
+      });
+
+      const notFinishedInterviews = await Interview.findAll({
+        where: {
+          jobListingId: listing.jobListingId,
+          submitedAt: null,
+        },
+      });
+
+      listing.invitationsNumber = invitations ? invitations.length : 0;
+      listing.interviewsNumber =
+        invitations && notFinishedInterviews
+          ? invitations.length - notFinishedInterviews.length
+          : 0;
+    }
 
     res.status(200).json({
       jobListings: returnedListings,
@@ -180,6 +203,20 @@ module.exports.getListing = async (req, res, next) => {
       },
     });
 
+    // get the number of invitations and finished interviews
+    const invitations = await Interview.findAll({
+      where: {
+        jobListingId: jobListing.jobListingId,
+      },
+    });
+
+    const notFinishedInterviews = await Interview.findAll({
+      where: {
+        jobListingId: jobListing.jobListingId,
+        submitedAt: null,
+      },
+    });
+
     // get the listing's questions
     const questionObjects = await Question.findAll({
       where: {
@@ -205,6 +242,11 @@ module.exports.getListing = async (req, res, next) => {
     // construct the object
     const returnedObject = {
       ...jobListing.dataValues,
+      invitationsNumber: invitations ? invitations.length : 0,
+      interviewsNumber:
+        invitations && notFinishedInterviews
+          ? invitations.length - notFinishedInterviews.length
+          : 0,
       questions,
     };
 

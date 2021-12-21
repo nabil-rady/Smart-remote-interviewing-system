@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:graduation_project/providers/dashboard_provider.dart';
 
 import 'package:provider/provider.dart';
 
@@ -45,8 +46,22 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (ctx) => Interviews(),
         ),
-        ChangeNotifierProvider(
-          create: (ctx) => Positions(),
+        // ChangeNotifierProvider(
+        //   create: (ctx) => DashboardPositions(),
+        // ),
+         ChangeNotifierProxyProvider<Auth, DashboardPositions>(
+          create: (ctx) => DashboardPositions('', []),
+          update: (ctx, auth, previosPositions) =>
+              DashboardPositions(auth.authtoken, previosPositions!.positionsItems),
+        ),
+        // ChangeNotifierProvider(
+        //   create: (ctx) => Positions(),
+        // ),
+
+        ChangeNotifierProxyProvider<Auth, Positions>(
+          create: (ctx) => Positions('', []),
+          update: (ctx, auth, previosPositions) =>
+              Positions(auth.authtoken, previosPositions!.positionsItems),
         ),
       ],
       child: MaterialApp(
