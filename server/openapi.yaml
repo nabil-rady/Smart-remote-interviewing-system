@@ -467,6 +467,10 @@ paths:
                           type: string
                         expiryDate:
                           format: date-time
+                        invitationsNumber:
+                          type: integer
+                        interviewsNumber:
+                          type: integer
         '401':
           description: Authentecation faild or unconfirmed email.
         '422':
@@ -505,6 +509,10 @@ paths:
                     type: string
                   expiryDate:
                     format: date-time
+                  invitationsNumber:
+                    type: integer
+                  interviewsNumber:
+                    type: integer
                   questions:
                     type: array
                     items:
