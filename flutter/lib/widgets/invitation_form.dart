@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -29,48 +30,29 @@ class _InvitationFormState extends State<InvitationForm> {
   var file = "";
   String fileName = '';
   String _path = '';
-  String _extension = '';
-  late FileType _pickingType;
+  String _extension = 'xlsx';
+  FileType _pickingType = FileType.any;
 
-  // Future<String> get _localPath async {
-  //   final directory = await getApplicationDocumentsDirectory();
-  //   print('lll');
-  //   return directory.path;
-  // }
+  // void pickFiles() async {
+  //   FilePickerResult? result = await FilePicker.platform
+  //       .pickFiles(type: FileType.custom, allowedExtensions: ['xlsx', 'csv']);
+  //   if (result == null) return;
+  //   PlatformFile? file = result.files.first;
+  //   Future<Uint8List> bytes = await File(file).readAsBytesSync();
+  //   var excel = Excel.decodeBytes(bytes);
 
-  // Future<File> get _localFile async {
-  //   final path = await _localPath;
-  //   return File('$path/counter.txt');
-  // }
-
-  // Future<String> readExcelFile() async {
-  //   try {
-  //     final file = await _localFile;
-
-  //     // Read the file
-  //     final contents = await file.readAsString();
-
-  //     return contents;
-  //   } catch (e) {
-  //     // If encountering an error, return 0
-  //     return '';
+  //   for (var table in excel.tables.keys) {
+  //     print(table); //sheet Name
+  //     print(excel.tables[table]?.maxCols);
+  //     print(excel.tables[table]?.maxRows);
+  //     for (var row in excel.tables[table]!.rows) {
+  //       print("$row");
+  //     }
   //   }
   // }
 
-  // void readFileSync() {
-  //   String contents = new File('./assets/user.json').readAsStringSync();
-  //   print(contents);
-  // }
-  // void _openFileExp() async {
-  //   // if (_pickingType != FileType.custom) {
-  //   //   return;
-  //   try {
-  //     if (_pickingType == FileType.custom) {
-  //       _path = await FilePicker.platform.getDirectoryPath()
-
-  //     }
-  //   } catch (e) {}
-  //   //}
+  // void viewFile(PlatformFile file) {
+  //   OpenFile.open(file.path);
   // }
 
   var candidate = Interview(
@@ -207,35 +189,39 @@ class _InvitationFormState extends State<InvitationForm> {
                   borderRadius: BorderRadius.circular(30),
                 ),
                 color: Theme.of(context).primaryColor,
-                onPressed: () async {
-                  FilePickerCross myFile =
-                      await FilePickerCross.importFromStorage(
-                          type: FileTypeCross
-                              .any, // Available: `any`, `audio`, `image`, `video`, `custom`. Note: not available using FDE
-                          fileExtension:
-                              'xlsx' // Only if FileTypeCross.custom . May be any file extension like `dot`, `ppt,pptx,odp`
-                          );
-                  print(myFile.toString());
+                //
+                onPressed: () {
+                  //  pickFiles();
+                }
+                // () async {
+                //   FilePickerCross myFile =
+                //       await FilePickerCross.importFromStorage(
+                //           type: FileTypeCross
+                //               .any, // Available: `any`, `audio`, `image`, `video`, `custom`. Note: not available using FDE
+                //           fileExtension:
+                //               'xlsx' // Only if FileTypeCross.custom . May be any file extension like `dot`, `ppt,pptx,odp`
+                //           );
+                //   print(myFile.toString());
 
-                  //   String? selectedDirectory =
-                  //       await FilePicker.platform.getDirectoryPath();
+                //   String? selectedDirectory =
+                //       await FilePicker.platform.getDirectoryPath();
 
-                  //   if (selectedDirectory == null) {
-                  //     // User canceled the picker
-                  //   }
-                  //   String file = selectedDirectory.toString();
-                  //   var bytes = File(file).readAsBytesSync();
-                  //   var excel = Excel.decodeBytes(bytes);
+                //   if (selectedDirectory == null) {
+                //     // User canceled the picker
+                //   }
+                //   String file = selectedDirectory.toString();
+                //   var bytes = File(file).readAsBytesSync();
+                //   var excel = Excel.decodeBytes(bytes);
 
-                  //   for (var table in excel.tables.keys) {
-                  //     print(table); //sheet Name
-                  //     print(excel.tables[table]?.maxCols);
-                  //     print(excel.tables[table]?.maxRows);
-                  //     for (var row in excel.tables[table]!.rows) {
-                  //       print("$row");
-                  //     }
-                  //   }
-                },
+                //   for (var table in excel.tables.keys) {
+                //     print(table); //sheet Name
+                //     print(excel.tables[table]?.maxCols);
+                //     print(excel.tables[table]?.maxRows);
+                //     for (var row in excel.tables[table]!.rows) {
+                //       print("$row");
+                //     }
+                //   }
+                ,
                 child: const Text(
                   'Import from file',
                   style: const TextStyle(color: Colors.white),
