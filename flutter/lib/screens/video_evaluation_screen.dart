@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 
 import '../providers/interview_provider.dart';
-import '../providers/position_provider.dart';
 import '../widgets/video_player.dart';
 
 class VedioEvaluationScreen extends StatefulWidget {
