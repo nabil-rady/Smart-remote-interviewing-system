@@ -6,9 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/interview_model.dart';
 import '../providers/interview_provider.dart';
-import 'package:excel/excel.dart';
+
 import 'package:path/path.dart';
-import 'package:file_picker_cross/file_picker_cross.dart';
 import 'dart:async';
 import 'package:path_provider/path_provider.dart';
 import 'package:csv/csv.dart';
@@ -35,10 +34,22 @@ class _InvitationFormState extends State<InvitationForm> {
   late List<List<dynamic>> employeeData;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
+  bool flag = false;
   List<PlatformFile>? _paths;
   String? _extension = "csv";
   FileType _pickingType = FileType.custom;
+
+  var candidate = Interview(
+      name: '',
+      email: '',
+      phone: '',
+      id: DateTime.now().toString(),
+      date: DateTime.now(),
+      rate: 0,
+      videoAnswers: [],
+      isRated: false,
+      positionName: '');
+
   @override
   void initState() {
     // TODO: implement initState
@@ -90,50 +101,72 @@ class _InvitationFormState extends State<InvitationForm> {
     }
   }
 
-  // void pickFiles() async {
-  //   FilePickerResult? result = await FilePicker.platform
-  //       .pickFiles(type: FileType.custom, allowedExtensions: ['xlsx', 'csv']);
-  //   if (result == null) return;
-  //   PlatformFile? file = result.files.first;
-  //   Future<Uint8List> bytes = await File(file).readAsBytesSync();
-  //   var excel = Excel.decodeBytes(bytes);
-
-  //   for (var table in excel.tables.keys) {
-  //     print(table); //sheet Name
-  //     print(excel.tables[table]?.maxCols);
-  //     print(excel.tables[table]?.maxRows);
-  //     for (var row in excel.tables[table]!.rows) {
-  //       print("$row");
-  //     }
-  //   }
-  // }
-
-  // void viewFile(PlatformFile file) {
-  //   OpenFile.open(file.path);
-  // }
-
-  var candidate = Interview(
-      name: '',
-      email: '',
-      phone: '',
-      id: DateTime.now().toString(),
-      date: DateTime.now(),
-      rate: 0,
-      videoAnswers: [],
-      isRated: false,
-      positionName: '');
-
   final _form = GlobalKey<FormState>();
 
   //bool flag = true;
 
-  void _saveForms(context) {
+  void _saveForms(context, bool flag1) {
     var valid = _form.currentState!.validate();
-    if (!valid) {
-      return;
+    if (flag1 == false) {
+      if (!valid) {
+        return;
+      }
+      _form.currentState!.save();
+      Provider.of<Interviews>(context, listen: false).addAplicant(candidate);
+    } else {
+      if (!valid) {
+        return;
+      }
+
+      var candidate = Interview(
+          name: '',
+          email: '',
+          phone: '',
+          id: DateTime.now().toString(),
+          date: DateTime.now(),
+          rate: 0,
+          videoAnswers: [],
+          isRated: false,
+          positionName: '');
+
+      employeeData.forEach((element) {
+        candidate = Interview(
+            name: element[0],
+            email: candidate.email,
+            phone: candidate.phone,
+            date: candidate.date,
+            id: candidate.id,
+            rate: candidate.rate,
+            videoAnswers: candidate.videoAnswers,
+            isRated: candidate.isRated,
+            positionName: candidate.positionName);
+        candidate = Interview(
+            name: candidate.name,
+            email: element[2],
+            phone: candidate.phone,
+            date: candidate.date,
+            id: candidate.id,
+            rate: candidate.rate,
+            videoAnswers: candidate.videoAnswers,
+            isRated: candidate.isRated,
+            positionName: candidate.positionName);
+        candidate = Interview(
+            name: candidate.name,
+            email: candidate.email,
+            phone: element[1],
+            date: candidate.date,
+            id: candidate.id,
+            rate: candidate.rate,
+            videoAnswers: candidate.videoAnswers,
+            isRated: candidate.isRated,
+            positionName: candidate.positionName);
+        Provider.of<Interviews>(context, listen: false).addAplicant(candidate);
+        print(candidate);
+      });
+      // _form.currentState!.save();
+      // Provider.of<Interviews>(context, listen: false).addAplicant(candidate);
+
     }
-    _form.currentState!.save();
-    Provider.of<Interviews>(context, listen: false).addAplicant(candidate);
 
     // print(ques.titleQuestion);
     // print(ques.answerTime);
@@ -234,7 +267,10 @@ class _InvitationFormState extends State<InvitationForm> {
                 ),
                 color: Theme.of(context).primaryColor,
                 onPressed: () {
-                  _saveForms(context);
+                  setState(() {
+                    flag = false;
+                  });
+                  _saveForms(context, flag);
                 },
                 child: const Text(
                   'Invite Candidate',
@@ -248,6 +284,11 @@ class _InvitationFormState extends State<InvitationForm> {
                 color: Theme.of(context).primaryColor,
                 //
                 onPressed: () {
+                  setState(() {
+                    flag = true;
+                  });
+                  _openFileExplorer();
+                  _saveForms(context, flag);
                   //  pickFiles();
                 },
                 child: const Text(
