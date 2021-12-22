@@ -2,6 +2,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const sequelize = require('./util/db');
+const WebSocketServer = require('ws');
+const fs = require('fs');
 
 // import models
 const Interview = require('./models/interview');
@@ -62,9 +64,29 @@ sequelize
   })
   .then((result) => {
     // Setup the server.
-
-    // console.log('result:', result);
     const port = process.env.PORT || 8080;
-    app.listen(port, () => console.log(`Server is runing on port ${port}`));
+    const server = app.listen(port, () =>
+      console.log(`Server is runing on port ${port}`)
+    );
+
+    // WebSockets
+    const wsServer = new WebSocketServer.Server({ server });
+
+    wsServer.on('connection', function (webSocket, req) {
+      const client = req.socket.remoteAddress;
+      console.log(`Client connected!!`);
+      console.log(client);
+
+      webSocket.on('message', function (data) {
+        console.log(`message has been received received!!`);
+        let num = fs.readdirSync('../videos').length;
+        const fileBuffer = new Buffer(data, 'base64');
+        fs.writeFileSync('../videos/' + num++ + '.webm', fileBuffer);
+      });
+
+      webSocket.on('close', function () {
+        console.log('Connection has been closed');
+      });
+    });
   })
   .catch((err) => console.log(err));
