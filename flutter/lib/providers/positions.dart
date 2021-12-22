@@ -98,44 +98,49 @@ class Positions with ChangeNotifier {
             expireyDate: DateTime(0)));
   }
 
-  // Future<void> getListings() async {
-  //   //print("working");
-  //   //print(authToken.toString());
-  //   final response = await http.get(
-  //     Uri.parse('https://vividly-api.herokuapp.com/job-listing/get-listings'),
-  //     headers: <String, String>{
-  //       'Content-Type': 'application/json',
-  //       'Authorization': authToken.toString(),
-  //     },
-  //   );
-  //   final responseData = json.decode(response.body);
-  //   // print(response.body);
-  //   if (response.statusCode == 200) {
-  //     final responseData = json.decode(response.body);
-  //     //print(responseData['jobListings'] as List<dynamic>);
-  //     //final extractedData = responseData['jobListings']  as List<dynamic>;
-  //     //print(extractedData);
+  Future<void> positionDetails(String positionId) async {
+    //print("working");
+    //print(authToken.toString());
+    final response = await http.get(
+      Uri.parse('https://vividly-api.herokuapp.com/job-listing/$positionId'),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': authToken.toString(),
+      },
+    );
+    final responseData = json.decode(response.body);
+    // print(response.body);
+    if (response.statusCode == 200) {
+      final responseData = json.decode(response.body);
+      //print(responseData['jobListings'] as List<dynamic>);
+      //final extractedData = responseData['jobListings']  as List<dynamic>;
+      //print(extractedData);
 
-  //     final extractedData = responseData['jobListings'] as List<dynamic>;
-  //     final List<Position> _finalList = [];
-  //     extractedData
-  //         .map((positionvalue) =>
-  //             // print(positionvalue['expiryDate']);
-  //             _finalList.add(
-  //               Position(
-  //                 expireyDate: DateTime.parse(positionvalue['expiryDate']),
-  //                 position: positionvalue['positionName'],
-  //                 id: positionvalue['jobListingId'],
-  //                 // I should change it
-  //                 questions: [],
-  //               ),
-  //             ))
-  //         .toList();
-  //     _positionsItems = _finalList.reversed.toList();
-  //     notifyListeners();
-  //   } else {
-  //     throw HttpException(responseData['message']);
-  //   }
-  //   //print(validationResponseData);
-  // }
+      final extractedData = responseData as Map<String, dynamic>;
+      final List<Position> _finalList = [];
+      extractedData.forEach((key, positionvalue) {
+        _finalList.add(
+          Position(
+            expireyDate: DateTime.parse(positionvalue['expiryDate']),
+            position: positionvalue['positionName'],
+            id: positionvalue['jobListingId'],
+            // I should change it
+            questions: (positionvalue['questions'] as List<dynamic>)
+                .map((question) => Question(
+                    id: question['questionId'],
+                    titleQuestion: question['statement'],
+                    answerTime: question['timeToAnswer'],
+                    thinkingTime: question['timeToThink'],
+                    keywords: question['keywords']))
+                .toList(),
+          ),
+        );
+      });
+      _positionsItems = _finalList.reversed.toList();
+      notifyListeners();
+    } else {
+      throw HttpException(responseData['message']);
+    }
+    //print(validationResponseData);
+  }
 }

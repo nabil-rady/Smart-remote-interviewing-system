@@ -1,14 +1,19 @@
+import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/interview_model.dart';
 import '../providers/interview_provider.dart';
-import 'package:excel/excel.dart';
+
 import 'package:path/path.dart';
-import 'package:file_picker_cross/file_picker_cross.dart';
 import 'dart:async';
 import 'package:path_provider/path_provider.dart';
+import 'package:csv/csv.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 //import 'package:universal_io/io.dart';
 
 //import 'dart:html';
@@ -26,52 +31,13 @@ class InvitationForm extends StatefulWidget {
 }
 
 class _InvitationFormState extends State<InvitationForm> {
-  var file = "";
-  String fileName = '';
-  String _path = '';
-  String _extension = '';
-  late FileType _pickingType;
+  late List<List<dynamic>> employeeData;
 
-  // Future<String> get _localPath async {
-  //   final directory = await getApplicationDocumentsDirectory();
-  //   print('lll');
-  //   return directory.path;
-  // }
-
-  // Future<File> get _localFile async {
-  //   final path = await _localPath;
-  //   return File('$path/counter.txt');
-  // }
-
-  // Future<String> readExcelFile() async {
-  //   try {
-  //     final file = await _localFile;
-
-  //     // Read the file
-  //     final contents = await file.readAsString();
-
-  //     return contents;
-  //   } catch (e) {
-  //     // If encountering an error, return 0
-  //     return '';
-  //   }
-  // }
-
-  // void readFileSync() {
-  //   String contents = new File('./assets/user.json').readAsStringSync();
-  //   print(contents);
-  // }
-  // void _openFileExp() async {
-  //   // if (_pickingType != FileType.custom) {
-  //   //   return;
-  //   try {
-  //     if (_pickingType == FileType.custom) {
-  //       _path = await FilePicker.platform.getDirectoryPath()
-
-  //     }
-  //   } catch (e) {}
-  //   //}
-  // }
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  bool flag = false;
+  List<PlatformFile>? _paths;
+  String? _extension = "csv";
+  FileType _pickingType = FileType.custom;
 
   var candidate = Interview(
       name: '',
@@ -84,17 +50,123 @@ class _InvitationFormState extends State<InvitationForm> {
       isRated: false,
       positionName: '');
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    employeeData = List<List<dynamic>>.empty(growable: true);
+  }
+
+  openFile(filepath) async {
+    File f = new File(filepath);
+    print("CSV to List");
+    final input = f.openRead();
+    final fields = await input
+        .transform(utf8.decoder)
+        .transform(new CsvToListConverter())
+        .toList();
+    print(fields);
+    setState(() {
+      employeeData = fields;
+    });
+  }
+
+  void _openFileExplorer() async {
+    try {
+      _paths = (await FilePicker.platform.pickFiles(
+        type: _pickingType,
+        allowMultiple: false,
+        allowedExtensions: (_extension?.isNotEmpty ?? false)
+            ? _extension?.replaceAll(' ', '').split(',')
+            : null,
+      ))
+          ?.files;
+    } on PlatformException catch (e) {
+      print("Unsupported operation" + e.toString());
+    } catch (ex) {
+      print(ex);
+    }
+    if (!mounted) return;
+    setState(() {
+      openFile(_paths![0].path);
+      print(_paths);
+      print("File path ${_paths![0]}");
+      print(_paths!.first.extension);
+    });
+
+    @override
+    Widget build(BuildContext context) {
+      // TODO: implement build
+      throw UnimplementedError();
+    }
+  }
+
   final _form = GlobalKey<FormState>();
 
   //bool flag = true;
 
-  void _saveForms(context) {
+  void _saveForms(context, bool flag1) {
     var valid = _form.currentState!.validate();
-    if (!valid) {
-      return;
+    if (flag1 == false) {
+      if (!valid) {
+        return;
+      }
+      _form.currentState!.save();
+      Provider.of<Interviews>(context, listen: false).addAplicant(candidate);
+    } else {
+      if (!valid) {
+        return;
+      }
+
+      var candidate = Interview(
+          name: '',
+          email: '',
+          phone: '',
+          id: DateTime.now().toString(),
+          date: DateTime.now(),
+          rate: 0,
+          videoAnswers: [],
+          isRated: false,
+          positionName: '');
+
+      employeeData.forEach((element) {
+        candidate = Interview(
+            name: element[0],
+            email: candidate.email,
+            phone: candidate.phone,
+            date: candidate.date,
+            id: candidate.id,
+            rate: candidate.rate,
+            videoAnswers: candidate.videoAnswers,
+            isRated: candidate.isRated,
+            positionName: candidate.positionName);
+        candidate = Interview(
+            name: candidate.name,
+            email: element[2],
+            phone: candidate.phone,
+            date: candidate.date,
+            id: candidate.id,
+            rate: candidate.rate,
+            videoAnswers: candidate.videoAnswers,
+            isRated: candidate.isRated,
+            positionName: candidate.positionName);
+        candidate = Interview(
+            name: candidate.name,
+            email: candidate.email,
+            phone: element[1],
+            date: candidate.date,
+            id: candidate.id,
+            rate: candidate.rate,
+            videoAnswers: candidate.videoAnswers,
+            isRated: candidate.isRated,
+            positionName: candidate.positionName);
+        Provider.of<Interviews>(context, listen: false).addAplicant(candidate);
+        print(candidate);
+      });
+      // _form.currentState!.save();
+      // Provider.of<Interviews>(context, listen: false).addAplicant(candidate);
+
     }
-    _form.currentState!.save();
-    Provider.of<Interviews>(context, listen: false).addAplicant(candidate);
 
     // print(ques.titleQuestion);
     // print(ques.answerTime);
@@ -195,7 +267,10 @@ class _InvitationFormState extends State<InvitationForm> {
                 ),
                 color: Theme.of(context).primaryColor,
                 onPressed: () {
-                  _saveForms(context);
+                  setState(() {
+                    flag = false;
+                  });
+                  _saveForms(context, flag);
                 },
                 child: const Text(
                   'Invite Candidate',
@@ -207,34 +282,14 @@ class _InvitationFormState extends State<InvitationForm> {
                   borderRadius: BorderRadius.circular(30),
                 ),
                 color: Theme.of(context).primaryColor,
-                onPressed: () async {
-                  FilePickerCross myFile =
-                      await FilePickerCross.importFromStorage(
-                          type: FileTypeCross
-                              .any, // Available: `any`, `audio`, `image`, `video`, `custom`. Note: not available using FDE
-                          fileExtension:
-                              'xlsx' // Only if FileTypeCross.custom . May be any file extension like `dot`, `ppt,pptx,odp`
-                          );
-                  print(myFile.toString());
-
-                  //   String? selectedDirectory =
-                  //       await FilePicker.platform.getDirectoryPath();
-
-                  //   if (selectedDirectory == null) {
-                  //     // User canceled the picker
-                  //   }
-                  //   String file = selectedDirectory.toString();
-                  //   var bytes = File(file).readAsBytesSync();
-                  //   var excel = Excel.decodeBytes(bytes);
-
-                  //   for (var table in excel.tables.keys) {
-                  //     print(table); //sheet Name
-                  //     print(excel.tables[table]?.maxCols);
-                  //     print(excel.tables[table]?.maxRows);
-                  //     for (var row in excel.tables[table]!.rows) {
-                  //       print("$row");
-                  //     }
-                  //   }
+                //
+                onPressed: () {
+                  setState(() {
+                    flag = true;
+                  });
+                  _openFileExplorer();
+                  _saveForms(context, flag);
+                  //  pickFiles();
                 },
                 child: const Text(
                   'Import from file',

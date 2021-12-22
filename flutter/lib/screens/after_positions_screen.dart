@@ -6,28 +6,34 @@ class AfterPositionsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final positioName = ModalRoute.of(context)!.settings.arguments as String;
+    final _position =
+        ModalRoute.of(context)!.settings.arguments as List<String>;
+    final _positioName = _position[0];
+    //print(positioName);
+    final _positionId = _position[1];
+    //print(positionId);
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(positioName),
+        title: Text(_positioName),
         backgroundColor: Theme.of(context).primaryColor,
       ),
       body: Padding(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: Column(
           children: [
             eachCard2('Position Details', 'assets/images/research.png', context,
-                '/position_details_screen'),
+                '/position_details_screen', _positionId, _positioName),
             const SizedBox(
               height: 9,
             ),
             eachCard2('Evaluate applicants', 'assets/images/check.png', context,
-                '/to_evaluate_screen'),
+                '/to_evaluate_screen', _positionId, _positioName),
             const SizedBox(
               height: 9,
             ),
             eachCard2('Invate Applicant', 'assets/images/invitation.png',
-                context, '/invitation_screen'),
+                context, '/invitation_screen', _positionId, _positioName),
           ],
         ),
       ),
@@ -35,15 +41,12 @@ class AfterPositionsScreen extends StatelessWidget {
   }
 }
 
-Widget eachCard2(
-  String title,
-  String image,
-  BuildContext context,
-  String route,
-) {
+Widget eachCard2(String title, String image, BuildContext context, String route,
+    String postionId, String positionName) {
   return InkWell(
     onTap: () {
-      Navigator.of(context).pushNamed(route);
+      Navigator.of(context)
+          .pushNamed(route, arguments: [positionName, postionId]);
     },
     child: Card(
       shape: RoundedRectangleBorder(

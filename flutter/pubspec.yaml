@@ -49,6 +49,9 @@ dependencies:
   custom_timer: ^0.0.6
   lottie: ^1.2.0
   excel:
+
+  permission_handler: ^7.1.0
+
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
@@ -57,6 +60,8 @@ dependencies:
   shared_preferences: ^2.0.8
   file_picker: ^4.2.0
   file_picker_cross: ^4.5.0
+  csv: ^5.0.1
+  gsheets: ^0.3.2
 
 dev_dependencies:
   flutter_test:

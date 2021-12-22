@@ -77,9 +77,8 @@ class DashboardPositions with ChangeNotifier {
                     expireyDate: DateTime.parse(positionvalue['expiryDate']),
                     position: positionvalue['positionName'],
                     id: positionvalue['jobListingId'],
-                    // I should change it
-                    candidates: 20,
-                    interwievs: 30),
+                    candidates: positionvalue['invitationsNumber'],
+                    interwievs: positionvalue['interviewsNumber']),
               ))
           .toList();
       _positionsItems = _finalList.reversed.toList();
