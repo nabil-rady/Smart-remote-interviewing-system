@@ -2,14 +2,14 @@ import React, { useRef, useState, useCallback, useEffect } from 'react';
 import Webcam from 'react-webcam';
 import Card from '../components/Card';
 import NavBar from '../components/NavBar';
-import Countdown from 'react-countdown';
+import Countdown, { zeroPad } from 'react-countdown';
 import './scss/videopage.scss';
 const WebcamStreamCapture = () => {
   let Questions = [
     {
       title: 'How are you nfslbknnfl snblkaj;ha; hgrhah;hg',
       readTime: 7,
-      answerTime: 10,
+      answerTime: 8,
     },
     {
       title: 'State your skills',
@@ -32,36 +32,66 @@ const WebcamStreamCapture = () => {
   const [visibility, setVisibility] = useState(false);
   const [counter, setCounter] = useState(0);
   const [readTimer, setReadTimer] = useState(true);
+
   let webSocket;
+  let recordTimeout;
   const refRead = useRef();
   const refAnswer = useRef();
 
   const handleReadStart = (e) => {
     refRead.current?.start();
   };
+
   const handleAnswerStart = (e) => {
     refAnswer.current?.start();
   };
+
   const handleAnswerPause = (e) => {
+    console.log('record paused');
     refAnswer.current?.pause();
   };
 
   useEffect(() => {
     webSocket = new WebSocket('ws://localhost:8080', 'echo-protocol');
     return () => webSocket.close();
-  }, []);
+  });
+  const rendererForRead = ({ minutes, seconds }) => {
+    // Render a countdown
+    return (
+      <p className="readtimer">
+        {zeroPad(minutes)}:{zeroPad(seconds)}
+      </p>
+    );
+  };
+  const rendererForAnswer = ({ minutes, seconds }) => {
+    // Render a countdown
+    return (
+      <span className="answertimer">
+        {zeroPad(minutes)}:{zeroPad(seconds)}
+      </span>
+    );
+  };
 
   const startInterview = () => {
     setVisibility(true);
     setStart(false);
     handleReadStart();
-    setTimeout(handleStartCaptureClick, Questions[counter].readTime * 1000);
     setTimeout(() => {
+      handleStartCaptureClick();
+      console.log('start recording...');
+    }, Questions[counter].readTime * 1000);
+
+    recordTimeout = setTimeout(() => {
       setNext(true);
-      setStop(false);
-      if (stop) {
-        handleStopCaptureClick();
-      }
+      // console.log("stop recording...")
+      setStop((stop) => {
+        console.log(stop);
+        if (stop) {
+          handleStopCaptureClick();
+          return false;
+        }
+        return true;
+      });
     }, Questions[counter].readTime * 1000 + Questions[counter].answerTime * 1000);
   };
   const handleStartCaptureClick = useCallback(() => {
@@ -72,7 +102,7 @@ const WebcamStreamCapture = () => {
       'dataavailable',
       handleDataAvailable
     );
-    mediaRecorderRef.current.start(1000 * 5);
+    mediaRecorderRef.current.start();
     console.log('recording....');
     setStop(true);
     setReadTimer(false);
@@ -86,13 +116,17 @@ const WebcamStreamCapture = () => {
         setRecordedChunks((prev) => prev.concat(data));
       }
     },
-    [setRecordedChunks] //????
+    [setRecordedChunks]
   );
 
   const handleStopCaptureClick = useCallback(() => {
+    console.log('ALOOO');
+    clearTimeout(recordTimeout);
     setNext(true);
     handleAnswerPause();
-    mediaRecorderRef.current.stop();
+    if (stop) {
+      mediaRecorderRef.current.stop();
+    }
     //   setStart(false)
     setStop(false);
   }, [mediaRecorderRef, webcamRef, setStart]);
@@ -114,11 +148,12 @@ const WebcamStreamCapture = () => {
       setRecordedChunks([]);
     }
   }, [recordedChunks]);
-  const renderer = ({ api }) => {
-    api.start();
-  };
+  // const renderer = ({ api }) => {
+  //   api.start();
+  // };
   const handleNext = () => {
     setCounter((counter) => counter + 1);
+    setReadTimer(true);
     setNext(false);
     setStart(true);
     setReadTimer(true);
@@ -136,23 +171,25 @@ const WebcamStreamCapture = () => {
             <Countdown
               date={Date.now() + Questions[counter].answerTime * 1000}
               autoStart={false}
-              className="answertimer"
               ref={refAnswer}
+              renderer={rendererForAnswer}
             />
-            <br />
             <p className="questionTitle">{Questions[counter].title}</p>
           </Card>
         )}
 
         <br />
-        <Card className="readCard">
-          <Countdown
-            date={Date.now() + Questions[counter].readTime * 1000}
-            autoStart={false}
-            className="readtimer"
-            ref={refRead}
-          />
-        </Card>
+        {readTimer && (
+          <Card className="readCard">
+            <Countdown
+              date={Date.now() + Questions[counter].readTime * 1000}
+              autoStart={false}
+              zeroPadTime={4}
+              ref={refRead}
+              renderer={rendererForRead}
+            />
+          </Card>
+        )}
 
         {start && (
           <button onClick={startInterview} className="buttons">

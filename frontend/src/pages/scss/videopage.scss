@@ -51,16 +51,17 @@
 .answertimer {
   color: $primary-blue;
   width: 100%;
-  margin-bottom: 1.2rem;
+  margin-bottom: 0.2rem;
   font-weight: bolder;
   text-align: center;
   display: block;
+  font-size: large;
 }
 
 .readCard {
-  width: 155px;
+  width: 100px;
   padding: 10px;
-  margin-left: calc(50% - 75.5px);
+  margin-left: calc(50% - 50px);
   margin-top: 3rem;
   margin-bottom: 7rem;
 }
