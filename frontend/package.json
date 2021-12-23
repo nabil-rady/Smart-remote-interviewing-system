@@ -10,7 +10,7 @@
     "lottie-react-web": "^2.2.2",
     "node-sass": "^6.0.1",
     "react": "^17.0.2",
-    "react-countdown": "^2.3.2",
+    "react-countdown-hook": "^1.1.1",
     "react-dom": "^17.0.2",
     "react-lottie": "^1.2.3",
     "react-phone-input-2": "^2.14.0",

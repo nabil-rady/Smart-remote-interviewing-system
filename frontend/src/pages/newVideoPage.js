@@ -1,8 +1,8 @@
 import React, { useRef, useState, useCallback, useEffect } from 'react';
+import useCountDown from 'react-countdown-hook';
 import Webcam from 'react-webcam';
 import Card from '../components/Card';
 import NavBar from '../components/NavBar';
-import Countdown, { zeroPad } from 'react-countdown';
 import './scss/videopage.scss';
 const WebcamStreamCapture = () => {
   let Questions = [
@@ -23,6 +23,8 @@ const WebcamStreamCapture = () => {
     },
   ];
 
+  const interval = 1000;
+
   const webcamRef = useRef(null);
   const mediaRecorderRef = useRef(null);
   const [recordedChunks, setRecordedChunks] = useState([]);
@@ -33,54 +35,40 @@ const WebcamStreamCapture = () => {
   const [counter, setCounter] = useState(0);
   const [readTimer, setReadTimer] = useState(true);
 
-  const refRead = useRef();
-  const refAnswer = useRef();
+  const [timeLeftRead, { start: startRead }] = useCountDown(
+    Questions[counter].readTime * 1000,
+    interval
+  );
+  const [timeLeftAnswer, { start: startAnswer, pause: pauseAnswer }] =
+    useCountDown(Questions[counter].answerTime * 1000, interval);
+
   const webSocket = useRef();
   const recordTimeout = useRef();
-
-  const handleReadStart = (e) => {
-    console.log('STATED READ FROM HANDLE FUNCTION');
-    refRead.current?.start();
-  };
-
-  const handleAnswerStart = (e) => {
-    console.log('STATED ANSWER FROM HANDLE FUNCTION');
-    refAnswer.current?.start();
-  };
-
-  const handleAnswerPause = (e) => {
-    if (refAnswer.current.isPaused()) return;
-    console.log('record paused');
-    refAnswer.current?.pause();
-  };
 
   useEffect(() => {
     webSocket.current = new WebSocket('ws://localhost:8080', 'echo-protocol');
     return () => webSocket.current.close();
   }, []);
-  const rendererForRead = ({ minutes, seconds }) => {
-    // Render a countdown
-    return (
-      <p className="readtimer">
-        {zeroPad(minutes)}:{zeroPad(seconds)}
-      </p>
-    );
+
+  const renderReadTime = (time) => {
+    if (time === 0) {
+      return Questions[counter].readTime.toFixed(2);
+    }
+    return (time / 1000).toFixed(2);
   };
-  const rendererForAnswer = ({ minutes, seconds }) => {
-    // Render a countdown
-    return (
-      <span className="answertimer">
-        {zeroPad(minutes)}:{zeroPad(seconds)}
-      </span>
-    );
+
+  const renderAnswerTime = (time) => {
+    if ((start || !next) && time === 0) {
+      return Questions[counter].answerTime.toFixed(2);
+    }
+    return (time / 1000).toFixed(2);
   };
 
   const startInterview = () => {
     setRecordedChunks([]);
+    startRead(Questions[counter].readTime * 1000);
     if (!visibility) setVisibility(true);
     if (start) setStart(false);
-
-    handleReadStart();
 
     setTimeout(() => {
       handleStartCaptureClick();
@@ -92,7 +80,7 @@ const WebcamStreamCapture = () => {
       if (!next) setNext(true);
       setStop((stop) => {
         if (stop) {
-          handleStopCaptureClick();
+          handleStopCaptureClick(null, true);
           return false;
         }
         return false;
@@ -109,10 +97,10 @@ const WebcamStreamCapture = () => {
       handleDataAvailable
     );
     mediaRecorderRef.current.start();
+    startAnswer(Questions[counter].answerTime * 1000);
     console.log('Created MediaRecorder');
     if (!stop) setStop(true);
     if (readTimer) setReadTimer(false);
-    handleAnswerStart();
   }, [webcamRef, setStop, mediaRecorderRef]);
 
   const handleDataAvailable = useCallback(
@@ -125,16 +113,20 @@ const WebcamStreamCapture = () => {
     [setRecordedChunks]
   );
 
-  const handleStopCaptureClick = useCallback(() => {
-    console.log('Handle Stop Capture Click');
-    clearTimeout(recordTimeout.current);
-    if (!next) setNext(true);
-    // handleAnswerPause();
-    if (mediaRecorderRef.current.state !== 'inactive') {
-      mediaRecorderRef.current.stop();
-    }
-    if (stop) setStop(false);
-  }, [mediaRecorderRef, webcamRef, setStop]);
+  const handleStopCaptureClick = useCallback(
+    (e, isNonManualStop) => {
+      console.log('Handle Stop Capture Click');
+      console.log(`stop = ${stop}`);
+      clearTimeout(recordTimeout.current);
+      if (!next) setNext(true);
+      if (!isNonManualStop) pauseAnswer();
+      if (mediaRecorderRef.current.state !== 'inactive') {
+        mediaRecorderRef.current.stop();
+      }
+      if (stop) setStop(false);
+    },
+    [mediaRecorderRef, webcamRef, stop, setStop]
+  );
 
   const handleDownload = useCallback(() => {
     if (recordedChunks.length) {
@@ -172,31 +164,14 @@ const WebcamStreamCapture = () => {
       <div className="questionspart">
         {visibility && (
           <Card className="questions">
-            <Countdown
-              date={Date.now() + Questions[counter].answerTime * 1000}
-              autoStart={false}
-              ref={refAnswer}
-              controlled={false}
-              onStart={() => console.log('STARTED')}
-              onPause={() => console.log('PAUSED')}
-              onComplete={() => console.log('COMPLETED')}
-              renderer={rendererForAnswer}
-            />
+            {renderAnswerTime(timeLeftAnswer)}
             <p className="questionTitle">{Questions[counter].title}</p>
           </Card>
         )}
 
         <br />
         {readTimer && (
-          <Card className="readCard">
-            <Countdown
-              date={Date.now() + Questions[counter].readTime * 1000}
-              autoStart={false}
-              zeroPadTime={4}
-              ref={refRead}
-              renderer={rendererForRead}
-            />
-          </Card>
+          <Card className="readCard">{renderReadTime(timeLeftRead)}</Card>
         )}
 
         {start && (
@@ -205,7 +180,10 @@ const WebcamStreamCapture = () => {
           </button>
         )}
         {stop && (
-          <button onClick={handleStopCaptureClick} className="buttons">
+          <button
+            onClick={(e) => handleStopCaptureClick(e, false)}
+            className="buttons"
+          >
             Stop Capture
           </button>
         )}
