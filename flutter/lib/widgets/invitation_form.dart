@@ -57,7 +57,7 @@ class _InvitationFormState extends State<InvitationForm> {
     employeeData = List<List<dynamic>>.empty(growable: true);
   }
 
-  openFile(filepath) async {
+  openFile(filepath, context, bool flag2) async {
     File f = new File(filepath);
     print("CSV to List");
     final input = f.openRead();
@@ -69,9 +69,10 @@ class _InvitationFormState extends State<InvitationForm> {
     setState(() {
       employeeData = fields;
     });
+    _saveForms(context, flag2);
   }
 
-  void _openFileExplorer() async {
+  void _openFileExplorer(context, bool flag2) async {
     try {
       _paths = (await FilePicker.platform.pickFiles(
         type: _pickingType,
@@ -88,7 +89,7 @@ class _InvitationFormState extends State<InvitationForm> {
     }
     if (!mounted) return;
     setState(() {
-      openFile(_paths![0].path);
+      openFile(_paths![0].path, context, flag2);
       print(_paths);
       print("File path ${_paths![0]}");
       print(_paths!.first.extension);
@@ -108,15 +109,16 @@ class _InvitationFormState extends State<InvitationForm> {
   void _saveForms(context, bool flag1) {
     var valid = _form.currentState!.validate();
     if (flag1 == false) {
+      print('1111111111111');
       if (!valid) {
         return;
       }
       _form.currentState!.save();
       Provider.of<Interviews>(context, listen: false).addAplicant(candidate);
     } else {
-      if (!valid) {
-        return;
-      }
+      // if (!valid) {
+      //   return;
+      // }
 
       var candidate = Interview(
           name: '',
@@ -128,10 +130,10 @@ class _InvitationFormState extends State<InvitationForm> {
           videoAnswers: [],
           isRated: false,
           positionName: '');
-
+      print('2222222222222');
       employeeData.forEach((element) {
         candidate = Interview(
-            name: element[0],
+            name: element[0].toString(),
             email: candidate.email,
             phone: candidate.phone,
             date: candidate.date,
@@ -142,7 +144,7 @@ class _InvitationFormState extends State<InvitationForm> {
             positionName: candidate.positionName);
         candidate = Interview(
             name: candidate.name,
-            email: element[2],
+            email: element[2].toString(),
             phone: candidate.phone,
             date: candidate.date,
             id: candidate.id,
@@ -153,7 +155,7 @@ class _InvitationFormState extends State<InvitationForm> {
         candidate = Interview(
             name: candidate.name,
             email: candidate.email,
-            phone: element[1],
+            phone: element[1].toString(),
             date: candidate.date,
             id: candidate.id,
             rate: candidate.rate,
@@ -161,7 +163,7 @@ class _InvitationFormState extends State<InvitationForm> {
             isRated: candidate.isRated,
             positionName: candidate.positionName);
         Provider.of<Interviews>(context, listen: false).addAplicant(candidate);
-        print(candidate);
+        print(candidate.name);
       });
       // _form.currentState!.save();
       // Provider.of<Interviews>(context, listen: false).addAplicant(candidate);
@@ -271,6 +273,7 @@ class _InvitationFormState extends State<InvitationForm> {
                     flag = false;
                   });
                   _saveForms(context, flag);
+                  print("my flag : ${flag}");
                 },
                 child: const Text(
                   'Invite Candidate',
@@ -287,8 +290,9 @@ class _InvitationFormState extends State<InvitationForm> {
                   setState(() {
                     flag = true;
                   });
-                  _openFileExplorer();
-                  _saveForms(context, flag);
+                  print("my flag : ${flag}");
+                  _openFileExplorer(context, flag);
+
                   //  pickFiles();
                 },
                 child: const Text(
