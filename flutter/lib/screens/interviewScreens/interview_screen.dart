@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 import 'package:chewie/chewie.dart';
 import 'package:custom_timer/custom_timer.dart';
-
+import 'package:web_socket_channel/web_socket_channel.dart';
 import '/providers/positions.dart';
 
 //////////////////////////////////////////////////////////////
@@ -21,6 +21,27 @@ class IntrviewScreen extends StatefulWidget {
 }
 
 class _IntrviewScreenState extends State<IntrviewScreen> {
+  //////////////// websockets
+
+  void websockfunc(List<String> arguments) {
+    final _channel = WebSocketChannel.connect(
+      Uri.parse('wss://localhost:8080'),
+    );
+
+    _channel.stream.listen(
+      (data) {
+        print(data);
+      },
+      onError: (error) => print(error),
+    );
+  }
+  // @override
+  // void dispose() {
+  //   _channel.sink.close();
+  //   super.dispose();
+  // }
+
+  //////////////////
   late CameraController controller;
   bool _startThinkingTimer = false;
   bool _endThinkingTimer = false;
@@ -107,11 +128,24 @@ class _IntrviewScreenState extends State<IntrviewScreen> {
     _chewieController.dispose();
     _thinkingController.dispose();
     controller.dispose();
+
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final _channel = WebSocketChannel.connect(
+      Uri.parse('wss://localhost:8080'),
+    );
+
+    _channel.stream.listen(
+      (data) {
+        print('THIS IS DATA : ${data}');
+      },
+      onError: (error) => print(error),
+    );
+
+    _channel.sink.close();
     controller = ModalRoute.of(context)!.settings.arguments as CameraController;
     // hard code for id until i can take it from the url of th sesion
     final id = '1244';
@@ -129,6 +163,12 @@ class _IntrviewScreenState extends State<IntrviewScreen> {
     return Scaffold(
       body: Stack(
         children: [
+          // StreamBuilder(
+          //   stream: _channel.stream,
+          //   builder: (context, snapshot) {
+          //     return Text(snapshot.hasData ? '${snapshot.data}' : '');
+          //   },
+          // ),
           Transform.scale(
             scale: cameraScale < 1 ? 1 / cameraScale : cameraScale,
             child: Center(

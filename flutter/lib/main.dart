@@ -49,10 +49,10 @@ class MyApp extends StatelessWidget {
         // ChangeNotifierProvider(
         //   create: (ctx) => DashboardPositions(),
         // ),
-         ChangeNotifierProxyProvider<Auth, DashboardPositions>(
+        ChangeNotifierProxyProvider<Auth, DashboardPositions>(
           create: (ctx) => DashboardPositions('', []),
-          update: (ctx, auth, previosPositions) =>
-              DashboardPositions(auth.authtoken, previosPositions!.positionsItems),
+          update: (ctx, auth, previosPositions) => DashboardPositions(
+              auth.authtoken, previosPositions!.positionsItems),
         ),
         // ChangeNotifierProvider(
         //   create: (ctx) => Positions(),
@@ -111,6 +111,7 @@ class MyApp extends StatelessWidget {
           PositionDetailScreen.routeName: (ctx) => PositionDetailScreen(),
           FinishInterview.routeName: (ctx) => FinishInterview(),
           IntrviewScreen.routeName: (ctx) => IntrviewScreen(),
+          // CameraScreen.routeName: (ctx) => CameraScreen()
           // DashboardScreen.routeName: (ctx) => DashboardScreen(),
         },
       ),

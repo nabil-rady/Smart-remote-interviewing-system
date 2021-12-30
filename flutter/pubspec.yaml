@@ -62,6 +62,7 @@ dependencies:
   file_picker_cross: ^4.5.0
   csv: ^5.0.1
   gsheets: ^0.3.2
+  web_socket_channel: ^2.1.0
 
 dev_dependencies:
   flutter_test:
