@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graduation_project/providers/dashboard_provider.dart';
+import 'package:graduation_project/screens/interviewScreens/intro_cam_screen.dart';
 
 import 'package:provider/provider.dart';
 
@@ -113,6 +114,7 @@ class MyApp extends StatelessWidget {
           IntrviewScreen.routeName: (ctx) => IntrviewScreen(),
           // CameraScreen.routeName: (ctx) => CameraScreen()
           // DashboardScreen.routeName: (ctx) => DashboardScreen(),
+          IntroCamScreen.routeName: (ctx) => IntroCamScreen(),
         },
       ),
     );
