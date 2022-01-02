@@ -134,18 +134,18 @@ class _IntrviewScreenState extends State<IntrviewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final _channel = WebSocketChannel.connect(
-      Uri.parse('wss://localhost:8080'),
-    );
+    // final _channel = WebSocketChannel.connect(
+    //   Uri.parse('wss://localhost:8080'),
+    // );
 
-    _channel.stream.listen(
-      (data) {
-        print('THIS IS DATA : ${data}');
-      },
-      onError: (error) => print(error),
-    );
+    // _channel.stream.listen(
+    //   (data) {
+    //     print('THIS IS DATA : ${data}');
+    //   },
+    //   onError: (error) => print(error),
+    // );
 
-    _channel.sink.close();
+    // _channel.sink.close();
     controller = ModalRoute.of(context)!.settings.arguments as CameraController;
     // hard code for id until i can take it from the url of th sesion
     final id = '1244';

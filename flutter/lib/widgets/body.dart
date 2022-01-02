@@ -1,10 +1,12 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:graduation_project/screens/interviewScreens/intro_cam_screen.dart';
 
 import '../constants.dart';
 import '../size_config.dart';
 import '../widgets/splash_content.dart';
 import 'default_button.dart';
+import '../screens/interviewScreens/intro_cam_screen.dart';
 
 class Body extends StatefulWidget {
   @override
@@ -93,8 +95,12 @@ class _BodyState extends State<Body> {
                     DefaultButton(
                       text: "Continue",
                       press: () {
-                        Navigator.of(context).pushNamed('/interview-screen',
+                        // Navigator.of(context).pushNamed('/interview-screen',
+                        //     arguments: controller);
+                        Navigator.of(context).pushNamed('/IntroCamScreen',
                             arguments: controller);
+                        // Navigator.of(context)
+                        //     .pushReplacementNamed(IntroCamScreen.routeName);
                       },
                     ),
                     const Spacer(),

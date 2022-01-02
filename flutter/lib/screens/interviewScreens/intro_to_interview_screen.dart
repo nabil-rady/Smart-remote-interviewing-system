@@ -18,8 +18,8 @@ class IntroScreen extends StatelessWidget {
       //           .pushReplacementNamed(IntroCamScreen.routeName);
       //     },
       //     child: Text('tap'),
-      /// ),
-      //  )),
+      //   ),
+      // )),
     );
   }
 }
