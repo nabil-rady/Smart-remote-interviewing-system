@@ -28,6 +28,7 @@ import './screens/last_ques_pos_screen.dart';
 import './screens/invitation_screen.dart';
 import './widgets/position_form.dart';
 import './screens/interviewScreens/interview_screen.dart';
+import './screens/interviewScreens/intro_cam_screen.dart';
 
 void main() {
   runApp(MyApp());

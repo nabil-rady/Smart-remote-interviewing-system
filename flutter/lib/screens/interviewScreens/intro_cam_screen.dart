@@ -38,6 +38,7 @@ class _IntroCamScreenState extends State<IntroCamScreen> {
 
   @override
   Widget build(BuildContext context) {
+    myFunc();
     return FutureBuilder<void>(
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
