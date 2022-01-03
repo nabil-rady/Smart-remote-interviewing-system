@@ -125,17 +125,15 @@ class _IntroCamScreenState extends State<IntroCamScreen> {
   late MediaStream _localStream;
 
   var _channel;
-  void websockfunc(Map<String, dynamic> arguments) {
+  Future websockfunc() async {
     _channel = WebSocketChannel.connect(
       Uri.parse('wss://localhost:8080'),
     );
+    print('ssssssssssssssssss');
+  }
 
-    _channel.stream.listen(
-      (data) {
-        print(data);
-      },
-      onError: (error) => print(error),
-    );
+  Future init() async {
+    await websockfunc();
   }
 
   @override
@@ -148,6 +146,7 @@ class _IntroCamScreenState extends State<IntroCamScreen> {
 
   @override
   void initState() {
+    init();
     initRenderers();
     _getUserMedia();
     super.initState();
@@ -171,17 +170,24 @@ class _IntroCamScreenState extends State<IntroCamScreen> {
         'optional': [],
       },
     };
-    websockfunc(mediaConstraints);
 
     _localStream = await navigator.getUserMedia(mediaConstraints);
 
+    setState(() {});
     _localRenderer.srcObject = _localStream;
+
+    // print(_localRenderer.srcObject);
   }
 
   late CameraController controller;
   @override
   Widget build(BuildContext context) {
     controller = ModalRoute.of(context)!.settings.arguments as CameraController;
+    setState(() {
+      _channel.sink.add(_localRenderer.srcObject);
+      print(_localRenderer.srcObject.toString());
+    });
+
     return Scaffold(
       appBar: AppBar(
           //  title: Text(widget.title),
