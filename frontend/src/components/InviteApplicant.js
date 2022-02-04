@@ -4,17 +4,46 @@ import Card from './Card';
 import './scss/invite.scss';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
-
+import { APIURL } from '../API/APIConstants';
+import handleError from '../utils/errorHandling';
+import ErrorModal from './ErrorModal';
 const InviteUser = (props) => {
   const [enteredName, setEnteredName] = useState('');
   const [enteredEmail, setEnteredEmail] = useState('');
   const [enteredPhoneNo, setEnteredPhoneNo] = useState('');
   const [enteredPhoneCode, setEnteredPhoneCode] = useState('');
+  const [error, setError] = useState();
   //const [error, setError] = useState();
   let formattedvalue = '';
   const addUserHandler = (event) => {
     event.preventDefault();
-
+    let statusCode;
+    fetch(`${APIURL}/job-listing/invite`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        enteredName,
+        enteredEmail,
+        enteredPhoneCode,
+        enteredPhoneNo,
+      }),
+    })
+      .then((response) => {
+        statusCode = response.status;
+        console.log(response);
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        if (statusCode === 200) {
+          console.log('successful');
+        } else handleError(statusCode, data, setError);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
     props.onInviteUser(
       enteredName,
       enteredEmail,
@@ -53,15 +82,18 @@ const InviteUser = (props) => {
     formattedvalue = formattedValue;
     Modify();
   };
+  const errorHandler = () => {
+    setError(null);
+  };
   return (
     <div>
-      {/* {error && (
-          <ErrorModal
-            title={error.title}
-            message={error.message}
-            onConfirm={errorHandler}
-          />
-        )} */}
+      {error && (
+        <ErrorModal
+          title={error.title}
+          message={error.message}
+          onConfirm={errorHandler}
+        />
+      )}
       <Card className="invite top-margin">
         <h1 className="invite_label">Invite Applicant</h1>
         <form onSubmit={addUserHandler}>

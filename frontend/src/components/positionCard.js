@@ -22,28 +22,28 @@ const PositionCard = (props) => {
               className="photo"
             />
             <p className="pos_name" title={position.name}>
-              {position.name}
+              {position.positionName}
             </p>
             {renderExpired(position)} <br />
             <p htmlFor="expirydate" className="labels">
               Expiry Date:
             </p>
             <p name="expirydate" className="pos_expirydate">
-              {position.expirydate}
+              {position.expiryDate}
             </p>{' '}
             <br></br>
             <p htmlFor="candidatesNo" className="labels">
               Candidates:
             </p>
             <p name="candidatesNo" className="pos_CandidatesNo">
-              {position.CandidatesNo}
+              {position.invitationsNumber}
             </p>{' '}
             <br></br>
             <p htmlFor="finishedinterviews" className="labels">
               Interviews:
             </p>
             <p name="finishedinterviews" className="pos_Finishedinterviews">
-              {position.Finishedinterviews}
+              {position.interviewsNumber}
             </p>
           </Card>
         ))}

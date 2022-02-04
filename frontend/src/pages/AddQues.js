@@ -4,7 +4,11 @@ import SideMenu from '../components/SideMenu';
 import QuestionCard from '../components/QuestionCard';
 import './scss/Add.scss';
 import PositionForm from '../components/position';
+import { APIURL } from '../API/APIConstants';
+import ErrorModal from '../components/ErrorModal';
+import handleError from '../utils/errorHandling';
 function AddQues() {
+  const [error, setError] = useState();
   const [questions, setQuestions] = useState([
     {
       fullQuestion: '',
@@ -13,6 +17,7 @@ function AddQues() {
       keywords: [],
     },
   ]);
+
   const [positionName, setPositionName] = useState('');
   const [expiryDate, setExpiryDate] = useState('');
   const [date, setDate] = useState('');
@@ -112,15 +117,45 @@ function AddQues() {
     ));
   };
   const saveHandler = () => {
-    position = {
-      positionName: positionName,
-      expiryDate: expiryDate,
-      questions: questions,
-    };
-    console.log(position);
+    let statusCode;
+    fetch(`${APIURL}/job-listing/create`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        positionName,
+        expiryDate,
+        questions,
+      }),
+    })
+      .then((response) => {
+        statusCode = response.status;
+        console.log(response);
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        if (statusCode === 200) {
+          console.log('successful');
+        } else handleError(statusCode, data, setError);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  };
+  const errorHandler = () => {
+    setError(null);
   };
   return (
     <>
+      {error && (
+        <ErrorModal
+          title={error.title}
+          message={error.message}
+          onConfirm={errorHandler}
+        />
+      )}
       <NavBar
         handleToggleButtonClick={handleToggleButtonClick}
         burgerButton={true}

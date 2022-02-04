@@ -7,6 +7,7 @@
   height: 40px;
   justify-content: center;
   align-items: center;
+  margin-top: 7rem;
   border: none;
   border-radius: 20px;
   padding: 5px;
@@ -31,7 +32,7 @@
 .questions {
   width: 500px;
   margin-left: calc(50% - 250px);
-  padding: 10px;
+  padding: 7px;
   height: auto;
 }
 .questionTitle {
@@ -40,7 +41,7 @@
   font-weight: bold;
   display: block;
   width: 100%;
-  font-size: xx-large;
+  font-size: x-large;
 }
 .video {
   margin-left: 5%;
@@ -63,7 +64,6 @@
   padding: 10px;
   margin-left: calc(50% - 50px);
   margin-top: 3rem;
-  margin-bottom: 7rem;
 }
 .readtimer {
   color: $primary-blue;

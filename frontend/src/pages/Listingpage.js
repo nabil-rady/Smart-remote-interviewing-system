@@ -4,7 +4,7 @@ import PositionCard from '../components/positionCard';
 import SideMenu from '../components/SideMenu';
 import NoNotification from '../components/NoNotification';
 import './scss/listingpage.scss';
-
+import { APIURL } from '../API/APIConstants';
 import im1 from '../solidBG/1.jpg';
 import im2 from '../solidBG/2.jpg';
 import im3 from '../solidBG/3.jpg';
@@ -33,6 +33,7 @@ import im25 from '../solidBG/25.jpg';
 import im26 from '../solidBG/26.jpg';
 
 function ListingPage() {
+  const [positions, getPositions] = useState();
   let backgrounds = [
     im1,
     im2,
@@ -61,33 +62,43 @@ function ListingPage() {
     im25,
     im26,
   ];
-
-  const positions = [
-    {
-      name: 'Softwarqweeqwqwweqwqeweqwqeewqewqewwqeewqweqe',
-      expirydate: '2022-11-7',
-      CandidatesNo: 5,
-      Finishedinterviews: 4,
-    },
-    {
-      name: 'Hardware',
-      expirydate: '2021-11-7',
-      CandidatesNo: 5,
-      Finishedinterviews: 4,
-    },
-    {
-      name: 'AI',
-      expirydate: '2021-11-7',
-      CandidatesNo: 5,
-      Finishedinterviews: 4,
-    },
-    {
-      name: 'Digital Design',
-      expirydate: '2021-11-7',
-      CandidatesNo: 5,
-      Finishedinterviews: 4,
-    },
-  ];
+  const fetchPost = () => {
+    fetch(`${APIURL}/job-listing/get-listings`)
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
+        getPositions(res);
+      });
+  };
+  useEffect(() => {
+    fetchPost();
+  }, []);
+  // const positions = [
+  //   {
+  //     positionName: 'Softwarqweeqwqwweqwqeweqwqeewqewqewwqeewqweqe',
+  //     expiryDate: '2022-11-7',
+  //     invitationsNumber: 5,
+  //     interviewsNumber: 4,
+  //   },
+  //   {
+  //     positionName: 'Hardware',
+  //     expiryDate: '2021-11-7',
+  //     invitationsNumber: 5,
+  //     interviewsNumber: 4,
+  //   },
+  //   {
+  //     positionName: 'AI',
+  //     expiryDate: '2021-11-7',
+  //     invitationsNumber: 5,
+  //     interviewsNumber: 4,
+  //   },
+  //   {
+  //     positionName: 'Digital Design',
+  //     expiryDate: '2021-11-7',
+  //     invitationsNumber: 5,
+  //     interviewsNumber: 4,
+  //   },
+  // ];
   const sideMenu = useRef(null);
   const handleToggleButtonClick = () =>
     sideMenu.current.classList.toggle('change');
@@ -102,7 +113,7 @@ function ListingPage() {
   };
   return (
     <>
-      <div className="positions">
+      <div classpositionName="positions">
         <PositionCard positions={positions} backgrounds={backgrounds} />
       </div>
     </>
