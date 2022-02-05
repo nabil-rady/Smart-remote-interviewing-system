@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:graduation_project/providers/dashboard_provider.dart';
 import 'package:graduation_project/screens/interviewScreens/intro_cam_screen.dart';
+import 'package:graduation_project/screens/waiting_screen.dart';
 
 import 'package:provider/provider.dart';
 
@@ -38,86 +39,96 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (ctx) => Auth(),
-        ),
-        ChangeNotifierProvider(
-          create: (ctx) => Questions(),
-        ),
-        ChangeNotifierProvider(
-          create: (ctx) => Interviews(),
-        ),
-        // ChangeNotifierProvider(
-        //   create: (ctx) => DashboardPositions(),
-        // ),
-        ChangeNotifierProxyProvider<Auth, DashboardPositions>(
-          create: (ctx) => DashboardPositions('', []),
-          update: (ctx, auth, previosPositions) => DashboardPositions(
-              auth.authtoken, previosPositions!.positionsItems),
-        ),
-        // ChangeNotifierProvider(
-        //   create: (ctx) => Positions(),
-        // ),
-
-        ChangeNotifierProxyProvider<Auth, Positions>(
-          create: (ctx) => Positions('', []),
-          update: (ctx, auth, previosPositions) =>
-              Positions(auth.authtoken, previosPositions!.positionsItems),
-        ),
-      ],
-      child: MaterialApp(
-        // theme: ThemeData.dark(),
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primaryColor: const Color(0xFF165DC0),
-          canvasColor: const Color(0xffe9efff),
-          textTheme: const TextTheme(
-            headline1: TextStyle(
-              fontSize: 20.0,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'OpenSans-Light',
-              color: Colors.black,
-            ),
-            bodyText1: TextStyle(
-                fontSize: 16.0,
-                fontFamily: 'OpenSans-Light',
-                fontWeight: FontWeight.normal),
-            bodyText2: TextStyle(
-                fontSize: 22.0,
-                fontFamily: 'OpenSans-Light',
-                fontWeight: FontWeight.normal),
-            button: TextStyle(
-              color: Colors.white,
-              fontFamily: 'OpenSans-Light',
-            ),
+        providers: [
+          ChangeNotifierProvider(
+            create: (ctx) => Auth(),
           ),
-        ),
-        home: SplashScreen(),
-        routes: {
-          CompanySignupScreen.routeName: (ctx) => CompanySignupScreen(),
-          SplashScreen.routeName: (ctx) => SplashScreen(),
-          IntroScreen.routeName: (ctx) => IntroScreen(),
-          HomeScreen.routeName: (ctx) => HomeScreen(),
-          ToEvaluateScreen.routeName: (ctx) => ToEvaluateScreen(),
-          ApplicantDetailScreen.routeName: (ctx) => ApplicantDetailScreen(),
-          VedioEvaluationScreen.routeName: (ctx) => VedioEvaluationScreen(),
-          NotificationScreen.routeName: (ctx) => NotificationScreen(),
-          InvitationScreen.routeName: (ctx) => InvitationScreen(),
-          LastQuestionScreen.routeName: (ctx) => LastQuestionScreen(),
-          PositionForm.routeName: (ctx) => PositionForm(),
-          PositionScreen.routeName: (ctx) => PositionScreen(),
-          AfterPositionsScreen.routeName: (ctx) => AfterPositionsScreen(),
-          ProfileScreen.routeName: (ctx) => ProfileScreen(),
-          ChangePassScreen.routeName: (ctx) => ChangePassScreen(),
-          PositionDetailScreen.routeName: (ctx) => PositionDetailScreen(),
-          FinishInterview.routeName: (ctx) => FinishInterview(),
-          IntrviewScreen.routeName: (ctx) => IntrviewScreen(),
-          // CameraScreen.routeName: (ctx) => CameraScreen()
-          // DashboardScreen.routeName: (ctx) => DashboardScreen(),
-          IntroCamScreen.routeName: (ctx) => IntroCamScreen(),
-        },
-      ),
-    );
+          ChangeNotifierProvider(
+            create: (ctx) => Questions(),
+          ),
+          ChangeNotifierProvider(
+            create: (ctx) => Interviews(),
+          ),
+          // ChangeNotifierProvider(
+          //   create: (ctx) => DashboardPositions(),
+          // ),
+          ChangeNotifierProxyProvider<Auth, DashboardPositions>(
+            create: (ctx) => DashboardPositions('', []),
+            update: (ctx, auth, previosPositions) => DashboardPositions(
+                auth.authtoken, previosPositions!.positionsItems),
+          ),
+          // ChangeNotifierProvider(
+          //   create: (ctx) => Positions(),
+          // ),
+
+          ChangeNotifierProxyProvider<Auth, Positions>(
+            create: (ctx) => Positions('', []),
+            update: (ctx, auth, previosPositions) =>
+                Positions(auth.authtoken, previosPositions!.positionsItems),
+          ),
+        ],
+        child: Consumer<Auth>(
+          builder: (ctx, auth, _) => MaterialApp(
+            // theme: ThemeData.dark(),
+            title: 'Flutter Demo',
+            theme: ThemeData(
+              primaryColor: const Color(0xFF165DC0),
+              canvasColor: const Color(0xffe9efff),
+              textTheme: const TextTheme(
+                headline1: TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'OpenSans-Light',
+                  color: Colors.black,
+                ),
+                bodyText1: TextStyle(
+                    fontSize: 16.0,
+                    fontFamily: 'OpenSans-Light',
+                    fontWeight: FontWeight.normal),
+                bodyText2: TextStyle(
+                    fontSize: 22.0,
+                    fontFamily: 'OpenSans-Light',
+                    fontWeight: FontWeight.normal),
+                button: TextStyle(
+                  color: Colors.white,
+                  fontFamily: 'OpenSans-Light',
+                ),
+              ),
+            ),
+            // home: SplashScreen(),
+            home: auth.isAuth
+                ? HomeScreen()
+                : FutureBuilder(
+                    future: auth.autoLogin(),
+                    //  initialData: InitialData,
+                    builder: (ctx, authSnapshot) =>
+                        authSnapshot.connectionState == ConnectionState.waiting
+                            ? WaitingScreen()
+                            : CompanySignupScreen()),
+            routes: {
+              CompanySignupScreen.routeName: (ctx) => CompanySignupScreen(),
+              SplashScreen.routeName: (ctx) => SplashScreen(),
+              IntroScreen.routeName: (ctx) => IntroScreen(),
+              HomeScreen.routeName: (ctx) => HomeScreen(),
+              ToEvaluateScreen.routeName: (ctx) => ToEvaluateScreen(),
+              ApplicantDetailScreen.routeName: (ctx) => ApplicantDetailScreen(),
+              VedioEvaluationScreen.routeName: (ctx) => VedioEvaluationScreen(),
+              NotificationScreen.routeName: (ctx) => NotificationScreen(),
+              InvitationScreen.routeName: (ctx) => InvitationScreen(),
+              LastQuestionScreen.routeName: (ctx) => LastQuestionScreen(),
+              PositionForm.routeName: (ctx) => PositionForm(),
+              PositionScreen.routeName: (ctx) => PositionScreen(),
+              AfterPositionsScreen.routeName: (ctx) => AfterPositionsScreen(),
+              ProfileScreen.routeName: (ctx) => ProfileScreen(),
+              ChangePassScreen.routeName: (ctx) => ChangePassScreen(),
+              PositionDetailScreen.routeName: (ctx) => PositionDetailScreen(),
+              FinishInterview.routeName: (ctx) => FinishInterview(),
+              IntrviewScreen.routeName: (ctx) => IntrviewScreen(),
+              // CameraScreen.routeName: (ctx) => CameraScreen()
+              // DashboardScreen.routeName: (ctx) => DashboardScreen(),
+              IntroCamScreen.routeName: (ctx) => IntroCamScreen(),
+            },
+          ),
+        ));
   }
 }
