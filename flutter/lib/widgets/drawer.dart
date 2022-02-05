@@ -48,8 +48,8 @@ class AppDrawer extends StatelessWidget {
           }),
           const Divider(),
           _buildListTile(Icons.exit_to_app, 'Log out', () {
-            Navigator.pop(context);
-            Navigator.of(context).pushReplacementNamed('/company_signup');
+            // Navigator.pop(context);
+            // Navigator.of(context).pushReplacementNamed('/company_signup');
             Provider.of<Auth>(context, listen: false).logOut();
           }),
         ],

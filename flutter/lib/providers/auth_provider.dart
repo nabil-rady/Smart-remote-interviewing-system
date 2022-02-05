@@ -26,22 +26,31 @@ class Auth with ChangeNotifier {
     loggedIn: false,
   );
 
-  DateTime? _expiryDate;
   String? _token;
-  Timer? _authTimer;
+  DateTime? _expiryDate;
   String? _userId;
 
+  Timer? _authTimer;
+
   bool get isAuth {
-    if (_token == null) return false;
-    return true;
+    if (authtoken == "") {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   String get userId {
     return _employer.userId;
   }
 
-  String? get authtoken {
-    return _token;
+  String get authtoken {
+    if (_expiryDate != null &&
+        _expiryDate!.isAfter(DateTime.now()) &&
+        _token != null) {
+      return _token!;
+    }
+    return "";
   }
 
   Future<void> signup(
@@ -119,6 +128,13 @@ class Auth with ChangeNotifier {
       prefs.setString("userid", _userId.toString());
 
       prefs.setString("expiry", _expiryDate!.toIso8601String());
+      // final userData = json.encode({
+      //   'token': _token,
+      //   'userId': _userId,
+      //   'expiry': _expiryDate!.toIso8601String()
+      // });
+      // prefs.setString("userData", userData);
+
       //////////////////////////////////////////////////////////
     } else {
       throw HttpException(responseData['message']);
@@ -162,15 +178,16 @@ class Auth with ChangeNotifier {
   }
 
   Future<void> logOut() async {
-    print(_userId);
+    print("before:$_userId");
     _token = null;
     _expiryDate = null;
     _userId = null;
+
     if (_authTimer != null) {
       _authTimer!.cancel();
       _authTimer = null;
     }
-    print(_userId);
+    print("after:$_userId");
 
     final prefs = await SharedPreferences.getInstance();
     prefs.clear();
@@ -189,9 +206,28 @@ class Auth with ChangeNotifier {
   //////////////////////////////////////////////////////////////
   Future<bool> autoLogin() async {
     final prefs = await SharedPreferences.getInstance();
+    final exp = DateTime.parse(prefs.getString('expiry').toString());
+    // _token = prefs.getString("token").toString();
+    // _userId = prefs.getString("userid").toString();
 
+    // if (!prefs.containsKey('userData')) {
+    //   return false;
+    // }
+    // final extractedUserData = json
+    //     .decode(prefs.getString('userData').toString()) as Map<String, Object>;
+    // final expairtDate = DateTime.parse(extractedUserData['expiry'].toString());
+    if (exp.isBefore(DateTime.now())) {
+      return false;
+    }
+    // _token = extractedUserData['token'].toString();
+    // _userId = extractedUserData['userId'].toString();
+    // _expiryDate = expairtDate;
     _token = prefs.getString("token").toString();
     _userId = prefs.getString("userid").toString();
+    _expiryDate = exp;
+    print('pref $_userId');
+    print('pref $_token');
+    print('pref $_expiryDate');
     final response = await http.get(
       Uri.parse('https://vividly-api.herokuapp.com/user/$_userId'),
       headers: <String, String>{
@@ -215,9 +251,36 @@ class Auth with ChangeNotifier {
     } else {
       return false;
     }
-    _autoLogout();
     notifyListeners();
+    _autoLogout();
     return true;
+
+    // final response = await http.get(
+    //   Uri.parse('https://vividly-api.herokuapp.com/user/$_userId'),
+    //   headers: <String, String>{
+    //     'Content-Type': 'application/json',
+    //     'Authorization': _token.toString(),
+    //   },
+    // );
+    // final responseData = json.decode(response.body);
+    // if (response.statusCode == 200) {
+    //   _employer.firstName = responseData['user']['firstName'];
+    //   _employer.lastName = responseData['user']['lastName'];
+    //   _employer.companyName = responseData['user']['companyName'];
+    //   _employer.email = responseData['user']['email'];
+    //   _employer.createdAt = responseData['user']['createdAt'];
+    //   _employer.updatedAt = responseData['user']['updatedAt'];
+    //   _employer.countryCode = responseData['user']['phoneCode'];
+    //   _employer.phone = responseData['user']['phoneNumber'];
+    //   _employer.loggedIn = responseData['user']['loggedIn'];
+    //   _employer.emailConfirmed = responseData['user']['emailConfirmed'];
+    //   _employer.userId = _userId.toString();
+    // } else {
+    //   return false;
+    // }
+    // _autoLogout();
+    // notifyListeners();
+    // return true;
   }
 
   //#################################################################

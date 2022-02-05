@@ -40,11 +40,11 @@ class _EmployerAuthState extends State<EmployerAuth> {
   }
 
   void _toggleFun() {
-    if (_authMode == AuthMode.signup)
+    if (_authMode == AuthMode.signup) {
       setState(() {
         _authMode = AuthMode.login;
       });
-    else {
+    } else {
       setState(() {
         _authMode = AuthMode.signup;
       });
@@ -162,7 +162,9 @@ class _EmployerAuthState extends State<EmployerAuth> {
           // 'mariammohammad390@gmail.com',
           // '123456789'
         );
+
         //Navigator.of(context).pushReplacementNamed('/home_screen');
+
       } else {
         // Sign user up
         await Provider.of<Auth>(context, listen: false).signup(
@@ -175,8 +177,8 @@ class _EmployerAuthState extends State<EmployerAuth> {
           authData['phone'].toString(),
           authData['countryCode'].toString(),
         );
-        _formKey.currentState!.reset();
-        _passwordController.clear();
+        // _formKey.currentState!.reset();
+        // _passwordController.clear();
         _showConfirmDialog();
         //_showErrorDialog('all done');
         //if(Provider.of<Auth>(context).)
@@ -207,15 +209,17 @@ class _EmployerAuthState extends State<EmployerAuth> {
       const errorMessage =
           'Could not authenticate you. Please try again later.';
       _showErrorDialog(errorMessage);
+      //######## resently added this #############################################################
 
       setState(() {
         _isLoading = false;
       });
     }
-
-    // setState(() {
-    //   _isLoading = false;
-    // });
+    _formKey.currentState!.reset();
+    _passwordController.clear();
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
