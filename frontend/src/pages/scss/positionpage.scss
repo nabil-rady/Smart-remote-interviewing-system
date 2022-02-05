@@ -1,0 +1,38 @@
+@import '../../sassConfig/colors';
+@import '../../sassConfig/transition';
+
+.pName {
+  text-align: center;
+  color: $primary-blue;
+  font-size: 40px;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+
+.detailsCard {
+  width: 40%;
+  margin-left: 31%;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.images {
+  width: 100px;
+  margin: 1rem;
+  display: inline-block;
+}
+.cardLabel {
+  text-align: center;
+  margin-top: 0px;
+  color: $primary-blue;
+  font-size: x-large;
+  font-weight: bold;
+}
+
+.labelContainer {
+  display: inline-block;
+  position: absolute;
+  top: 3rem;
+  left: 34%;
+}

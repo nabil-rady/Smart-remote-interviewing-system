@@ -13,13 +13,6 @@ function ProfilePage() {
   const submitHandler = (e) => {
     e.preventDefault();
   };
-
-  const changeCompanyHandler = (e) => {
-    setCompanyName(e.target.value);
-  };
-  const changeEmailHandler = (e) => {
-    setEmail(e.target.value);
-  };
   const changePhoneNoHandler = (e) => {
     setPhoneNo(e.target.value);
   };
@@ -59,8 +52,6 @@ function ProfilePage() {
             type="text"
             placeholder="Company Name"
             value={authUser.CompanyName}
-            required
-            onChange={changeCompanyHandler}
             disabled
           />
           <label htmlFor="Email" className="change-label">
@@ -72,8 +63,6 @@ function ProfilePage() {
             type="email"
             placeholder="E-mail"
             value={authUser.email}
-            required
-            onChange={changeEmailHandler}
             disabled
           />
           <label htmlFor="PhoneNo" className="change-label">

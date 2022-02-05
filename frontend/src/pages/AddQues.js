@@ -88,7 +88,7 @@ function AddQues() {
         fullQuestion: '',
         timeToThink: '',
         timeToAnswer: '',
-        keywords: '',
+        keywords: [],
       },
     ]);
 
