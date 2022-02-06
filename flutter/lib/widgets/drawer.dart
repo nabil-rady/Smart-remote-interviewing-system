@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 class AppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final employerData = Provider.of<Auth>(context, listen: false).employer;
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -20,12 +21,12 @@ class AppDrawer extends StatelessWidget {
               Navigator.of(context).pushNamed(ProfileScreen.routeName);
             },
             child: UserAccountsDrawerHeader(
-              accountName: Text('Mariam'),
-              accountEmail: Text('mariammohammad390@gmail.com'),
+              accountName: Text(employerData.firstName),
+              accountEmail: Text(employerData.email),
               currentAccountPicture: CircleAvatar(
                 child: Text(
-                  'M',
-                  style: TextStyle(fontSize: 40),
+                  employerData.firstName[0],
+                  style: const TextStyle(fontSize: 40),
                 ),
                 backgroundColor: Theme.of(context).canvasColor,
                 foregroundColor: Theme.of(context).primaryColor,

@@ -291,19 +291,21 @@ class DashboardItem extends StatelessWidget {
   final DateTime expieryDate;
   final int candidates;
   final int interviews;
+  final String positionId;
 
   DashboardItem({
     required this.positionName,
     required this.expieryDate,
     required this.candidates,
     required this.interviews,
+    required this.positionId,
   });
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.of(context)
-            .pushNamed('/after_positions_screen', arguments: positionName);
+        Navigator.of(context).pushNamed('/after_positions_screen',
+            arguments: [positionName, positionId]);
       },
       child: Padding(
         padding: const EdgeInsets.only(top: 20, right: 20, left: 20),

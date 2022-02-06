@@ -336,7 +336,7 @@ class _HomeScreenState extends State<HomeScreen> {
       drawer: !employerData.emailConfirmed ? null : AppDrawer(),
       body: !employerData.emailConfirmed
           ? Padding(
-              padding: EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),
               child: Column(
                 children: [
                   // if (!employerData.emailConfirmed)
@@ -413,6 +413,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 positionData.positionsItems[i].candidates,
                             interviews:
                                 positionData.positionsItems[i].interwievs,
+                            positionId: positionData.positionsItems[i].id,
                           ),
                           itemCount: positionData.positionsItems.length,
                         ),
