@@ -32,6 +32,7 @@ const mockUserObject = {
   lastName: 'Moussa',
   CompanyName: 'Mentor',
   email: 'mm9079381@gmail.com',
+  PhoneCode: '02',
   PhoneNo: '01125894119',
   avatarURL: avatar,
 };
