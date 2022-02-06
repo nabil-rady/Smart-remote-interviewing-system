@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:graduation_project/screens/position_details_screen.dart';
 
 class AfterPositionsScreen extends StatelessWidget {
   static const routeName = '/after_positions_screen';
@@ -22,8 +23,40 @@ class AfterPositionsScreen extends StatelessWidget {
         padding: const EdgeInsets.all(10),
         child: Column(
           children: [
-            eachCard2('Position Details', 'assets/images/research.png', context,
-                '/position_details_screen', _positionId, _positioName),
+            // eachCard2('Position Details', 'assets/images/research.png', context,
+            //     '/position_details_screen', _positionId, _positioName),
+            InkWell(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) =>
+                        (PositionDetailScreen(positionId: _positionId))));
+              },
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
+                elevation: 9,
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        width: 60,
+                        height: 60,
+                        child: Image.asset('assets/images/research.png'),
+                      ),
+                      Expanded(
+                        child: Text(
+                          'Position Details',
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
             const SizedBox(
               height: 9,
             ),

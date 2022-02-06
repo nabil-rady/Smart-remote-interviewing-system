@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graduation_project/providers/dashboard_provider.dart';
+import 'package:graduation_project/providers/position_details_provider.dart';
 import 'package:graduation_project/screens/interviewScreens/intro_cam_screen.dart';
 import 'package:graduation_project/screens/waiting_screen.dart';
 
@@ -46,16 +47,23 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(
             create: (ctx) => Questions(),
           ),
+          //for position details page
+          ChangeNotifierProxyProvider<Auth, PostionDetails>(
+            create: (ctx) => PostionDetails('', []),
+            update: (ctx, auth, previositems) => PostionDetails(
+                auth.authtoken, previositems == null ? [] : previositems.items),
+          ),
+
           ChangeNotifierProvider(
             create: (ctx) => Interviews(),
           ),
-          // ChangeNotifierProvider(
-          //   create: (ctx) => DashboardPositions(),
-          // ),
           ChangeNotifierProxyProvider<Auth, DashboardPositions>(
             create: (ctx) => DashboardPositions('', []),
             update: (ctx, auth, previosPositions) => DashboardPositions(
-                auth.authtoken, previosPositions!.positionsItems),
+                auth.authtoken,
+                previosPositions == null
+                    ? []
+                    : previosPositions.positionsItems),
           ),
           // ChangeNotifierProvider(
           //   create: (ctx) => Positions(),
@@ -121,7 +129,9 @@ class MyApp extends StatelessWidget {
               AfterPositionsScreen.routeName: (ctx) => AfterPositionsScreen(),
               ProfileScreen.routeName: (ctx) => ProfileScreen(),
               ChangePassScreen.routeName: (ctx) => ChangePassScreen(),
-              PositionDetailScreen.routeName: (ctx) => PositionDetailScreen(),
+              PositionDetailScreen.routeName: (ctx) => PositionDetailScreen(
+                    positionId: "",
+                  ),
               FinishInterview.routeName: (ctx) => FinishInterview(),
               IntrviewScreen.routeName: (ctx) => IntrviewScreen(),
               // CameraScreen.routeName: (ctx) => CameraScreen()

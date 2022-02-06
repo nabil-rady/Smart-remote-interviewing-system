@@ -20,9 +20,10 @@ class PositionForDashboard {
 
 class DashboardPositions with ChangeNotifier {
   final String? _authToken;
-  List<PositionForDashboard> _positions = [];
-  DashboardPositions(this._authToken, this._positions);
+  //List<PositionForDashboard> _positions = [];
   List<PositionForDashboard> _positionsItems = [];
+
+  DashboardPositions(this._authToken, this._positionsItems);
 
   List<PositionForDashboard> get positionsItems {
     return [..._positionsItems];
