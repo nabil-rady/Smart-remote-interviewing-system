@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import Card from './Card';
 import './scss/listing.scss';
 
@@ -21,9 +22,9 @@ const PositionCard = (props) => {
               src={props.backgrounds[Math.floor(Math.random() * 26)]}
               className="photo"
             />
-            <p className="pos_name" title={position.name}>
+            <Link to="/position" className="pos_name" title={position.name}>
               {position.positionName}
-            </p>
+            </Link>
             {renderExpired(position)} <br />
             <p htmlFor="expirydate" className="labels">
               Expiry Date:
