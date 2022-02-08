@@ -74,13 +74,6 @@ class Positions with ChangeNotifier {
   }
 
   void addPosition(Position singlePosition) {
-    const url = ' ';
-    http.post(Uri.parse(url),
-        body: json.encode({
-          'id': singlePosition.id,
-          'positionName': singlePosition.position,
-          'expieryDate': singlePosition.expireyDate
-        }));
     _positionsItems.add(singlePosition);
     notifyListeners();
   }

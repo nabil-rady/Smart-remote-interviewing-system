@@ -6,6 +6,8 @@ import '../providers/questions.dart';
 import './position_screen.dart';
 import '../widgets/question_form.dart';
 import '../widgets/question_info_item.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class LastQuestionScreen extends StatefulWidget {
   static const routeName = '/last_ques_pos_screen';
@@ -67,6 +69,15 @@ class _LastQuestionScreenState extends State<LastQuestionScreen> {
                   position: positionName,
                   questions: questions,
                   expireyDate: expieryDate);
+              const url =
+                  'https://vividly-api.herokuapp.com/job-listing/create';
+              http.post(Uri.parse(url),
+                  body: json.encode({
+                    'id': singlePosition.id,
+                    'positionName': singlePosition.position,
+                    'expieryDate': singlePosition.expireyDate.toIso8601String(),
+                    'questions': singlePosition.questions.toString()
+                  }));
               Navigator.of(context)
                   .pushReplacementNamed(PositionScreen.routeName);
               print(singlePosition.id);
