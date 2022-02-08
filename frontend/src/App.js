@@ -24,6 +24,7 @@ import ListingPage from './pages/Listingpage';
 import WebcamStreamCapture from './pages/newVideoPage';
 import PositionPage from './pages/PositionPage';
 import PositionDetails from './pages/PositionDetails';
+import IntroPage from './pages/IntroPage';
 
 const mockUserObject = {
   userId: 'ABC123',
@@ -99,6 +100,9 @@ function App() {
         </PrivateRoute>
         <PrivateRoute isAuthenticated={!!authUser} path="/position" exact>
           <PositionPage />
+        </PrivateRoute>
+        <PrivateRoute isAuthenticated={!!authUser} path="/intro" exact>
+          <IntroPage />
         </PrivateRoute>
         <PrivateRoute
           isAuthenticated={!!authUser}

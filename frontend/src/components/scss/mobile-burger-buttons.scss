@@ -1,7 +1,9 @@
+@import '../../sassConfig/colors';
+@import '../../sassConfig/transition';
 .mobile-burger-buttons {
   display: none;
-  position: fixed;
   top: 17px;
+  margin: 1rem;
   left: 3vw;
   height: 21px;
   z-index: 100;
@@ -18,12 +20,12 @@
   z-index: 100;
   transition: background-color 0.3s ease-in-out;
   &.black {
-    background-color: black;
+    background-color: $primary-blue;
     &::before {
-      background-color: black;
+      background-color: $primary-blue;
     }
     &::after {
-      background-color: black;
+      background-color: $primary-blue;
     }
   }
   &::before {

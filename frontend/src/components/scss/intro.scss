@@ -1,0 +1,90 @@
+@import '../../sassConfig/colors';
+@import '../../sassConfig/transition';
+.active {
+  height: 15px;
+  width: 30px;
+  margin: 0 2px;
+  margin-right: 10px;
+  background-color: $primary-blue;
+  border-radius: 20px;
+  margin-top: 2rem;
+}
+.dot {
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  margin-right: 10px;
+  background-color: #bbb;
+  border-radius: 50%;
+  transition-duration: 0.4s;
+  margin-top: 2rem;
+}
+
+.dotsContainer {
+  display: flex;
+  width: 92px;
+  margin-left: calc(50% - 44px);
+}
+
+.introImages {
+  width: 400px;
+  margin-left: calc(50% - 200px);
+  margin-top: 6rem;
+}
+
+.introText {
+  width: 500px;
+  margin-left: calc(50% - 250px);
+  text-align: center;
+  position: absolute;
+  margin-top: 0.5rem;
+  font-size: 1.2rem;
+  color: $primary-blue;
+  font-weight: 500;
+}
+
+.continueButton {
+  margin-left: calc(50% - 60px);
+  width: 120px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  background-color: $primary-blue;
+  color: white;
+  font-weight: 500;
+  font-size: 1.1rem;
+  margin-top: 2rem;
+  @include transition;
+  &:hover {
+    border: 2px solid $primary-blue;
+    background-color: white;
+    color: $primary-blue;
+  }
+}
+
+.goButton {
+  margin-left: calc(50% - 80px);
+  width: 160px;
+  height: 40px;
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  background-color: $primary-blue;
+  color: white;
+  font-weight: 500;
+  font-size: 1.1rem;
+  @include transition;
+  &:hover {
+    border: 2px solid $primary-blue;
+    background-color: white;
+    color: $primary-blue;
+  }
+}
