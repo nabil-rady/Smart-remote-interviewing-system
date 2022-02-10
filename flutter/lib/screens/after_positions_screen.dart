@@ -65,7 +65,7 @@ class AfterPositionsScreen extends StatelessWidget {
             const SizedBox(
               height: 9,
             ),
-            eachCard2('Invate Applicant', 'assets/images/invitation.png',
+            eachCard2('Invite Applicant', 'assets/images/invitation.png',
                 context, '/invitation_screen', _positionId, _positioName),
           ],
         ),
