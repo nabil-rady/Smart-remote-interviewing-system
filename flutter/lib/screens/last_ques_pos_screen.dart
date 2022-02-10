@@ -75,9 +75,15 @@ class _LastQuestionScreenState extends State<LastQuestionScreen> {
                   body: json.encode({
                     'id': singlePosition.id,
                     'positionName': singlePosition.position,
-                    'expieryDate': singlePosition.expireyDate.toIso8601String(),
+                    'expieryDate': singlePosition.expireyDate.toString(),
                     'questions': singlePosition.questions.toString()
                   }));
+              print({
+                'id': singlePosition.id,
+                'positionName': singlePosition.position,
+                'expieryDate': singlePosition.expireyDate.toIso8601String(),
+                'questions': singlePosition.questions.toString()
+              });
               Navigator.of(context)
                   .pushReplacementNamed(PositionScreen.routeName);
               print(singlePosition.id);
