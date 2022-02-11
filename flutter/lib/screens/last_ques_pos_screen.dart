@@ -63,34 +63,40 @@ class _LastQuestionScreenState extends State<LastQuestionScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.done),
-            onPressed: () {
+            onPressed: () async {
+              // const url =
+              //     'https://vividly-api.herokuapp.com/job-listing/create';
+              // http
+              //     .post(Uri.parse(url),
+              //         body: json.encode({
+              //           'id': singlePosition.id,
+              //           'positionName': singlePosition.position,
+              //           'expiryDate': singlePosition.expireyDate.toString(),
+              //           'questions': questions.toString()
+              //         }))
+              //     .then((value) {
               singlePosition = Position(
                   id: id,
                   position: positionName,
                   questions: questions,
                   expireyDate: expieryDate);
-              const url =
-                  'https://vividly-api.herokuapp.com/job-listing/create';
-              http.post(Uri.parse(url),
-                  body: json.encode({
-                    'id': singlePosition.id,
-                    'positionName': singlePosition.position,
-                    'expieryDate': singlePosition.expireyDate.toString(),
-                    'questions': singlePosition.questions.toString()
-                  }));
-              print({
-                'id': singlePosition.id,
-                'positionName': singlePosition.position,
-                'expieryDate': singlePosition.expireyDate.toIso8601String(),
-                'questions': singlePosition.questions.toString()
-              });
+              await Provider.of<Positions>(context, listen: false)
+                  .addPosition(singlePosition);
               Navigator.of(context)
                   .pushReplacementNamed(PositionScreen.routeName);
-              print(singlePosition.id);
-              print(singlePosition.position);
-              singlePosition.questions.forEach((element) {
-                print(element.titleQuestion);
-              });
+              // });
+              // print({
+              //   'id': singlePosition.id,
+              //   'positionName': singlePosition.position,
+              //   'expiryDate': singlePosition.expireyDate.toIso8601String(),
+              //   'questions': questions.toString()
+              // });
+
+              // print(singlePosition.id);
+              // print(singlePosition.position);
+              // singlePosition.questions.forEach((element) {
+              //   print(element.titleQuestion);
+              // });
             },
           )
         ],

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:graduation_project/models/http_exception.dart';
 import 'package:provider/provider.dart';
@@ -73,9 +74,36 @@ class Positions with ChangeNotifier {
     return [..._positionsItems];
   }
 
-  void addPosition(Position singlePosition) {
-    _positionsItems.add(singlePosition);
+  Future<void> addPosition(Position singlePosition) async {
+    const url = 'https://vividly-api.herokuapp.com/job-listing/create';
+    // print({
+    //   'id': singlePosition.id,
+    //   'positionName': singlePosition.position,
+    //   'expiryDate': singlePosition.expireyDate.toIso8601String(),
+    //   'questions': singlePosition.questions[0]
+    // });
+    inspect(singlePosition.questions[0]);
+    final response = await http.post(Uri.parse(url),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': authToken.toString(),
+        },
+        body: json.encode({
+          'id': singlePosition.id,
+          'positionName': singlePosition.position,
+          'expiryDate': singlePosition.expireyDate.toString(),
+          'questions': singlePosition.questions
+        }));
+
+    final newposition = Position(
+        id: singlePosition.id,
+        position: singlePosition.position,
+        questions: singlePosition.questions,
+        expireyDate: singlePosition.expireyDate);
+    _positionsItems.add(newposition);
     notifyListeners();
+
+    print(response.body);
   }
 
   void removePosition(String id) {

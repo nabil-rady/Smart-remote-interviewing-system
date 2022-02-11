@@ -50,7 +50,10 @@ class _PositionFormState extends State<PositionForm> {
       }
       setState(() {
         _dateFlag = true;
+        //  print(pickedDate);
+
         _chosenDate = pickedDate;
+        //   print(_chosenDate);
       });
     });
   }
@@ -92,11 +95,6 @@ class _PositionFormState extends State<PositionForm> {
                   FlatButton(
                     onPressed: () {
                       _presentDatePicker();
-                      position = Position(
-                          id: position.id,
-                          position: position.position,
-                          questions: position.questions,
-                          expireyDate: _chosenDate);
                     },
                     child: const Text(
                       'Choose Expirey Date',
@@ -114,6 +112,12 @@ class _PositionFormState extends State<PositionForm> {
                   style: TextStyle(color: Colors.white),
                 ),
                 onPressed: () {
+                  position = Position(
+                      id: position.id,
+                      position: position.position,
+                      questions: position.questions,
+                      expireyDate: _chosenDate);
+                  print(_chosenDate);
                   if (validateTextField(_positionController.text) &&
                       _dateFlag) {
                     position = Position(
@@ -124,8 +128,8 @@ class _PositionFormState extends State<PositionForm> {
                     Navigator.of(context).pushReplacementNamed(
                         LastQuestionScreen.routeName,
                         arguments: position);
-                    Provider.of<Positions>(context, listen: false)
-                        .addPosition(position);
+                    // Provider.of<Positions>(context, listen: false)
+                    //     .addPosition(position);
                   }
                 },
                 shape: RoundedRectangleBorder(
