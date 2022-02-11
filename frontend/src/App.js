@@ -29,6 +29,7 @@ import IntroPage from './pages/IntroPage';
 const mockUserObject = {
   userId: 'ABC123',
   token: 'aiwdjssqwijeoqiweoqu2398192381123',
+  password: '123456789',
   firstName: 'Mohammed',
   lastName: 'Moussa',
   CompanyName: 'Mentor',

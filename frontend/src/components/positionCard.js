@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Card from './Card';
 import './scss/listing.scss';
-
+let globalId;
 const PositionCard = (props) => {
+  const [id, setId] = useState();
   const renderExpired = (pos) => {
     const second = pos.expirydate;
     if (new Date().getTime() > new Date(second).getTime()) {
@@ -12,7 +13,10 @@ const PositionCard = (props) => {
       return null;
     }
   };
-
+  const idHandler = (position) => {
+    setId(position.id);
+    globalId = id;
+  };
   return (
     <div className="PositionCard">
       <ul className="positions-list">
@@ -22,7 +26,12 @@ const PositionCard = (props) => {
               src={props.backgrounds[Math.floor(Math.random() * 26)]}
               className="photo"
             />
-            <Link to="/position" className="pos_name" title={position.name}>
+            <Link
+              to="/position"
+              className="pos_name"
+              title={position.name}
+              onClick={idHandler(position)}
+            >
               {position.positionName}
             </Link>
             {renderExpired(position)} <br />
@@ -52,4 +61,5 @@ const PositionCard = (props) => {
     </div>
   );
 };
+export { globalId };
 export default PositionCard;
