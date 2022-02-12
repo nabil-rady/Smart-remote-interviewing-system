@@ -84,33 +84,38 @@ class Positions with ChangeNotifier {
     //   'expiryDate': singlePosition.expireyDate.toIso8601String(),
     //   'questions': singlePosition.questions[0]
     // });
-    inspect(singlePosition.questions[0]);
-    final response = await http.post(Uri.parse(url),
-        headers: <String, String>{
-          'Content-Type': 'application/json',
-          'Authorization': authToken.toString(),
-        },
-        body: json.encode({
-          'id': singlePosition.id,
-          'positionName': singlePosition.position,
-          'expiryDate': singlePosition.expireyDate.toString(),
-          'questions': singlePosition.qustionsMapList
-        }));
+    // inspect(singlePosition.questions[0]);
+    try {
+      final response = await http.post(Uri.parse(url),
+          headers: <String, String>{
+            'Content-Type': 'application/json',
+            'Authorization': authToken.toString(),
+          },
+          body: json.encode({
+            'id': singlePosition.id,
+            'positionName': singlePosition.position,
+            'expiryDate': singlePosition.expireyDate.toString(),
+            'questions': singlePosition.qustionsMapList
+          }));
 
-    final newposition = Position(
-      id: singlePosition.id,
-      position: singlePosition.position,
-      questions: singlePosition.questions,
-      expireyDate: singlePosition.expireyDate,
-      /////new //////
-      qustionsMapList: singlePosition.qustionsMapList,
-      /////////////////////
-    );
+      final newposition = Position(
+        id: singlePosition.id,
+        position: singlePosition.position,
+        questions: singlePosition.questions,
+        expireyDate: singlePosition.expireyDate,
+        /////new //////
+        qustionsMapList: singlePosition.qustionsMapList,
+        /////////////////////
+      );
 
-    _positionsItems.add(newposition);
-    notifyListeners();
+      _positionsItems.add(newposition);
+      notifyListeners();
 
-    print(response.body);
+      print(response.body);
+    } catch (error) {
+      print(error);
+      throw error;
+    }
   }
 
   void removePosition(String id) {
