@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:graduation_project/models/http_exception.dart';
 import 'package:provider/provider.dart';
+import '../models/http_exception.dart';
 import '../models/question.dart';
 import '../models/position.dart';
 import 'package:http/http.dart' as http;
@@ -115,6 +117,34 @@ class Positions with ChangeNotifier {
     } catch (error) {
       print(error);
       throw error;
+    }
+  }
+
+  Future<void> fetchAndSetPositions() async {
+    // _jobId = prefs.getString("jobListingId").toString();
+    const url = 'https://vividly-api.herokuapp.com/job-listing/{listing_id}';
+
+    try {
+      final response = await http.get(Uri.parse(url), headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': authToken.toString()
+      });
+
+      final extractedData = json.decode(response.body) as Map<String, dynamic>;
+      final List<Position> loadedPositions = [];
+      extractedData.forEach((posId, posData) {
+        loadedPositions.add(Position(
+            id: posId,
+            position: posData["positionName"],
+            questions: [],
+            qustionsMapList: [],
+            expireyDate: DateTime.parse(posData["expiryDate"])));
+      });
+      _positionsItems = loadedPositions;
+      notifyListeners();
+      print(response.body);
+    } catch (error) {
+      throw (error);
     }
   }
 

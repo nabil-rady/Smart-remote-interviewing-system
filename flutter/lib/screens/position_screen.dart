@@ -14,6 +14,16 @@ class PositionScreen extends StatefulWidget {
 }
 
 class _PositionScreenState extends State<PositionScreen> {
+  var _isInit = true;
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      Provider.of<Positions>(context).fetchAndSetPositions();
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     final positionData = Provider.of<Positions>(context);
