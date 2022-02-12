@@ -19,6 +19,9 @@ class _PositionFormState extends State<PositionForm> {
       id: DateTime.now().toString(),
       position: '',
       questions: [],
+      /////new //////
+      qustionsMapList: [],
+      /////////////////////
       expireyDate: DateTime.now());
 //  Position(DateTime.now().toString(), '', []);
 
@@ -114,6 +117,9 @@ class _PositionFormState extends State<PositionForm> {
                 onPressed: () {
                   position = Position(
                       id: position.id,
+                      /////new //////
+                      qustionsMapList: [],
+                      /////////////////////
                       position: position.position,
                       questions: position.questions,
                       expireyDate: _chosenDate);
@@ -122,6 +128,9 @@ class _PositionFormState extends State<PositionForm> {
                       _dateFlag) {
                     position = Position(
                         id: position.id,
+                        /////new //////
+                        qustionsMapList: [],
+                        /////////////////////
                         position: _positionController.text,
                         questions: position.questions,
                         expireyDate: position.expireyDate);

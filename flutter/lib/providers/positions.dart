@@ -37,7 +37,8 @@ class Positions with ChangeNotifier {
               thinkingTime: 5,
               keywords: 'efegreg',
               id: '23'),
-        ]),
+        ],
+        qustionsMapList: []),
     Position(
         id: '12666',
         position: 'software engineer bethtr tgrer thehrth6',
@@ -67,7 +68,8 @@ class Positions with ChangeNotifier {
               thinkingTime: 5,
               keywords: 'efegreg',
               id: '23'),
-        ]),
+        ],
+        qustionsMapList: []),
   ];
 
   List<Position> get positionsItems {
@@ -92,14 +94,19 @@ class Positions with ChangeNotifier {
           'id': singlePosition.id,
           'positionName': singlePosition.position,
           'expiryDate': singlePosition.expireyDate.toString(),
-          'questions': singlePosition.questions
+          'questions': singlePosition.qustionsMapList
         }));
 
     final newposition = Position(
-        id: singlePosition.id,
-        position: singlePosition.position,
-        questions: singlePosition.questions,
-        expireyDate: singlePosition.expireyDate);
+      id: singlePosition.id,
+      position: singlePosition.position,
+      questions: singlePosition.questions,
+      expireyDate: singlePosition.expireyDate,
+      /////new //////
+      qustionsMapList: singlePosition.qustionsMapList,
+      /////////////////////
+    );
+
     _positionsItems.add(newposition);
     notifyListeners();
 
@@ -122,6 +129,9 @@ class Positions with ChangeNotifier {
             id: '',
             position: '',
             questions: [],
+            /////new //////
+            qustionsMapList: [],
+            /////////////////////
             //Dummy Date
             expireyDate: DateTime(0)));
   }
@@ -152,6 +162,9 @@ class Positions with ChangeNotifier {
             expireyDate: DateTime.parse(positionvalue['expiryDate']),
             position: positionvalue['positionName'],
             id: positionvalue['jobListingId'],
+            /////new //////
+            qustionsMapList: [],
+            /////////////////////
             // I should change it
             questions: (positionvalue['questions'] as List<dynamic>)
                 .map((question) => Question(

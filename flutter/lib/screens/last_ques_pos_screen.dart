@@ -48,6 +48,9 @@ class _LastQuestionScreenState extends State<LastQuestionScreen> {
         id: id,
         position: positionName,
         questions: [],
+        /////new //////
+        qustionsMapList: [],
+        /////////////////////
         expireyDate: expieryDate);
     //   Position(id, positionName, []);
     // var question = Question(
@@ -79,6 +82,9 @@ class _LastQuestionScreenState extends State<LastQuestionScreen> {
                   id: id,
                   position: positionName,
                   questions: questions,
+                  /////new //////
+                  qustionsMapList: questionData.itemsMap,
+                  /////////////////////
                   expireyDate: expieryDate);
               await Provider.of<Positions>(context, listen: false)
                   .addPosition(singlePosition);
