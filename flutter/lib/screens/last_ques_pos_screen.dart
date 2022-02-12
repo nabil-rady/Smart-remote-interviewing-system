@@ -30,6 +30,7 @@ class _LastQuestionScreenState extends State<LastQuestionScreen> {
   //   });
   //   return true;
   // }
+  bool _isLoading = false;
 
   void startAddNewQuestion(BuildContext ctx) {
     showModalBottomSheet(context: ctx, builder: (bctx) => QuestionForm());
@@ -78,6 +79,9 @@ class _LastQuestionScreenState extends State<LastQuestionScreen> {
               //           'questions': questions.toString()
               //         }))
               //     .then((value) {
+              setState(() {
+                _isLoading = true;
+              });
               singlePosition = Position(
                   id: id,
                   position: positionName,
@@ -86,8 +90,13 @@ class _LastQuestionScreenState extends State<LastQuestionScreen> {
                   qustionsMapList: questionData.itemsMap,
                   /////////////////////
                   expireyDate: expieryDate);
+
               await Provider.of<Positions>(context, listen: false)
                   .addPosition(singlePosition);
+              setState(() {
+                _isLoading = false;
+              });
+
               Navigator.of(context)
                   .pushReplacementNamed(PositionScreen.routeName);
               // });
@@ -107,15 +116,19 @@ class _LastQuestionScreenState extends State<LastQuestionScreen> {
           )
         ],
       ),
-      body: ListView.builder(
-        itemBuilder: (ctx, i) => QuestionInfoItem(
-            questionTitle: questions[i].titleQuestion,
-            answerTime: questions[i].answerTime,
-            thinkingTime: questions[i].thinkingTime,
-            keywords: questions[i].keywords,
-            id: questions[i].id),
-        itemCount: questions.length,
-      ),
+      body: _isLoading
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : ListView.builder(
+              itemBuilder: (ctx, i) => QuestionInfoItem(
+                  questionTitle: questions[i].titleQuestion,
+                  answerTime: questions[i].answerTime,
+                  thinkingTime: questions[i].thinkingTime,
+                  keywords: questions[i].keywords,
+                  id: questions[i].id),
+              itemCount: questions.length,
+            ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).primaryColor,
