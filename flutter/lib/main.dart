@@ -54,8 +54,10 @@ class MyApp extends StatelessWidget {
                 auth.authtoken, previositems == null ? [] : previositems.items),
           ),
 
-          ChangeNotifierProvider(
-            create: (ctx) => Interviews(),
+          ChangeNotifierProxyProvider<Auth, Interviews>(
+            create: (ctx) => Interviews('', []),
+            update: (ctx, auth, previosPositions) => Interviews(auth.authtoken,
+                previosPositions == null ? [] : previosPositions.items),
           ),
           ChangeNotifierProxyProvider<Auth, DashboardPositions>(
             create: (ctx) => DashboardPositions('', []),

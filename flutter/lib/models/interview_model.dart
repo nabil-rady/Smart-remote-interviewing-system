@@ -6,6 +6,7 @@ class Interview {
   final String name;
   final String email;
   final String phone;
+  final String phoneCode;
   final DateTime date;
   final List<String> videoAnswers;
   double rate;
@@ -16,6 +17,7 @@ class Interview {
       required this.name,
       required this.email,
       required this.phone,
+      required this.phoneCode,
       required this.date,
       required this.videoAnswers,
       required this.rate,

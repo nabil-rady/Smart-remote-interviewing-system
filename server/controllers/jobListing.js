@@ -251,7 +251,7 @@ module.exports.getListing = async (req, res, next) => {
     };
 
     // send the response
-    res.status(201).json({
+    res.status(200).json({
       ...returnedObject,
     });
   } catch (err) {

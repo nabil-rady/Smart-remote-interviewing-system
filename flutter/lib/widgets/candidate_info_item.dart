@@ -4,8 +4,12 @@ class CandidateInfoItem extends StatelessWidget {
   final String name;
   final String email;
   final String phoneNumber;
+  final String phoneCode;
   CandidateInfoItem(
-      {required this.email, required this.name, required this.phoneNumber});
+      {required this.email,
+      required this.name,
+      required this.phoneCode,
+      required this.phoneNumber});
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -43,7 +47,7 @@ class CandidateInfoItem extends StatelessWidget {
             Row(
               children: <Widget>[
                 Text(
-                  'Number : ' + phoneNumber,
+                  'Number : ' + phoneCode + " " + phoneNumber,
                   style: const TextStyle(
                     fontSize: 16,
                     color: Colors.grey,

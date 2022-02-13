@@ -381,10 +381,6 @@ paths:
                   items:
                     type: object
                     properties:
-                      questionId:
-                        type: string
-                      jobListingId:
-                        type: string
                       statement:
                         type: string
                       timeToThink:

@@ -19,6 +19,9 @@ class _PositionFormState extends State<PositionForm> {
       id: DateTime.now().toString(),
       position: '',
       questions: [],
+      /////new //////
+      qustionsMapList: [],
+      /////////////////////
       expireyDate: DateTime.now());
 //  Position(DateTime.now().toString(), '', []);
 
@@ -50,7 +53,10 @@ class _PositionFormState extends State<PositionForm> {
       }
       setState(() {
         _dateFlag = true;
+        //  print(pickedDate);
+
         _chosenDate = pickedDate;
+        //   print(_chosenDate);
       });
     });
   }
@@ -92,11 +98,6 @@ class _PositionFormState extends State<PositionForm> {
                   FlatButton(
                     onPressed: () {
                       _presentDatePicker();
-                      position = Position(
-                          id: position.id,
-                          position: position.position,
-                          questions: position.questions,
-                          expireyDate: _chosenDate);
                     },
                     child: const Text(
                       'Choose Expirey Date',
@@ -114,18 +115,30 @@ class _PositionFormState extends State<PositionForm> {
                   style: TextStyle(color: Colors.white),
                 ),
                 onPressed: () {
+                  position = Position(
+                      id: position.id,
+                      /////new //////
+                      qustionsMapList: [],
+                      /////////////////////
+                      position: position.position,
+                      questions: position.questions,
+                      expireyDate: _chosenDate);
+                  print(_chosenDate);
                   if (validateTextField(_positionController.text) &&
                       _dateFlag) {
                     position = Position(
                         id: position.id,
+                        /////new //////
+                        qustionsMapList: [],
+                        /////////////////////
                         position: _positionController.text,
                         questions: position.questions,
                         expireyDate: position.expireyDate);
                     Navigator.of(context).pushReplacementNamed(
                         LastQuestionScreen.routeName,
                         arguments: position);
-                    Provider.of<Positions>(context, listen: false)
-                        .addPosition(position);
+                    // Provider.of<Positions>(context, listen: false)
+                    //     .addPosition(position);
                   }
                 },
                 shape: RoundedRectangleBorder(

@@ -1,7 +1,10 @@
 import 'dart:convert';
+import 'dart:developer';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:graduation_project/models/http_exception.dart';
 import 'package:provider/provider.dart';
+import '../models/http_exception.dart';
 import '../models/question.dart';
 import '../models/position.dart';
 import 'package:http/http.dart' as http;
@@ -36,7 +39,8 @@ class Positions with ChangeNotifier {
               thinkingTime: 5,
               keywords: 'efegreg',
               id: '23'),
-        ]),
+        ],
+        qustionsMapList: []),
     Position(
         id: '12666',
         position: 'software engineer bethtr tgrer thehrth6',
@@ -66,16 +70,82 @@ class Positions with ChangeNotifier {
               thinkingTime: 5,
               keywords: 'efegreg',
               id: '23'),
-        ]),
+        ],
+        qustionsMapList: []),
   ];
 
   List<Position> get positionsItems {
     return [..._positionsItems];
   }
 
-  void addPosition(Position singlePosition) {
-    _positionsItems.add(singlePosition);
-    notifyListeners();
+  Future<void> addPosition(Position singlePosition) async {
+    const url = 'https://vividly-api.herokuapp.com/job-listing/create';
+    // print({
+    //   'id': singlePosition.id,
+    //   'positionName': singlePosition.position,
+    //   'expiryDate': singlePosition.expireyDate.toIso8601String(),
+    //   'questions': singlePosition.questions[0]
+    // });
+    // inspect(singlePosition.questions[0]);
+    try {
+      final response = await http.post(Uri.parse(url),
+          headers: <String, String>{
+            'Content-Type': 'application/json',
+            'Authorization': authToken.toString(),
+          },
+          body: json.encode({
+            'id': singlePosition.id,
+            'positionName': singlePosition.position,
+            'expiryDate': singlePosition.expireyDate.toString(),
+            'questions': singlePosition.qustionsMapList
+          }));
+
+      final newposition = Position(
+        id: singlePosition.id,
+        position: singlePosition.position,
+        questions: singlePosition.questions,
+        expireyDate: singlePosition.expireyDate,
+        /////new //////
+        qustionsMapList: singlePosition.qustionsMapList,
+        /////////////////////
+      );
+
+      _positionsItems.add(newposition);
+      notifyListeners();
+
+      print(response.body);
+    } catch (error) {
+      print(error);
+      throw error;
+    }
+  }
+
+  Future<void> fetchAndSetPositions() async {
+    // _jobId = prefs.getString("jobListingId").toString();
+    const url = 'https://vividly-api.herokuapp.com/job-listing/{listing_id}';
+
+    try {
+      final response = await http.get(Uri.parse(url), headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': authToken.toString()
+      });
+
+      final extractedData = json.decode(response.body) as Map<String, dynamic>;
+      final List<Position> loadedPositions = [];
+      extractedData.forEach((posId, posData) {
+        loadedPositions.add(Position(
+            id: posId,
+            position: posData["positionName"],
+            questions: [],
+            qustionsMapList: [],
+            expireyDate: DateTime.parse(posData["expiryDate"])));
+      });
+      _positionsItems = loadedPositions;
+      notifyListeners();
+      print(response.body);
+    } catch (error) {
+      throw (error);
+    }
   }
 
   void removePosition(String id) {
@@ -94,6 +164,9 @@ class Positions with ChangeNotifier {
             id: '',
             position: '',
             questions: [],
+            /////new //////
+            qustionsMapList: [],
+            /////////////////////
             //Dummy Date
             expireyDate: DateTime(0)));
   }
@@ -124,6 +197,9 @@ class Positions with ChangeNotifier {
             expireyDate: DateTime.parse(positionvalue['expiryDate']),
             position: positionvalue['positionName'],
             id: positionvalue['jobListingId'],
+            /////new //////
+            qustionsMapList: [],
+            /////////////////////
             // I should change it
             questions: (positionvalue['questions'] as List<dynamic>)
                 .map((question) => Question(

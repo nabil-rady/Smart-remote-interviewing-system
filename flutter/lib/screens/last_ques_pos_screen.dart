@@ -30,6 +30,7 @@ class _LastQuestionScreenState extends State<LastQuestionScreen> {
   //   });
   //   return true;
   // }
+  bool _isLoading = false;
 
   void startAddNewQuestion(BuildContext ctx) {
     showModalBottomSheet(context: ctx, builder: (bctx) => QuestionForm());
@@ -48,6 +49,9 @@ class _LastQuestionScreenState extends State<LastQuestionScreen> {
         id: id,
         position: positionName,
         questions: [],
+        /////new //////
+        qustionsMapList: [],
+        /////////////////////
         expireyDate: expieryDate);
     //   Position(id, positionName, []);
     // var question = Question(
@@ -63,47 +67,68 @@ class _LastQuestionScreenState extends State<LastQuestionScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.done),
-            onPressed: () {
+            onPressed: () async {
+              // const url =
+              //     'https://vividly-api.herokuapp.com/job-listing/create';
+              // http
+              //     .post(Uri.parse(url),
+              //         body: json.encode({
+              //           'id': singlePosition.id,
+              //           'positionName': singlePosition.position,
+              //           'expiryDate': singlePosition.expireyDate.toString(),
+              //           'questions': questions.toString()
+              //         }))
+              //     .then((value) {
+              setState(() {
+                _isLoading = true;
+              });
               singlePosition = Position(
                   id: id,
                   position: positionName,
                   questions: questions,
+                  /////new //////
+                  qustionsMapList: questionData.itemsMap,
+                  /////////////////////
                   expireyDate: expieryDate);
-              const url =
-                  'https://vividly-api.herokuapp.com/job-listing/create';
-              http.post(Uri.parse(url),
-                  body: json.encode({
-                    'id': singlePosition.id,
-                    'positionName': singlePosition.position,
-                    'expieryDate': singlePosition.expireyDate.toString(),
-                    'questions': singlePosition.questions.toString()
-                  }));
-              print({
-                'id': singlePosition.id,
-                'positionName': singlePosition.position,
-                'expieryDate': singlePosition.expireyDate.toIso8601String(),
-                'questions': singlePosition.questions.toString()
+
+              await Provider.of<Positions>(context, listen: false)
+                  .addPosition(singlePosition);
+              setState(() {
+                _isLoading = false;
               });
+
               Navigator.of(context)
                   .pushReplacementNamed(PositionScreen.routeName);
-              print(singlePosition.id);
-              print(singlePosition.position);
-              singlePosition.questions.forEach((element) {
-                print(element.titleQuestion);
-              });
+              // });
+              // print({
+              //   'id': singlePosition.id,
+              //   'positionName': singlePosition.position,
+              //   'expiryDate': singlePosition.expireyDate.toIso8601String(),
+              //   'questions': questions.toString()
+              // });
+
+              // print(singlePosition.id);
+              // print(singlePosition.position);
+              // singlePosition.questions.forEach((element) {
+              //   print(element.titleQuestion);
+              // });
             },
           )
         ],
       ),
-      body: ListView.builder(
-        itemBuilder: (ctx, i) => QuestionInfoItem(
-            questionTitle: questions[i].titleQuestion,
-            answerTime: questions[i].answerTime,
-            thinkingTime: questions[i].thinkingTime,
-            keywords: questions[i].keywords,
-            id: questions[i].id),
-        itemCount: questions.length,
-      ),
+      body: _isLoading
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : ListView.builder(
+              itemBuilder: (ctx, i) => QuestionInfoItem(
+                  questionTitle: questions[i].titleQuestion,
+                  answerTime: questions[i].answerTime,
+                  thinkingTime: questions[i].thinkingTime,
+                  keywords: questions[i].keywords,
+                  id: questions[i].id),
+              itemCount: questions.length,
+            ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).primaryColor,
