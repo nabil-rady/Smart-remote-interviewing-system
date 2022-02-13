@@ -6,6 +6,7 @@ import { APIURL } from '../API/APIConstants';
 import handleError from '../utils/errorHandling';
 import './scss/login.scss';
 import avatarURL from '../user.jpg';
+import { Link } from 'react-router-dom';
 
 const LoginForm = () => {
   const [email, setEmail] = useState();
@@ -84,8 +85,12 @@ const LoginForm = () => {
           onConfirm={errorHandler}
         />
       )}
+
       <Card className="cardemployer top-margin">
-        <form onSubmit={submitHandler} id="employerform">
+        <p className="login_header">
+          Login to <span className="login_logo">Vividly</span>
+        </p>
+        <form onSubmit={submitHandler} id="Loginform">
           <input
             className="inputs"
             type="email"
@@ -100,7 +105,13 @@ const LoginForm = () => {
             onChange={passwordHandler}
             required
           />
-          <button id="signup">Login</button>
+          <button className="login_btn">Login</button>
+          <p className="toSignup">
+            Don't have an account?{' '}
+            <Link to="/signup" className="signupLink">
+              Sign up
+            </Link>
+          </p>
         </form>
       </Card>
     </>

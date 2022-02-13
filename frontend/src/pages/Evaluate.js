@@ -3,9 +3,9 @@
 // import SideMenu from '../components/SideMenu';
 // import EvaluationCard from '../components/EvaluationCard';
 // import './scss/evaluate.scss';
-// // import vid1 from './videos/Bali in 8k ULTRA HD HDR - Paradise of Asia (60 FPS)_720P HD.mp4';
-// // import vid2 from './videos/Beautiful Nature Around The World_720P HD.mp4';
-// // import vid3 from './videos/Nature sounds Meditation forest sounds of birds singing relaxation - 4 minutes_720P HD.mp4';
+// import vid1 from './videos/30 seconds whatsapp status nature videos. (1).mp4';
+// import vid2 from './videos/30 seconds whatsapp status nature videos. (1).mp4';
+// import vid3 from './videos/30 seconds whatsapp status nature videos. (1).mp4';
 // const answers = [
 //   {
 //     ques: 'How are U ?',

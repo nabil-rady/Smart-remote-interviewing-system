@@ -11,7 +11,7 @@ const EvaluationCard = React.forwardRef((props, ratings) => {
               <p className="question-title">
                 Question{index + 1}: {answer.ques}
               </p>
-              <div className="video">
+              <div className="evaluate_video">
                 <video width="83%" height="250" controls>
                   <source src={answer.ans} type="video/mp4" />
                   <source src={answer.ans2} type="video/ogg" />

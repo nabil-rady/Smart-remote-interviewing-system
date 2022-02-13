@@ -1,0 +1,54 @@
+@import '../../sassConfig/colors';
+@import '../../sassConfig/transition';
+
+.applicants_list {
+  width: 95%;
+  margin: 0 auto;
+}
+
+.applicantcard {
+  width: 30%;
+  margin-bottom: 2rem;
+  box-shadow: none;
+  cursor: pointer;
+  height: 100px;
+  padding-top: 0.8rem;
+  margin: 2rem 35%;
+}
+
+.positioncard:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.26);
+}
+
+.app_name {
+  color: $primary-blue;
+  font-size: x-large;
+  font-weight: bold;
+  margin-left: 3%;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  display: block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.app_interviewdate {
+  display: inline-block;
+}
+
+.labels {
+  margin-left: 3%;
+  margin-bottom: 0.8rem;
+  font-weight: bold;
+  color: $primary-blue;
+  display: inline-block;
+  margin-right: 0.3rem;
+}
+
+.evaluate_label {
+  text-align: center;
+  margin-top: 1rem;
+  color: $primary-blue;
+  font-size: 50px;
+  font-weight: bold;
+}

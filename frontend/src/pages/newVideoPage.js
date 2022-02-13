@@ -204,9 +204,9 @@ const WebcamStreamCapture = () => {
             Next Qusetion
           </button>
         )}
-        {recordedChunks.length > 0 && (
+        {/* {recordedChunks.length > 0 && (
           <button onClick={handleDownload}>Download</button>
-        )}
+        )} */}
       </div>
     </>
   );

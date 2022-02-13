@@ -1,0 +1,91 @@
+@import '../../sassConfig/colors';
+@import '../../sassConfig/transition';
+
+.dataContainer {
+  display: flex;
+}
+
+.applicants_list {
+  width: 95%;
+  margin: 0 auto;
+}
+
+.detailscard {
+  width: 30%;
+  margin-bottom: 2rem;
+  box-shadow: none;
+  height: auto;
+  padding: 1.5rem;
+  padding-top: 2rem;
+  margin: 2rem 35%;
+}
+
+.positioncard:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.26);
+}
+
+.app_name {
+  color: $primary-blue;
+  font-size: x-large;
+  font-weight: bold;
+  margin-left: 3%;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  display: block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.app_interviewdate {
+  display: inline-block;
+}
+
+.detailsLabel {
+  margin-left: 3%;
+  margin-bottom: 0.8rem;
+  font-weight: bold;
+  color: $primary-blue;
+  display: inline-block;
+  font-size: 2rem;
+  margin-right: 0.3rem;
+}
+
+.evaluate_label {
+  text-align: center;
+  margin-top: 1rem;
+  color: $primary-blue;
+  font-size: 50px;
+  font-weight: bold;
+}
+
+.info {
+  font-size: 20px;
+  margin-top: 0.5rem;
+}
+
+.answers {
+  margin-left: calc(50% - 60px);
+  width: 120px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  background-color: $primary-blue;
+  color: white;
+  font-weight: 500;
+  font-size: 1.1rem;
+  @include transition;
+  &:hover {
+    border: 2px solid $primary-blue;
+    background-color: white;
+    color: $primary-blue;
+  }
+  &:disabled,
+  &[disabled] {
+    background-color: gray;
+    color: black;
+  }
+}

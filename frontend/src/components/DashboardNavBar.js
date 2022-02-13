@@ -31,9 +31,9 @@ const DashboardNavBar = (props) => {
           </li>
           <li
             className={`dashboard-menu__li`}
-            onClick={props.interviewsHandler}
+            onClick={props.notificationsHandler}
           >
-            Interviews
+            Notifications
           </li>
           <li className={`dashboard-menu__li`} onClick={props.profileHandler}>
             Edit Profile

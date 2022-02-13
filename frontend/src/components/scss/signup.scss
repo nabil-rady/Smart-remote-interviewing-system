@@ -51,14 +51,14 @@
 }
 #employerform {
   width: 100%;
-  padding-top: 130px;
 }
 
 .cardsignup {
   margin: 5rem auto;
   width: 75%;
   height: 520px;
-  max-width: 330px;
+  max-width: 400px;
+  padding-top: 0.5rem;
 }
 
 .phone-input {
@@ -69,4 +69,24 @@
   height: 20px;
   width: 80%;
   outline: none;
+}
+.signup_header {
+  color: $primary-blue;
+  text-align: center;
+  font-size: 1.5rem;
+  margin-top: 2rem;
+}
+
+.signup_logo {
+  font-weight: bold;
+  font-family: 'Baskerville Old Face';
+  font-size: 2rem;
+}
+.toLogin {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.loginLink {
+  color: $primary-blue;
 }

@@ -6,7 +6,7 @@ let globalId;
 const PositionCard = (props) => {
   const [id, setId] = useState();
   const renderExpired = (pos) => {
-    const second = pos.expirydate;
+    const second = pos.expiryDate;
     if (new Date().getTime() > new Date(second).getTime()) {
       return <p className="expired">expired</p>;
     } else {
@@ -26,12 +26,7 @@ const PositionCard = (props) => {
               src={props.backgrounds[Math.floor(Math.random() * 26)]}
               className="photo"
             />
-            <Link
-              to="/position"
-              className="pos_name"
-              title={position.name}
-              onClick={idHandler(position)}
-            >
+            <Link to="/position" className="pos_name" title={position.name}>
               {position.positionName}
             </Link>
             {renderExpired(position)} <br />

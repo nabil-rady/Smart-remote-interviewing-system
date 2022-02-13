@@ -25,7 +25,8 @@ import WebcamStreamCapture from './pages/newVideoPage';
 import PositionPage from './pages/PositionPage';
 import PositionDetails from './pages/PositionDetails';
 import IntroPage from './pages/IntroPage';
-
+import ViewApplicants from './pages/viewApplicants';
+import ApplicantDetails from './pages/applicantDeteils';
 const mockUserObject = {
   userId: 'ABC123',
   token: 'aiwdjssqwijeoqiweoqu2398192381123',
@@ -38,8 +39,6 @@ const mockUserObject = {
   PhoneNo: '01125894119',
   avatarURL: avatar,
 };
-
-// const mockUserObject = null;
 
 const UserContext = React.createContext();
 
@@ -72,9 +71,9 @@ function App() {
         {/* <Route path="/addquestions">
           <QuestionsPage />
         </Route> */}
-        <PrivateRoute isAuthenticated={!!authUser} path="/profile" exact>
+        {/* <PrivateRoute isAuthenticated={!!authUser} path="/profile" exact>
           <Profile />
-        </PrivateRoute>
+        </PrivateRoute> */}
         <PrivateRoute isAuthenticated={!!authUser} path="/add" exact>
           <AddQues />
         </PrivateRoute>
@@ -112,7 +111,21 @@ function App() {
         >
           <PositionDetails />
         </PrivateRoute>
-        {/* <PrivateRoute path="/evaluate">
+        <PrivateRoute
+          isAuthenticated={!!authUser}
+          path="/view_applicants"
+          exact
+        >
+          <ViewApplicants />
+        </PrivateRoute>
+        <PrivateRoute
+          isAuthenticated={!!authUser}
+          path="/applicant_details"
+          exact
+        >
+          <ApplicantDetails />
+        </PrivateRoute>
+        {/* <PrivateRoute isAuthenticated={!!authUser} path="/evaluate">
           <EvaluationPage />
         </PrivateRoute> */}
       </UserContext.Provider>

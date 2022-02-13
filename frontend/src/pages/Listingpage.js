@@ -31,7 +31,11 @@ import im23 from '../solidBG/23.jpg';
 import im24 from '../solidBG/24.jpg';
 import im25 from '../solidBG/25.jpg';
 import im26 from '../solidBG/26.jpg';
-
+import im27 from '../solidBG/27.jpg';
+import im28 from '../solidBG/28.jpg';
+import im29 from '../solidBG/29.jpg';
+import im30 from '../solidBG/30.jpg';
+import im31 from '../solidBG/31.jpg';
 function ListingPage() {
   const [positions, getPositions] = useState();
   let backgrounds = [
@@ -61,6 +65,11 @@ function ListingPage() {
     im24,
     im25,
     im26,
+    im27,
+    im28,
+    im29,
+    im30,
+    im31,
   ];
   const fetchPost = () => {
     fetch(`${APIURL}/job-listing/get-listings`)
@@ -73,7 +82,7 @@ function ListingPage() {
   useEffect(() => {
     fetchPost();
   }, []);
-  // const positions = [
+  // let positions = [
   //   {
   //     positionName: 'Softwarqweeqwqwweqwqeweqwqeewqewqewwqeewqweqe',
   //     expiryDate: '2022-11-7',
@@ -99,18 +108,6 @@ function ListingPage() {
   //     interviewsNumber: 4,
   //   },
   // ];
-  const sideMenu = useRef(null);
-  const handleToggleButtonClick = () =>
-    sideMenu.current.classList.toggle('change');
-  const [verificationCard, setVerificationCard] = useState(false);
-  const [verified, setVerified] = useState(false);
-  const navClickHandler = () => {
-    setVerificationCard(true);
-  };
-  const cardClickHandler = () => {
-    setVerified(true);
-    setVerificationCard(false);
-  };
   return (
     <>
       <div classpositionName="positions">

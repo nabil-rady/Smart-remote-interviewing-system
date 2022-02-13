@@ -8,7 +8,7 @@ import handleError from '../utils/errorHandling';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import EmailVerification from './EmailVerification';
-
+import { Link } from 'react-router-dom';
 const SignUpForm = () => {
   const [Email, setEmail] = useState();
   const [Password, setPassword] = useState();
@@ -132,6 +132,9 @@ const SignUpForm = () => {
         />
       )}
       <Card className="cardsignup top-margin">
+        <p className="signup_header">
+          Sign up to <span className="signup_logo">Vividly</span>
+        </p>
         <form onSubmit={submitHandler} id="employerform">
           <input
             className="inputs"
@@ -200,24 +203,14 @@ const SignUpForm = () => {
               marginTop: '8%',
             }}
           />
-          {/* <input
-            className="inputs"
-            type="text"
-            placeholder="Phone No."
-            onChange={PhoneHandler}
-            required
-          /> */}
           <button className="signup">Sign Up</button>
         </form>
-        {/* <div id="havingacc">
-            <h2 id="acc" style={{ display: visible }}>
-            Have An Account?
-            <span id="login">
-                {' '}
-                Login
-            </span>
-            </h2>
-        </div> */}
+        <p className="toLogin">
+          Have an account?{' '}
+          <Link to="/login" className="loginLink">
+            Login
+          </Link>
+        </p>
       </Card>
     </>
   );

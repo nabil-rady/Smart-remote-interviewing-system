@@ -31,46 +31,44 @@ const PositionDetails = () => {
     fetchPost();
   }, []);
   // let position = {
-  //   positionName: 'wmbabl;;fbmlfb',
+  //   positionName: 'Software',
   //   expiryDate: '2022-02-05T23:00:05.955Z',
   //   questions: [
   //     {
-  //       statement:
-  //         "V;mv;mv;'M;BM'M, LVML;mav adlma;lvmmv cgml;rsb; ael;kbglsb ldfbl",
+  //       statement:"How are you?",
   //       timeToThink: 5,
   //       timeToAnswer: 4,
   //       keywords: [
-  //         'bmasfmb;la',
-  //         'lvmalsmm;sv',
-  //         "lndvlsb;vljlv'",
-  //         'knvkashlbv',
-  //         'dsjljljbv',
+  //         'one',
+  //         'two',
+  //         'three',
+  //         'four',
+  //         'five'
   //       ],
   //     },
   //     {
-  //       statement:
-  //         "ksnvlnlavnl;aLVKldv;lv'dva lefcl;av;lKADV LDFL;CAV;ADV L;SDVL;AVDK;v ldfl;avl; LADVL;MLA;V",
+  //       statement:"State your skills",
+
   //       timeToThink: 3,
   //       timeToAnswer: 2,
   //       keywords: [
-  //         'bmasfmb;la',
-  //         'lvmalsmm;sv',
-  //         "lndvlsb;vljlv'",
-  //         'knvkashlbv',
-  //         'dsjljljbv',
+  //         'one',
+  //         'two',
+  //         'three',
+  //         'four',
+  //         'five'
   //       ],
   //     },
   //     {
-  //       statement:
-  //         'lbmfmas;m ; lbsml;smbmwfm llmdglmsrlbmm lmfbmlrbmlm ml;ermlm l;erml;reljgjrbv fdkvmleb',
+  //       statement:"What's your name?",
   //       timeToThink: 10,
   //       timeToAnswer: 7,
   //       keywords: [
-  //         'bmasfmb;la',
-  //         'lvmalsmm;sv',
-  //         "lndvlsb;vljlv'",
-  //         'knvkashlbv',
-  //         'dsjljljbv',
+  //         'one',
+  //         'two',
+  //         'three',
+  //         'four',
+  //         'five'
   //       ],
   //     },
   //   ],

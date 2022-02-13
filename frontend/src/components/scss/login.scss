@@ -3,16 +3,14 @@
 
 .inputs {
   display: block;
-  // margin: 5%;
-  // margin-left: 23%;
-  margin: 1.4rem auto; //center div right and left
+  margin: 0.5rem auto; //center div right and left
   border: none;
   border-bottom: 1px solid rgb(78, 78, 78);
   height: 20px;
-  width: 80%;
+  width: 90%;
   outline: none;
 }
-#signup {
+.login_btn {
   margin-left: calc(50% - 60px);
   width: 120px;
   height: 40px;
@@ -47,15 +45,33 @@
   display: inline-block;
   width: 100%;
 }
-#employerform {
-  width: 100%;
-  padding-top: 150px;
-}
 
 .cardemployer {
   margin: 0 auto;
-  width: 75%;
-  height: 320px;
+  width: 90%;
+  height: 290px;
+  padding: 1rem;
   margin-top: 5rem;
-  max-width: 300px;
+  max-width: 500px;
+}
+
+.login_header {
+  color: $primary-blue;
+  text-align: center;
+  font-size: 1.5rem;
+  margin-top: 1rem;
+}
+
+.login_logo {
+  font-weight: bold;
+  font-family: 'Baskerville Old Face';
+  font-size: 2rem;
+}
+.toSignup {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.signupLink {
+  color: $primary-blue;
 }
