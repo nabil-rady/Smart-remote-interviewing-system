@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/interview_model.dart';
 import '../providers/interview_provider.dart';
-
+import 'package:country_pickers/country_pickers.dart';
 import 'package:path/path.dart';
 import 'dart:async';
 import 'package:path_provider/path_provider.dart';
@@ -43,6 +43,7 @@ class _InvitationFormState extends State<InvitationForm> {
       name: '',
       email: '',
       phone: '',
+      phoneCode: '',
       id: DateTime.now().toString(),
       date: DateTime.now(),
       rate: 0,
@@ -124,6 +125,7 @@ class _InvitationFormState extends State<InvitationForm> {
           name: '',
           email: '',
           phone: '',
+          phoneCode: '',
           id: DateTime.now().toString(),
           date: DateTime.now(),
           rate: 0,
@@ -137,6 +139,7 @@ class _InvitationFormState extends State<InvitationForm> {
             email: candidate.email,
             phone: candidate.phone,
             date: candidate.date,
+            phoneCode: candidate.phoneCode,
             id: candidate.id,
             rate: candidate.rate,
             videoAnswers: candidate.videoAnswers,
@@ -146,6 +149,7 @@ class _InvitationFormState extends State<InvitationForm> {
             name: candidate.name,
             email: element[2].toString(),
             phone: candidate.phone,
+            phoneCode: candidate.phoneCode,
             date: candidate.date,
             id: candidate.id,
             rate: candidate.rate,
@@ -156,6 +160,7 @@ class _InvitationFormState extends State<InvitationForm> {
             name: candidate.name,
             email: candidate.email,
             phone: element[1].toString(),
+            phoneCode: candidate.phoneCode,
             date: candidate.date,
             id: candidate.id,
             rate: candidate.rate,
@@ -197,6 +202,7 @@ class _InvitationFormState extends State<InvitationForm> {
                           name: value.toString(),
                           email: candidate.email,
                           phone: candidate.phone,
+                          phoneCode: candidate.phoneCode,
                           date: candidate.date,
                           id: candidate.id,
                           rate: candidate.rate,
@@ -206,7 +212,7 @@ class _InvitationFormState extends State<InvitationForm> {
                     },
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return 'Please write a full-name';
+                        return 'Please write the full-name';
                       }
                       return null;
                     },
@@ -219,6 +225,7 @@ class _InvitationFormState extends State<InvitationForm> {
                           name: candidate.name,
                           email: value.toString(),
                           phone: candidate.phone,
+                          phoneCode: candidate.phoneCode,
                           date: candidate.date,
                           id: candidate.id,
                           rate: candidate.rate,
@@ -228,11 +235,43 @@ class _InvitationFormState extends State<InvitationForm> {
                     },
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return 'Please write your email';
+                        return 'Please write the email';
                       }
                       return null;
                     },
                   ),
+                  // Row(
+                  // children: <Widget>[
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Country code ',
+                      style: TextStyle(fontSize: 16.5, color: Colors.grey[600]),
+                    ),
+                  ),
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    child: CountryPickerDropdown(
+                      initialValue: 'EG',
+                      onValuePicked: (value) {
+                        candidate = Interview(
+                            name: candidate.name,
+                            email: candidate.email,
+                            phone: candidate.phone,
+                            phoneCode: '+' + value.phoneCode.toString(),
+                            date: candidate.date,
+                            id: candidate.id,
+                            rate: candidate.rate,
+                            videoAnswers: candidate.videoAnswers,
+                            isRated: candidate.isRated,
+                            positionName: candidate.positionName);
+                      },
+                    ),
+                  ),
+
                   TextFormField(
                     decoration: InputDecoration(labelText: 'Phone number '),
                     textInputAction: TextInputAction.done,
@@ -241,6 +280,7 @@ class _InvitationFormState extends State<InvitationForm> {
                           name: candidate.name,
                           email: candidate.email,
                           phone: value.toString(),
+                          phoneCode: candidate.phoneCode,
                           date: candidate.date,
                           id: candidate.id,
                           rate: candidate.rate,
@@ -250,11 +290,13 @@ class _InvitationFormState extends State<InvitationForm> {
                     },
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return 'Please write your phone number';
+                        return 'Please write the phone number';
                       }
                       return null;
                     },
                   ),
+                  //r    ],
+                  // ),
                 ],
               )),
           const SizedBox(

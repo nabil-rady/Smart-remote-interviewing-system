@@ -28,6 +28,7 @@ class InvitationScreen extends StatelessWidget {
         itemBuilder: (ctx, i) => CandidateInfoItem(
             email: candidates[i].email,
             name: candidates[i].name,
+            phoneCode: candidates[i].phoneCode,
             phoneNumber: candidates[i].phone),
         itemCount: candidates.length,
       ),
