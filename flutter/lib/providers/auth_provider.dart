@@ -156,7 +156,7 @@ class Auth with ChangeNotifier {
     removeUserId();
     removeUserToken();
     removeUserExpiryDate();
-
+    print("loged out");
     if (_authTimer != null) {
       _authTimer!.cancel();
       _authTimer = null;
@@ -170,6 +170,7 @@ class Auth with ChangeNotifier {
     }
     final ex = DateTime.parse(getUserExpiryDate().toString());
     final timeToExpiry = ex.difference(DateTime.now()).inSeconds;
+    print("i try to logout alone");
     _authTimer = Timer(Duration(seconds: timeToExpiry), logOut);
   }
 

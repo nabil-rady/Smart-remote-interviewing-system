@@ -190,7 +190,10 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:graduation_project/local/sharedpreferences.dart';
+import 'package:graduation_project/screens/main_screen.dart';
+import 'package:graduation_project/widgets/helper_widget.dart';
 import '../models/http_exception.dart';
 import '../providers/dashboard_provider.dart';
 import '../widgets/dashboard_item.dart';
@@ -398,6 +401,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   if (dataSnapshot.error != null) {
                     // ...
                     // Do error handling stuff
+                    String error = dataSnapshot.error.toString();
+                    if (error.contains('The json web token has expired')) {
+                      return TokenExpiry();
+                    }
                     return const Center(
                       child: Text('An error occurred!'),
                     );

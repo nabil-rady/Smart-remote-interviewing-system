@@ -129,6 +129,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:graduation_project/providers/position_details_provider.dart';
+import 'package:graduation_project/widgets/helper_widget.dart';
 import 'package:intl/intl.dart';
 import '../providers/positions.dart';
 import 'package:provider/provider.dart';
@@ -197,6 +198,10 @@ class _PositionDetailScreenState extends State<PositionDetailScreen> {
                   print(dataSnapshot.error);
                   // ...
                   // Do error handling stuff
+                  String error = dataSnapshot.error.toString();
+                  if (error.contains('The json web token has expired')) {
+                    return TokenExpiry();
+                  }
                   return const Center(
                     child: Text('An error occurred!'),
                   );
