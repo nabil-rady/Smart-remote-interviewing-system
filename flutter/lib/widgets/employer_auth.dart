@@ -2,6 +2,7 @@ import 'package:country_pickers/country.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:country_pickers/country_pickers.dart';
+import 'package:graduation_project/screens/home_screen.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
 import '../models/http_exception.dart';
@@ -110,7 +111,6 @@ class _EmployerAuthState extends State<EmployerAuth> {
               try {
                 print(confirmCode);
                 await Provider.of<Auth>(context, listen: false).confirmEmail(
-                  Provider.of<Auth>(context, listen: false).employer.userId,
                   confirmCode,
                 );
                 setState(() {
@@ -131,9 +131,7 @@ class _EmployerAuthState extends State<EmployerAuth> {
             onPressed: () async {
               try {
                 print(confirmCode);
-                await Provider.of<Auth>(context, listen: false).sendEmail(
-                  Provider.of<Auth>(context, listen: false).employer.userId,
-                );
+                await Provider.of<Auth>(context, listen: false).sendEmail();
               } catch (error) {
                 _showErrorDialog(error.toString());
               }
@@ -156,12 +154,16 @@ class _EmployerAuthState extends State<EmployerAuth> {
     try {
       if (_authMode == AuthMode.login) {
         //  Log user in
-        await Provider.of<Auth>(context, listen: false).login(
+        await Provider.of<Auth>(context, listen: false)
+            .login(
           authData['email'].toString(),
           authData['password'].toString(),
           // 'mariammohammad390@gmail.com',
           // '123456789'
-        );
+        )
+            .then((value) {
+          Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+        });
 
         //Navigator.of(context).pushReplacementNamed('/home_screen');
 

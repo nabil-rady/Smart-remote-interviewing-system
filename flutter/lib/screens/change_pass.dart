@@ -168,6 +168,9 @@ class _ChangePassScreenState extends State<ChangePassScreen> {
       _isLoading = true;
     });
     try {
+      print(authData['oldPassword'].toString());
+      print(authData['newPassword'].toString());
+      print(authData['confirmPassword'].toString());
       // Sign user up
       await Provider.of<Auth>(context, listen: false).changepassword(
         authData['oldPassword'].toString(),
