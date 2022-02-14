@@ -65,6 +65,7 @@ dependencies:
   web_socket_channel: ^2.1.0
   flutter_webrtc: ^0.8.1
   intl_phone_field: ^3.0.1
+  page_transition: ^2.0.5
 
 dev_dependencies:
   flutter_test:

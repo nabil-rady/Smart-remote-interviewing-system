@@ -17,7 +17,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
         backgroundColor: Theme.of(context).primaryColor,
         title: const Text('Natifications'),
       ),
-      drawer: AppDrawer(),
+      // drawer: AppDrawer(),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Center(
@@ -52,8 +52,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   style: TextStyle(color: Colors.white),
                 ),
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => build(context)));
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => super.widget));
                 },
                 // () {
                 //   setState(() {
