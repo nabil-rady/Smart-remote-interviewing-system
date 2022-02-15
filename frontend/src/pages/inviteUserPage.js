@@ -8,16 +8,15 @@ function InvitationPage() {
   const sideMenu = useRef(null);
   const handleToggleButtonClick = () =>
     sideMenu.current.classList.toggle('change');
-  const InviteUserHandler = (uName, uEmail, uPhone, uCode) => {
+  let InviteUserHandler = (uName, uEmail, uPhone, uCode) => {
     setUsersList((prevUsersList) => {
       return [
         ...prevUsersList,
         {
           name: uName,
           email: uEmail,
-          phone: uPhone,
           phoneCode: uCode,
-          id: Math.random().toString(),
+          phone: uPhone,
         },
       ];
     });

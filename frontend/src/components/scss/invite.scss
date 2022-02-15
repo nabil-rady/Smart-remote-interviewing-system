@@ -3,6 +3,7 @@
 .invite {
   margin: 4.2rem auto;
   padding: 2rem;
+  position: relative;
   width: 75%;
   max-width: 550px;
   &_label {
@@ -31,8 +32,6 @@
   margin-top: 1rem;
   width: 120px;
   height: 40px;
-  display: flex;
-  justify-content: center;
   align-items: center;
   border: none;
   border-radius: 20px;
@@ -76,7 +75,13 @@
     color: black;
   }
 }
-
+.reader {
+  display: inline-block;
+  width: 30%;
+}
+// .inviteForm {
+//   position: relative;
+// }
 // @media only screen and (max-width: 670px) {
 //   .invite-button {
 //     margin:

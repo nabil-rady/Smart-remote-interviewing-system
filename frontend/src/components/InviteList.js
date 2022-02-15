@@ -4,11 +4,12 @@ import Card from './Card';
 import './scss/inviteList.scss';
 
 const UsersList = (props) => {
+  console.log(props.users);
   return (
     <>
       <ul>
-        {props.users.map((user) => (
-          <li key={user.id}>
+        {props.users.map((user, index) => (
+          <li key={index}>
             <Card className="users">
               <h2 className="uname">{user.name}</h2>
               <p className="uemail">{user.email}</p>

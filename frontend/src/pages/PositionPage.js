@@ -51,7 +51,7 @@ function PositionPage() {
       <Card className="detailsCard">
         <img src={check} className="images" />
         <div className="labelContainer">
-          <Link to="/evaluate" className="cardLabel">
+          <Link to="/view_applicants" className="cardLabel">
             Evalute Applicants
           </Link>
         </div>

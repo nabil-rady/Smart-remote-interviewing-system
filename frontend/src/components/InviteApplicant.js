@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Card from './Card';
 //import ErrorModal from './ErrorModal'
 import './scss/invite.scss';
@@ -7,27 +7,71 @@ import 'react-phone-input-2/lib/style.css';
 import { APIURL } from '../API/APIConstants';
 import handleError from '../utils/errorHandling';
 import ErrorModal from './ErrorModal';
+import { useFilePicker } from 'use-file-picker';
+import { UserContext } from '../App';
+import ReactFileReader from 'react-file-reader';
 const InviteUser = (props) => {
+  let usersLate = props.users;
+  const authUser = useContext(UserContext).authUser;
   const [enteredName, setEnteredName] = useState('');
   const [enteredEmail, setEnteredEmail] = useState('');
   const [enteredPhoneNo, setEnteredPhoneNo] = useState('');
   const [enteredPhoneCode, setEnteredPhoneCode] = useState('');
   const [error, setError] = useState();
-  //const [error, setError] = useState();
+  const [openFileSelector, { filesContent, loading }] = useFilePicker({
+    accept: '.csv',
+    multiple: false,
+  });
+  const save = async (file) => {
+    let names = [];
+    let emails = [];
+    let phoneNums = [];
+    let phoneCodes = [];
+    const initData = file.split('\r\n');
+    for (let i = 0; i < initData.length; i++) {
+      let appData = initData[i].split(',');
+      names.push(appData[0]);
+      emails.push(appData[1]);
+      phoneCodes.push(appData[2]);
+      phoneNums.push(appData[3]);
+    }
+    for (let i = 0; i < names.length - 1; i++) {
+      props.onInviteUser(names[i], emails[i], phoneNums[i], phoneCodes[i]);
+      usersLate.push({
+        name: names[i],
+        email: emails[i],
+        phoneCode: enteredPhoneCode,
+        phone: enteredPhoneNo,
+      });
+    }
+
+    console.log(usersLate);
+  };
   let formattedvalue = '';
   const addUserHandler = (event) => {
     event.preventDefault();
     let statusCode;
+
+    props.onInviteUser(
+      enteredName,
+      enteredEmail,
+      enteredPhoneCode,
+      enteredPhoneNo
+    );
+    usersLate.push({
+      name: enteredName,
+      email: enteredEmail,
+      phoneCode: enteredPhoneCode,
+      phone: enteredPhoneNo,
+    });
     fetch(`${APIURL}/job-listing/invite`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: authUser.token,
       },
       body: JSON.stringify({
-        enteredName,
-        enteredEmail,
-        enteredPhoneCode,
-        enteredPhoneNo,
+        usersLate,
       }),
     })
       .then((response) => {
@@ -44,18 +88,15 @@ const InviteUser = (props) => {
       .catch((error) => {
         console.error('Error:', error);
       });
-    props.onInviteUser(
-      enteredName,
-      enteredEmail,
-      enteredPhoneNo,
-      enteredPhoneCode
-    );
-    console.log(props.users);
+    console.log(usersLate);
     setEnteredName('');
     setEnteredEmail('');
     setEnteredPhoneNo('');
   };
-
+  // const openAndShow = async () => {
+  //   await openFileSelector();
+  //   save();
+  // }
   const nameHandler = (event) => {
     setEnteredName(event.target.value);
   };
@@ -63,18 +104,12 @@ const InviteUser = (props) => {
   const emailHandler = (event) => {
     setEnteredEmail(event.target.value);
   };
-
-  // const errorHandler = () => {
-  //   setError(null);
-  // };
   const Modify = () => {
     let tests = formattedvalue.split(' ');
-    console.log(tests);
     let num = '';
     for (let i = 1; i < tests.length; i++) {
       num += tests[i];
     }
-    console.log(num);
     setEnteredPhoneCode(tests[0]);
     setEnteredPhoneNo(num);
   };
@@ -84,6 +119,13 @@ const InviteUser = (props) => {
   };
   const errorHandler = () => {
     setError(null);
+  };
+  const handleFiles = (files) => {
+    var reader = new FileReader();
+    reader.onload = (e) => {
+      save(reader.result);
+    };
+    reader.readAsText(files[0]);
   };
   return (
     <div>
@@ -96,7 +138,7 @@ const InviteUser = (props) => {
       )}
       <Card className="invite top-margin">
         <h1 className="invite_label">Invite Applicant</h1>
-        <form onSubmit={addUserHandler}>
+        <form onSubmit={addUserHandler} className="inviteForm">
           <label htmlFor="fullname" className="invite-labels">
             Full name
           </label>
@@ -148,11 +190,17 @@ const InviteUser = (props) => {
             <button className="invite-button" type="submit">
               Invite User
             </button>
-            <button className="file" type="submit">
-              Import from a file
-            </button>
+            <ReactFileReader
+              multipleFiles={false}
+              fileTypes={['.csv']}
+              handleFiles={handleFiles}
+            >
+              <button className="file">Import from a file</button>
+            </ReactFileReader>
           </div>
         </form>
+
+        {/* <button className='file' onClick={save}>show</button> */}
       </Card>
     </div>
   );
