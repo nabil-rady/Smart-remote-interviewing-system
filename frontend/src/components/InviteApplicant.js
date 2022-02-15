@@ -18,11 +18,7 @@ const InviteUser = (props) => {
   const [enteredPhoneNo, setEnteredPhoneNo] = useState('');
   const [enteredPhoneCode, setEnteredPhoneCode] = useState('');
   const [error, setError] = useState();
-  const [openFileSelector, { filesContent, loading }] = useFilePicker({
-    accept: '.csv',
-    multiple: false,
-  });
-  const save = async (file) => {
+  const save = (file) => {
     let names = [];
     let emails = [];
     let phoneNums = [];

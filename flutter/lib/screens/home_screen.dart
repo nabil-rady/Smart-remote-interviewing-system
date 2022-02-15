@@ -190,11 +190,14 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:graduation_project/models/http_exception.dart';
-import 'package:graduation_project/providers/dashboard_provider.dart';
-import 'package:graduation_project/providers/positions.dart';
-import 'package:graduation_project/widgets/dashboard_item.dart';
-import 'package:graduation_project/widgets/drawer.dart';
+import 'package:flutter_webrtc/flutter_webrtc.dart';
+import 'package:graduation_project/local/sharedpreferences.dart';
+import 'package:graduation_project/screens/main_screen.dart';
+import 'package:graduation_project/widgets/helper_widget.dart';
+import '../models/http_exception.dart';
+import '../providers/dashboard_provider.dart';
+import '../widgets/dashboard_item.dart';
+import '../widgets/drawer.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/auth_provider.dart';
@@ -217,6 +220,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
+    Future.delayed(Duration(microseconds: 0));
     _positionsFuture = _getPositionsFuture();
     super.initState();
   }
@@ -289,18 +293,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 _confirmFormKey.currentState!.save();
                 /////////////////////////////////////
                 try {
-                  //print(confirmCode);
-                  await Provider.of<Auth>(context, listen: false).confirmEmail(
-                    Provider.of<Auth>(context, listen: false).employer.userId,
-                    confirmCode,
-                  );
+                  print(confirmCode);
+                  print(getUserId().toString());
+                  await Provider.of<Auth>(context, listen: false)
+                      .confirmEmail(confirmCode);
                   setState(() {
                     confirm = employerData.emailConfirmed;
                   });
                   Navigator.of(ctx).pop();
-                  //Navigator.of(context).pushReplacementNamed('/home_screen');
+                  _positionsFuture = _getPositionsFuture();
                 } on HttpException catch (error) {
-                  // print(error);
+                  print(error);
                   _showErrorDialog('Wrong verification code');
                 } catch (error) {
                   _showErrorDialog('Wrong verification code');
@@ -312,9 +315,7 @@ class _HomeScreenState extends State<HomeScreen> {
               onPressed: () async {
                 try {
                   //  print(confirmCode);
-                  await Provider.of<Auth>(context, listen: false).sendEmail(
-                    Provider.of<Auth>(context, listen: false).employer.userId,
-                  );
+                  await Provider.of<Auth>(context, listen: false).sendEmail();
                 } catch (error) {
                   _showErrorDialog(error.toString());
                 }
@@ -333,56 +334,60 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text('Dashboard'),
         backgroundColor: Theme.of(context).primaryColor,
       ),
-      drawer: !employerData.emailConfirmed ? null : AppDrawer(),
+      drawer: AppDrawer(),
+      //  !employerData.emailConfirmed ? null : AppDrawer(),
       body: !employerData.emailConfirmed
-          ? Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  // if (!employerData.emailConfirmed)
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                            height: 150,
-                            width: 150,
-                            child: Image.asset('assets/images/invitation.png')),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                          'Thanks for joining Vividly!',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).primaryColor),
-                        ),
-                        const Text(
-                          'please confirm your email address ',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        Divider(),
-                        const Text(
-                          'To finish signing up, please confirm your email address. This ensures we have the right email in case we need to contact you.',
-                          style: TextStyle(fontSize: 20),
-                          //textAlign: TextAlign.center,
-                        ),
-                        RaisedButton(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
+          ? SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  children: [
+                    // if (!employerData.emailConfirmed)
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                              height: 150,
+                              width: 150,
+                              child:
+                                  Image.asset('assets/images/invitation.png')),
+                          const SizedBox(
+                            height: 20,
                           ),
-                          color: Theme.of(context).primaryColor,
-                          onPressed: _showConfirmDialog,
-                          child: const Text(
-                            'Confirm email',
-                            style: TextStyle(color: Colors.white),
+                          Text(
+                            'Thanks for joining Vividly!',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).primaryColor),
                           ),
-                        ),
-                      ],
+                          const Text(
+                            'please confirm your email address ',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          Divider(),
+                          const Text(
+                            'To finish signing up, please confirm your email address. This ensures we have the right email in case we need to contact you.',
+                            style: TextStyle(fontSize: 20),
+                            //textAlign: TextAlign.center,
+                          ),
+                          RaisedButton(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            color: Theme.of(context).primaryColor,
+                            onPressed: _showConfirmDialog,
+                            child: const Text(
+                              'Confirm email',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             )
           : FutureBuilder(
@@ -396,6 +401,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   if (dataSnapshot.error != null) {
                     // ...
                     // Do error handling stuff
+                    String error = dataSnapshot.error.toString();
+                    if (error.contains('The json web token has expired')) {
+                      return TokenExpiry();
+                    }
                     return const Center(
                       child: Text('An error occurred!'),
                     );
@@ -403,20 +412,28 @@ class _HomeScreenState extends State<HomeScreen> {
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 50),
                       child: Consumer<DashboardPositions>(
-                        builder: (ctx, positionData, child) => ListView.builder(
-                          itemBuilder: (ctx, i) => DashboardItem(
-                            positionName:
-                                positionData.positionsItems[i].position,
-                            expieryDate:
-                                positionData.positionsItems[i].expireyDate,
-                            candidates:
-                                positionData.positionsItems[i].candidates,
-                            interviews:
-                                positionData.positionsItems[i].interwievs,
-                            positionId: positionData.positionsItems[i].id,
-                          ),
-                          itemCount: positionData.positionsItems.length,
-                        ),
+                        builder: (ctx, positionData, child) => positionData
+                                .positionsItems.isNotEmpty
+                            ? ListView.builder(
+                                itemBuilder: (ctx, i) => DashboardItem(
+                                  positionName:
+                                      positionData.positionsItems[i].position,
+                                  expieryDate: positionData
+                                      .positionsItems[i].expireyDate,
+                                  candidates:
+                                      positionData.positionsItems[i].candidates,
+                                  interviews:
+                                      positionData.positionsItems[i].interwievs,
+                                  positionId: positionData.positionsItems[i].id,
+                                ),
+                                itemCount: positionData.positionsItems.length,
+                              )
+                            : const Center(
+                                child: Text(
+                                  "welcome to Vividly please add some positions",
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
                       ),
                     );
                   }

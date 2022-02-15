@@ -61,6 +61,7 @@
 // }
 
 import 'package:flutter/material.dart';
+import 'package:graduation_project/widgets/helper_widget.dart';
 import '../providers/dashboard_provider.dart';
 import '../widgets/drawer.dart';
 import 'package:provider/provider.dart';
@@ -110,6 +111,10 @@ class _PositionScreenState extends State<PositionScreen> {
                 if (dataSnapshot.error != null) {
                   // ...
                   // Do error handling stuff
+                  String error = dataSnapshot.error.toString();
+                  if (error.contains('The json web token has expired')) {
+                    return TokenExpiry();
+                  }
                   return const Center(
                     child: Text('An error occurred!'),
                   );

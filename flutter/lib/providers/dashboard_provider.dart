@@ -56,7 +56,7 @@ class DashboardPositions with ChangeNotifier {
 
   Future<void> getListings() async {
     //print("working");
-    //print(authToken.toString());
+    print("from get listing ${_authToken.toString()}");
     final response = await http.get(
       Uri.parse('https://vividly-api.herokuapp.com/job-listing/get-listings'),
       headers: <String, String>{
@@ -68,7 +68,7 @@ class DashboardPositions with ChangeNotifier {
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
       final extractedData = responseData['jobListings'] as List<dynamic>;
-      //  print(extractedData);
+      //print(extractedData);
       final List<PositionForDashboard> _finalList = [];
       extractedData
           .map((positionvalue) =>
@@ -83,8 +83,10 @@ class DashboardPositions with ChangeNotifier {
               ))
           .toList();
       _positionsItems = _finalList.reversed.toList();
+      //print(_positionsItems[0].position);
       notifyListeners();
     } else {
+      print(responseData['message']);
       throw HttpException(responseData['message']);
     }
   }

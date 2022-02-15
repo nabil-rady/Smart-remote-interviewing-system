@@ -1,11 +1,15 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:graduation_project/local/sharedpreferences.dart';
 import 'package:graduation_project/providers/auth_provider.dart';
+import 'package:graduation_project/screens/main_screen.dart';
 
 import 'package:graduation_project/screens/position_screen.dart';
 import 'package:graduation_project/screens/profile_screen.dart';
+import 'package:graduation_project/screens/waiting_screen.dart';
 import 'package:provider/provider.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -34,14 +38,11 @@ class AppDrawer extends StatelessWidget {
               decoration: BoxDecoration(color: Theme.of(context).primaryColor),
             ),
           ),
-          _buildListTile(
-              Icons.notifications,
-              'Notifications',
-              () => Navigator.of(context)
-                  .pushReplacementNamed('/notification_screen')),
+          _buildListTile(Icons.notifications, 'Notifications',
+              () => Navigator.of(context).pushNamed('/notification_screen')),
           const Divider(),
           _buildListTile(Icons.dashboard, 'Dashboard',
-              () => Navigator.of(context).pushNamed('/home_screen')),
+              () => Navigator.of(context).pushReplacementNamed('/home_screen')),
           const Divider(),
           _buildListTile(Icons.app_registration_sharp, 'Job positions', () {
             Navigator.of(context)
@@ -49,9 +50,13 @@ class AppDrawer extends StatelessWidget {
           }),
           const Divider(),
           _buildListTile(Icons.exit_to_app, 'Log out', () {
-            // Navigator.pop(context);
-            // Navigator.of(context).pushReplacementNamed('/company_signup');
-            Provider.of<Auth>(context, listen: false).logOut();
+            Provider.of<Auth>(context, listen: false).logOut().then((value) {
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => CompanySignupScreen()),
+                  (Route<dynamic> route) => false);
+            });
           }),
         ],
       ),
