@@ -85,6 +85,33 @@ class Interviews with ChangeNotifier {
     return _items.firstWhere((element) => element.id == id);
   }
 
+// Future<void> fetchAndSetPositions() async {
+//     // _jobId = prefs.getString("jobListingId").toString();
+//     const url = 'https://vividly-api.herokuapp.com/job-listing/{listing_id}';
+
+//     try {
+//       final response = await http.get(Uri.parse(url), headers: <String, String>{
+//         'Content-Type': 'application/json',
+//         'Authorization': authToken.toString()
+//       });
+
+//       final extractedData = json.decode(response.body) as Map<String, dynamic>;
+//       final List<Position> loadedPositions = [];
+//       extractedData.forEach((posId, posData) {
+//         loadedPositions.add(Position(
+//             id: posId,
+//             position: posData["positionName"],
+//             questions: [],
+//             qustionsMapList: [],
+//             expireyDate: DateTime.parse(posData["expiryDate"])));
+//       });
+//       _positionsItems = loadedPositions;
+//       notifyListeners();
+//       print(response.body);
+//     } catch (error) {
+//       throw (error);
+//     }
+//   }
   // void rateApplicant(String id, var rate) {
   //   Interview applicant = findById(id);
   //   applicant.rate = rate;

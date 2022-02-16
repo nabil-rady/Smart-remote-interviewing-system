@@ -147,7 +147,7 @@ class _InvitationFormState extends State<InvitationForm> {
             positionName: candidate.positionName);
         candidate = Interview(
             name: candidate.name,
-            email: element[2].toString(),
+            email: element[1].toString(),
             phone: candidate.phone,
             phoneCode: candidate.phoneCode,
             date: candidate.date,
@@ -159,7 +159,18 @@ class _InvitationFormState extends State<InvitationForm> {
         candidate = Interview(
             name: candidate.name,
             email: candidate.email,
-            phone: element[1].toString(),
+            phone: candidate.phone,
+            phoneCode: element[2].toString(),
+            date: candidate.date,
+            id: candidate.id,
+            rate: candidate.rate,
+            videoAnswers: candidate.videoAnswers,
+            isRated: candidate.isRated,
+            positionName: candidate.positionName);
+        candidate = Interview(
+            name: candidate.name,
+            email: candidate.email,
+            phone: element[3].toString(),
             phoneCode: candidate.phoneCode,
             date: candidate.date,
             id: candidate.id,

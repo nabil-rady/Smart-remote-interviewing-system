@@ -114,7 +114,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                               SizedBox(
                                   height: 20,
-                                  width: 120,
+                                  width: 100,
                                   child: TextField(
                                     controller: myController,
                                   ))

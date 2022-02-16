@@ -410,7 +410,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     );
                   } else {
                     return Padding(
-                      padding: const EdgeInsets.only(bottom: 50),
+                      padding: const EdgeInsets
+                          .only(), ///////////////////// shelt al padding
                       child: Consumer<DashboardPositions>(
                         builder: (ctx, positionData, child) => positionData
                                 .positionsItems.isNotEmpty
