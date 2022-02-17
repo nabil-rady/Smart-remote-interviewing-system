@@ -3,6 +3,7 @@ import useCountDown from 'react-countdown-hook';
 import Webcam from 'react-webcam';
 import Card from '../components/Card';
 import NavBar from '../components/NavBar';
+import Timer from '../utils/timer';
 
 import './scss/videopage.scss';
 
@@ -31,6 +32,7 @@ const WebcamStreamCapture = () => {
 
   const webcamRef = useRef(null);
   const mediaRecorderRef = useRef(null);
+  const timer = useRef(null);
   const [recordedChunks, setRecordedChunks] = useState([]);
   const [start, setStart] = useState(true);
   const [next, setNext] = useState(false);
@@ -39,10 +41,17 @@ const WebcamStreamCapture = () => {
   const [counter, setCounter] = useState(0);
   const [readTimerVisibility, setReadTimer] = useState('visible');
 
+  const sendFrames = async () => {
+    const imageSrc = webcamRef.current.getScreenshot();
+    const blob = await fetch(imageSrc).then((res) => res.blob());
+    webSocket.current.send(blob);
+  };
+
   const [timeLeftRead, { start: startRead }] = useCountDown(
     Questions[counter].readTime * 1000,
     interval
   );
+
   const [timeLeftAnswer, { start: startAnswer, pause: pauseAnswer }] =
     useCountDown(Questions[counter].answerTime * 1000, interval);
 
@@ -51,6 +60,7 @@ const WebcamStreamCapture = () => {
 
   useEffect(() => {
     webSocket.current = new WebSocket('ws://localhost:8765');
+    timer.current = new Timer(sendFrames, 1000/24, () => {});
     return () => webSocket.current.close();
   }, []);
 
@@ -139,7 +149,8 @@ const WebcamStreamCapture = () => {
       'dataavailable',
       handleDataAvailable
     );
-    mediaRecorderRef.current.start(1000 / 24);
+    mediaRecorderRef.current.start();
+    timer.current.start();
     startAnswer(Questions[counter].answerTime * 1000);
     console.log('Created MediaRecorder');
     if (!stop) setStop(true);
@@ -169,6 +180,7 @@ const WebcamStreamCapture = () => {
       if (!isNonManualStop) pauseAnswer();
       if (mediaRecorderRef.current.state !== 'inactive') {
         mediaRecorderRef.current.stop();
+        timer.current.stop();
       }
       if (stop) setStop(false);
     },

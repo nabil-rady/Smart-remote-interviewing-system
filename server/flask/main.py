@@ -1,10 +1,10 @@
 import asyncio
 import websockets
-import cv2
-import numpy as np
-import base64
-import io
-import PIL.Image as Image
+#import cv2
+#import numpy as np
+#import base64
+#import io
+#import PIL.Image as Image
 import time
 
 async def echo(websocket):
