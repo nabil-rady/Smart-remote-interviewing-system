@@ -3,8 +3,11 @@ import useCountDown from 'react-countdown-hook';
 import Webcam from 'react-webcam';
 import Card from '../components/Card';
 import NavBar from '../components/NavBar';
+
 import './scss/videopage.scss';
+
 const WebcamStreamCapture = () => {
+  let i = 0;
   let Questions = [
     {
       title:
@@ -47,9 +50,31 @@ const WebcamStreamCapture = () => {
   const recordTimeout = useRef();
 
   useEffect(() => {
-    webSocket.current = new WebSocket('ws://localhost:8080', 'echo-protocol');
+    webSocket.current = new WebSocket('ws://localhost:8765');
     return () => webSocket.current.close();
   }, []);
+
+  useEffect(() => {
+    if (webSocket.current) {
+      webSocket.current.addEventListener('open', function (event) {
+        webSocket.current.send('Hello Server!');
+      });
+      webSocket.current.addEventListener('message', function (event) {
+        console.log(`Message ${event.data}`);
+        // let decodedVideo = new Buffer.from(event.data, 'base64');
+      });
+    }
+  }, [webSocket]);
+
+  // returns a frame encoded in base64
+  // const getFrame = () => {
+  //   const canvas = document.createElement('canvas');
+  //   canvas.width = video.videoWidth;
+  //   canvas.height = video.videoHeight;
+  //   canvas.getContext('2d').drawImage(video, 0, 0);
+  //   const data = canvas.toDataURL('image/png');
+  //   return data;
+  // }
 
   const renderReadTime = (time) => {
     let secTime, minTime;
@@ -84,6 +109,13 @@ const WebcamStreamCapture = () => {
     setTimeout(() => {
       handleStartCaptureClick();
       console.log('Start recording (setTimeout)');
+      // setInterval(async function() {
+      //   const imageSrc = webcamRef.current.getScreenshot();
+      //   const blob = await fetch(imageSrc).then((res) => res.blob());
+      //   i++;
+      //   console.log(blob, i);
+      //   webSocket.current.send(blob);
+      // }, 1000/24);
     }, Questions[counter].readTime * 1000);
 
     recordTimeout.current = setTimeout(() => {
@@ -101,13 +133,13 @@ const WebcamStreamCapture = () => {
 
   const handleStartCaptureClick = useCallback(() => {
     mediaRecorderRef.current = new MediaRecorder(webcamRef.current.stream, {
-      mimeType: 'video/webm;codecs=vp9',
+      mimeType: 'video/webm',
     });
     mediaRecorderRef.current.addEventListener(
       'dataavailable',
       handleDataAvailable
     );
-    mediaRecorderRef.current.start();
+    mediaRecorderRef.current.start(1000 / 24);
     startAnswer(Questions[counter].answerTime * 1000);
     console.log('Created MediaRecorder');
     if (!stop) setStop(true);
@@ -115,9 +147,13 @@ const WebcamStreamCapture = () => {
   }, [webcamRef, setStop, mediaRecorderRef]);
 
   const handleDataAvailable = useCallback(
-    ({ data }) => {
+    async ({ data }) => {
       if (data.size > 0) {
-        webSocket.current.send(data);
+        const imageSrc = webcamRef.current.getScreenshot();
+        const blob = await fetch(imageSrc).then((res) => res.blob());
+        i++;
+        console.log(blob, i);
+        webSocket.current.send(blob);
         setRecordedChunks((prev) => prev.concat(data));
       }
     },
@@ -165,11 +201,27 @@ const WebcamStreamCapture = () => {
     setVisibility('hidden');
     setStop(false);
   };
+  // let millisTillNexthour = "Calculate millis remaining until next hour"
 
+  // setTimeout(function() {
+  //   setInterval(async function() {
+  //     const imageSrc = webcamRef.current.getScreenshot();
+  //     const blob = await fetch(imageSrc).then((res) => res.blob());
+  //     i++;
+  //     console.log(blob, i);
+  //     webSocket.current.send(blob);
+  //   }, 1000/24);
+  // }, millisTillNexthour);
   return (
     <>
       <NavBar />
-      <Webcam audio={true} ref={webcamRef} muted={true} className="video" />
+      <Webcam
+        audio={true}
+        ref={webcamRef}
+        muted={true}
+        screenshotFormat="image/png"
+        className="video"
+      />
 
       <div className="questionspart">
         <div style={{ visibility: visible }}>

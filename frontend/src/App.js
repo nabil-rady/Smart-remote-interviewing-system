@@ -27,6 +27,7 @@ import PositionDetails from './pages/PositionDetails';
 import IntroPage from './pages/IntroPage';
 import ViewApplicants from './pages/viewApplicants';
 import ApplicantDetails from './pages/applicantDeteils';
+import TestSockets from './pages/testSockets';
 const mockUserObject = {
   userId: 'ABC123',
   token: 'aiwdjssqwijeoqiweoqu2398192381123',
@@ -47,6 +48,9 @@ function App() {
   return (
     <>
       <UserContext.Provider value={{ authUser, setAuthUser }}>
+        <Route path="/test-sockets" exact>
+          <TestSockets />
+        </Route>
         <Route path="/" exact>
           <LandingPage />
         </Route>

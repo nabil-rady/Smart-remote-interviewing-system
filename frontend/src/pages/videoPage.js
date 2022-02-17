@@ -55,9 +55,14 @@ const WebcamStreamCapture = () => {
   };
 
   useEffect(() => {
-    webSocket.current = new WebSocket('ws://localhost:8080', 'echo-protocol');
+    webSocket.current = new WebSocket('ws://localhost:8765');
     return () => webSocket.current.close();
   }, []);
+
+  webSocket.addEventListener('message', function (event) {
+    console.log('Message from server ', event.data);
+  });
+
   const rendererForRead = ({ minutes, seconds }) => {
     // Render a countdown
     return (
@@ -119,6 +124,7 @@ const WebcamStreamCapture = () => {
     ({ data }) => {
       if (data.size > 0) {
         webSocket.current.send(data);
+        console.log(`Send dataaaaaaaaaaa`);
         setRecordedChunks((prev) => prev.concat(data));
       }
     },
