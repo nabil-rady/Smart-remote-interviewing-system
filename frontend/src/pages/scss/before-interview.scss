@@ -1,0 +1,9 @@
+.before-interview {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    & .video {
+        margin: 1rem 0;
+        float: none;
+    }
+}
