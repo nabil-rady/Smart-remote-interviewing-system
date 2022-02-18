@@ -7,7 +7,7 @@ import 'react-phone-input-2/lib/style.css';
 import { APIURL } from '../API/APIConstants';
 import handleError from '../utils/errorHandling';
 import ErrorModal from './ErrorModal';
-import { useFilePicker } from 'use-file-picker';
+// import { useFilePicker } from 'use-file-picker';
 import { UserContext } from '../App';
 import ReactFileReader from 'react-file-reader';
 const InviteUser = (props) => {

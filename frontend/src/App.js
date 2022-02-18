@@ -21,12 +21,14 @@ import NotificationPage from './pages/NotificationsPage';
 import AddPosition from './pages/AddPosition';
 import Dashboard from './pages/Dashboard';
 import ListingPage from './pages/Listingpage';
-import WebcamStreamCapture from './pages/newVideoPage';
+import WebcamStreamCapture from './pages/interviewPage';
 import PositionPage from './pages/PositionPage';
 import PositionDetails from './pages/PositionDetails';
 import IntroPage from './pages/IntroPage';
 import ViewApplicants from './pages/viewApplicants';
 import ApplicantDetails from './pages/applicantDeteils';
+import BeforeInterviewPage from './pages/BeforeInterviewPage';
+
 const mockUserObject = {
   userId: 'ABC123',
   token: 'aiwdjssqwijeoqiweoqu2398192381123',
@@ -58,6 +60,9 @@ function App() {
         </PublicRoute>
         <PrivateRoute isAuthenticated={!!authUser} path="/interview" exact>
           <InterviewPage />
+        </PrivateRoute>
+        <PrivateRoute isAuthenticated={!!authUser} path="/before-interview">
+          <BeforeInterviewPage />
         </PrivateRoute>
         <PrivateRoute isAuthenticated={!!authUser} path="/question" exact>
           <CounterPage />
