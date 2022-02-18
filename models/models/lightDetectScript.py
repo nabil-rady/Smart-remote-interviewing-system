@@ -8,6 +8,7 @@ async def echo(websocket):
         if not isinstance(message, str):
             detection_model = lightFaceDetect3()
             result = detection_model.detection(message)
+            await websocket.send(result)
             t = time.time()
             print(t)
             print(type(message), result)
