@@ -13,8 +13,8 @@ async def echo(websocket):
             t = time.time()
             print(t)
             print(type(message))
-            with open(f'test-{t}.png', "wb") as out_file:
-                out_file.write(message)
+#            with open(f'test-{t}.png', "wb") as out_file:
+ #               out_file.write(message)
 
 
         else:
