@@ -1,13 +1,17 @@
 import React, { useRef, useState, useCallback, useEffect } from 'react';
+import useCountDown from 'react-countdown-hook';
 import Webcam from 'react-webcam';
 import Card from '../components/Card';
 import NavBar from '../components/NavBar';
-import Countdown, { zeroPad } from 'react-countdown';
+
 import './scss/videopage.scss';
+
 const WebcamStreamCapture = () => {
+  let i = 0;
   let Questions = [
     {
-      title: 'How are you nfslbknnfl snblkaj;ha; hgrhah;hg',
+      title:
+        'How are you nfslbknnfl snblkaj;ha; hgrhah;hg f;hljsjf;ls klhklskjfhl;rshj;l lkjrhjs;lrjljl;sb kljgrjs;ljbsj ljgs;j.bl;jg srgj;jsl;bb',
       readTime: 7,
       answerTime: 8,
     },
@@ -23,69 +27,74 @@ const WebcamStreamCapture = () => {
     },
   ];
 
+  const interval = 1000;
+
   const webcamRef = useRef(null);
   const mediaRecorderRef = useRef(null);
   const [recordedChunks, setRecordedChunks] = useState([]);
   const [start, setStart] = useState(true);
   const [next, setNext] = useState(false);
   const [stop, setStop] = useState(false);
-  const [visibility, setVisibility] = useState(false);
+  const [visible, setVisibility] = useState('hidden');
   const [counter, setCounter] = useState(0);
-  const [readTimer, setReadTimer] = useState(true);
+  const [readTimerVisibility, setReadTimer] = useState('visible');
 
-  const refRead = useRef();
-  const refAnswer = useRef();
+  const [timeLeftRead, { start: startRead }] = useCountDown(
+    Questions[counter].readTime * 1000,
+    interval
+  );
+
+  const [timeLeftAnswer, { start: startAnswer, pause: pauseAnswer }] =
+    useCountDown(Questions[counter].answerTime * 1000, interval);
+
   const webSocket = useRef();
   const recordTimeout = useRef();
-
-  const handleReadStart = (e) => {
-    console.log('STATED READ FROM HANDLE FUNCTION');
-    refRead.current?.start();
-  };
-
-  const handleAnswerStart = (e) => {
-    console.log('STATED ANSWER FROM HANDLE FUNCTION');
-    refAnswer.current?.start();
-  };
-
-  const handleAnswerPause = (e) => {
-    if (refAnswer.current.isPaused()) return;
-    console.log('record paused');
-    refAnswer.current?.pause();
-  };
 
   useEffect(() => {
     webSocket.current = new WebSocket('ws://localhost:8765');
     return () => webSocket.current.close();
   }, []);
 
-  webSocket.addEventListener('message', function (event) {
-    console.log('Message from server ', event.data);
-  });
+  useEffect(() => {
+    if (webSocket.current) {
+      webSocket.current.addEventListener('open', function (event) {
+        webSocket.current.send('Hello Server!');
+      });
+      webSocket.current.addEventListener('message', function (event) {
+        console.log(`Message ${event.data}`);
+      });
+    }
+  }, [webSocket]);
 
-  const rendererForRead = ({ minutes, seconds }) => {
-    // Render a countdown
-    return (
-      <p className="readtimer">
-        {zeroPad(minutes)}:{zeroPad(seconds)}
-      </p>
-    );
+  const renderReadTime = (time) => {
+    let secTime, minTime;
+    if (time === 0) {
+      if (Questions[counter].readTime < 10)
+        return '0' + Questions[counter].readTime.toString();
+      return Questions[counter].readTime.toString();
+    } else if (Questions[counter].readTime < 10) {
+      return '0' + (time / 1000).toString();
+    }
+    return (time / 1000).toString();
   };
-  const rendererForAnswer = ({ minutes, seconds }) => {
-    // Render a countdown
-    return (
-      <span className="answertimer">
-        {zeroPad(minutes)}:{zeroPad(seconds)}
-      </span>
-    );
+
+  const renderAnswerTime = (time) => {
+    let secTime, minTime;
+    if ((start || !next) && time === 0) {
+      if (Questions[counter].answerTime < 10)
+        return '0' + Questions[counter].answerTime.toString();
+      return Questions[counter].answerTime.toString();
+    } else if (Questions[counter].answerTime < 10) {
+      return '0' + (time / 1000).toString();
+    }
+    return (time / 1000).toString();
   };
 
   const startInterview = () => {
     setRecordedChunks([]);
-    if (!visibility) setVisibility(true);
+    startRead(Questions[counter].readTime * 1000);
+    if (visible === 'hidden') setVisibility('visible');
     if (start) setStart(false);
-
-    handleReadStart();
 
     setTimeout(() => {
       handleStartCaptureClick();
@@ -97,7 +106,7 @@ const WebcamStreamCapture = () => {
       if (!next) setNext(true);
       setStop((stop) => {
         if (stop) {
-          handleStopCaptureClick();
+          handleStopCaptureClick(null, true);
           return false;
         }
         return false;
@@ -107,40 +116,47 @@ const WebcamStreamCapture = () => {
 
   const handleStartCaptureClick = useCallback(() => {
     mediaRecorderRef.current = new MediaRecorder(webcamRef.current.stream, {
-      mimeType: 'video/webm;codecs=vp9',
+      mimeType: 'video/webm',
     });
     mediaRecorderRef.current.addEventListener(
       'dataavailable',
       handleDataAvailable
     );
     mediaRecorderRef.current.start();
+    startAnswer(Questions[counter].answerTime * 1000);
     console.log('Created MediaRecorder');
     if (!stop) setStop(true);
-    if (readTimer) setReadTimer(false);
-    handleAnswerStart();
+    if (readTimerVisibility === 'visible') setReadTimer('hidden');
   }, [webcamRef, setStop, mediaRecorderRef]);
 
   const handleDataAvailable = useCallback(
-    ({ data }) => {
+    async ({ data }) => {
       if (data.size > 0) {
-        webSocket.current.send(data);
-        console.log(`Send dataaaaaaaaaaa`);
+        const imageSrc = webcamRef.current.getScreenshot();
+        const blob = await fetch(imageSrc).then((res) => res.blob());
+        i++;
+        console.log(blob, i);
+        webSocket.current.send(blob);
         setRecordedChunks((prev) => prev.concat(data));
       }
     },
     [setRecordedChunks]
   );
 
-  const handleStopCaptureClick = useCallback(() => {
-    console.log('Handle Stop Capture Click');
-    clearTimeout(recordTimeout.current);
-    if (!next) setNext(true);
-    // handleAnswerPause();
-    if (mediaRecorderRef.current.state !== 'inactive') {
-      mediaRecorderRef.current.stop();
-    }
-    if (stop) setStop(false);
-  }, [mediaRecorderRef, webcamRef, setStop]);
+  const handleStopCaptureClick = useCallback(
+    (e, isNonManualStop) => {
+      console.log('Handle Stop Capture Click');
+      console.log(`stop = ${stop}`);
+      clearTimeout(recordTimeout.current);
+      if (!next) setNext(true);
+      if (!isNonManualStop) pauseAnswer();
+      if (mediaRecorderRef.current.state !== 'inactive') {
+        mediaRecorderRef.current.stop();
+      }
+      if (stop) setStop(false);
+    },
+    [mediaRecorderRef, webcamRef, stop, setStop]
+  );
 
   const handleDownload = useCallback(() => {
     if (recordedChunks.length) {
@@ -162,48 +178,38 @@ const WebcamStreamCapture = () => {
 
   const handleNext = () => {
     setCounter((counter) => counter + 1);
-    setReadTimer(true);
+    setReadTimer('visible');
     setNext(false);
     setStart(true);
-    setReadTimer(true);
-    setVisibility(false);
+    setVisibility('hidden');
     setStop(false);
   };
 
   return (
     <>
       <NavBar />
-      <Webcam audio={true} ref={webcamRef} muted={true} className="video" />
+      <Webcam
+        audio={true}
+        ref={webcamRef}
+        muted={true}
+        screenshotFormat="image/png"
+        className="video"
+      />
 
       <div className="questionspart">
-        {visibility && (
+        <div style={{ visibility: visible }}>
           <Card className="questions">
-            <Countdown
-              date={Date.now() + Questions[counter].answerTime * 1000}
-              autoStart={false}
-              ref={refAnswer}
-              controlled={false}
-              onStart={() => console.log('STARTED')}
-              onPause={() => console.log('PAUSED')}
-              onComplete={() => console.log('COMPLETED')}
-              renderer={rendererForAnswer}
-            />
+            <p className="answertimer">{renderAnswerTime(timeLeftAnswer)}</p>
             <p className="questionTitle">{Questions[counter].title}</p>
           </Card>
-        )}
+        </div>
 
         <br />
-        {readTimer && (
+        <div style={{ visibility: readTimerVisibility }}>
           <Card className="readCard">
-            <Countdown
-              date={Date.now() + Questions[counter].readTime * 1000}
-              autoStart={false}
-              zeroPadTime={4}
-              ref={refRead}
-              renderer={rendererForRead}
-            />
+            <p className="readtimer">{renderReadTime(timeLeftRead)}</p>
           </Card>
-        )}
+        </div>
 
         {start && (
           <button onClick={startInterview} className="buttons">
@@ -211,7 +217,10 @@ const WebcamStreamCapture = () => {
           </button>
         )}
         {stop && (
-          <button onClick={handleStopCaptureClick} className="buttons">
+          <button
+            onClick={(e) => handleStopCaptureClick(e, false)}
+            className="buttons"
+          >
             Stop Capture
           </button>
         )}
@@ -220,9 +229,9 @@ const WebcamStreamCapture = () => {
             Next Qusetion
           </button>
         )}
-        {recordedChunks.length > 0 && (
+        {/* {recordedChunks.length > 0 && (
           <button onClick={handleDownload}>Download</button>
-        )}
+        )} */}
       </div>
     </>
   );
