@@ -1,14 +1,14 @@
 import asyncio
 import websockets
 import time
-from model import lightFaceDetect3
+from LightDetect3 import lightFaceDetect3
 
 async def echo(websocket):
     async for message in websocket:
         if not isinstance(message, str):
             detection_model = lightFaceDetect3()
             result = detection_model.detection(message)
-            await websocket.send(result)
+            await websocket.send(str(result))
             t = time.time()
             print(t)
             print(type(message), result)
