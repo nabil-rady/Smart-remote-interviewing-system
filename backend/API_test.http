@@ -1,0 +1,136 @@
+@host = http://localhost
+
+POST {{host}}:8000/user/signup
+Content-Type: application/json
+
+{
+    "firstName": "test",
+    "lastName": "test",
+    "companyName": "Vividly",
+    "email": "test@gmail.com",
+    "password": 123456789,
+    "confirmPassword": 123456789,
+    "phoneCode": "+20",
+    "phoneNumber": 1155282790
+}
+
+###
+
+POST {{host}}:8000/user/confirm-email
+Content-Type: application/json
+
+{
+    "userId": "0199bebb-7d95-4fae-a57d-a556867e07d5"
+}
+
+###
+
+POST {{host}}/user/verify
+Content-Type: application/json
+
+{
+    "userId": "ead5720b-4c3f-4657-9060-d7fc5941498f",
+    "verificationCode": "69MV36O9"
+}
+
+###
+
+POST {{host}}:8000/user/login
+Content-Type: application/json
+
+{
+    "email": "test@gmail.com",
+    "password": 123456789
+}
+
+###
+
+GET {{host}}:8001/user/ead5720b-4c3f-4657-9060-d7fc5941498f
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwMTk5YmViYi03ZDk1LTRmYWUtYTU3ZC1hNTU2ODY3ZTA3ZDUiLCJpYXQiOjE2NDUzMDc4ODUsImV4cCI6MTY0NTM0Mzg4NX0.lfdATDlZJI8vAlrkiaiCCfa9R4z1mpPMmnEXD3Tp_TE
+
+###
+
+PUT {{host}}:8001/user/edit
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwMTk5YmViYi03ZDk1LTRmYWUtYTU3ZC1hNTU2ODY3ZTA3ZDUiLCJpYXQiOjE2NDUzMDc4ODUsImV4cCI6MTY0NTM0Mzg4NX0.lfdATDlZJI8vAlrkiaiCCfa9R4z1mpPMmnEXD3Tp_TE
+Content-Type: application/json
+
+{
+    "phoneCode": "+20",
+    "phoneNumber": 111111111
+}
+
+###
+
+PUT {{host}}:8001/user/changepassword
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwMTk5YmViYi03ZDk1LTRmYWUtYTU3ZC1hNTU2ODY3ZTA3ZDUiLCJpYXQiOjE2NDUzMDc4ODUsImV4cCI6MTY0NTM0Mzg4NX0.lfdATDlZJI8vAlrkiaiCCfa9R4z1mpPMmnEXD3Tp_TE
+Content-Type: application/json
+
+{
+    "oldPassword": "1234567890",
+    "newPassword": "123456789",
+    "newConfirmPassword": "123456789"
+}
+
+###
+
+POST {{host}}:8000/user/logout
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwMTk5YmViYi03ZDk1LTRmYWUtYTU3ZC1hNTU2ODY3ZTA3ZDUiLCJpYXQiOjE2NDUzMDc4ODUsImV4cCI6MTY0NTM0Mzg4NX0.lfdATDlZJI8vAlrkiaiCCfa9R4z1mpPMmnEXD3Tp_TE
+
+###
+
+POST {{host}}:8001/job-listing/create
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwMTk5YmViYi03ZDk1LTRmYWUtYTU3ZC1hNTU2ODY3ZTA3ZDUiLCJpYXQiOjE2NDUzMDc4ODUsImV4cCI6MTY0NTM0Mzg4NX0.lfdATDlZJI8vAlrkiaiCCfa9R4z1mpPMmnEXD3Tp_TE
+Content-Type: application/json
+
+{
+    "positionName": "Job C",
+    "expiryDate": "2022-02-28",
+    "questions":[
+        {
+            "statement": "Question 1.1",
+            "keywords": ["aab", "bba", "cca"],
+            "timeToThink": 3,
+            "timeToAnswer": 5
+        },
+        {
+            "statement": "Question 1.2",
+            "keywords": ["dda", "eea", "ffa"],
+            "timeToThink": 7,
+            "timeToAnswer": 15
+        }
+    ]
+}
+
+###
+
+GET {{host}}:8001/job-listing/get-listings
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwMTk5YmViYi03ZDk1LTRmYWUtYTU3ZC1hNTU2ODY3ZTA3ZDUiLCJpYXQiOjE2NDUzMDc4ODUsImV4cCI6MTY0NTM0Mzg4NX0.lfdATDlZJI8vAlrkiaiCCfa9R4z1mpPMmnEXD3Tp_TE
+
+###
+
+GET {{host}}:8001/job-listing/ce2abdd9-f73f-4a3e-a09a-06cddce82cce
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwMTk5YmViYi03ZDk1LTRmYWUtYTU3ZC1hNTU2ODY3ZTA3ZDUiLCJpYXQiOjE2NDUzMDc4ODUsImV4cCI6MTY0NTM0Mzg4NX0.lfdATDlZJI8vAlrkiaiCCfa9R4z1mpPMmnEXD3Tp_TE
+
+###
+
+POST {{host}}:8001/job-listing/invite
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwMTk5YmViYi03ZDk1LTRmYWUtYTU3ZC1hNTU2ODY3ZTA3ZDUiLCJpYXQiOjE2NDUzMDc4ODUsImV4cCI6MTY0NTM0Mzg4NX0.lfdATDlZJI8vAlrkiaiCCfa9R4z1mpPMmnEXD3Tp_TE
+Content-Type: application/json
+
+{
+    "listingId": "da5d23b7-3a27-4e29-ab8f-d72812193c58",
+    "candidates": [
+        {
+            "name": "Mohamed Medhat",
+            "email": "mohamed.medhat2199@gmail.com",
+            "phoneCode": "+20",
+            "phoneNumber": 1155282790
+        },
+        {
+            "name": "3M Medo",
+            "email": "test@test.com",
+            "phoneCode": "+20",
+            "phoneNumber": 1155282790
+        }
+    ]
+}
