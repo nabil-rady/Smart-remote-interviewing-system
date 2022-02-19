@@ -42,8 +42,10 @@ const WebcamStreamCapture = () => {
   const [readTimerVisibility, setReadTimer] = useState('visible');
 
   const sendFrames = async () => {
+    i++;
     const imageSrc = webcamRef.current.getScreenshot();
     const blob = await fetch(imageSrc).then((res) => res.blob());
+    console.log(blob, i);
     webSocket.current.send(blob);
   };
 
@@ -60,7 +62,7 @@ const WebcamStreamCapture = () => {
 
   useEffect(() => {
     webSocket.current = new WebSocket('ws://localhost:8765');
-    timer.current = new Timer(sendFrames, 1000/24, () => {});
+    timer.current = new Timer(sendFrames, 1000 / 3, () => {});
     return () => webSocket.current.close();
   }, []);
 
@@ -71,7 +73,6 @@ const WebcamStreamCapture = () => {
       });
       webSocket.current.addEventListener('message', function (event) {
         console.log(`Message ${event.data}`);
-        // let decodedVideo = new Buffer.from(event.data, 'base64');
       });
     }
   }, [webSocket]);

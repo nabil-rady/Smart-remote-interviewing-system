@@ -1,25 +1,23 @@
 import asyncio
 import websockets
-#import cv2
-#import numpy as np
-#import base64
-#import io
-#import PIL.Image as Image
 import time
+from model import lightFaceDetect3
 
 async def echo(websocket):
     async for message in websocket:
         if not isinstance(message, str):
+            detection_model = lightFaceDetect3()
+            result = detection_model.detection(message)
             t = time.time()
-            print(t)
-            print(type(message))
-            with open(f'test-{t}.png', "wb") as out_file:
-                out_file.write(message)
+            print(type(message), result, t)
+            await websocket.send(str(result))
+            # with open(f'test-{t}.png', "wb") as out_file:
+            #     out_file.write(message)
 
 
         else:
             print(message)
-        await websocket.send(message)
+            await websocket.send(message)
 
 async def main():
     async with websockets.serve(echo, "localhost", 8765):
