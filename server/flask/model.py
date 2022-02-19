@@ -8,6 +8,8 @@ class lightFaceDetect3:
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         s = np.average(gray)
         faces = self.face_cascade.detectMultiScale(gray, 1.1, 4)
+        if len(faces) == 0:
+        	return True
         for (x, y, w, h) in faces:
             #centre_x = x + w / 2
             #centre_y = y + y / 2
