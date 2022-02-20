@@ -1,13 +1,19 @@
 @import '../../sassConfig/colors';
 @import '../../sassConfig/transition';
 
+.interview-page {
+  display: flex;
+  margin-top: 4%;
+}
+
 .buttons {
-  margin-left: calc(50% - 75px);
+  margin-left: calc(45% - 75px);
   width: 150px;
   height: 40px;
   justify-content: center;
   align-items: center;
   margin-top: 7rem;
+  margin-bottom: 2rem;
   border: none;
   border-radius: 20px;
   padding: 5px;
@@ -30,23 +36,26 @@
 }
 
 .questions {
-  width: 500px;
-  margin-left: calc(50% - 250px);
+  width: 90%;
   padding: 7px;
   height: auto;
 }
+
 .questionTitle {
   text-align: center;
   color: $primary-blue;
   font-weight: bold;
   display: block;
   width: 100%;
-  font-size: x-large;
+  font-size: 1.1rem;
 }
+
 .video {
-  margin-left: 5%;
-  float: left;
-  margin-top: 5rem;
+  width: 35%;
+  height: fit-content;
+  height: -moz-fit-content;
+  margin: 3rem;
+  margin-top: 0;
 }
 
 .answertimer {
@@ -62,17 +71,21 @@
 .readCard {
   width: 100px;
   padding: 10px;
-  margin-left: calc(50% - 50px);
-  margin-top: 3rem;
+  margin-left: calc(45% - 50px);
+  margin-top: 1.5rem;
 }
+
+.questions {
+  margin: 0;
+}
+
 .readtimer {
   color: $primary-blue;
   text-align: center;
   font-size: x-large;
   font-weight: bold;
 }
+
 .questionspart {
-  float: right;
-  margin-right: 8%;
-  width: 40%;
+  flex-grow: 1;
 }

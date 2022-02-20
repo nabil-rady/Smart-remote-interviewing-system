@@ -188,50 +188,52 @@ const WebcamStreamCapture = () => {
   return (
     <>
       <NavBar />
-      <Webcam
-        audio={true}
-        ref={webcamRef}
-        muted={true}
-        screenshotFormat="image/png"
-        className="video"
-      />
+      <div className="interview-page">
+        <Webcam
+          audio={true}
+          ref={webcamRef}
+          muted={true}
+          screenshotFormat="image/png"
+          className="video"
+        />
 
-      <div className="questionspart">
-        <div style={{ visibility: visible }}>
-          <Card className="questions">
-            <p className="answertimer">{renderAnswerTime(timeLeftAnswer)}</p>
-            <p className="questionTitle">{Questions[counter].title}</p>
-          </Card>
+        <div className="questionspart">
+          <div style={{ visibility: visible }}>
+            <Card className="questions">
+              <p className="answertimer">{renderAnswerTime(timeLeftAnswer)}</p>
+              <p className="questionTitle">{Questions[counter].title}</p>
+            </Card>
+          </div>
+
+          <br />
+          <div style={{ visibility: readTimerVisibility }}>
+            <Card className="readCard">
+              <p className="readtimer">{renderReadTime(timeLeftRead)}</p>
+            </Card>
+          </div>
+
+          {start && (
+            <button onClick={startInterview} className="buttons">
+              Start Capture
+            </button>
+          )}
+          {stop && (
+            <button
+              onClick={(e) => handleStopCaptureClick(e, false)}
+              className="buttons"
+            >
+              Stop Capture
+            </button>
+          )}
+          {next && (
+            <button onClick={handleNext} className="buttons">
+              Next Qusetion
+            </button>
+          )}
+          {/* {recordedChunks.length > 0 && (
+            <button onClick={handleDownload}>Download</button>
+          )} */}
         </div>
-
-        <br />
-        <div style={{ visibility: readTimerVisibility }}>
-          <Card className="readCard">
-            <p className="readtimer">{renderReadTime(timeLeftRead)}</p>
-          </Card>
-        </div>
-
-        {start && (
-          <button onClick={startInterview} className="buttons">
-            Start Capture
-          </button>
-        )}
-        {stop && (
-          <button
-            onClick={(e) => handleStopCaptureClick(e, false)}
-            className="buttons"
-          >
-            Stop Capture
-          </button>
-        )}
-        {next && (
-          <button onClick={handleNext} className="buttons">
-            Next Qusetion
-          </button>
-        )}
-        {/* {recordedChunks.length > 0 && (
-          <button onClick={handleDownload}>Download</button>
-        )} */}
       </div>
     </>
   );
