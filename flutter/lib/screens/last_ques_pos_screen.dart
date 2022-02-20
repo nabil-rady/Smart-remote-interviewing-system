@@ -31,11 +31,26 @@ class _LastQuestionScreenState extends State<LastQuestionScreen> {
   //   return true;
   // }
   bool _isLoading = false;
-
+  bool myflag = true;
   void startAddNewQuestion(BuildContext ctx) {
     showModalBottomSheet(context: ctx, builder: (bctx) => QuestionForm());
   }
 
+  @override
+  void didChangeDependencies() {
+    if (myflag) {
+      Provider.of<Questions>(context).setItems = [];
+    }
+    // TODO: implement didChangeDependencies
+    myflag = false;
+    super.didChangeDependencies();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
   // final _positionNameController = TextEditingController();
 
   @override
@@ -97,8 +112,11 @@ class _LastQuestionScreenState extends State<LastQuestionScreen> {
                 _isLoading = false;
               });
 
+              print(questionData.itemsMap);
+
               Navigator.of(context)
                   .pushReplacementNamed(PositionScreen.routeName);
+
               // });
               // print({
               //   'id': singlePosition.id,

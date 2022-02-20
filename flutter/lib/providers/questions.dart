@@ -11,6 +11,10 @@ class Questions with ChangeNotifier {
     return [..._items];
   }
 
+  set setItems(List<Question> mylist) {
+    _items = mylist;
+  }
+
   bool flag = true;
   void addForm(Question newquestion) {
     _items.add(newquestion);
@@ -21,14 +25,19 @@ class Questions with ChangeNotifier {
       "timeToAnswer": newquestion.answerTime,
       "keywords": newquestion.keywordsList,
     });
-    _items.forEach((element) {
-      print(element.titleQuestion);
-    });
+    // _items.forEach((element) {
+    //   print(element.titleQuestion);
+    // });
     notifyListeners();
   }
 
   void deleteForm(String id) {
     _items.removeWhere((element) => element.id == id);
+    _itemsMap.removeWhere((element) => element['questionId'] == id);
+    //_items.remove(id);
+    _items.forEach((element) {
+      print('yaraaaaab ' + element.titleQuestion);
+    });
     notifyListeners();
   }
 
