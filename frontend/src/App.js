@@ -9,7 +9,7 @@ import CounterPage from './pages/Questions';
 import React, { useEffect, useState } from 'react';
 import { TailSpin } from 'react-loader-spinner';
 import ImageSlider from './pages/ImageSlider';
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.scss';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
@@ -30,7 +30,7 @@ import IntroPage from './pages/IntroPage';
 import ViewApplicants from './pages/viewApplicants';
 import ApplicantDetails from './pages/applicantDeteils';
 import BeforeInterviewPage from './pages/BeforeInterviewPage';
-
+import NewLanding from './pages/newLandingpage';
 const mockUserObject = {
   userId: 'ABC123',
   token: 'aiwdjssqwijeoqiweoqu2398192381123',
@@ -154,6 +154,9 @@ function App() {
               exact
             >
               <ApplicantDetails />
+            </PrivateRoute>
+            <PrivateRoute isAuthenticated={!!authUser} path="/new" exact>
+              <NewLanding />
             </PrivateRoute>
             {/* <PrivateRoute isAuthenticated={!!authUser} path="/evaluate">
             <EvaluationPage />

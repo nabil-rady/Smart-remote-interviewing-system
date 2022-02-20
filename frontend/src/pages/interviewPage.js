@@ -3,6 +3,7 @@ import useCountDown from 'react-countdown-hook';
 import Webcam from 'react-webcam';
 import Card from '../components/Card';
 import NavBar from '../components/NavBar';
+import Timer from '../utils/timer';
 
 import './scss/videopage.scss';
 
@@ -31,6 +32,7 @@ const WebcamStreamCapture = () => {
 
   const webcamRef = useRef(null);
   const mediaRecorderRef = useRef(null);
+  const timer = useRef(null);
   const [recordedChunks, setRecordedChunks] = useState([]);
   const [start, setStart] = useState(true);
   const [next, setNext] = useState(false);
@@ -38,6 +40,14 @@ const WebcamStreamCapture = () => {
   const [visible, setVisibility] = useState('hidden');
   const [counter, setCounter] = useState(0);
   const [readTimerVisibility, setReadTimer] = useState('visible');
+
+  const sendFrames = async () => {
+    i++;
+    const imageSrc = webcamRef.current.getScreenshot();
+    const blob = await fetch(imageSrc).then((res) => res.blob());
+    console.log(blob, i);
+    webSocket.current.send(blob);
+  };
 
   const [timeLeftRead, { start: startRead }] = useCountDown(
     Questions[counter].readTime * 1000,
@@ -52,6 +62,7 @@ const WebcamStreamCapture = () => {
 
   useEffect(() => {
     webSocket.current = new WebSocket('ws://localhost:8765');
+    timer.current = new Timer(sendFrames, 1000 / 3, () => {});
     return () => webSocket.current.close();
   }, []);
 
@@ -62,9 +73,20 @@ const WebcamStreamCapture = () => {
       });
       webSocket.current.addEventListener('message', function (event) {
         console.log(`Message ${event.data}`);
+        // let decodedVideo = new Buffer.from(event.data, 'base64');
       });
     }
   }, [webSocket]);
+
+  // returns a frame encoded in base64
+  // const getFrame = () => {
+  //   const canvas = document.createElement('canvas');
+  //   canvas.width = video.videoWidth;
+  //   canvas.height = video.videoHeight;
+  //   canvas.getContext('2d').drawImage(video, 0, 0);
+  //   const data = canvas.toDataURL('image/png');
+  //   return data;
+  // }
 
   const renderReadTime = (time) => {
     let secTime, minTime;
@@ -99,6 +121,13 @@ const WebcamStreamCapture = () => {
     setTimeout(() => {
       handleStartCaptureClick();
       console.log('Start recording (setTimeout)');
+      // setInterval(async function() {
+      //   const imageSrc = webcamRef.current.getScreenshot();
+      //   const blob = await fetch(imageSrc).then((res) => res.blob());
+      //   i++;
+      //   console.log(blob, i);
+      //   webSocket.current.send(blob);
+      // }, 1000/24);
     }, Questions[counter].readTime * 1000);
 
     recordTimeout.current = setTimeout(() => {
@@ -123,6 +152,7 @@ const WebcamStreamCapture = () => {
       handleDataAvailable
     );
     mediaRecorderRef.current.start();
+    timer.current.start();
     startAnswer(Questions[counter].answerTime * 1000);
     console.log('Created MediaRecorder');
     if (!stop) setStop(true);
@@ -152,6 +182,7 @@ const WebcamStreamCapture = () => {
       if (!isNonManualStop) pauseAnswer();
       if (mediaRecorderRef.current.state !== 'inactive') {
         mediaRecorderRef.current.stop();
+        timer.current.stop();
       }
       if (stop) setStop(false);
     },
@@ -184,7 +215,17 @@ const WebcamStreamCapture = () => {
     setVisibility('hidden');
     setStop(false);
   };
+  // let millisTillNexthour = "Calculate millis remaining until next hour"
 
+  // setTimeout(function() {
+  //   setInterval(async function() {
+  //     const imageSrc = webcamRef.current.getScreenshot();
+  //     const blob = await fetch(imageSrc).then((res) => res.blob());
+  //     i++;
+  //     console.log(blob, i);
+  //     webSocket.current.send(blob);
+  //   }, 1000/24);
+  // }, millisTillNexthour);
   return (
     <>
       <NavBar />

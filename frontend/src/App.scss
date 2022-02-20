@@ -5,9 +5,9 @@
   box-sizing: border-box;
 }
 
-body {
-  background: #edf1f5;
-}
+// body {
+//   background: #edf1f5;
+// }
 
 .flex {
   display: flex !important;
@@ -17,7 +17,9 @@ a {
   text-decoration: none;
   color: inherit;
 }
-
+a:hover {
+  color: inherit;
+}
 @media only screen and (max-width: 670px) {
   .flex {
     flex-direction: column !important;

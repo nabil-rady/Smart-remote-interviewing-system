@@ -8,7 +8,7 @@ import './scss/utility.scss';
 import './scss/navbar.scss';
 import './scss/dashboard-navbar.scss';
 
-const NavBar = (props) => {
+const LandingpageNavbar = (props) => {
   const authUser = useContext(UserContext).authUser; // Object or null
   const isLoggedIn = !!authUser;
 
@@ -31,6 +31,44 @@ const NavBar = (props) => {
           Vividly
         </Link>
       </div>
+      <div className="contents">
+        <li className="guest__ul__li__interview">
+          <a className="nav-link" href="#connect">
+            Connect
+          </a>
+        </li>
+        <li className="guest__ul__li__interview">
+          <a className="nav-link" href="#college">
+            College
+          </a>
+        </li>
+        <li className="guest__ul__li__interview">
+          <a className="nav-link" href="#intern">
+            Internships
+          </a>
+        </li>
+        <li className="guest__ul__li__interview">
+          <a className="nav-link" href="#jobs">
+            Jobs
+          </a>
+        </li>
+        <li className="guest__ul__li__interview">
+          <a className="nav-link" href="#scholarships">
+            Scholarships
+          </a>
+        </li>
+        <li className="guest__ul__li__interview">
+          <a className="nav-link" href="#competitions">
+            Competitions
+          </a>
+        </li>
+        <li className="guest__ul__li__interview">
+          <a className="nav-link" href="#events">
+            Events
+          </a>
+        </li>
+      </div>
+
       <nav className="header__navbar">
         <ul
           tabIndex="-1"
@@ -39,6 +77,7 @@ const NavBar = (props) => {
           }`}
         >
           <NavBarUserInfoMenu />
+
           <svg
             className="user-icon"
             xmlns="http://www.w3.org/2000/svg"
@@ -72,4 +111,4 @@ const NavBar = (props) => {
   );
 };
 
-export default NavBar;
+export default LandingpageNavbar;

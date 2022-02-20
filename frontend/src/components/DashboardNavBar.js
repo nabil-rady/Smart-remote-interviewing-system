@@ -18,7 +18,7 @@ const DashboardNavBar = (props) => {
   };
 
   return (
-    <header className="header">
+    <header className="Navheader">
       <MobileBurgerButtons handleClick={handleClick} />
       <NavBarSideMenu />
       <div className="header__logo">

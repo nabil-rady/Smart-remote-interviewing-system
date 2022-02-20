@@ -5,7 +5,7 @@ import EmailVerification from '../components/EmailVerification';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../App';
 import Card from '../components/Card';
-import './scss/viewApplicants.scss';
+// import './scss/viewApplicants.scss';
 import './scss/applicantDetails.scss';
 function ApplicantDetails() {
   const sideMenu = useRef(null);
