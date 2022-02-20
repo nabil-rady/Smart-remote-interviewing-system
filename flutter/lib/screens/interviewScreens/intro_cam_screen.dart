@@ -237,6 +237,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:async';
 import 'dart:typed_data';
+import 'package:flutter/gestures.dart';
+import 'package:graduation_project/widgets/default_button.dart';
 import 'package:image/image.dart' as imglib;
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
@@ -257,7 +259,7 @@ class IntroCamScreen extends StatefulWidget {
 
 class _IntroCamScreenState extends State<IntroCamScreen> {
   final _channel = WebSocketChannel.connect(
-    Uri.parse('ws://10.0.2.2:8765'),
+    Uri.parse('ws://2e65-102-184-152-150.ngrok.io'),
   );
   Timer? timer;
   late CameraController controller;
@@ -270,8 +272,8 @@ class _IntroCamScreenState extends State<IntroCamScreen> {
   void initState() {
     controller = getCameraController();
     super.initState();
-    timer = Timer.periodic(
-        const Duration(milliseconds: 500), (Timer t) => takeScreen());
+    // timer = Timer.periodic(
+    //     const Duration(milliseconds: 500), (Timer t) => takeScreen());
   }
 
   Future<void> takeScreen() async {
@@ -410,13 +412,22 @@ class _IntroCamScreenState extends State<IntroCamScreen> {
   @override
   void dispose() {
     timer?.cancel();
+    _channel.sink.close();
     super.dispose();
   }
 
+  double deviceHeight(BuildContext context) =>
+      MediaQuery.of(context).size.height;
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     double cameraScale = screenSize.aspectRatio * controller.value.aspectRatio;
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+    print(height);
+    var padding = MediaQuery.of(context).padding;
+    double newheight = height - padding.top - padding.bottom;
+    double margin = 50 / 100 * (height);
 
     return Scaffold(
       body: Stack(
@@ -427,24 +438,77 @@ class _IntroCamScreenState extends State<IntroCamScreen> {
               child: CameraPreview(controller),
             ),
           ),
-          Positioned(
-            top: 100,
-            left: 20,
-            right: 20,
-            child: Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: getProportionateScreenWidth(20)),
-                child: Container(
-                  height: 350,
-                  width: 90,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: redFlag ? Colors.red : Colors.green,
-                      width: 5.0,
+          StreamBuilder(
+            stream: _channel.stream,
+            builder: (context, snapshot) {
+              // if (snapshot.hasData) {
+              //   if (snapshot.data == false) {
+              //     setState(() {
+              //       redFlag = false;
+              //     });
+              //   }
+              //   //print('daataaaaa ${redFlag}');
+              // } else {
+              //   setState(() {
+              //     redFlag = true;
+              //   });
+              // }
+              //print('daataaaaa ${snapshot.data}');
+              // return Center(
+              //     child: Text(snapshot.hasData ? '${snapshot.data}' : ''));
+              // snapshot.hasData ? redFlag = snapshot.data as bool:;
+              return Stack(
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: Container(
+                      margin: EdgeInsets.only(top: height * 18 / 100),
+                      height: height > 700 ? 500 : 350,
+                      width: height > 700 ? 500 : 350,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: !snapshot.hasData ||
+                                  snapshot.data as String == 'False'
+                              ? Colors.green
+                              : Colors.red,
+                          width: 5.0,
+                        ),
+                      ),
                     ),
                   ),
-                )),
-          ),
+
+                  //const Spacer(flex: 3),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                          bottom: getProportionateScreenWidth(20),
+                          right: getProportionateScreenWidth(20),
+                          left: getProportionateScreenWidth(20)),
+                      child: DefaultButton(
+                        color: !snapshot.hasData ||
+                                snapshot.data as String == 'False'
+                            ? Color(0xFF165DC0)
+                            : Colors.red,
+                        text: "Continue",
+                        press: () {
+                          if (!snapshot.hasData ||
+                              snapshot.data as String == 'False') {
+                            timer!.cancel();
+                            _channel.sink.close();
+                            Navigator.of(context).pushNamed('/interview-screen',
+                                arguments: controller);
+                          } else {
+                            null;
+                          }
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
+          )
         ],
       ),
     );
