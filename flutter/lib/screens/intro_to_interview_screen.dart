@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../size_config.dart';
+import '../local/size_config.dart';
 import '../widgets/body.dart';
 
 class IntroScreen extends StatelessWidget {

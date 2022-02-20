@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
-import 'package:graduation_project/size_config.dart';
+import 'package:graduation_project/local/size_config.dart';
 import 'package:graduation_project/widgets/default_button.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';

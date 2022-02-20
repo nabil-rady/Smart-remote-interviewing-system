@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graduation_project/screens/interviewScreens/intro_cam_screen.dart';
-import '../../size_config.dart';
+import '../../local/size_config.dart';
 import '../../widgets/body.dart';
 
 class IntroScreen extends StatelessWidget {

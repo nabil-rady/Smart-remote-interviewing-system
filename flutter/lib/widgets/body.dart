@@ -1,9 +1,10 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:graduation_project/local/sharedpreferences.dart';
 import 'package:graduation_project/screens/interviewScreens/intro_cam_screen.dart';
 
-import '../constants.dart';
-import '../size_config.dart';
+import '../local/constants.dart';
+import '../local/size_config.dart';
 import '../widgets/splash_content.dart';
 import 'default_button.dart';
 import '../screens/interviewScreens/intro_cam_screen.dart';
@@ -20,8 +21,10 @@ class _BodyState extends State<Body> {
   Future<void> setupCameras() async {
     try {
       cameras = await availableCameras();
-      controller = CameraController(cameras[1], ResolutionPreset.medium);
+      controller = CameraController(cameras[1], ResolutionPreset.low);
+
       await controller.initialize();
+      saveCameraController(controller);
     } on CameraException catch (_) {
       setState(() {
         isReady = false;
@@ -96,7 +99,7 @@ class _BodyState extends State<Body> {
                       text: "Continue",
                       press: () {
                         // Navigator.of(context).pushNamed('/interview-screen',
-                        //     argumen`ts: controller);
+                        //     arguments: controller);
                         Navigator.of(context).pushNamed('/IntroCamScreen',
                             arguments: controller);
                         // Navigator.of(context)
