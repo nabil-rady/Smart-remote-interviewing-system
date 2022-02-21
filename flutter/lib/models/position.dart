@@ -1,11 +1,9 @@
-import 'package:flutter/material.dart';
 import './question.dart';
 
 class Position {
   final List<Question> questions;
   final List<Map<String, dynamic>> qustionsMapList;
   final String position;
-  //final String position;
   final String id;
   final DateTime expireyDate;
   Position(

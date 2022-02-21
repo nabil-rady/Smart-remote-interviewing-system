@@ -1,4 +1,7 @@
-import 'package:graduation_project/models/employer_model.dart';
+import 'package:flutter/material.dart';
+import 'package:graduation_project/providers/dashboard_provider.dart';
+import 'package:graduation_project/providers/position_details_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:camera/camera.dart';
 
@@ -33,4 +36,37 @@ void saveCameraController(CameraController cam) {
 
 CameraController getCameraController() {
   return cameraConroller;
+}
+
+void showErrorDialog(BuildContext context, String message) {
+  showDialog(
+    context: context,
+    builder: (ctx) => AlertDialog(
+      title: Text(
+        'An Error Occurred!',
+        style: Theme.of(context).textTheme.headline1,
+      ),
+      content: Text(
+        message,
+        style: Theme.of(context).textTheme.bodyText1,
+      ),
+      actions: <Widget>[
+        FlatButton(
+          child: const Text('Okay'),
+          onPressed: () {
+            Navigator.of(ctx).pop();
+          },
+        )
+      ],
+    ),
+  );
+}
+
+Future getPositionsFuture(BuildContext context) {
+  return Provider.of<DashboardPositions>(context, listen: false).getListings();
+}
+
+Future getQuestionsFuture(BuildContext context, positionId) {
+  return Provider.of<PostionDetails>(context, listen: false)
+      .getDetails(positionId);
 }

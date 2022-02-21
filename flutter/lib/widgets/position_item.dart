@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/positions.dart';
-import '../screens/invitation_screen.dart';
 
 class PositionItem extends StatelessWidget {
   final String positionName;

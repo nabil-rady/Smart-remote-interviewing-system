@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 
-import 'package:graduation_project/models/http_exception.dart';
+import 'package:graduation_project/local/http_exception.dart';
 import 'package:http/http.dart' as http;
 
 class PositionForDashboard {
@@ -20,43 +20,13 @@ class PositionForDashboard {
 
 class DashboardPositions with ChangeNotifier {
   final String? _authToken;
-  //List<PositionForDashboard> _positions = [];
   List<PositionForDashboard> _positionsItems = [];
-
   DashboardPositions(this._authToken, this._positionsItems);
-
   List<PositionForDashboard> get positionsItems {
     return [..._positionsItems];
   }
 
-  // void addPosition(Position singlePosition) {
-  //   _positionsItems.add(singlePosition);
-  //   notifyListeners();
-  // }
-
-  // void removePosition(String id) {
-  //   _positionsItems.removeWhere((element) => element.id == id);
-  //   notifyListeners();
-  // }
-
-  // Position findById(String id) {
-  //   return _positionsItems.firstWhere((element) => element.id == id);
-  // }
-
-  // Position findBypositionName(String _positionName) {
-  //   return _positionsItems.firstWhere(
-  //       (element) => element.position == _positionName,
-  //       orElse: () => Position(
-  //           id: '',
-  //           position: '',
-  //           questions: [],
-  //           //Dummy Date
-  //           expireyDate: DateTime(0)));
-  // }
-
   Future<void> getListings() async {
-    //print("working");
-    print("from get listing ${_authToken.toString()}");
     final response = await http.get(
       Uri.parse('https://vividly-api.herokuapp.com/job-listing/get-listings'),
       headers: <String, String>{
@@ -68,12 +38,9 @@ class DashboardPositions with ChangeNotifier {
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
       final extractedData = responseData['jobListings'] as List<dynamic>;
-      //print(extractedData);
       final List<PositionForDashboard> _finalList = [];
       extractedData
-          .map((positionvalue) =>
-              // print(positionvalue['expiryDate']);
-              _finalList.add(
+          .map((positionvalue) => _finalList.add(
                 PositionForDashboard(
                     expireyDate: DateTime.parse(positionvalue['expiryDate']),
                     position: positionvalue['positionName'],
@@ -83,10 +50,8 @@ class DashboardPositions with ChangeNotifier {
               ))
           .toList();
       _positionsItems = _finalList.reversed.toList();
-      //print(_positionsItems[0].position);
       notifyListeners();
     } else {
-      print(responseData['message']);
       throw HttpException(responseData['message']);
     }
   }

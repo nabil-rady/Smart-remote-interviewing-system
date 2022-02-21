@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
-import 'package:graduation_project/models/http_exception.dart';
+import 'package:graduation_project/local/http_exception.dart';
 import 'package:provider/provider.dart';
-import '../models/http_exception.dart';
+import '../local/http_exception.dart';
 import '../models/question.dart';
 import '../models/position.dart';
 import 'package:http/http.dart' as http;
@@ -80,13 +80,6 @@ class Positions with ChangeNotifier {
 
   Future<void> addPosition(Position singlePosition) async {
     const url = 'https://vividly-api.herokuapp.com/job-listing/create';
-    // print({
-    //   'id': singlePosition.id,
-    //   'positionName': singlePosition.position,
-    //   'expiryDate': singlePosition.expireyDate.toIso8601String(),
-    //   'questions': singlePosition.questions[0]
-    // });
-    // inspect(singlePosition.questions[0]);
     try {
       final response = await http.post(Uri.parse(url),
           headers: <String, String>{
@@ -109,42 +102,12 @@ class Positions with ChangeNotifier {
         qustionsMapList: singlePosition.qustionsMapList,
         /////////////////////
       );
-
       _positionsItems.add(newposition);
       notifyListeners();
-
       print(response.body);
     } catch (error) {
       print(error);
       throw error;
-    }
-  }
-
-  Future<void> fetchAndSetPositions() async {
-    // _jobId = prefs.getString("jobListingId").toString();
-    const url = 'https://vividly-api.herokuapp.com/job-listing/{listing_id}';
-
-    try {
-      final response = await http.get(Uri.parse(url), headers: <String, String>{
-        'Content-Type': 'application/json',
-        'Authorization': authToken.toString()
-      });
-
-      final extractedData = json.decode(response.body) as Map<String, dynamic>;
-      final List<Position> loadedPositions = [];
-      extractedData.forEach((posId, posData) {
-        loadedPositions.add(Position(
-            id: posId,
-            position: posData["positionName"],
-            questions: [],
-            qustionsMapList: [],
-            expireyDate: DateTime.parse(posData["expiryDate"])));
-      });
-      _positionsItems = loadedPositions;
-      notifyListeners();
-      print(response.body);
-    } catch (error) {
-      throw (error);
     }
   }
 
@@ -171,52 +134,51 @@ class Positions with ChangeNotifier {
             expireyDate: DateTime(0)));
   }
 
-  Future<void> positionDetails(String positionId) async {
-    //print("working");
-    //print(authToken.toString());
-    final response = await http.get(
-      Uri.parse('https://vividly-api.herokuapp.com/job-listing/$positionId'),
-      headers: <String, String>{
-        'Content-Type': 'application/json',
-        'Authorization': authToken.toString(),
-      },
-    );
-    final responseData = json.decode(response.body);
-    // print(response.body);
-    if (response.statusCode == 200) {
-      final responseData = json.decode(response.body);
-      //print(responseData['jobListings'] as List<dynamic>);
-      //final extractedData = responseData['jobListings']  as List<dynamic>;
-      //print(extractedData);
+  // Future<void> positionDetails(String positionId) async {
+  //   //print("working");
+  //   //print(authToken.toString());
+  //   final response = await http.get(
+  //     Uri.parse('https://vividly-api.herokuapp.com/job-listing/$positionId'),
+  //     headers: <String, String>{
+  //       'Content-Type': 'application/json',
+  //       'Authorization': authToken.toString(),
+  //     },
+  //   );
+  //   final responseData = json.decode(response.body);
+  //   // print(response.body);
+  //   if (response.statusCode == 200) {
+  //     final responseData = json.decode(response.body);
+  //     //print(responseData['jobListings'] as List<dynamic>);
+  //     //final extractedData = responseData['jobListings']  as List<dynamic>;
+  //     //print(extractedData);
 
-      final extractedData = responseData as Map<String, dynamic>;
-      final List<Position> _finalList = [];
-      extractedData.forEach((key, positionvalue) {
-        _finalList.add(
-          Position(
-            expireyDate: DateTime.parse(positionvalue['expiryDate']),
-            position: positionvalue['positionName'],
-            id: positionvalue['jobListingId'],
-            /////new //////
-            qustionsMapList: [],
-            /////////////////////
-            // I should change it
-            questions: (positionvalue['questions'] as List<dynamic>)
-                .map((question) => Question(
-                    id: question['questionId'],
-                    titleQuestion: question['statement'],
-                    answerTime: question['timeToAnswer'],
-                    thinkingTime: question['timeToThink'],
-                    keywords: question['keywords']))
-                .toList(),
-          ),
-        );
-      });
-      _positionsItems = _finalList.reversed.toList();
-      notifyListeners();
-    } else {
-      throw HttpException(responseData['message']);
-    }
-    //print(validationResponseData);
-  }
+  //     final extractedData = responseData as Map<String, dynamic>;
+  //     final List<Position> _finalList = [];
+  //     extractedData.forEach((key, positionvalue) {
+  //       _finalList.add(
+  //         Position(
+  //           expireyDate: DateTime.parse(positionvalue['expiryDate']),
+  //           position: positionvalue['positionName'],
+  //           id: positionvalue['jobListingId'],
+  //           /////new //////
+  //           qustionsMapList: [],
+  //           /////////////////////
+  //           // I should change it
+  //           questions: (positionvalue['questions'] as List<dynamic>)
+  //               .map((question) => Question(
+  //                   id: question['questionId'],
+  //                   titleQuestion: question['statement'],
+  //                   answerTime: question['timeToAnswer'],
+  //                   thinkingTime: question['timeToThink'],
+  //                   keywords: question['keywords']))
+  //               .toList(),
+  //         ),
+  //       );
+  //     });
+  //     _positionsItems = _finalList.reversed.toList();
+  //     notifyListeners();
+  //   } else {
+  //     throw HttpException(responseData['message']);
+  //   }
+  // }
 }

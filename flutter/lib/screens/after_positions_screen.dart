@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:graduation_project/screens/position_details_screen.dart';
+import '../screens/position_details_screen.dart';
 
 class AfterPositionsScreen extends StatelessWidget {
   static const routeName = '/after_positions_screen';
@@ -10,9 +10,7 @@ class AfterPositionsScreen extends StatelessWidget {
     final _position =
         ModalRoute.of(context)!.settings.arguments as List<String>;
     final _positioName = _position[0];
-    //print(positioName);
     final _positionId = _position[1];
-    //print(positionId);
 
     return Scaffold(
       appBar: AppBar(
@@ -23,8 +21,6 @@ class AfterPositionsScreen extends StatelessWidget {
         padding: const EdgeInsets.all(10),
         child: Column(
           children: [
-            // eachCard2('Position Details', 'assets/images/research.png', context,
-            //     '/position_details_screen', _positionId, _positioName),
             InkWell(
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
@@ -46,7 +42,7 @@ class AfterPositionsScreen extends StatelessWidget {
                         height: 60,
                         child: Image.asset('assets/images/research.png'),
                       ),
-                      Expanded(
+                      const Expanded(
                         child: Text(
                           'Position Details',
                           textAlign: TextAlign.center,
@@ -60,7 +56,7 @@ class AfterPositionsScreen extends StatelessWidget {
             const SizedBox(
               height: 9,
             ),
-            eachCard2('Evaluate applicants', 'assets/images/check.png', context,
+            eachCard2('Evaluate Applicants', 'assets/images/check.png', context,
                 '/to_evaluate_screen', _positionId, _positioName),
             const SizedBox(
               height: 9,

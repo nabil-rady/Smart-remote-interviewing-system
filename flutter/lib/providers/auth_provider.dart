@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:graduation_project/local/sharedpreferences.dart';
 
 import 'package:flutter/widgets.dart';
 import '../models/employer_model.dart';
-import '../models/http_exception.dart';
+import '../local/http_exception.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import '../local/sharedpreferences.dart';
 
 class Auth with ChangeNotifier {
   Employer _employer = Employer(
@@ -76,7 +76,6 @@ class Auth with ChangeNotifier {
       }),
     );
     final responseData = json.decode(response.body);
-    print(response.body);
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
       _employer.userId = responseData['user']['userId'];
@@ -132,7 +131,6 @@ class Auth with ChangeNotifier {
       }),
     );
     final validationResponseData = json.decode(validationResponse.body);
-    //print(validationResponseData);
   }
 
   Future<void> logOut() async {
@@ -156,7 +154,6 @@ class Auth with ChangeNotifier {
     removeUserId();
     removeUserToken();
     removeUserExpiryDate();
-    print("loged out");
     if (_authTimer != null) {
       _authTimer!.cancel();
       _authTimer = null;
@@ -170,7 +167,6 @@ class Auth with ChangeNotifier {
     }
     final ex = DateTime.parse(getUserExpiryDate().toString());
     final timeToExpiry = ex.difference(DateTime.now()).inSeconds;
-    print("i try to logout alone");
     _authTimer = Timer(Duration(seconds: timeToExpiry), logOut);
   }
 
@@ -204,7 +200,6 @@ class Auth with ChangeNotifier {
       _autoLogout();
       return true;
     } catch (error) {
-      print("xdddddddddddddddddddddddddd $error");
       return false;
     }
   }

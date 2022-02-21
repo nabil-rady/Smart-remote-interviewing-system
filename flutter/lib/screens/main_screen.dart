@@ -31,10 +31,8 @@ class _CompanySignupScreenState extends State<CompanySignupScreen> {
             setState(() {
               if (_isemployer) {
                 _isemployer = false;
-                print(' employee');
               } else {
                 _isemployer = true;
-                print(' employer');
               }
             });
           },

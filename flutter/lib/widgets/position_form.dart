@@ -1,8 +1,7 @@
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+
 import '../models/position.dart';
-import '../providers/positions.dart';
 import '../screens/last_ques_pos_screen.dart';
 
 class PositionForm extends StatefulWidget {

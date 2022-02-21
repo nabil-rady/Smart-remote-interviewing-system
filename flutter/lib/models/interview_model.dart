@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-
 class Interview {
   final String positionName;
   final String id;

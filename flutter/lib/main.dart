@@ -1,11 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:graduation_project/local/sharedpreferences.dart';
-import 'package:graduation_project/providers/dashboard_provider.dart';
-import 'package:graduation_project/providers/position_details_provider.dart';
-import 'package:graduation_project/screens/interviewScreens/intro_cam_screen.dart';
-import 'package:graduation_project/screens/waiting_screen.dart';
-import 'package:graduation_project/widgets/helper_widget.dart';
-
 import 'package:provider/provider.dart';
 
 import './screens/after_positions_screen.dart';
@@ -27,12 +20,15 @@ import '../screens/video_evaluation_screen.dart';
 import '../screens/notifications_screen.dart';
 import './providers/interview_provider.dart';
 import './providers/positions.dart';
-import './screens/position_screen.dart';
 import './screens/last_ques_pos_screen.dart';
 import './screens/invitation_screen.dart';
 import './widgets/position_form.dart';
 import './screens/interviewScreens/interview_screen.dart';
 import './screens/interviewScreens/intro_cam_screen.dart';
+import '../local/sharedpreferences.dart';
+import '../providers/dashboard_provider.dart';
+import '../providers/position_details_provider.dart';
+import '../screens/interviewScreens/intro_cam_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -64,20 +60,12 @@ class MyApp extends StatelessWidget {
               previosPositions == null ? [] : previosPositions.items),
         ),
 
-        // ChangeNotifierProvider(
-        //   create: (ctx) => Positions(),
-        // ),
-
         ChangeNotifierProxyProvider<Auth, DashboardPositions>(
           create: (ctx) => DashboardPositions('', []),
           update: (ctx, auth, previosPositions) => DashboardPositions(
               getUserToken(),
               previosPositions == null ? [] : previosPositions.positionsItems),
         ),
-
-        // ChangeNotifierProvider(
-        //   create: (ctx) => DashboardPositions(),
-        // ),
         ChangeNotifierProxyProvider<Auth, Positions>(
           create: (ctx) => Positions('', []),
           update: (ctx, auth, previosPositions) =>
@@ -111,20 +99,9 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ),
-        // home: SplashScreen(),
         home: SplashScreen(),
-        // auth.isAuth
-        //     ? HomeScreen()
-        //     : FutureBuilder(
-        //         future: auth.autoLogin(),
-        //         //  initialData: InitialData,
-        //         builder: (ctx, authSnapshot) =>
-        //             authSnapshot.connectionState == ConnectionState.waiting
-        //                 ? WaitingScreen()
-        //                 : CompanySignupScreen()),
         routes: {
           CompanySignupScreen.routeName: (ctx) => CompanySignupScreen(),
-          //  SplashScreen.routeName: (ctx) => SplashScreen(),
           IntroScreen.routeName: (ctx) => IntroScreen(),
           HomeScreen.routeName: (ctx) => HomeScreen(),
           ToEvaluateScreen.routeName: (ctx) => ToEvaluateScreen(),
@@ -143,8 +120,6 @@ class MyApp extends StatelessWidget {
               ),
           FinishInterview.routeName: (ctx) => FinishInterview(),
           IntrviewScreen.routeName: (ctx) => IntrviewScreen(),
-          // CameraScreen.routeName: (ctx) => CameraScreen()
-          // DashboardScreen.routeName: (ctx) => DashboardScreen(),
           IntroCamScreen.routeName: (ctx) => IntroCamScreen(),
         },
       ),

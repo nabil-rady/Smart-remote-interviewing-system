@@ -105,7 +105,7 @@
 //   }
 // }
 import 'package:flutter/material.dart';
-import 'package:graduation_project/models/http_exception.dart';
+import 'package:graduation_project/local/http_exception.dart';
 import 'package:graduation_project/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
 

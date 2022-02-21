@@ -2,10 +2,12 @@ import 'package:country_pickers/country.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:country_pickers/country_pickers.dart';
-import 'package:graduation_project/screens/home_screen.dart';
 import 'package:provider/provider.dart';
+
 import '../providers/auth_provider.dart';
-import '../models/http_exception.dart';
+import '../local/http_exception.dart';
+import '../local/sharedpreferences.dart';
+import '../screens/home_screen.dart';
 
 enum AuthMode { signup, login }
 
@@ -44,36 +46,16 @@ class _EmployerAuthState extends State<EmployerAuth> {
     if (_authMode == AuthMode.signup) {
       setState(() {
         _authMode = AuthMode.login;
+        _formKey.currentState!.reset();
+        _passwordController.clear();
       });
     } else {
       setState(() {
         _authMode = AuthMode.signup;
+        _formKey.currentState!.reset();
+        _passwordController.clear();
       });
     }
-  }
-
-  void _showErrorDialog(String message) {
-    showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text(
-          'An Error Occurred!',
-          style: Theme.of(context).textTheme.headline1,
-        ),
-        content: Text(
-          message,
-          style: Theme.of(context).textTheme.bodyText1,
-        ),
-        actions: <Widget>[
-          FlatButton(
-            child: const Text('Okay'),
-            onPressed: () {
-              Navigator.of(ctx).pop();
-            },
-          )
-        ],
-      ),
-    );
   }
 
   void _showConfirmDialog() {
@@ -107,9 +89,7 @@ class _EmployerAuthState extends State<EmployerAuth> {
                 return;
               }
               _confirmFormKey.currentState!.save();
-              /////////////////////////////////////
               try {
-                print(confirmCode);
                 await Provider.of<Auth>(context, listen: false).confirmEmail(
                   confirmCode,
                 );
@@ -117,12 +97,10 @@ class _EmployerAuthState extends State<EmployerAuth> {
                   _authMode = AuthMode.login;
                 });
                 Navigator.of(ctx).pop();
-                //Navigator.of(context).pushReplacementNamed('/home_screen');
               } on HttpException catch (error) {
-                // print(error);
-                _showErrorDialog('Wrong verification code');
+                showErrorDialog(context, 'Wrong verification code');
               } catch (error) {
-                _showErrorDialog('Wrong verification code');
+                showErrorDialog(context, 'Wrong verification code');
               }
             },
           ),
@@ -130,10 +108,9 @@ class _EmployerAuthState extends State<EmployerAuth> {
             child: const Text('Resend'),
             onPressed: () async {
               try {
-                print(confirmCode);
                 await Provider.of<Auth>(context, listen: false).sendEmail();
               } catch (error) {
-                _showErrorDialog(error.toString());
+                showErrorDialog(context, error.toString());
               }
             },
           ),
@@ -158,15 +135,10 @@ class _EmployerAuthState extends State<EmployerAuth> {
             .login(
           authData['email'].toString(),
           authData['password'].toString(),
-          // 'mariammohammad390@gmail.com',
-          // '123456789'
         )
             .then((value) {
           Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
         });
-
-        //Navigator.of(context).pushReplacementNamed('/home_screen');
-
       } else {
         // Sign user up
         await Provider.of<Auth>(context, listen: false).signup(
@@ -179,12 +151,7 @@ class _EmployerAuthState extends State<EmployerAuth> {
           authData['phone'].toString(),
           authData['countryCode'].toString(),
         );
-        // _formKey.currentState!.reset();
-        // _passwordController.clear();
         _showConfirmDialog();
-        //_showErrorDialog('all done');
-        //if(Provider.of<Auth>(context).)
-        //  Navigator.of(context).pushReplacementNamed('/home_screen');
       }
     } on HttpException catch (error) {
       var errorMessage = 'Authentication failed';
@@ -193,25 +160,15 @@ class _EmployerAuthState extends State<EmployerAuth> {
       } else if (error.toString().contains('Incorrect password')) {
         errorMessage = 'Invalid password.';
       }
-      _showErrorDialog(errorMessage);
+      showErrorDialog(context, errorMessage);
 
       setState(() {
         _isLoading = false;
       });
     } catch (error) {
-      // print(authData['firstName'].toString() +
-      //     authData['lastName'].toString() +
-      //     authData['companyName'].toString() +
-      //     authData['email'].toString() +
-      //     authData['password'].toString() +
-      //     authData['confirmPassword'].toString() +
-      //     authData['phone'].toString() +
-      //     authData['countyCode'].toString());
-      print(error);
       const errorMessage =
           'Could not authenticate you. Please try again later.';
-      _showErrorDialog(errorMessage);
-      //######## resently added this #############################################################
+      showErrorDialog(context, errorMessage);
 
       setState(() {
         _isLoading = false;
@@ -269,7 +226,7 @@ class _EmployerAuthState extends State<EmployerAuth> {
                     decoration:
                         const InputDecoration(labelText: 'Company name'),
                     validator: (value) {
-                      if (value!.isEmpty) {
+                      if (value!.isEmpty || value.length < 2) {
                         return 'Invalid name!';
                       }
                     },
@@ -294,7 +251,8 @@ class _EmployerAuthState extends State<EmployerAuth> {
                   obscureText: true,
                   controller: _passwordController,
                   validator: (value) {
-                    if (value!.isEmpty || value.length < 9) {
+                    if (_authMode == AuthMode.signup &&
+                        (value!.isEmpty || value.length < 9)) {
                       return 'Password is too short!';
                     }
                   },
@@ -307,7 +265,6 @@ class _EmployerAuthState extends State<EmployerAuth> {
                     decoration:
                         const InputDecoration(labelText: 'Confirm password'),
                     obscureText: true,
-                    // controller: _passwordController,
                     validator: (value) {
                       if (value!.isEmpty || value != _passwordController.text) {
                         return 'Not matching!';
@@ -325,34 +282,16 @@ class _EmployerAuthState extends State<EmployerAuth> {
                     children: [
                       CountryPickerDropdown(
                         initialValue: 'EG',
-                        //itemBuilder: _buildDropdownItem,
-
                         onValuePicked: (Country country) {
                           authData['countryCode'] =
                               '+' + country.phoneCode.toString();
-
-                          //print("${country.phoneCode}");
-                          //print(country.phoneCode);
                         },
                       ),
-                      // Expanded(
-                      //   child: TextFormField(
-                      //     decoration:
-                      //         const InputDecoration(labelText: 'country code'),
-                      //     //keyboardType: TextInputType.phone,
-                      //     // controller: _passwordController,
-
-                      //     onSaved: (value) {
-                      //       authData['countryCode'] = value.toString();
-                      //     },
-                      //   ),
-                      // ),
                       Expanded(
                         child: TextFormField(
                           decoration:
                               const InputDecoration(labelText: 'Phone number'),
                           keyboardType: TextInputType.phone,
-                          // controller: _passwordController,
                           validator: (value) {
                             if (value!.isEmpty || value.length != 11) {
                               return 'invalid phone number!';
@@ -377,14 +316,11 @@ class _EmployerAuthState extends State<EmployerAuth> {
                       style: const TextStyle(color: Colors.white),
                     ),
                     onPressed: _submit,
-                    // Navigator.of(context).pushNamed(EmployerScreen.routeName);
-
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
                     color: Theme.of(context).primaryColor,
                   ),
-
                 RichText(
                   text: TextSpan(
                     text: _authMode == AuthMode.signup
@@ -404,11 +340,6 @@ class _EmployerAuthState extends State<EmployerAuth> {
                     ],
                   ),
                 ),
-                // FlatButton(
-                //     child: Text('position screen'),
-                //     onPressed: () {
-                //       Navigator.of(context).pushNamed(PositionScreen.routeName);
-                //     })
               ],
             ),
           ),

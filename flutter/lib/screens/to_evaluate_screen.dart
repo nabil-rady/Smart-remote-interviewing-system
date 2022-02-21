@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/interview_provider.dart';
-import '../widgets/drawer.dart';
 import '../widgets/applicant_card.dart';
 
 class ToEvaluateScreen extends StatelessWidget {

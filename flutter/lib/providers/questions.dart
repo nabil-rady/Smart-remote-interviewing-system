@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import '../models/question.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 
 class Questions with ChangeNotifier {
   List<Question> _items = [];
@@ -25,23 +23,19 @@ class Questions with ChangeNotifier {
       "timeToAnswer": newquestion.answerTime,
       "keywords": newquestion.keywordsList,
     });
-    // _items.forEach((element) {
-    //   print(element.titleQuestion);
-    // });
     notifyListeners();
   }
 
   void deleteForm(String id) {
     _items.removeWhere((element) => element.id == id);
     _itemsMap.removeWhere((element) => element['questionId'] == id);
-    //_items.remove(id);
-    _items.forEach((element) {
-      print('yaraaaaab ' + element.titleQuestion);
-    });
+    // _items.forEach((element) {
+    //   print('yaraaaaab ' + element.titleQuestion);
+    // });
     notifyListeners();
   }
 
-/////////list of  MAPs of questions
+  /////////list of  MAPs of questions
   List<Map<String, dynamic>> _itemsMap = [];
   List<Map<String, dynamic>> get itemsMap {
     return [..._itemsMap];
