@@ -27,15 +27,15 @@ class QuestionInfoItem extends StatelessWidget {
           direction: DismissDirection.endToStart,
           key: UniqueKey(),
           background: Container(
-            color: Theme.of(context).errorColor,
-            child: Icon(
-              Icons.delete,
-              color: Colors.white,
-              size: 40,
-            ),
-            alignment: Alignment.centerRight,
-            padding: EdgeInsets.only(right: 20),
-          ),
+              color: Theme.of(context).errorColor,
+              child: Icon(
+                Icons.delete,
+                color: Colors.white,
+                size: 40,
+              ),
+              alignment: Alignment.centerRight,
+              padding: EdgeInsets.only(right: 20),
+              margin: EdgeInsets.all(8)),
           child: Card(
             elevation: 5,
             shape: RoundedRectangleBorder(

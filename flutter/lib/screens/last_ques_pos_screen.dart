@@ -36,6 +36,26 @@ class _LastQuestionScreenState extends State<LastQuestionScreen> {
     showModalBottomSheet(context: ctx, builder: (bctx) => QuestionForm());
   }
 
+  void _showDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: new Text("Error !"),
+          content: new Text("Please add at least one question!"),
+          actions: <Widget>[
+            new FlatButton(
+              child: new Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   void didChangeDependencies() {
     if (myflag) {
@@ -94,28 +114,32 @@ class _LastQuestionScreenState extends State<LastQuestionScreen> {
               //           'questions': questions.toString()
               //         }))
               //     .then((value) {
-              setState(() {
-                _isLoading = true;
-              });
-              singlePosition = Position(
-                  id: id,
-                  position: positionName,
-                  questions: questions,
-                  /////new //////
-                  qustionsMapList: questionData.itemsMap,
-                  /////////////////////
-                  expireyDate: expieryDate);
 
-              await Provider.of<Positions>(context, listen: false)
-                  .addPosition(singlePosition);
-              setState(() {
-                _isLoading = false;
-              });
+              if (questions.length != 0) {
+                setState(() {
+                  _isLoading = true;
+                });
+                singlePosition = Position(
+                    id: id,
+                    position: positionName,
+                    questions: questions,
+                    /////new //////
+                    qustionsMapList: questionData.itemsMap,
+                    /////////////////////
+                    expireyDate: expieryDate);
 
-              print(questionData.itemsMap);
+                await Provider.of<Positions>(context, listen: false)
+                    .addPosition(singlePosition);
+                setState(() {
+                  _isLoading = false;
+                });
 
-              Navigator.of(context)
-                  .pushReplacementNamed(PositionScreen.routeName);
+                print(questionData.itemsMap);
+                Navigator.of(context)
+                    .pushReplacementNamed(PositionScreen.routeName);
+              } else {
+                _showDialog(context);
+              }
 
               // });
               // print({

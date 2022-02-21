@@ -134,6 +134,7 @@ class _QuestionFormState extends State<QuestionForm> {
             color: Theme.of(context).primaryColor,
             onPressed: () {
               _saveForms();
+              print(newquestion.keywordsList);
             },
             child: const Text(
               'Add Question',
