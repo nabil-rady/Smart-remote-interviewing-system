@@ -1,0 +1,42 @@
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
+import 'package:graduation_project/models/positionCandidate.dart';
+import '../models/candidate.dart';
+import 'package:http/http.dart' as http;
+
+class Candidates with ChangeNotifier {
+  final String? authToken;
+  List<Map<String, dynamic>> _candidates = [
+    {
+      'name': 'monica',
+      'email': 'monicazakaria@gmail.com',
+      'phoneCode': '+20',
+      'phoneNumber': '1201668189'
+    }
+  ];
+  Candidates(this.authToken, this._candidates);
+
+  List<Map<String, dynamic>> get candidates {
+    return [..._candidates];
+  }
+
+  void addAplicant(PositionCandidiate member) async {
+    const url = 'https://vividly-api.herokuapp.com/job-listing/invite';
+    try {
+      _candidates.add(member.candidatesMapList);
+
+      final response = await http.post(Uri.parse(url),
+          headers: <String, String>{
+            'Content-Type': 'application/json',
+            'Authorization': authToken.toString(),
+          },
+          body: json.encode(
+              {'listingId': member.positionId, 'candidates': _candidates}));
+      print(response.body);
+      notifyListeners();
+    } catch (error) {
+      print(error);
+    }
+  }
+}

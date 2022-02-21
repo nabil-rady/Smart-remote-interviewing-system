@@ -77,8 +77,11 @@ class Interviews with ChangeNotifier {
             'phoneNumber': member.phone.toString()
           }));
       _items.add(member);
+      print(response.body);
       notifyListeners();
-    } catch (error) {}
+    } catch (error) {
+      print(error);
+    }
   }
 
   Interview findById(String id) {

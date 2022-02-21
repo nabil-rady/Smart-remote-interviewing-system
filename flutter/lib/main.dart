@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:graduation_project/providers/candidate_provider.dart';
 import 'package:provider/provider.dart';
 
 import './screens/after_positions_screen.dart';
@@ -54,10 +55,10 @@ class MyApp extends StatelessWidget {
               getUserToken(), previositems == null ? [] : previositems.items),
         ),
 
-        ChangeNotifierProxyProvider<Auth, Interviews>(
-          create: (ctx) => Interviews('', []),
-          update: (ctx, auth, previosPositions) => Interviews(getUserToken(),
-              previosPositions == null ? [] : previosPositions.items),
+        ChangeNotifierProxyProvider<Auth, Candidates>(
+          create: (ctx) => Candidates('', []),
+          update: (ctx, auth, previosPositions) => Candidates(getUserToken(),
+              previosPositions == null ? [] : previosPositions.candidates),
         ),
 
         ChangeNotifierProxyProvider<Auth, DashboardPositions>(

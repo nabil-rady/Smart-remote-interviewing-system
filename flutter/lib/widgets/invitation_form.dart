@@ -1,8 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:country_pickers/country.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:graduation_project/models/candidate.dart';
+import 'package:graduation_project/models/positionCandidate.dart';
+import 'package:graduation_project/providers/candidate_provider.dart';
 import 'package:provider/provider.dart';
 import '../models/interview_model.dart';
 import '../providers/interview_provider.dart';
@@ -23,8 +27,9 @@ class InvitationForm extends StatefulWidget {
   // final String email;
   // final String phoneNumber;
   // final String positionName;
+  final String positionId;
 
-  // InvitationForm(this.positionName);
+  InvitationForm(this.positionId);
 
   @override
   State<InvitationForm> createState() => _InvitationFormState();
@@ -39,20 +44,30 @@ class _InvitationFormState extends State<InvitationForm> {
   String? _extension = "csv";
   FileType _pickingType = FileType.custom;
 
-  var candidate = Interview(
-      name: '',
-      email: '',
-      phone: '',
-      phoneCode: '',
-      id: DateTime.now().toString(),
-      date: DateTime.now(),
-      rate: 0,
-      videoAnswers: [],
-      isRated: false,
-      positionName: '');
+  Map<String, dynamic> candidate = {
+    'name': '',
+    'email': '',
+    'phoneCode': '',
+    'phoneNumber': ''
+  };
+  // var candidate = Candidate(
+  //   name: '',
+  //   email: '',
+  //   phoneNumber: '',
+  //   phoneCode: '',
+  //   id: DateTime.now().toString(),
 
+  // date: DateTime.now(),
+  // rate: 0,
+  // videoAnswers: [],
+  // isRated: false,
+  // positionName: ''
+  // );
+  var posCandidate = PositionCandidiate(positionId: '', candidatesMapList: {});
   @override
   void initState() {
+    posCandidate = PositionCandidiate(
+        positionId: widget.positionId, candidatesMapList: {});
     // TODO: implement initState
     super.initState();
     employeeData = List<List<dynamic>>.empty(growable: true);
@@ -115,71 +130,89 @@ class _InvitationFormState extends State<InvitationForm> {
         return;
       }
       _form.currentState!.save();
-      Provider.of<Interviews>(context, listen: false).addAplicant(candidate);
+      posCandidate = PositionCandidiate(
+          positionId: posCandidate.positionId, candidatesMapList: candidate);
+      Provider.of<Candidates>(context, listen: false).addAplicant(posCandidate);
     } else {
       // if (!valid) {
       //   return;
       // }
 
-      var candidate = Interview(
-          name: '',
-          email: '',
-          phone: '',
-          phoneCode: '',
-          id: DateTime.now().toString(),
-          date: DateTime.now(),
-          rate: 0,
-          videoAnswers: [],
-          isRated: false,
-          positionName: '');
+      // var candidate = Candidate(
+      //   name: '',
+      //   email: '',
+      //   phoneNumber: '',
+      //   phoneCode: '',
+      //   id: DateTime.now().toString(),
+
+      // date: DateTime.now(),
+      // rate: 0,
+      // videoAnswers: [],
+      // isRated: false,
+      // positionName: ''
+      //);
+
       print('2222222222222');
       employeeData.forEach((element) {
-        candidate = Interview(
-            name: element[0].toString(),
-            email: candidate.email,
-            phone: candidate.phone,
-            date: candidate.date,
-            phoneCode: candidate.phoneCode,
-            id: candidate.id,
-            rate: candidate.rate,
-            videoAnswers: candidate.videoAnswers,
-            isRated: candidate.isRated,
-            positionName: candidate.positionName);
-        candidate = Interview(
-            name: candidate.name,
-            email: element[1].toString(),
-            phone: candidate.phone,
-            phoneCode: candidate.phoneCode,
-            date: candidate.date,
-            id: candidate.id,
-            rate: candidate.rate,
-            videoAnswers: candidate.videoAnswers,
-            isRated: candidate.isRated,
-            positionName: candidate.positionName);
-        candidate = Interview(
-            name: candidate.name,
-            email: candidate.email,
-            phone: candidate.phone,
-            phoneCode: element[2].toString(),
-            date: candidate.date,
-            id: candidate.id,
-            rate: candidate.rate,
-            videoAnswers: candidate.videoAnswers,
-            isRated: candidate.isRated,
-            positionName: candidate.positionName);
-        candidate = Interview(
-            name: candidate.name,
-            email: candidate.email,
-            phone: element[3].toString(),
-            phoneCode: candidate.phoneCode,
-            date: candidate.date,
-            id: candidate.id,
-            rate: candidate.rate,
-            videoAnswers: candidate.videoAnswers,
-            isRated: candidate.isRated,
-            positionName: candidate.positionName);
-        Provider.of<Interviews>(context, listen: false).addAplicant(candidate);
-        print(candidate.name);
+        // candidate = Candidate(
+        //   name: element[0].toString(),
+        //   email: element[1].toString(),
+        //   phoneNumber: element[3].toString(),
+        //   //  date: candidate.date,
+        //   phoneCode: element[2].toString(),
+        //   id: candidate.id,
+        // );
+
+        candidate = {
+          'name': element[0].toString(),
+          'email': element[1].toString(),
+          'phoneNumber': element[3].toString(),
+          'phoneCode': element[2].toString(),
+        };
+
+        // rate: candidate.rate,
+        // videoAnswers: candidate.videoAnswers,
+        // isRated: candidate.isRated,
+        // positionName: candidate.positionName
+
+        // candidate = Interview(
+        //     name: candidate.name,
+        //     email: element[1].toString(),
+        //     phone: candidate.phone,
+        //     phoneCode: candidate.phoneCode,
+        //     date: candidate.date,
+        //     id: candidate.id,
+        //     rate: candidate.rate,
+        //     videoAnswers: candidate.videoAnswers,
+        //     isRated: candidate.isRated,
+        //     positionName: candidate.positionName);
+        // candidate = Interview(
+        //     name: candidate.name,
+        //     email: candidate.email,
+        //     phone: candidate.phone,
+        //     phoneCode: element[2].toString(),
+        //     date: candidate.date,
+        //     id: candidate.id,
+        //     rate: candidate.rate,
+        //     videoAnswers: candidate.videoAnswers,
+        //     isRated: candidate.isRated,
+        //     positionName: candidate.positionName);
+        // candidate = Interview(
+        //     name: candidate.name,
+        //     email: candidate.email,
+        //     phone: element[3].toString(),
+        //     phoneCode: candidate.phoneCode,
+        //     date: candidate.date,
+        //     id: candidate.id,
+        //     rate: candidate.rate,
+        //     videoAnswers: candidate.videoAnswers,
+        //     isRated: candidate.isRated,
+        //     positionName: candidate.positionName);
+        var posCandidate = PositionCandidiate(
+            positionId: widget.positionId, candidatesMapList: candidate);
+        Provider.of<Candidates>(context, listen: false)
+            .addAplicant(posCandidate);
+        // print(candidate.name);
       });
       // _form.currentState!.save();
       // Provider.of<Interviews>(context, listen: false).addAplicant(candidate);
@@ -209,17 +242,17 @@ class _InvitationFormState extends State<InvitationForm> {
                     decoration: InputDecoration(labelText: 'Full-Name'),
                     textInputAction: TextInputAction.next,
                     onSaved: (value) {
-                      candidate = Interview(
-                          name: value.toString(),
-                          email: candidate.email,
-                          phone: candidate.phone,
-                          phoneCode: candidate.phoneCode,
-                          date: candidate.date,
-                          id: candidate.id,
-                          rate: candidate.rate,
-                          videoAnswers: candidate.videoAnswers,
-                          isRated: candidate.isRated,
-                          positionName: candidate.positionName);
+                      candidate['name'] = value.toString();
+
+                      // date: candidate.date,
+                      //s  };
+                      print(candidate['name']);
+                      // id: candidate.id,
+                      // rate: candidate.rate,
+                      // videoAnswers: candidate.videoAnswers,
+                      // isRated: candidate.isRated,
+                      // positionName: candidate.positionName
+                      //);
                     },
                     validator: (value) {
                       if (value!.isEmpty) {
@@ -232,17 +265,23 @@ class _InvitationFormState extends State<InvitationForm> {
                     decoration: InputDecoration(labelText: 'email'),
                     textInputAction: TextInputAction.next,
                     onSaved: (value) {
-                      candidate = Interview(
-                          name: candidate.name,
-                          email: value.toString(),
-                          phone: candidate.phone,
-                          phoneCode: candidate.phoneCode,
-                          date: candidate.date,
-                          id: candidate.id,
-                          rate: candidate.rate,
-                          videoAnswers: candidate.videoAnswers,
-                          isRated: candidate.isRated,
-                          positionName: candidate.positionName);
+                      // candidate = Candidate(
+                      //   name: candidate.name,
+                      //   email: value.toString(),
+                      //   phoneNumber: candidate.phoneNumber,
+                      //   phoneCode: candidate.phoneCode,
+                      //   // date: candidate.date,
+                      //   id: candidate.id,
+                      //   // rate: candidate.rate,
+                      //   // videoAnswers: candidate.videoAnswers,
+                      //   // isRated: candidate.isRated,
+                      //   // positionName: candidate.positionName
+                      // );
+                      candidate['email'] = value.toString();
+
+                      // date: candidate.date,
+                      //   };
+                      print(candidate['email']);
                     },
                     validator: (value) {
                       if (value!.isEmpty) {
@@ -267,18 +306,27 @@ class _InvitationFormState extends State<InvitationForm> {
                     alignment: Alignment.centerLeft,
                     child: CountryPickerDropdown(
                       initialValue: 'EG',
-                      onValuePicked: (value) {
-                        candidate = Interview(
-                            name: candidate.name,
-                            email: candidate.email,
-                            phone: candidate.phone,
-                            phoneCode: '+' + value.phoneCode.toString(),
-                            date: candidate.date,
-                            id: candidate.id,
-                            rate: candidate.rate,
-                            videoAnswers: candidate.videoAnswers,
-                            isRated: candidate.isRated,
-                            positionName: candidate.positionName);
+                      onValuePicked: (Country country) {
+                        // candidate = Candidate(
+                        //   name: candidate.name,
+                        //   email: candidate.email,
+                        //   phoneNumber: candidate.phoneNumber,
+                        //   phoneCode: '+' + value.phoneCode.toString(),
+                        //   // date: candidate.date,
+                        //   id: candidate.id,
+                        //   // rate: candidate.rate,
+                        //   // videoAnswers: candidate.videoAnswers,
+                        //   // isRated: candidate.isRated,
+                        //   // positionName: candidate.positionName
+                        // );
+                        candidate['phoneCode'] = '+' + country.phoneCode;
+                        // candidate = {
+                        //   'name': candidate['name'],
+                        //   'email': candidate['email'],
+                        //   'phoneCode': ' + ${value.phoneCode.toString()}',
+
+                        // date: candidate.date,
+                        // };
                       },
                     ),
                   ),
@@ -287,17 +335,20 @@ class _InvitationFormState extends State<InvitationForm> {
                     decoration: InputDecoration(labelText: 'Phone number '),
                     textInputAction: TextInputAction.done,
                     onSaved: (value) {
-                      candidate = Interview(
-                          name: candidate.name,
-                          email: candidate.email,
-                          phone: value.toString(),
-                          phoneCode: candidate.phoneCode,
-                          date: candidate.date,
-                          id: candidate.id,
-                          rate: candidate.rate,
-                          videoAnswers: candidate.videoAnswers,
-                          isRated: candidate.isRated,
-                          positionName: candidate.positionName);
+                      // candidate = Candidate(
+                      //   name: candidate.name,
+                      //   email: candidate.email,
+                      //   phoneNumber: value.toString(),
+                      //   phoneCode: candidate.phoneCode,
+                      //   // date: candidate.date,
+                      //   id: candidate.id,
+                      //   // rate: candidate.rate,
+                      //   // videoAnswers: candidate.videoAnswers,
+                      //   // isRated: candidate.isRated,
+                      //   // positionName: candidate.positionName
+                      // );
+                      candidate['phoneNumber'] = value.toString();
+                      print(candidate['phoneNumber']);
                     },
                     validator: (value) {
                       if (value!.isEmpty) {
@@ -326,7 +377,9 @@ class _InvitationFormState extends State<InvitationForm> {
                     flag = false;
                   });
                   _saveForms(context, flag);
-                  print("my flag : ${flag}");
+                  print(posCandidate.positionId);
+                  print(posCandidate.candidatesMapList);
+                  // print("my flag : ${flag}");
                 },
                 child: const Text(
                   'Invite Candidate',
