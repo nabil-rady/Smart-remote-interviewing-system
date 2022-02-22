@@ -31,13 +31,13 @@ import im23 from '../solidBG/23.jpg';
 import im24 from '../solidBG/24.jpg';
 import im25 from '../solidBG/25.jpg';
 import im26 from '../solidBG/26.jpg';
-// import im27 from '../solidBG/27.jpg';
-// import im28 from '../solidBG/28.jpg';
-// import im29 from '../solidBG/29.jpg';
-// import im30 from '../solidBG/30.jpg';
-// import im31 from '../solidBG/31.jpg';
+import im27 from '../solidBG/27.jpg';
+import im28 from '../solidBG/28.jpg';
+import im29 from '../solidBG/29.jpg';
+import im30 from '../solidBG/30.jpg';
+import im31 from '../solidBG/31.jpg';
 function ListingPage() {
-  const [positions, getPositions] = useState();
+  // const [positions, getPositions] = useState();
   let backgrounds = [
     im1,
     im2,
@@ -71,43 +71,43 @@ function ListingPage() {
     // im30,
     // im31,
   ];
-  const fetchPost = () => {
-    fetch(`${APIURL}/job-listing/get-listings`)
-      .then((res) => res.json())
-      .then((res) => {
-        console.log(res);
-        getPositions(res);
-      });
-  };
-  useEffect(() => {
-    fetchPost();
-  }, []);
-  // let positions = [
-  //   {
-  //     positionName: 'Softwarqweeqwqwweqwqeweqwqeewqewqewwqeewqweqe',
-  //     expiryDate: '2022-11-7',
-  //     invitationsNumber: 5,
-  //     interviewsNumber: 4,
-  //   },
-  //   {
-  //     positionName: 'Hardware',
-  //     expiryDate: '2021-11-7',
-  //     invitationsNumber: 5,
-  //     interviewsNumber: 4,
-  //   },
-  //   {
-  //     positionName: 'AI',
-  //     expiryDate: '2021-11-7',
-  //     invitationsNumber: 5,
-  //     interviewsNumber: 4,
-  //   },
-  //   {
-  //     positionName: 'Digital Design',
-  //     expiryDate: '2021-11-7',
-  //     invitationsNumber: 5,
-  //     interviewsNumber: 4,
-  //   },
-  // ];
+  // const fetchPost = () => {
+  //   fetch(`${APIURL}/job-listing/get-listings`)
+  //     .then((res) => res.json())
+  //     .then((res) => {
+  //       console.log(res);
+  //       getPositions(res);
+  //     });
+  // };
+  // useEffect(() => {
+  //   fetchPost();
+  // }, []);
+  let positions = [
+    {
+      positionName: 'Softwarqweeqwqwweqwqeweqwqeewqewqewwqeewqweqe',
+      expiryDate: '2022-11-7',
+      invitationsNumber: 5,
+      interviewsNumber: 4,
+    },
+    {
+      positionName: 'Hardware',
+      expiryDate: '2021-11-7',
+      invitationsNumber: 5,
+      interviewsNumber: 4,
+    },
+    {
+      positionName: 'AI',
+      expiryDate: '2021-11-7',
+      invitationsNumber: 5,
+      interviewsNumber: 4,
+    },
+    {
+      positionName: 'Digital Design',
+      expiryDate: '2021-11-7',
+      invitationsNumber: 5,
+      interviewsNumber: 4,
+    },
+  ];
   return (
     <>
       <div classpositionName="positions">

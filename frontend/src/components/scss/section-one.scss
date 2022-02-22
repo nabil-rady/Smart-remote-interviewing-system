@@ -4,8 +4,9 @@
   height: 500px;
   position: relative;
   display: flex;
+  background-color: $primary_blue;
   color: white;
-  margin-top: 9rem;
+  padding-top: 9rem;
   &__content {
     text-align: center;
     margin: 0 auto;

@@ -4,11 +4,12 @@
   font-family: 'Roboto', sans-serif;
   box-sizing: border-box;
 }
-
 body {
   background: #edf1f5;
 }
-
+ul {
+  padding-left: 0;
+}
 .flex {
   display: flex !important;
 }
@@ -17,7 +18,6 @@ a {
   text-decoration: none;
   color: inherit;
 }
-
 @media only screen and (max-width: 670px) {
   .flex {
     flex-direction: column !important;
@@ -28,7 +28,9 @@ a {
     margin-top: 6rem !important;
   }
 }
-
+.Logo:hover {
+  color: white;
+}
 .resize-animation-stopper * {
   animation: none !important;
   transition: none !important;

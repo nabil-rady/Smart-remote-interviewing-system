@@ -20,12 +20,13 @@ const NavBar = (props) => {
   };
 
   return (
-    <header className="header">
+    <header className="Navheader">
       <MobileBurgerButtons handleClick={handleClick} />
       <NavBarSideMenu />
       <div className="header__logo">
         <Link
           to="/"
+          className="Logo"
           style={{ fontFamily: 'Baskerville Old Face', fontSize: 'x-large' }}
         >
           Vividly
