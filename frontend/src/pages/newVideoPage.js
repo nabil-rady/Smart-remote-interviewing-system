@@ -1,6 +1,8 @@
 import React, { useRef, useState, useCallback, useEffect } from 'react';
+import { useMediaQuery } from '@react-hook/media-query';
 import useCountDown from 'react-countdown-hook';
 import Webcam from 'react-webcam';
+import useDimensions from 'react-cool-dimensions';
 import Card from '../components/Card';
 import NavBar from '../components/NavBar';
 import Timer from '../utils/timer';
@@ -30,9 +32,9 @@ const WebcamStreamCapture = () => {
 
   const interval = 1000;
 
-  const webcamRef = useRef(null);
-  const mediaRecorderRef = useRef(null);
-  const timer = useRef(null);
+  const webcamRef = useRef();
+  const mediaRecorderRef = useRef();
+  const timer = useRef();
   const [recordedChunks, setRecordedChunks] = useState([]);
   const [start, setStart] = useState(true);
   const [next, setNext] = useState(false);
@@ -40,6 +42,8 @@ const WebcamStreamCapture = () => {
   const [visible, setVisibility] = useState('hidden');
   const [counter, setCounter] = useState(0);
   const [readTimerVisibility, setReadTimer] = useState('visible');
+  const { observe, width: videoWidth, height: videoHeight } = useDimensions();
+  const smallScreen = useMediaQuery('only screen and (max-width: 900px)');
 
   const sendFrames = async () => {
     i++;
@@ -77,16 +81,6 @@ const WebcamStreamCapture = () => {
     }
   }, [webSocket]);
 
-  // returns a frame encoded in base64
-  // const getFrame = () => {
-  //   const canvas = document.createElement('canvas');
-  //   canvas.width = video.videoWidth;
-  //   canvas.height = video.videoHeight;
-  //   canvas.getContext('2d').drawImage(video, 0, 0);
-  //   const data = canvas.toDataURL('image/png');
-  //   return data;
-  // }
-
   const renderReadTime = (time) => {
     let secTime, minTime;
     if (time === 0) {
@@ -120,13 +114,6 @@ const WebcamStreamCapture = () => {
     setTimeout(() => {
       handleStartCaptureClick();
       console.log('Start recording (setTimeout)');
-      // setInterval(async function() {
-      //   const imageSrc = webcamRef.current.getScreenshot();
-      //   const blob = await fetch(imageSrc).then((res) => res.blob());
-      //   i++;
-      //   console.log(blob, i);
-      //   webSocket.current.send(blob);
-      // }, 1000/24);
     }, Questions[counter].readTime * 1000);
 
     recordTimeout.current = setTimeout(() => {
@@ -214,29 +201,36 @@ const WebcamStreamCapture = () => {
     setVisibility('hidden');
     setStop(false);
   };
-  // let millisTillNexthour = "Calculate millis remaining until next hour"
 
-  // setTimeout(function() {
-  //   setInterval(async function() {
-  //     const imageSrc = webcamRef.current.getScreenshot();
-  //     const blob = await fetch(imageSrc).then((res) => res.blob());
-  //     i++;
-  //     console.log(blob, i);
-  //     webSocket.current.send(blob);
-  //   }, 1000/24);
-  // }, millisTillNexthour);
+  const faceWidth = videoWidth * 0.4 < 150 ? '150px' : `${videoWidth * 0.4}px`;
+  const leftMargin = !smallScreen ? '3rem' : '';
+
   return (
     <>
       <NavBar />
       <div className="interview-page">
+        <div
+          className="face"
+          style={{
+            width: faceWidth,
+            height: faceWidth,
+            left: `calc(${leftMargin} + ${
+              videoWidth / 2 -
+              parseFloat(faceWidth.slice(0, faceWidth.length - 2)) / 2
+            }px)`,
+            top: '35px',
+          }}
+        ></div>
         <Webcam
           audio={true}
-          ref={webcamRef}
+          ref={(el) => {
+            observe(el?.video);
+            webcamRef.current = el;
+          }}
           muted={true}
           screenshotFormat="image/png"
           className="video"
         />
-
         <div className="questionspart">
           <div style={{ visibility: visible }}>
             <Card className="questions">

@@ -4,6 +4,7 @@
 .interview-page {
   display: flex;
   margin-top: 4%;
+  position: relative;
 }
 
 .buttons {
@@ -12,7 +13,7 @@
   height: 40px;
   justify-content: center;
   align-items: center;
-  margin-top: 7rem;
+  margin-top: 2rem;
   margin-bottom: 2rem;
   border: none;
   border-radius: 20px;
@@ -73,7 +74,7 @@
   width: 100px;
   padding: 10px;
   margin-left: calc(45% - 50px);
-  margin-top: 1.5rem;
+  margin-top: 0.5rem;
 }
 
 .questions {
@@ -89,4 +90,37 @@
 
 .questionspart {
   flex-grow: 1;
+}
+
+.face {
+  border: 2px solid red;
+  position: absolute;
+}
+
+@media screen and (max-width: 900px) {
+  .interview-page {
+    width: 90%;
+    display: block;
+    margin: 3rem auto;
+  }
+
+  .video {
+    width: 100%;
+    margin: 0;
+  }
+
+  .questions {
+    margin: 0 auto;
+    margin-top: 1.5rem;
+  }
+
+  .readCard {
+    margin: 0 auto;
+  }
+
+  .buttons {
+    margin-top: 2rem;
+    margin-left: calc(50% - 75px);
+    margin-bottom: 0.5rem;
+  }
 }
