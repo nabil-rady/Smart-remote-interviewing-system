@@ -1,35 +1,36 @@
-html {
-  font-size: 14px;
-  scroll-behavior: smooth;
-}
-html {
-  scroll-behavior: smooth;
-}
-/* width */
-html::-webkit-scrollbar {
-  width: 15px;
-}
+// html {
+//   font-size: 14px;
+//   scroll-behavior: smooth;
+// }
+// html {
+//   scroll-behavior: smooth;
+// }
+// /* width */
+// html::-webkit-scrollbar {
+//   width: 15px;
+// }
 
-/* Track */
-html::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px grey;
-  border-radius: 8px;
-}
+// /* Track */
+// html::-webkit-scrollbar-track {
+//   box-shadow: inset 0 0 5px grey;
+//   border-radius: 8px;
+// }
 
-/* Handle */
-html::-webkit-scrollbar-thumb {
-  background: #146da0;
-  border-radius: 8px;
-}
+// /* Handle */
+// html::-webkit-scrollbar-thumb {
+//   background: #146da0;
+//   border-radius: 8px;
+// }
 
-/* Handle on hover  */
-html::-webkit-scrollbar-thumb:hover {
-  background: #1a6591;
-}
+// /* Handle on hover  */
+// html::-webkit-scrollbar-thumb:hover {
+//   background: #1a6591;
+// }
 
-body {
-  color: #363636 !important;
-}
+// body {
+//   color: #363636 !important;
+//   background: white;
+// }
 
 a:hover {
   text-decoration: none;
@@ -346,6 +347,7 @@ section {
 section.main_sec {
   overflow: hidden;
   padding-top: 8.875rem;
+  background-color: white;
 }
 
 /*Globle Shape*/
@@ -1810,10 +1812,6 @@ form.login_form,
 /*Large devices (desktops, 992px and up)*/
 
 @media (min-width: 992px) {
-  html {
-    font-size: 14px;
-  }
-
   .home_screen_section .model {
     width: 20.25rem;
     height: auto;
@@ -1848,17 +1846,17 @@ form.login_form,
 }
 /*Extra large devices (large desktops, 1200px and up)*/
 
-@media (max-width: 1200px) {
-  html {
-    font-size: 14px;
-  }
-}
+// @media (max-width: 1200px) {
+//   html {
+//     font-size: 14px;
+//   }
+// }
 
-@media (min-width: 1600px) {
-  html {
-    font-size: 16px;
-  }
-}
+// @media (min-width: 1600px) {
+//   html {
+//     font-size: 16px;
+//   }
+// }
 
 @media (max-width: 1800px) {
   .navbar-expand-lg .navbar-nav .nav-link {
@@ -1867,9 +1865,9 @@ form.login_form,
 }
 
 @media (max-width: 1600px) {
-  html {
-    font-size: 14px;
-  }
+  // html {
+  //   font-size: 14px;
+  // }
   .navbar-expand-lg .navbar-nav .nav-link {
     padding: 0.5rem 1rem;
   }

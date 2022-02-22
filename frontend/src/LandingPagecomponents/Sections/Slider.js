@@ -10,7 +10,7 @@ const Sliders = () => {
     slidesToScroll: 1,
     adaptiveHeight: true,
     autoplay: true,
-    speed: 1000,
+    speed: 2000,
     autoplaySpeed: 1000,
   };
   return (

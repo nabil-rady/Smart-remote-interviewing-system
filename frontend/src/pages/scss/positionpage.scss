@@ -1,6 +1,8 @@
 @import '../../sassConfig/colors';
 @import '../../sassConfig/transition';
-
+body {
+  background-color: #edf1f5;
+}
 .pName {
   text-align: center;
   color: $primary-blue;

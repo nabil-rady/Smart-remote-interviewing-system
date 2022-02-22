@@ -26,6 +26,7 @@ const NavBar = (props) => {
       <div className="header__logo">
         <Link
           to="/"
+          className="Logo"
           style={{ fontFamily: 'Baskerville Old Face', fontSize: 'x-large' }}
         >
           Vividly

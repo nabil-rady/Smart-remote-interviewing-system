@@ -1,12 +1,9 @@
 import React from 'react';
-import LandingpageNavbar from './LandingpageNavbar';
-import NavBar from './NavBar';
 import './scss/section-one.scss';
 
 function SectionOne() {
   return (
     <>
-      <LandingpageNavbar />
       <section className="section-1">
         <div className="section-1__content">
           <h1 className="section-1__content__title">Some Title</h1>

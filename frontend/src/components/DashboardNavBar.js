@@ -22,7 +22,9 @@ const DashboardNavBar = (props) => {
       <MobileBurgerButtons handleClick={handleClick} />
       <NavBarSideMenu />
       <div className="header__logo">
-        <Link to="/">Vividly</Link>
+        <Link to="/" className="header__logo">
+          Vividly
+        </Link>
       </div>
       <nav className="header__navbar">
         <ul className={`header__navbar__ul dashboard-menu`}>

@@ -13,6 +13,9 @@
     font-size: 1.3rem;
     color: white;
     font-weight: 700;
+    &:hover {
+      color: white;
+    }
   }
   &__navbar {
     width: 100%;
@@ -173,9 +176,15 @@
       text-align: center;
       padding-top: 1rem;
       margin: 0 auto;
+      &:hover {
+        color: white;
+      }
     }
     &__navbar {
       display: none !important;
     }
   }
+}
+.Logo:hover {
+  color: white;
 }
