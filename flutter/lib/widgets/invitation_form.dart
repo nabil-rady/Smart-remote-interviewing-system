@@ -137,7 +137,8 @@ class _InvitationFormState extends State<InvitationForm> {
       _form.currentState!.save();
       posCandidate = PositionCandidiate(
           positionId: posCandidate.positionId, candidatesMapList: candidate);
-      Provider.of<Candidates>(context, listen: false).addAplicant(posCandidate);
+      Provider.of<Candidates>(context, listen: false)
+          .addAplicant(posCandidate, false);
     } else {
       // if (!valid) {
       //   return;
@@ -230,7 +231,7 @@ class _InvitationFormState extends State<InvitationForm> {
         var posCandidate = PositionCandidiate(
             positionId: widget.positionId, candidatesMapList: candidate);
         Provider.of<Candidates>(context, listen: false)
-            .addAplicant(posCandidate);
+            .addAplicant(posCandidate, true);
         // print(candidate.name);
       });
       // _form.currentState!.save();

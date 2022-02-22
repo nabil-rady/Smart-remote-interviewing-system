@@ -21,7 +21,7 @@ class Candidates with ChangeNotifier {
     return [..._candidates];
   }
 
-  void addAplicant(PositionCandidiate member) async {
+  void addAplicant(PositionCandidiate member, bool flag) async {
     const url = 'https://vividly-api.herokuapp.com/job-listing/invite';
     try {
       _candidates.add(member.candidatesMapList);
@@ -31,8 +31,19 @@ class Candidates with ChangeNotifier {
             'Content-Type': 'application/json',
             'Authorization': authToken.toString(),
           },
-          body: json.encode(
-              {'listingId': member.positionId, 'candidates': _candidates}));
+          body: json.encode({
+            'listingId': member.positionId,
+            'candidates': flag
+                ? _candidates
+                : [
+                    {
+                      'name': member.candidatesMapList['name'],
+                      'email': member.candidatesMapList['email'],
+                      'phoneCode': member.candidatesMapList['phoneCode'],
+                      'phoneNumber': member.candidatesMapList['phoneNumber']
+                    }
+                  ]
+          }));
       print(response.body);
       notifyListeners();
     } catch (error) {
