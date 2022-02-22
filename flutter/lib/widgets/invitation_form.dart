@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:country_pickers/country.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:graduation_project/models/candidate.dart';
 import 'package:graduation_project/models/positionCandidate.dart';
 import 'package:graduation_project/providers/candidate_provider.dart';
@@ -84,6 +85,10 @@ class _InvitationFormState extends State<InvitationForm> {
     print(fields);
     setState(() {
       employeeData = fields;
+      employeeData.forEach((element) {
+        element.removeWhere((element2) => element2 == '');
+        //list2 = filter(' ', element);
+      });
     });
     _saveForms(context, flag2);
   }
@@ -153,6 +158,14 @@ class _InvitationFormState extends State<InvitationForm> {
       //);
 
       print('2222222222222');
+      // for (int i = 0; i < employeeData.length; i++) {
+      //   employeeData.forEach((element) {
+      //     //list2 = filter(' ', element);
+      //     element.removeWhere((element) => element == ' ');
+      //   });
+      // }
+
+      print(employeeData);
       employeeData.forEach((element) {
         // candidate = Candidate(
         //   name: element[0].toString(),
@@ -162,12 +175,18 @@ class _InvitationFormState extends State<InvitationForm> {
         //   phoneCode: element[2].toString(),
         //   id: candidate.id,
         // );
+        // element.forEach((element2) {
+        //   //list2 = filter(' ', element);
+        //   print(element2);
+        // });
 
+        // element.removeWhere((element) => element == ' ');
+        // name for name in starring if name.strip()
         candidate = {
           'name': element[0].toString(),
           'email': element[1].toString(),
+          'phoneCode': '+ ${element[2].toString()}',
           'phoneNumber': element[3].toString(),
-          'phoneCode': element[2].toString(),
         };
 
         // rate: candidate.rate,
@@ -218,7 +237,7 @@ class _InvitationFormState extends State<InvitationForm> {
       // Provider.of<Interviews>(context, listen: false).addAplicant(candidate);
 
     }
-
+    //print(employeeData);
     // print(ques.titleQuestion);
     // print(ques.answerTime);
   }
@@ -398,7 +417,7 @@ class _InvitationFormState extends State<InvitationForm> {
                   });
                   print("my flag : ${flag}");
                   _openFileExplorer(context, flag);
-
+                  // Navigator.of(context).pop();
                   //  pickFiles();
                 },
                 child: const Text(
