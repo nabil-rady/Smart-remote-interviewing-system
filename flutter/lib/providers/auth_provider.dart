@@ -227,6 +227,32 @@ class Auth with ChangeNotifier {
     }
   }
 
+  Future<void> editPhoneNumber(String phoneCode, String phoneNumber) async {
+    final usertoken = getUserToken().toString();
+    final response = await http.put(
+      Uri.parse('https://vividly-api.herokuapp.com/user/edit'),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': usertoken,
+      },
+      body: jsonEncode(<String, String>{
+        'phoneCode': phoneCode,
+        'phoneNumber': phoneNumber,
+      }),
+    );
+    // print(phoneCode);
+    // print(phoneNumber);
+    print(response.body);
+    final responseData = json.decode(response.body);
+    if (response.statusCode == 200) {
+      final responseData = json.decode(response.body);
+      _employer.countryCode = phoneCode;
+      _employer.phone = phoneNumber;
+    } else {
+      throw HttpException(responseData['message']);
+    }
+  }
+
   Employer get employer {
     return _employer;
   }
