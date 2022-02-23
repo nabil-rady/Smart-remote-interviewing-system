@@ -5,7 +5,7 @@ services:
     build: ./Authentication-service
     volumes:
       - ./Authentication-service:/app
-      - /app/node_modules
+      # - /app/node_modules
     ports:
       - 8000:8080
 
@@ -13,7 +13,7 @@ services:
     build: ./Interviewer-service
     volumes:
       - ./Interviewer-service:/app
-      - /app/node_modules
+      # - /app/node_modules
     ports:
       - 8001:8080
 
@@ -21,6 +21,6 @@ services:
     build: ./Interviewee-service
     volumes:
       - ./Interviewee-service:/app
-      - /app/node_modules
+      # - /app/node_modules
     ports:
       - 8002:8080

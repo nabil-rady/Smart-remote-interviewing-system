@@ -12,6 +12,7 @@ const Video = require('./models/video');
 const Keyword = require('./models/keyword');
 
 // import routes
+const candidateRoutes = require('./routes/candidate');
 
 const app = express();
 
@@ -35,6 +36,7 @@ app.use((req, res, next) => {
 });
 
 // Routes
+app.use('/candidate', candidateRoutes);
 
 // Error handling
 app.use((error, req, res, next) => {

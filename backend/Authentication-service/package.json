@@ -27,5 +27,8 @@
     "uuid": "^8.3.2",
     "websocket": "^1.0.34",
     "ws": "^8.4.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
   }
 }

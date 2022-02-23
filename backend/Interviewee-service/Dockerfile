@@ -1,7 +1,5 @@
 FROM node:lts-alpine3.14
 
-RUN npm install --global nodemon
-
 WORKDIR /app
 
 COPY package*.json ./

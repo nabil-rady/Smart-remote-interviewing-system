@@ -9,6 +9,7 @@
     "dbPassowrd": "nfy3WiNRHeKfMU",
     "sendgridTransportApiKey": "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",
     "vividlyGmail": "vividlyinterviewing@gmail.com",
-    "vividlyGmailPassword": "Vi123456789vidly"
+    "vividlyGmailPassword": "Vi123456789vidly",
+    "rabbitMQ": "amqps://eruaznuc:5M0l6vzd4hZqSbcXPnokAeOtC4Uzk78u@woodpecker.rmq.cloudamqp.com/eruaznuc"
   }
 }
