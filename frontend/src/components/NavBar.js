@@ -8,7 +8,7 @@ import './scss/utility.scss';
 import './scss/navbar.scss';
 import './scss/dashboard-navbar.scss';
 
-const NavBar = (props) => {
+const NavBar = () => {
   const authUser = useContext(UserContext).authUser; // Object or null
   const isLoggedIn = !!authUser;
 

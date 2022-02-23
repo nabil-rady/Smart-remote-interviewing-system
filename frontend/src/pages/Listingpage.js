@@ -1,10 +1,11 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useContext } from 'react';
 import NavBar from '../components/NavBar';
 import PositionCard from '../components/positionCard';
 import SideMenu from '../components/SideMenu';
 import NoNotification from '../components/NoNotification';
 import './scss/listingpage.scss';
 import { APIURL } from '../API/APIConstants';
+import { UserContext } from '../App';
 import im1 from '../solidBG/1.jpg';
 import im2 from '../solidBG/2.jpg';
 import im3 from '../solidBG/3.jpg';
@@ -36,8 +37,10 @@ import im28 from '../solidBG/28.jpg';
 import im29 from '../solidBG/29.jpg';
 import im30 from '../solidBG/30.jpg';
 import im31 from '../solidBG/31.jpg';
+import NotVerified from '../components/NotVerifiedModel';
 function ListingPage() {
   // const [positions, getPositions] = useState();
+  const authUser = useContext(UserContext).authUser;
   let backgrounds = [
     im1,
     im2,
@@ -65,11 +68,11 @@ function ListingPage() {
     im24,
     im25,
     im26,
-    // im27,
-    // im28,
-    // im29,
-    // im30,
-    // im31,
+    im27,
+    im28,
+    im29,
+    im30,
+    im31,
   ];
   // const fetchPost = () => {
   //   fetch(`${APIURL}/job-listing/get-listings`)
@@ -110,9 +113,13 @@ function ListingPage() {
   ];
   return (
     <>
-      <div classpositionName="positions">
-        <PositionCard positions={positions} backgrounds={backgrounds} />
-      </div>
+      {authUser.emailConfirmed ? (
+        <div classpositionName="positions">
+          <PositionCard positions={positions} backgrounds={backgrounds} />
+        </div>
+      ) : (
+        <NotVerified />
+      )}
     </>
   );
 }

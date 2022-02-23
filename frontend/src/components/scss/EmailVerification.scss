@@ -39,11 +39,11 @@
   }
 }
 
-.modal {
+.VerificationModal {
   position: fixed;
   top: 30vh;
-  left: 10%;
-  width: 80%;
+  left: 30%;
+  width: 40%;
   z-index: 100;
   overflow: hidden;
 }
@@ -52,7 +52,6 @@
   color: $primary-blue;
   padding: 1rem;
   text-align: center;
-  font-family: sans-serif;
 }
 .key {
   display: block;

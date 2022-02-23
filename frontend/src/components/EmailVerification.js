@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Card from './Card';
 import './scss/EmailVerification.scss';
 
@@ -6,10 +6,14 @@ const EmailVerification = (props) => {
   const submitHandler = (e) => {
     e.preventDefault();
   };
+  const [code, setCode] = useState();
+  const changeHandler = (e) => {
+    setCode(e.target.value);
+  };
   return (
-    <div>
+    <>
       <div className="backdrop" />
-      <Card className="modal">
+      <Card className="VerificationModal">
         <h2 className="verification-header">Virify Your Account</h2>
         <form onSubmit={submitHandler}>
           <input
@@ -19,6 +23,8 @@ const EmailVerification = (props) => {
             className="key"
             minLength="8"
             maxLength="8"
+            onChange={changeHandler}
+            value={code}
             required
           />
           <button
@@ -31,7 +37,7 @@ const EmailVerification = (props) => {
           <button className="resend">Resend</button>
         </form>
       </Card>
-    </div>
+    </>
   );
 };
 

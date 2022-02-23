@@ -3,6 +3,7 @@ import NavBar from '../components/NavBar';
 import InviteUser from '../components/InviteApplicant';
 import UsersList from '../components/InviteList';
 import SideMenu from '../components/SideMenu';
+import NotVerified from '../components/NotVerifiedModel';
 function InvitationPage() {
   const [usersList, setUsersList] = useState([]);
   const sideMenu = useRef(null);
