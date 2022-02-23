@@ -1,7 +1,6 @@
 import React, { useState, useRef } from 'react';
 // import "bootstrap/dist/css/bootstrap.min.css";
 import './scss/newLanding.scss';
-import Header from '../LandingPagecomponents/Sections/Header';
 import MainSection from '../LandingPagecomponents/MainSection';
 import Footer from '../LandingPagecomponents/Sections/Footer';
 import { Loader } from 'react-loader-spinner';

@@ -32,11 +32,7 @@ import im23 from '../solidBG/23.jpg';
 import im24 from '../solidBG/24.jpg';
 import im25 from '../solidBG/25.jpg';
 import im26 from '../solidBG/26.jpg';
-import im27 from '../solidBG/27.jpg';
-import im28 from '../solidBG/28.jpg';
-import im29 from '../solidBG/29.jpg';
-import im30 from '../solidBG/30.jpg';
-import im31 from '../solidBG/31.jpg';
+
 import NotVerified from '../components/NotVerifiedModel';
 function ListingPage() {
   // const [positions, getPositions] = useState();
@@ -68,11 +64,6 @@ function ListingPage() {
     im24,
     im25,
     im26,
-    im27,
-    im28,
-    im29,
-    im30,
-    im31,
   ];
   // const fetchPost = () => {
   //   fetch(`${APIURL}/job-listing/get-listings`)

@@ -23,7 +23,7 @@ import NotificationPage from './pages/NotificationsPage';
 import AddPosition from './pages/AddPosition';
 import Dashboard from './pages/Dashboard';
 import ListingPage from './pages/Listingpage';
-import WebcamStreamCapture from './pages/interviewPage';
+import WebcamStreamCapture from './pages/newVideoPage';
 import PositionPage from './pages/PositionPage';
 import PositionDetails from './pages/PositionDetails';
 import IntroPage from './pages/IntroPage';
