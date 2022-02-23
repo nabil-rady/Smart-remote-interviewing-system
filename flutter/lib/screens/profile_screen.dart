@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:graduation_project/local/http_exception.dart';
+import 'package:graduation_project/local/sharedpreferences.dart';
 import 'package:graduation_project/screens/change_pass.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import '../providers/auth_provider.dart';
@@ -16,6 +18,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
   bool isTextFild = false;
   bool myflag = false;
   final myController = TextEditingController();
+
+  Future<void> editPhone(String countryCode, String phone) async {
+    try {
+      await Provider.of<Auth>(context, listen: false)
+          .editPhoneNumber(countryCode, phone);
+      showErrorDialog(
+          context, 'Your phone number has been edited sucessfully.');
+    } on HttpException catch (error) {
+      if (error.toString().contains('Validation failed')) {
+        showErrorDialog(
+            context, "Phone number should be between 7 and 15 numbers length!");
+      }
+    } catch (e) {
+      showErrorDialog(
+          context, "Phone number coundn't be changed , please try again later");
+    }
+  }
+
   @override
   void dispose() {
     myController.dispose();
@@ -139,7 +159,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     setState(() {
                                       isTextFild = !isTextFild;
                                       myflag = true;
-                                      print(employerData.countryCode);
+                                      //  print(employerData.countryCode);
                                     });
                                   },
                                   color: Theme.of(context).primaryColor,
@@ -192,9 +212,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                             onPressed: () {
                               employerData.phone = myController.text;
+                              editPhone(
+                                  employerData.countryCode, employerData.phone);
                               print(employerData.phone);
                               //print(employerData.phone);
-                              Navigator.of(context).pop();
+                              // Navigator.of(context).pop();
                             },
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30),
