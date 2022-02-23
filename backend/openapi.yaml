@@ -587,3 +587,116 @@ paths:
           description: Validation error.
         '500':
           description: Server side error.
+
+  candidate/join/{invitation_code}:
+    get:
+      summary: Allow candidate to join interview.
+      parameters:
+        - name: invitation_code
+          in: path
+          required: true
+          description: The invitation code that has been sent to the candidate.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Get the interview info.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  interviewId:
+                    type: string
+                  jobListingId:
+                    type: string
+                  positionName:
+                    type: string
+                  email:
+                    type: string
+                  name:
+                    type: string
+                  phoneCode:
+                    type: string
+                  phoneNumber:
+                    type: string
+                  questions:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        questionId:
+                          type: string
+                        statement:
+                          type: string
+                        timeToThink:
+                          type: integer
+                        timeToAnswer:
+                          type: integer
+        '403':
+          description: This interview has been started before.
+        '500':
+          description: Server side error.
+
+  candidate/finish-interview:
+    post:
+      summary: Close the interview, and save the videos.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                interviewId:
+                  type: string
+                videos:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      questionId:
+                        type: string
+                      videoLink:
+                        type: string
+
+      responses:
+        '200':
+          description: The answers are saved successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  interview:
+                    type: object
+                    properties:
+                      interviewId:
+                        type: string
+                      jobListingId:
+                        type: string
+                      name:
+                        type: string
+                      email:
+                        type: string
+                      phoneCode:
+                        type: string
+                      phoneNumber:
+                        type: string
+                      submitedAt:
+                        format: date-time
+                  answers:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        videoId:
+                          type: string
+                        link:
+                          type: string
+                        questionId:
+                          type: string
+        '403':
+          description: The interview has been submited before.
+        '500':
+          description: Server side error.

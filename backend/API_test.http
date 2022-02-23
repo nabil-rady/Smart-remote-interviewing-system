@@ -142,7 +142,7 @@ Content-Type: application/json
 
 ###
 
-POST {{host}}:8080/candidate/finish-interview
+POST {{host}}:8002/candidate/finish-interview
 Content-Type: application/json
 
 {
