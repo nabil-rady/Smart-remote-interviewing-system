@@ -6,6 +6,7 @@ import useDimensions from 'react-cool-dimensions';
 import Card from '../components/Card';
 import NavBar from '../components/NavBar';
 import Timer from '../utils/timer';
+import { TailSpin } from 'react-loader-spinner';
 
 import './scss/videopage.scss';
 
@@ -35,6 +36,8 @@ const WebcamStreamCapture = () => {
   const webcamRef = useRef();
   const mediaRecorderRef = useRef();
   const timer = useRef();
+  const webSocket = useRef();
+  const recordTimeout = useRef();
   const [recordedChunks, setRecordedChunks] = useState([]);
   const [start, setStart] = useState(true);
   const [next, setNext] = useState(false);
@@ -42,15 +45,34 @@ const WebcamStreamCapture = () => {
   const [visible, setVisibility] = useState('hidden');
   const [counter, setCounter] = useState(0);
   const [readTimerVisibility, setReadTimer] = useState('visible');
+  const [loading, setLoading] = useState(true);
   const { observe, width: videoWidth, height: videoHeight } = useDimensions();
   const smallScreen = useMediaQuery('only screen and (max-width: 900px)');
 
   const sendFrames = async () => {
     i++;
     const imageSrc = webcamRef.current.getScreenshot();
-    const blob = await fetch(imageSrc).then((res) => res.blob());
+    if (imageSrc === null) return;
+    const blobData = await fetch(imageSrc);
+    const blob = await blobData.blob();
     console.log(blob, i);
-    webSocket.current.send(blob);
+    if (webSocket.current) webSocket.current.send(blob);
+  };
+
+  const onSocketOpen = () => {
+    setLoading(false);
+    console.log('Connection Started');
+    webSocket.current.send('Hello Server!');
+    timer.current = new Timer(sendFrames, 1000 / 24, () => {});
+    timer.current.start();
+    console.log('Timer started');
+  };
+
+  const onSocketClose = () => {
+    if (timer.current) timer.current.stop();
+    webSocket.current = new WebSocket('ws://localhost:8765');
+    webSocket.current.addEventListener('open', onSocketOpen);
+    webSocket.current.addEventListener('close', onSocketClose);
   };
 
   const [timeLeftRead, { start: startRead }] = useCountDown(
@@ -61,20 +83,15 @@ const WebcamStreamCapture = () => {
   const [timeLeftAnswer, { start: startAnswer, pause: pauseAnswer }] =
     useCountDown(Questions[counter].answerTime * 1000, interval);
 
-  const webSocket = useRef();
-  const recordTimeout = useRef();
-
   useEffect(() => {
     webSocket.current = new WebSocket('ws://localhost:8765');
-    timer.current = new Timer(sendFrames, 1000 / 3, () => {});
+    webSocket.current.addEventListener('open', onSocketOpen);
+    webSocket.current.addEventListener('error', onSocketClose);
     return () => webSocket.current.close();
   }, []);
 
   useEffect(() => {
     if (webSocket.current) {
-      webSocket.current.addEventListener('open', function (event) {
-        webSocket.current.send('Hello Server!');
-      });
       webSocket.current.addEventListener('message', function (event) {
         console.log(`Message ${event.data}`);
       });
@@ -152,7 +169,7 @@ const WebcamStreamCapture = () => {
         const blob = await fetch(imageSrc).then((res) => res.blob());
         i++;
         console.log(blob, i);
-        webSocket.current.send(blob);
+        // webSocket.current.send(blob);
         setRecordedChunks((prev) => prev.concat(data));
       }
     },
@@ -202,75 +219,93 @@ const WebcamStreamCapture = () => {
     setStop(false);
   };
 
+  const render = () => {
+    if (loading)
+      return (
+        <div
+          style={{
+            position: 'absolute',
+            top: 'calc(50vh - 40px)',
+            left: 'calc(50vw - 40px)',
+          }}
+        >
+          <TailSpin color="hsl(215deg, 79%, 42%)" height={80} width={80} />
+        </div>
+      );
+    return (
+      <>
+        <NavBar />
+        <div className="interview-page">
+          <div
+            className="face"
+            style={{
+              width: faceWidth,
+              height: faceWidth,
+              left: `calc(${leftMargin} + ${
+                videoWidth / 2 -
+                parseFloat(faceWidth.slice(0, faceWidth.length - 2)) / 2
+              }px)`,
+              top: '35px',
+            }}
+          ></div>
+          <Webcam
+            audio={true}
+            ref={(el) => {
+              observe(el?.video);
+              webcamRef.current = el;
+            }}
+            muted={true}
+            screenshotFormat="image/png"
+            className="video"
+          />
+          <div className="questionspart">
+            <div style={{ visibility: visible }}>
+              <Card className="questions">
+                <p className="answertimer">
+                  {renderAnswerTime(timeLeftAnswer)}
+                </p>
+                <p className="questionTitle">{Questions[counter].title}</p>
+              </Card>
+            </div>
+
+            <br />
+            <div style={{ visibility: readTimerVisibility }}>
+              <Card className="readCard">
+                <p className="readtimer">{renderReadTime(timeLeftRead)}</p>
+              </Card>
+            </div>
+
+            {start && (
+              <button onClick={startInterview} className="buttons">
+                Start Capture
+              </button>
+            )}
+            {stop && (
+              <button
+                onClick={(e) => handleStopCaptureClick(e, false)}
+                className="buttons"
+              >
+                Stop Capture
+              </button>
+            )}
+            {next && (
+              <button onClick={handleNext} className="buttons">
+                Next Qusetion
+              </button>
+            )}
+            {/* {recordedChunks.length > 0 && (
+            <button onClick={handleDownload}>Download</button>
+          )} */}
+          </div>
+        </div>
+      </>
+    );
+  };
+
   const faceWidth = videoWidth * 0.4 < 150 ? '150px' : `${videoWidth * 0.4}px`;
   const leftMargin = !smallScreen ? '3rem' : '';
 
-  return (
-    <>
-      <NavBar />
-      <div className="interview-page">
-        <div
-          className="face"
-          style={{
-            width: faceWidth,
-            height: faceWidth,
-            left: `calc(${leftMargin} + ${
-              videoWidth / 2 -
-              parseFloat(faceWidth.slice(0, faceWidth.length - 2)) / 2
-            }px)`,
-            top: '35px',
-          }}
-        ></div>
-        <Webcam
-          audio={true}
-          ref={(el) => {
-            observe(el?.video);
-            webcamRef.current = el;
-          }}
-          muted={true}
-          screenshotFormat="image/png"
-          className="video"
-        />
-        <div className="questionspart">
-          <div style={{ visibility: visible }}>
-            <Card className="questions">
-              <p className="answertimer">{renderAnswerTime(timeLeftAnswer)}</p>
-              <p className="questionTitle">{Questions[counter].title}</p>
-            </Card>
-          </div>
-
-          <br />
-          <div style={{ visibility: readTimerVisibility }}>
-            <Card className="readCard">
-              <p className="readtimer">{renderReadTime(timeLeftRead)}</p>
-            </Card>
-          </div>
-
-          {start && (
-            <button onClick={startInterview} className="buttons">
-              Start Capture
-            </button>
-          )}
-          {stop && (
-            <button
-              onClick={(e) => handleStopCaptureClick(e, false)}
-              className="buttons"
-            >
-              Stop Capture
-            </button>
-          )}
-          {next && (
-            <button onClick={handleNext} className="buttons">
-              Next Qusetion
-            </button>
-          )}
-          {/* {recordedChunks.length > 0 && (
-            <button onClick={handleDownload}>Download</button>
-          )} */}
-        </div>
-      </div>
-    </>
-  );
+  return render();
 };
 
 export default WebcamStreamCapture;
