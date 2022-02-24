@@ -34,6 +34,6 @@ class recomm:
         )
         for i in range(len(x)):
             self.y = self.y + x[0][i]
-        self.y = (self.y / (len(result) - 1)) * 1000.0
+        self.y = (self.y / (len(sent) - 1)) * 1000.0
     def res(self):
         return self.y
