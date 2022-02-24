@@ -4,6 +4,7 @@ const sendgridTransport = require('nodemailer-sendgrid-transport');
 const customId = require('custom-id');
 const { json } = require('body-parser');
 const sequelize = require('../utils/db');
+const Op = require('sequelize').Op;
 
 const User = require('../models/user');
 const Question = require('../models/question');
@@ -203,6 +204,20 @@ module.exports.getListing = async (req, res, next) => {
       },
     });
 
+    // check if the listing exists
+    if (!jobListing){
+      const err = new Error('Listing is not found.');
+      err.statusCode = 404;
+      throw err;
+    }
+
+    // check if the user own the listing
+    if (jobListing.dataValues.userId != userId){
+      const err = new Error('You cannot access a listing you do not own.');
+      err.statusCode = 403;
+      throw err;
+    }
+
     // get the number of invitations and finished interviews
     const invitations = await Interview.findAll({
       where: {
@@ -215,6 +230,19 @@ module.exports.getListing = async (req, res, next) => {
         jobListingId: jobListing.jobListingId,
         submitedAt: null,
       },
+    });
+
+    const finishedInterviewsObjects = await Interview.findAll({
+      where: {
+        jobListingId: jobListing.jobListingId,
+        submitedAt: {
+          [Op.not]: null,
+        },
+      },
+    });
+
+    const finishedInterviews = finishedInterviewsObjects.map(i => {
+      return i.dataValues;
     });
 
     // get the listing's questions
@@ -248,6 +276,7 @@ module.exports.getListing = async (req, res, next) => {
           ? invitations.length - notFinishedInterviews.length
           : 0,
       questions,
+      interviews: finishedInterviews
     };
 
     // send the response

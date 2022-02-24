@@ -2,6 +2,7 @@ const Interview = require('../models/interview');
 const JobListing = require('../models/jobListing');
 const Question = require('../models/question');
 const Video = require('../models/video');
+const Keywords = require('../models/keyword');
 const rabbitMQ = require('../utils/rabbitMQ');
 
 module.exports.getJoinInterview = async (req, res, next) => {
@@ -14,6 +15,12 @@ module.exports.getJoinInterview = async (req, res, next) => {
         invitationCode: code,
       },
     });
+    // check if the interview exists
+    if (!interview){
+      const err = new Error('The interview is not found, please enter the invitation code correctly.');
+      err.statusCode = 404;
+      throw err;
+    }
 
     // check if this interview has been started before
     if (interview.dataValues.started) {
@@ -78,8 +85,13 @@ module.exports.postFinishInterview = async (req, res, next) => {
       err.statusCode = 403;
       throw err;
     }
-
+    
+    let interviewToPublish = {
+      interviewId: interviewId,
+      questions: []
+    };
     const answers = [];
+    
     // save the video answers
     for (const video of videos) {
       const createdVideo = await Video.create({
@@ -87,15 +99,29 @@ module.exports.postFinishInterview = async (req, res, next) => {
         questionId: video.questionId,
         interviewId: interviewId,
       });
+      const keywords = await Keywords.findAll({
+        where: {
+          questionId: video.questionId
+        }
+      });
       answers.push(createdVideo.dataValues);
+      interviewToPublish.questions.push({
+        questionId: video.questionId,
+        videoLink: video.videoLink,
+        keywords: keywords.map(k =>{
+          return k.value;
+        })
+      });
     }
+    
+    console.log(interviewToPublish);
 
     // set the submission date
     interview.submitedAt = Date.now();
     await interview.save();
 
     // publish the interview to the message queue
-    await rabbitMQ.publish(interviewId);
+    await rabbitMQ.publish(interviewToPublish);
 
     res.status(200).json({
       interview,
