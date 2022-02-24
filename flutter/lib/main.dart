@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:graduation_project/providers/candidate_provider.dart';
 import 'package:provider/provider.dart';
 
 import './screens/after_positions_screen.dart';
@@ -30,6 +29,8 @@ import '../local/sharedpreferences.dart';
 import '../providers/dashboard_provider.dart';
 import '../providers/position_details_provider.dart';
 import '../screens/interviewScreens/intro_cam_screen.dart';
+import '../providers/candidate_provider.dart';
+import '../providers/session_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -48,6 +49,12 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (ctx) => Questions(),
         ),
+        ChangeNotifierProvider(
+          create: (ctx) => SessionDetails(),
+        ),
+        //  ChangeNotifierProvider(
+        //   create: (ctx) => Interviews(),
+        // ),
         //for position details page
         ChangeNotifierProxyProvider<Auth, PostionDetails>(
           create: (ctx) => PostionDetails('', []),
