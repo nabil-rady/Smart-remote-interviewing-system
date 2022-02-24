@@ -3,10 +3,17 @@ from emotion import emotionDetect
 from openpose import openPose
 import sys
 
+def get_keywords():
+    #do something
+def get_path():
+    #do something
+
 def main():
-    path = sys.argv[1]
-    r = recomm(path)
-    resText = r.res()
+    #path = sys.argv[1]
+    path = get_path()
+    keywords = get_keywords()
+    r = recomm(path,keywords)
+    resText = r.res() #return double value containing the score
     #send result
     e = emotionDetect(path)
     status = e.user_status()
