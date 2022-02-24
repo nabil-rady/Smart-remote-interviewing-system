@@ -5,9 +5,12 @@ import sys
 
 def get_keywords():
     #do something
+def get_path():
+    #do something
 
 def main():
-    path = sys.argv[1]
+    #path = sys.argv[1]
+    path = get_path()
     keywords = get_keywords()
     r = recomm(path,keywords)
     resText = r.res() #return double value containing the score
