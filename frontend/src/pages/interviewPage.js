@@ -3,27 +3,39 @@ import useCountDown from 'react-countdown-hook';
 import Webcam from 'react-webcam';
 import Card from '../components/Card';
 import NavBar from '../components/NavBar';
-
+import { APIURL } from '../API/APIConstants';
 import './scss/videopage.scss';
-
+import { interviewLink } from '../components/Interview';
 const WebcamStreamCapture = () => {
   let i = 0;
+  // const [Questions,getQuestions] = useState()
+  // const fetchPost = () => {
+  //   fetch(`${APIURL}/candidate/join/${interviewLink}`)
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       console.log(data);
+  //       getQuestions(data.questions);
+  //     });
+  // };
+  // useEffect(() => {
+  //   fetchPost();
+  // }, []);
   let Questions = [
     {
-      title:
+      statement:
         'How are you nfslbknnfl snblkaj;ha; hgrhah;hg f;hljsjf;ls klhklskjfhl;rshj;l lkjrhjs;lrjljl;sb kljgrjs;ljbsj ljgs;j.bl;jg srgj;jsl;bb',
-      readTime: 7,
-      answerTime: 8,
+      timeToThink: 7,
+      timeToAnswer: 8,
     },
     {
-      title: 'State your skills',
-      readTime: 6,
-      answerTime: 8,
+      statement: 'State your skills',
+      timeToThink: 6,
+      timeToAnswer: 8,
     },
     {
-      title: "What's your name",
-      readTime: 5,
-      answerTime: 5,
+      statement: "What's your name",
+      timeToThink: 5,
+      timeToAnswer: 5,
     },
   ];
 
@@ -40,12 +52,12 @@ const WebcamStreamCapture = () => {
   const [readTimerVisibility, setReadTimer] = useState('visible');
 
   const [timeLeftRead, { start: startRead }] = useCountDown(
-    Questions[counter].readTime * 1000,
+    Questions[counter].timeToThink * 1000,
     interval
   );
 
   const [timeLeftAnswer, { start: startAnswer, pause: pauseAnswer }] =
-    useCountDown(Questions[counter].answerTime * 1000, interval);
+    useCountDown(Questions[counter].timeToAnswer * 1000, interval);
 
   const webSocket = useRef();
   const recordTimeout = useRef();
@@ -69,10 +81,10 @@ const WebcamStreamCapture = () => {
   const renderReadTime = (time) => {
     let secTime, minTime;
     if (time === 0) {
-      if (Questions[counter].readTime < 10)
-        return '0' + Questions[counter].readTime.toString();
-      return Questions[counter].readTime.toString();
-    } else if (Questions[counter].readTime < 10) {
+      if (Questions[counter].timeToThink < 10)
+        return '0' + Questions[counter].timeToThink.toString();
+      return Questions[counter].timeToThink.toString();
+    } else if (Questions[counter].timeToThink < 10) {
       return '0' + (time / 1000).toString();
     }
     return (time / 1000).toString();
@@ -81,10 +93,10 @@ const WebcamStreamCapture = () => {
   const renderAnswerTime = (time) => {
     let secTime, minTime;
     if ((start || !next) && time === 0) {
-      if (Questions[counter].answerTime < 10)
-        return '0' + Questions[counter].answerTime.toString();
-      return Questions[counter].answerTime.toString();
-    } else if (Questions[counter].answerTime < 10) {
+      if (Questions[counter].timeToAnswer < 10)
+        return '0' + Questions[counter].timeToAnswer.toString();
+      return Questions[counter].timeToAnswer.toString();
+    } else if (Questions[counter].timeToAnswer < 10) {
       return '0' + (time / 1000).toString();
     }
     return (time / 1000).toString();
@@ -92,14 +104,14 @@ const WebcamStreamCapture = () => {
 
   const startInterview = () => {
     setRecordedChunks([]);
-    startRead(Questions[counter].readTime * 1000);
+    startRead(Questions[counter].timeToThink * 1000);
     if (visible === 'hidden') setVisibility('visible');
     if (start) setStart(false);
 
     setTimeout(() => {
       handleStartCaptureClick();
       console.log('Start recording (setTimeout)');
-    }, Questions[counter].readTime * 1000);
+    }, Questions[counter].timeToThink * 1000);
 
     recordTimeout.current = setTimeout(() => {
       console.log('Stop recording (setTimeout)');
@@ -111,7 +123,7 @@ const WebcamStreamCapture = () => {
         }
         return false;
       });
-    }, Questions[counter].readTime * 1000 + Questions[counter].answerTime * 1000);
+    }, Questions[counter].timeToThink * 1000 + Questions[counter].timeToAnswer * 1000);
   };
 
   const handleStartCaptureClick = useCallback(() => {
@@ -123,7 +135,7 @@ const WebcamStreamCapture = () => {
       handleDataAvailable
     );
     mediaRecorderRef.current.start();
-    startAnswer(Questions[counter].answerTime * 1000);
+    startAnswer(Questions[counter].timeToAnswer * 1000);
     console.log('Created MediaRecorder');
     if (!stop) setStop(true);
     if (readTimerVisibility === 'visible') setReadTimer('hidden');
@@ -201,7 +213,9 @@ const WebcamStreamCapture = () => {
           <div style={{ visibility: visible }}>
             <Card className="questions">
               <p className="answertimer">{renderAnswerTime(timeLeftAnswer)}</p>
-              <p className="questionTitle">{Questions[counter].title}</p>
+              <p className="questionstatement">
+                {Questions[counter].statement}
+              </p>
             </Card>
           </div>
 

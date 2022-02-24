@@ -1,17 +1,56 @@
 import React, { useState } from 'react';
 import Card from './Card';
 import './scss/EmailVerification.scss';
-
+import { userId } from './SignUpForm';
+import { APIURL } from '../API/APIConstants';
+import handleError from '../utils/errorHandling';
 const EmailVerification = (props) => {
-  const submitHandler = (e) => {
-    e.preventDefault();
-  };
+  const [message, setMessage] = useState('');
   const [code, setCode] = useState();
+  const [error, setError] = useState();
   const changeHandler = (e) => {
     setCode(e.target.value);
   };
+  const errorHandler = () => {
+    setError(null);
+  };
+  const submitHandler = (e) => {
+    e.preventDefault();
+    let statusCode;
+    fetch(`${APIURL}/user/verify`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userId,
+        code,
+      }),
+    })
+      .then((response) => {
+        statusCode = response.status;
+        console.log(response);
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        if (statusCode === 200) {
+          setMessage(data.message);
+        } else handleError(statusCode, data, setError);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  };
   return (
     <>
+      {error && (
+        <ErrorModal
+          title={error.title}
+          message={error.message}
+          onConfirm={errorHandler}
+        />
+      )}
       <div className="backdrop" />
       <Card className="VerificationModal">
         <h2 className="verification-header">Virify Your Account</h2>

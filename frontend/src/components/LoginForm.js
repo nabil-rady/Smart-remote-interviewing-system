@@ -38,7 +38,6 @@ const LoginForm = () => {
           setAuthUser({
             ...data.user,
             token: data.token,
-            avatarURL, //avatarURL: avatarURL,
           });
         } else handleError(statusCode, data, setError);
       })

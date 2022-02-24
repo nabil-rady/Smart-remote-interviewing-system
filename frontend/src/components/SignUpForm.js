@@ -9,6 +9,7 @@ import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import EmailVerification from './EmailVerification';
 import { Link } from 'react-router-dom';
+let userId;
 const SignUpForm = () => {
   const [Email, setEmail] = useState();
   const [Password, setPassword] = useState();
@@ -19,10 +20,10 @@ const SignUpForm = () => {
   const [ConfirmPassword, setConfirmPassword] = useState();
   const [error, setError] = useState();
   const [phoneCode, setCode] = useState();
-  const [verificationCard, setVerificationCard] = useState(false);
+  // const [verificationCard, setVerificationCard] = useState(false);
   let formattedvalue = '';
   const setAuthUser = useContext(UserContext).setAuthUser;
-
+  const authUser = useContext(UserContext).authUser;
   const submitHandler = (e) => {
     e.preventDefault();
     // Send data to backend
@@ -40,8 +41,8 @@ const SignUpForm = () => {
         email: Email,
         password: Password,
         confirmPassword: ConfirmPassword,
-        phoneNumber: Phone,
         phoneCode: phoneCode,
+        phoneNumber: Phone,
       }),
     })
       .then((response) => {
@@ -50,8 +51,9 @@ const SignUpForm = () => {
       })
       .then((data) => {
         console.log(data);
-        if (statusCode === 201) {
+        if (statusCode === 200) {
           console.log('Success');
+          userId = data.user.userId;
         } else handleError(statusCode, data, setError);
         return fetch(`${APIURL}/user/confirm-email`, {
           method: 'POST',
@@ -117,7 +119,8 @@ const SignUpForm = () => {
   };
 
   const verificationHandler = () => {
-    setVerificationCard(false);
+    if (authUser.emailConfirmed) setVerificationCard(false);
+    else setVerificationCard(true);
   };
   return (
     <>
@@ -216,3 +219,4 @@ const SignUpForm = () => {
   );
 };
 export default SignUpForm;
+export { userId };

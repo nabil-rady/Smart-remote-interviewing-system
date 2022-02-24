@@ -68,9 +68,9 @@ function ListingPage() {
   // const fetchPost = () => {
   //   fetch(`${APIURL}/job-listing/get-listings`)
   //     .then((res) => res.json())
-  //     .then((res) => {
-  //       console.log(res);
-  //       getPositions(res);
+  //     .then((data) => {
+  //       console.log(data);
+  //       getPositions(data.jobListings);
   //     });
   // };
   // useEffect(() => {

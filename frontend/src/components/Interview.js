@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import './scss/interview.scss';
 import Card from './Card';
 import ErrorModal from './ErrorModal';
-
+let interviewLink;
 const Interview = () => {
   const [cursorStyle, setcursorStyle] = useState('auto');
   const [displayColor, setColor] = useState('rgb(162, 172, 182)');
@@ -27,7 +27,7 @@ const Interview = () => {
         message: 'The Link You Entered Is Invalid, Please Try Again',
       });
       return;
-    }
+    } else interviewLink = link;
   };
   const errorHandler = () => {
     setError(null);
@@ -65,3 +65,4 @@ const Interview = () => {
 };
 
 export default Interview;
+export { interviewLink };
