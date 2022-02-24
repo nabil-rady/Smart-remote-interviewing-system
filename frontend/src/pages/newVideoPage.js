@@ -11,6 +11,9 @@ import { TailSpin } from 'react-loader-spinner';
 import './scss/videopage.scss';
 
 const WebcamStreamCapture = () => {
+  const [faceColor, setFaceColor] = useState('red');
+  let trueCount = 0,
+    falseCount = 0;
   let i = 0;
   let Questions = [
     {
@@ -70,9 +73,11 @@ const WebcamStreamCapture = () => {
 
   const onSocketClose = () => {
     if (timer.current) timer.current.stop();
+    if (webSocket.current) webSocket.current.close();
     webSocket.current = new WebSocket('ws://localhost:8765');
     webSocket.current.addEventListener('open', onSocketOpen);
     webSocket.current.addEventListener('close', onSocketClose);
+    console.log('websocket Closed');
   };
 
   const [timeLeftRead, { start: startRead }] = useCountDown(
@@ -87,16 +92,32 @@ const WebcamStreamCapture = () => {
     webSocket.current = new WebSocket('ws://localhost:8765');
     webSocket.current.addEventListener('open', onSocketOpen);
     webSocket.current.addEventListener('error', onSocketClose);
+    webSocket.current.addEventListener('message', function (event) {
+      console.log(`Message ${event.data}`);
+      if (event.data === 'True') {
+        trueCount++;
+        falseCount = 0;
+      }
+
+      if (event.data === 'False') {
+        falseCount++;
+        trueCount = 0;
+      }
+
+      console.log(`True ${trueCount}, false ${falseCount}`);
+      if (trueCount > 12) setFaceColor('red');
+      else if (falseCount > 12) setFaceColor('green');
+    });
     return () => webSocket.current.close();
   }, []);
 
-  useEffect(() => {
-    if (webSocket.current) {
-      webSocket.current.addEventListener('message', function (event) {
-        console.log(`Message ${event.data}`);
-      });
-    }
-  }, [webSocket]);
+  // useEffect(() => {
+  //   if (webSocket.current) {
+  //     webSocket.current.addEventListener('message', function (event) {
+  //       console.log(`Message ${event.data}`);
+  //     });
+  //   }
+  // }, [webSocket]);
 
   const renderReadTime = (time) => {
     let secTime, minTime;
@@ -240,19 +261,22 @@ const WebcamStreamCapture = () => {
             className="face"
             style={{
               width: faceWidth,
-              height: faceWidth,
+              height: faceHeight,
               left: `calc(${leftMargin} + ${
                 videoWidth / 2 -
                 parseFloat(faceWidth.slice(0, faceWidth.length - 2)) / 2
               }px)`,
-              top: '35px',
+              top: `${
+                0.05 * parseFloat(faceHeight.slice(0, faceHeight.length - 2))
+              }px`,
+              border: `2px solid ${faceColor}`,
             }}
           ></div>
           <Webcam
             audio={true}
             ref={(el) => {
-              observe(el?.video);
               webcamRef.current = el;
+              observe(el?.video);
             }}
             muted={true}
             screenshotFormat="image/png"
@@ -302,9 +326,9 @@ const WebcamStreamCapture = () => {
     );
   };
 
-  const faceWidth = videoWidth * 0.4 < 150 ? '150px' : `${videoWidth * 0.4}px`;
+  const faceWidth = `${0.7 * videoWidth}px`;
   const leftMargin = !smallScreen ? '3rem' : '';
-
+  const faceHeight = `${0.75 * videoHeight}px`;
   return render();
 };
 
