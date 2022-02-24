@@ -11,7 +11,7 @@ model = SentenceTransformer(model_name)
 
 class recomm:
     y = 0.0
-    def __init__(self,path):
+    def __init__(self,path,keywords):
         video_clip = me.VideoFileClip(r"{}".format(path))
         path2 = path.replace("mp4", "wav")
         video_clip.audio.write_audiofile(r"{}".format(path2), nbytes=2)
@@ -23,8 +23,11 @@ class recomm:
         audio_clip = sr.AudioFile("{}".format(path))
         with audio_clip as source:
             audio_file = recognizer.record(source)
+        sent = []
         result = recognizer.recognize_google(audio_file)
-        sent_vec3 = model.encode(result)
+        sent.append(result)
+        sent = sent + keywords
+        sent_vec3 = model.encode(sen)
         x = cosine_similarity(
             [sent_vec3[0]],
             sent_vec3[1:]
