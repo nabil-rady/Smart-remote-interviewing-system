@@ -14,7 +14,7 @@ class lightFaceDetect3:
             #centre_x = x + w / 2
             #centre_y = y + y / 2
             height, width, channels = img.shape
-            if (x >= (0.15 * width) and y >= (0.05 * height)) and ((x+w) <= (0.85 * width) and (y+h) <= (0.8 * height)) and np.ceil(s) > 60:
+            if (x >= (0.25 * width) and y >= (0.15 * height)) and ((x+w) <= (0.75 * width) and (y+h) <= (0.7 * height)) and np.ceil(s) > 60:
                 cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
             else:
                 cv2.rectangle(img, (int(0.15 * width), int(0.05 * height)), (int(0.85 * width), int(0.8 * height)), (0, 0, 255), 2)
