@@ -27,7 +27,7 @@ class recomm:
         result = recognizer.recognize_google(audio_file)
         sent.append(result)
         sent = sent + keywords
-        sent_vec3 = model.encode(sen)
+        sent_vec3 = model.encode(sent)
         x = cosine_similarity(
             [sent_vec3[0]],
             sent_vec3[1:]

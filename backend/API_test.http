@@ -137,7 +137,7 @@ Content-Type: application/json
 
 ###
 
-GET {{host}}:8002/candidate/join/76II67MR
+GET {{host}}:8002/candidate/join/09ED80H9
 Content-Type: application/json
 
 ###
@@ -146,15 +146,15 @@ POST {{host}}:8002/candidate/finish-interview
 Content-Type: application/json
 
 {
-    "interviewId": "689e93fd-a12a-43ce-b6ed-f1e0afb2ac9a",
+    "interviewId": "74b74292-3642-486a-8319-255bb7e7da5a",
     "videos": [
         {
             "questionId": "c0cb024f-609e-439e-85b8-6cb4f8172b99",
-            "videoLink": "https://www.youtube.com/watch?v=V6o9Ht966Q0"
+            "videoLink": "https://www.youtube.com/watch?v=0g1Q4fBDp2U"
         },
         {
             "questionId": "db8c8b04-4bea-44d7-b378-070ad040b3f5",
-            "videoLink": "https://www.youtube.com/watch?v=V6o9Ht966Q0"
+            "videoLink": "https://www.youtube.com/watch?v=0g1Q4fBDp2U"
         }
     ]
 }

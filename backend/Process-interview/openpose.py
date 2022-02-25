@@ -18,9 +18,9 @@ class openPose:
     count = 0
     change = 0
     def __init__(self,path):
-        while True:
-            net = cv2.dnn.readNetFromTensorflow("graph_opt.pb")
-            cap = cv2.VideoCapture(path)
+        net = cv2.dnn.readNetFromTensorflow("graph_opt.pb")
+        cap = cv2.VideoCapture(path)
+        while cap.isOpened():
             inWidth = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
             inHeight = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
             hasFrame, frame = cap.read()

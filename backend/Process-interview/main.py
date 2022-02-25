@@ -8,23 +8,23 @@ from openpose import openPose
 def processing(interview):
     print(interview['interviewId'])
     for question in interview['questions']:
-        print(question['videoLink'], question['keywords'])
         path = question['videoLink']
         keywords = question['keywords']
+        print(path, keywords)
         
         r = recomm(path,keywords)
         resText = r.res() #return double value containing the score
         print('The recommendation output: ', r, resText)
         #send result
         
-        # e = emotionDetect(path)
-        # status = e.user_status()
-        # print('The emotion output: ', e, status)
+        e = emotionDetect(path)
+        status = e.user_status()
+        print('The emotion output: ', e, status)
         #send result
 
-        # o = openPose(path)
-        # res = o.res()
-        # print('The openPose output: ', o, res)
+        o = openPose(path)
+        res = o.res()
+        print('The openPose output: ', o, res)
 
     # AFTER FINSHING THE INTERVIEW PROCESSING PUBLISH TO THE QUEUE
     # result = None
