@@ -2,13 +2,16 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
-import 'package:graduation_project/local/size_config.dart';
-import 'package:graduation_project/widgets/default_button.dart';
+import 'package:graduation_project/local/sharedpreferences.dart';
+import 'package:graduation_project/models/session_model.dart';
+import 'package:graduation_project/providers/session_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 import 'package:chewie/chewie.dart';
 import 'package:custom_timer/custom_timer.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
+
+import '../../local/size_config.dart';
+import '../../widgets/default_button.dart';
 import '/providers/positions.dart';
 
 //////////////////////////////////////////////////////////////
@@ -21,27 +24,6 @@ class IntrviewScreen extends StatefulWidget {
 }
 
 class _IntrviewScreenState extends State<IntrviewScreen> {
-  //////////////// websockets
-
-  void websockfunc(List<String> arguments) {
-    final _channel = WebSocketChannel.connect(
-      Uri.parse('wss://localhost:8080'),
-    );
-
-    _channel.stream.listen(
-      (data) {
-        print(data);
-      },
-      onError: (error) => print(error),
-    );
-  }
-  // @override
-  // void dispose() {
-  //   _channel.sink.close();
-  //   super.dispose();
-  // }
-
-  //////////////////
   late CameraController controller;
   bool _startThinkingTimer = false;
   bool _endThinkingTimer = false;
@@ -134,27 +116,20 @@ class _IntrviewScreenState extends State<IntrviewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // final _channel = WebSocketChannel.connect(
-    //   Uri.parse('wss://localhost:8080'),
-    // );
+    // controller = ModalRoute.of(context)!.settings.arguments as CameraController;
+    controller = getCameraController();
 
-    // _channel.stream.listen(
-    //   (data) {
-    //     print('THIS IS DATA : ${data}');
-    //   },
-    //   onError: (error) => print(error),
-    // );
+    // // hard code for id until i can take it from the url of th sesion
+    // final id = '1244';
+    // final _position = Provider.of<Positions>(context).findById(id);
 
-    // _channel.sink.close();
-    controller = ModalRoute.of(context)!.settings.arguments as CameraController;
-    // hard code for id until i can take it from the url of th sesion
-    final id = '1244';
-    final _position = Provider.of<Positions>(context).findById(id);
+    // final _questions = _position.questions;
+    // int _thinkingDuration = _questions[index].thinkingTime;
+    // int _answerDuration = _questions[index].answerTime;
 
-    final _questions = _position.questions;
-    int _thinkingDuration = _questions[index].thinkingTime;
-    int _answerDuration = _questions[index].answerTime;
-
+    //final questions = Provider.of<SessionDetails>(context, listen: false).items;
+    final sessionData =
+        Provider.of<SessionDetails>(context, listen: false).sessionData;
     // print('##################3333');
     // print(_thinkingDuration);
     // print(_answerDuration);
@@ -219,7 +194,10 @@ class _IntrviewScreenState extends State<IntrviewScreen> {
                       });
                       print('Countdown Started');
                     },
-                    from: Duration(seconds: _thinkingDuration),
+                    from: Duration(
+                        seconds: index < sessionData.questions.length
+                            ? sessionData.questions[index].timeToThink
+                            : 4),
                     to: const Duration(hours: 0),
                     builder: (CustomTimerRemainingTime remaining) {
                       return Text(
@@ -248,7 +226,10 @@ class _IntrviewScreenState extends State<IntrviewScreen> {
                           child: CustomTimer(
                             controller: _answerCounterController,
                             onFinish: _isSaved ? null : _saveVideo,
-                            from: Duration(seconds: _answerDuration),
+                            from: Duration(
+                                seconds: index < sessionData.questions.length
+                                    ? sessionData.questions[index].timeToAnswer
+                                    : 4),
                             to: const Duration(hours: 0),
                             builder: (CustomTimerRemainingTime remaining) {
                               return Text(
@@ -268,8 +249,8 @@ class _IntrviewScreenState extends State<IntrviewScreen> {
                             padding: const EdgeInsets.only(right: 8, left: 8),
                             child: Center(
                               child: Text(
-                                index < _questions.length
-                                    ? _questions[index].titleQuestion
+                                index < sessionData.questions.length
+                                    ? sessionData.questions[index].statement
                                     : '',
                                 style: const TextStyle(color: Colors.white),
                               ),
@@ -287,7 +268,8 @@ class _IntrviewScreenState extends State<IntrviewScreen> {
                 : Container(),
           ),
           if (_isSaved)
-            index < _questions.length - 1
+            index < sessionData.questions.length - 1
+                // questions.length - 1
                 ? Positioned(
                     bottom: 30,
                     left: 10.0,

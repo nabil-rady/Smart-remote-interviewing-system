@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:graduation_project/providers/dashboard_provider.dart';
 import 'package:graduation_project/providers/position_details_provider.dart';
+import 'package:graduation_project/providers/session_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:camera/camera.dart';
 
 late SharedPreferences preferences;
 late CameraController cameraConroller;
-
+late Future sessionQuestion;
 Future<void> sharedPreferences() async {
   preferences = await SharedPreferences.getInstance();
 }
@@ -69,4 +70,14 @@ Future getPositionsFuture(BuildContext context) {
 Future getQuestionsFuture(BuildContext context, positionId) {
   return Provider.of<PostionDetails>(context, listen: false)
       .getDetails(positionId);
+}
+
+Future getSessionQuestions(BuildContext context, String positionId) {
+  sessionQuestion = Provider.of<SessionDetails>(context, listen: false)
+      .getSessionDetails(positionId);
+  return sessionQuestion;
+}
+
+Future fetchSessionQuestion() {
+  return sessionQuestion;
 }

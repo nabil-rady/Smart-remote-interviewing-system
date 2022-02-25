@@ -14,11 +14,9 @@ import './providers/auth_provider.dart';
 import './providers/questions.dart';
 import './screens/home_screen.dart';
 import '../screens/to_evaluate_screen.dart';
-import '../providers/interview_provider.dart';
 import '../screens/applicant_details_screen.dart';
 import '../screens/video_evaluation_screen.dart';
 import '../screens/notifications_screen.dart';
-import './providers/interview_provider.dart';
 import './providers/positions.dart';
 import './screens/last_ques_pos_screen.dart';
 import './screens/invitation_screen.dart';
@@ -31,6 +29,7 @@ import '../providers/position_details_provider.dart';
 import '../screens/interviewScreens/intro_cam_screen.dart';
 import '../providers/candidate_provider.dart';
 import '../providers/session_provider.dart';
+import '../screens/interviewScreens/welcom_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -129,6 +128,7 @@ class MyApp extends StatelessWidget {
           FinishInterview.routeName: (ctx) => FinishInterview(),
           IntrviewScreen.routeName: (ctx) => IntrviewScreen(),
           IntroCamScreen.routeName: (ctx) => IntroCamScreen(),
+          WelcomeScreen.routeName: (ctx) => WelcomeScreen(),
         },
       ),
     );

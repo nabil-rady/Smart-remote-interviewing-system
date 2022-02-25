@@ -12,14 +12,14 @@ class InterViewQuestions {
 }
 
 class Session {
-  final String interviewId;
-  final String jobListingId;
-  final String positionName;
-  final String email;
-  final String name;
-  final String phoneCode;
-  final String phoneNumber;
-  final List<InterViewQuestions> questions;
+  String interviewId;
+  String jobListingId;
+  String positionName;
+  String email;
+  String name;
+  String phoneCode;
+  String phoneNumber;
+  List<InterViewQuestions> questions;
 
   Session({
     required this.interviewId,
