@@ -16,8 +16,10 @@ module.exports.getJoinInterview = async (req, res, next) => {
       },
     });
     // check if the interview exists
-    if (!interview){
-      const err = new Error('The interview is not found, please enter the invitation code correctly.');
+    if (!interview) {
+      const err = new Error(
+        'The interview is not found, please enter the invitation code correctly.'
+      );
       err.statusCode = 404;
       throw err;
     }
@@ -85,13 +87,13 @@ module.exports.postFinishInterview = async (req, res, next) => {
       err.statusCode = 403;
       throw err;
     }
-    
+
     let interviewToPublish = {
       interviewId: interviewId,
-      questions: []
+      questions: [],
     };
     const answers = [];
-    
+
     // save the video answers
     for (const video of videos) {
       const createdVideo = await Video.create({
@@ -101,19 +103,19 @@ module.exports.postFinishInterview = async (req, res, next) => {
       });
       const keywords = await Keywords.findAll({
         where: {
-          questionId: video.questionId
-        }
+          questionId: video.questionId,
+        },
       });
       answers.push(createdVideo.dataValues);
       interviewToPublish.questions.push({
         questionId: video.questionId,
         videoLink: video.videoLink,
-        keywords: keywords.map(k =>{
+        keywords: keywords.map((k) => {
           return k.value;
-        })
+        }),
       });
     }
-    
+
     console.log(interviewToPublish);
 
     // set the submission date

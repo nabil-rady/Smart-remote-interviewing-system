@@ -205,14 +205,14 @@ module.exports.getListing = async (req, res, next) => {
     });
 
     // check if the listing exists
-    if (!jobListing){
+    if (!jobListing) {
       const err = new Error('Listing is not found.');
       err.statusCode = 404;
       throw err;
     }
 
     // check if the user own the listing
-    if (jobListing.dataValues.userId != userId){
+    if (jobListing.dataValues.userId != userId) {
       const err = new Error('You cannot access a listing you do not own.');
       err.statusCode = 403;
       throw err;
@@ -241,7 +241,7 @@ module.exports.getListing = async (req, res, next) => {
       },
     });
 
-    const finishedInterviews = finishedInterviewsObjects.map(i => {
+    const finishedInterviews = finishedInterviewsObjects.map((i) => {
       return i.dataValues;
     });
 
@@ -276,7 +276,7 @@ module.exports.getListing = async (req, res, next) => {
           ? invitations.length - notFinishedInterviews.length
           : 0,
       questions,
-      interviews: finishedInterviews
+      interviews: finishedInterviews,
     };
 
     // send the response

@@ -1,9 +1,9 @@
 import pika, sys, os, json
 from dotenv import load_dotenv
 
-# from recommendation import recomm
-# from emotion import emotionDetect
-# from openpose import openPose
+from recommendation import recomm
+from emotion import emotionDetect
+from openpose import openPose
 
 def processing(interview):
     print(interview['interviewId'])
@@ -12,9 +12,9 @@ def processing(interview):
         path = question['videoLink']
         keywords = question['keywords']
         
-        # r = recomm(path,keywords)
-        # resText = r.res() #return double value containing the score
-        # print('The recommendation output: ', r, resText)
+        r = recomm(path,keywords)
+        resText = r.res() #return double value containing the score
+        print('The recommendation output: ', r, resText)
         #send result
         
         # e = emotionDetect(path)

@@ -54,3 +54,20 @@ class emotionDetect:
         for i in range(len(count)):
             res.append([class_labels[i], count[i] / len(self.status)])
         return res
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
