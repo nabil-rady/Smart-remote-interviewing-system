@@ -341,6 +341,18 @@ module.exports.postInvite = async (req, res, next) => {
     for (let candidate of candidates) {
       // create the invitation code.
       let fetchedCode, generatedCode;
+
+      // check if the candidate has a prev invitation.
+      const prevInterview = await Interview.findOne({
+        where: {
+          email: candidate.email,
+          jobListingId: listingId,
+        },
+      });
+      if (prevInterview) {
+        continue;
+      }
+
       do {
         generatedCode = customId({
           name: candidate.name,
