@@ -15,7 +15,7 @@ class emotionDetect:
     status = []
     def __init__(self,path):
         cap = cv2.VideoCapture(path)
-        while True:
+        while cap.isOpened():
             # Grab a single frame of video
             ret, frame = cap.read()
             gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
