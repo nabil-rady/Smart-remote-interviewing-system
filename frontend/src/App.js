@@ -31,6 +31,7 @@ import ViewApplicants from './pages/viewApplicants';
 import ApplicantDetails from './pages/applicantDeteils';
 import BeforeInterviewPage from './pages/BeforeInterviewPage';
 import NewLanding from './pages/newLandingpage';
+import WelcomePage from './pages/WelcomePage';
 const mockUserObject = {
   userId: 'ABC123',
   token: 'aiwdjssqwijeoqiweoqu2398192381123',
@@ -157,6 +158,9 @@ function App() {
             </PrivateRoute>
             <PrivateRoute isAuthenticated={!!authUser} path="/new" exact>
               <NewLanding />
+            </PrivateRoute>
+            <PrivateRoute isAuthenticated={!!authUser} path="/welcome" exact>
+              <WelcomePage />
             </PrivateRoute>
             {/* <PrivateRoute isAuthenticated={!!authUser} path="/evaluate">
             <EvaluationPage />

@@ -66,7 +66,7 @@ const WebcamStreamCapture = () => {
     setLoading(false);
     console.log('Connection Started');
     webSocket.current.send('Hello Server!');
-    timer.current = new Timer(sendFrames, 1000 / 24, () => {});
+    timer.current = new Timer(sendFrames, 1000 / 3, () => {});
     timer.current.start();
     console.log('Timer started');
   };
@@ -105,8 +105,8 @@ const WebcamStreamCapture = () => {
       }
 
       console.log(`True ${trueCount}, false ${falseCount}`);
-      if (trueCount > 12) setFaceColor('red');
-      else if (falseCount > 12) setFaceColor('green');
+      if (trueCount > 5) setFaceColor('red');
+      else if (falseCount > 5) setFaceColor('green');
     });
     return () => webSocket.current.close();
   }, []);
