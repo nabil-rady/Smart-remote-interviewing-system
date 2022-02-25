@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Card from './Card';
+import ErrorModal from './ErrorModal';
 import './scss/EmailVerification.scss';
 import { userId } from './SignUpForm';
 import { APIURL } from '../API/APIConstants';

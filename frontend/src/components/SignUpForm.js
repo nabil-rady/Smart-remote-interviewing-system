@@ -20,7 +20,7 @@ const SignUpForm = () => {
   const [ConfirmPassword, setConfirmPassword] = useState();
   const [error, setError] = useState();
   const [phoneCode, setCode] = useState();
-  // const [verificationCard, setVerificationCard] = useState(false);
+  const [verificationCard, setVerificationCard] = useState(false);
   let formattedvalue = '';
   const setAuthUser = useContext(UserContext).setAuthUser;
   const authUser = useContext(UserContext).authUser;
