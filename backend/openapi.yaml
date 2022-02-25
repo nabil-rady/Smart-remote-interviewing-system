@@ -528,11 +528,30 @@ paths:
                           type: array
                           items:
                             type: string
+                  interviews:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        interviewId:
+                          type: string
+                        name:
+                          type: string
+                        email:
+                          type: string
+                        phoneCode:
+                          type: string
+                        phoneNumber:
+                          type: string
+                        submitedAt:
+                          format: date-time
 
         '401':
           description: Authentecation faild or unconfirmed email.
-        '422':
-          description: Validation error.
+        '403':
+          description: You do not own this listing.
+        '404':
+          description: Listing not found.
         '500':
           description: Server side error.
 
@@ -588,7 +607,49 @@ paths:
         '500':
           description: Server side error.
 
-  candidate/join/{invitation_code}:
+  /job-listing/answers/{interview_id}:
+    get:
+      summary: Allow HR to see interview answers.
+      parameters:
+        - name: interview_id
+          in: path
+          required: true
+          description: The interview id of a selected candidate.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Get the interview answers.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  email:
+                    type: string
+                  name:
+                    type: string
+                  phoneCode:
+                    type: string
+                  phoneNumber:
+                    type: string
+                  submitedAt:
+                    format: date-time
+                  questions:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        statement:
+                          type: string
+                        link:
+                          type: string
+        '403':
+          description: This interview has been started before.
+        '500':
+          description: Server side error.
+
+  /candidate/join/{invitation_code}:
     get:
       summary: Allow candidate to join interview.
       parameters:
@@ -638,7 +699,7 @@ paths:
         '500':
           description: Server side error.
 
-  candidate/finish-interview:
+  /candidate/finish-interview:
     post:
       summary: Close the interview, and save the videos.
       requestBody:

@@ -11,6 +11,7 @@ const Question = require('../models/question');
 const JobListing = require('../models/jobListing');
 const Keyword = require('../models/keyword');
 const Interview = require('../models/interview');
+const Video = require('../models/video');
 
 module.exports.postCreateListing = async (req, res, next) => {
   // Check for validation errors
@@ -305,6 +306,24 @@ module.exports.postInvite = async (req, res, next) => {
   const { listingId, candidates } = req.body;
 
   try {
+    const user = await User.findOne({
+      where: {
+        userId,
+      },
+    });
+    // check if the user is logged in
+    if (!user.dataValues.loggedIn) {
+      const err = new Error('Please log in');
+      err.statusCode = 401;
+      throw err;
+    }
+    // check if the user's email is confirmed
+    if (!user.dataValues.emailConfirmed) {
+      const err = new Error('Please confirm your email');
+      err.statusCode = 401;
+      throw err;
+    }
+
     // get the listing
     const listing = await JobListing.findOne({
       where: {
@@ -375,7 +394,97 @@ module.exports.postInvite = async (req, res, next) => {
   }
 };
 
-module.exports.getInterviewAnswers = (req, res, next) =>{
+module.exports.getInterviewAnswers = async (req, res, next) => {
   const interviewId = req.params.interview_id;
-  
+  const userId = req.userId;
+
+  try {
+    const user = await User.findOne({
+      where: {
+        userId,
+      },
+    });
+
+    // check if the user is logged in
+    if (!user.dataValues.loggedIn) {
+      const err = new Error('Please log in');
+      err.statusCode = 401;
+      throw err;
+    }
+    // check if the user's email is confirmed
+    if (!user.dataValues.emailConfirmed) {
+      const err = new Error('Please confirm your email');
+      err.statusCode = 401;
+      throw err;
+    }
+
+    const interview = await Interview.findOne({
+      where: {
+        interviewId: interviewId,
+      },
+    });
+
+    // check if the interview exists
+    if (!interview) {
+      const err = new Error('interview is not found.');
+      err.statusCode = 404;
+      throw err;
+    }
+
+    const jobListing = await JobListing.findOne({
+      where: {
+        jobListingId: interview.dataValues.jobListingId,
+      },
+    });
+
+    // check if the user own the listing
+    if (jobListing.dataValues.userId != userId) {
+      const err = new Error('You cannot access a listing you do not own.');
+      err.statusCode = 403;
+      throw err;
+    }
+
+    // get the answers
+    let returnedObject = {
+      name: interview.dataValues.name,
+      email: interview.dataValues.email,
+      phoneCode: interview.dataValues.phoneCode,
+      phoneNumber: interview.dataValues.phoneNumber,
+      submitedAt: interview.dataValues.submitedAt,
+      questions: [],
+    };
+
+    const questionObjects = await Question.findAll({
+      where: {
+        jobListingId: interview.dataValues.jobListingId,
+      },
+    });
+    console.log(questionObjects);
+
+    let questions = questionObjects.map((questionObject) => ({
+      ...questionObject.dataValues,
+    }));
+
+    for (let question of questions) {
+      const video = await Video.findOne({
+        where: {
+          questionId: question.questionId,
+        },
+      });
+
+      returnedObject.questions.push({
+        statement: question.statement,
+        link: video.dataValues.link,
+      });
+    }
+
+    res.status(200).json({
+      ...returnedObject,
+    });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500; // serverSide error
+    }
+    next(err);
+  }
 };
