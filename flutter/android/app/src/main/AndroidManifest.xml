@@ -2,7 +2,7 @@
     package="com.example.graduation_project">
    <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="graduation_project"
+        android:label="Vividly"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

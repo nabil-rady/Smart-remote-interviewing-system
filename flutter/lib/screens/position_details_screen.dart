@@ -9,8 +9,9 @@ import '../widgets/helper_widget.dart';
 
 class PositionDetailScreen extends StatefulWidget {
   final String positionId;
-
-  const PositionDetailScreen({Key? key, required this.positionId})
+  final Future detailsFuture;
+  const PositionDetailScreen(
+      {Key? key, required this.positionId, required this.detailsFuture})
       : super(key: key);
   static const routeName = '/position_details_screen';
 
@@ -23,7 +24,7 @@ class _PositionDetailScreenState extends State<PositionDetailScreen> {
 
   @override
   void initState() {
-    _detailsFuture = getQuestionsFuture(context, widget.positionId);
+    _detailsFuture = widget.detailsFuture;
     super.initState();
   }
 
@@ -45,6 +46,7 @@ class _PositionDetailScreenState extends State<PositionDetailScreen> {
                   // ...
                   // Do error handling stuff
                   String error = dataSnapshot.error.toString();
+                  print(error);
                   if (error.contains('The json web token has expired')) {
                     return TokenExpiry();
                   }
