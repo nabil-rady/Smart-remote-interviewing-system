@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:graduation_project/local/sharedpreferences.dart';
 import 'package:provider/provider.dart';
 import '../providers/positions.dart';
 
@@ -9,14 +10,16 @@ class PositionItem extends StatelessWidget {
   PositionItem(this.positionName, this.positionId);
   @override
   Widget build(BuildContext context) {
+    late Future detailsFuture;
     return Padding(
       padding: const EdgeInsets.all(8),
       child: InkWell(
         onTap: () {
           // Navigator.of(context)
           //     .pushNamed(InvitationScreen.routeName, arguments: position);
+          detailsFuture = getPositionDetails(context, positionId);
           Navigator.of(context).pushNamed('/after_positions_screen',
-              arguments: [positionName, positionId]);
+              arguments: [positionName, positionId, detailsFuture]);
         },
         child: Card(
           child: Row(

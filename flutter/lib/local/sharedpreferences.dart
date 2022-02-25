@@ -9,6 +9,8 @@ import 'package:camera/camera.dart';
 late SharedPreferences preferences;
 late CameraController cameraConroller;
 late Future sessionQuestion;
+late Future answerDetails;
+
 Future<void> sharedPreferences() async {
   preferences = await SharedPreferences.getInstance();
 }
@@ -67,7 +69,7 @@ Future getPositionsFuture(BuildContext context) {
   return Provider.of<DashboardPositions>(context, listen: false).getListings();
 }
 
-Future getQuestionsFuture(BuildContext context, positionId) {
+Future getPositionDetails(BuildContext context, positionId) {
   return Provider.of<PostionDetails>(context, listen: false)
       .getDetails(positionId);
 }
@@ -80,4 +82,14 @@ Future getSessionQuestions(BuildContext context, String positionId) {
 
 Future fetchSessionQuestion() {
   return sessionQuestion;
+}
+
+Future getAnswerDetails(BuildContext context, String applicantId) {
+  answerDetails = Provider.of<PostionDetails>(context, listen: false)
+      .getEvaluationDetails(applicantId);
+  return answerDetails;
+}
+
+Future fetchAnswerDetails() {
+  return answerDetails;
 }

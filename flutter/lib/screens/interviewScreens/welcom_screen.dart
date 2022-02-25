@@ -16,7 +16,7 @@ class WelcomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final sessionData =
         Provider.of<SessionDetails>(context, listen: false).sessionData;
-    inspect(sessionData);
+    // inspect(sessionData);
     return Scaffold(
       // body: Text(sessionData.email),
       body: Column(

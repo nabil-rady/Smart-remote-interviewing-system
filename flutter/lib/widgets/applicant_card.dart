@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:graduation_project/models/candidate.dart';
 import 'package:intl/intl.dart';
 
 class ApplicantCard extends StatelessWidget {
-  final String applicantId;
-  final String applicantName;
-  final DateTime date;
-  ApplicantCard(this.applicantId, this.applicantName, this.date);
+  // final String applicantId;
+  // final String applicantName;
+  // final DateTime date;
+  Candidate candidate;
+  ApplicantCard(this.candidate);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         Navigator.of(context)
-            .pushNamed('/applicant_details', arguments: applicantId);
+            .pushNamed('/applicant_details', arguments: candidate);
       },
       child: Padding(
         padding: const EdgeInsets.only(top: 8.0),
@@ -27,10 +29,12 @@ class ApplicantCard extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 8),
                   child: ListTile(
-                    title: Text(applicantName),
+                    title: Text(candidate.name),
                     subtitle: Text(
                       'Interview date :' +
-                          DateFormat.yMd().add_jm().format(date),
+                          DateFormat.yMd()
+                              .add_jm()
+                              .format(DateTime.parse(candidate.submitedAt)),
                       style: const TextStyle(fontSize: 16),
                     ),
                   ),

@@ -1,25 +1,65 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/interview_provider.dart';
 import '../widgets/applicant_card.dart';
+import '../providers/position_details_provider.dart';
+import '../widgets/helper_widget.dart';
 
-class ToEvaluateScreen extends StatelessWidget {
+class ToEvaluateScreen extends StatefulWidget {
+  final Future detailsFuture;
+  const ToEvaluateScreen({Key? key, required this.detailsFuture})
+      : super(key: key);
+
   static const routeName = '/to_evaluate_screen';
 
   @override
+  State<ToEvaluateScreen> createState() => _ToEvaluateScreenState();
+}
+
+class _ToEvaluateScreenState extends State<ToEvaluateScreen> {
+  late Future _detailsFuture;
+  @override
+  void initState() {
+    _detailsFuture = widget.detailsFuture;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final applicants = Provider.of<Interviews>(context).items;
     return Scaffold(
       appBar: AppBar(
         title: const Text('To Evaluate'),
         backgroundColor: Theme.of(context).primaryColor,
       ),
-      body: ListView.builder(
-        itemCount: applicants.length,
-        itemBuilder: (ctx, index) {
-          return ApplicantCard(applicants[index].id, applicants[index].name,
-              applicants[index].date);
+      body: FutureBuilder(
+        future: _detailsFuture,
+        builder: (ctx, dataSnapshot) {
+          if (dataSnapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+                child: CircularProgressIndicator(color: Color(0xFF165DC0)));
+          } else {
+            if (dataSnapshot.error != null) {
+              // ...
+              // Do error handling stuff
+              String error = dataSnapshot.error.toString();
+              print(error);
+              if (error.contains('The json web token has expired')) {
+                return TokenExpiry();
+              }
+              return const Center(
+                child: Text('An error occurred!'),
+              );
+            } else {
+              return Consumer<PostionDetails>(
+                builder: (ctx, position, child) => ListView.builder(
+                  itemCount: position.cacandidates.length,
+                  itemBuilder: (ctx, index) {
+                    return ApplicantCard(position.cacandidates[index]);
+                  },
+                ),
+              );
+            }
+          }
         },
       ),
     );

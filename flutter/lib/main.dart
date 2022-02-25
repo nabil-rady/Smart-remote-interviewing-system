@@ -111,7 +111,7 @@ class MyApp extends StatelessWidget {
           CompanySignupScreen.routeName: (ctx) => CompanySignupScreen(),
           IntroScreen.routeName: (ctx) => IntroScreen(),
           HomeScreen.routeName: (ctx) => HomeScreen(),
-          ToEvaluateScreen.routeName: (ctx) => ToEvaluateScreen(),
+          // ToEvaluateScreen.routeName: (ctx) => ToEvaluateScreen(),
           ApplicantDetailScreen.routeName: (ctx) => ApplicantDetailScreen(),
           VedioEvaluationScreen.routeName: (ctx) => VedioEvaluationScreen(),
           NotificationScreen.routeName: (ctx) => NotificationScreen(),
@@ -122,9 +122,9 @@ class MyApp extends StatelessWidget {
           AfterPositionsScreen.routeName: (ctx) => AfterPositionsScreen(),
           ProfileScreen.routeName: (ctx) => ProfileScreen(),
           ChangePassScreen.routeName: (ctx) => ChangePassScreen(),
-          PositionDetailScreen.routeName: (ctx) => PositionDetailScreen(
-                positionId: "",
-              ),
+          // PositionDetailScreen.routeName: (ctx) => PositionDetailScreen(
+          //       positionId: "",
+          //     ),
           FinishInterview.routeName: (ctx) => FinishInterview(),
           IntrviewScreen.routeName: (ctx) => IntrviewScreen(),
           IntroCamScreen.routeName: (ctx) => IntroCamScreen(),

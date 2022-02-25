@@ -4,6 +4,7 @@ class Candidate {
   final String phoneCode;
   final String phoneNumber;
   final String id;
+  final String submitedAt;
 
   Candidate({
     required this.name,
@@ -11,5 +12,6 @@ class Candidate {
     required this.phoneCode,
     required this.phoneNumber,
     required this.id,
+    required this.submitedAt,
   });
 }

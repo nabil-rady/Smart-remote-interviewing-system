@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:graduation_project/screens/to_evaluate_screen.dart';
 import '../screens/position_details_screen.dart';
 
 class AfterPositionsScreen extends StatelessWidget {
@@ -7,10 +8,10 @@ class AfterPositionsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _position =
-        ModalRoute.of(context)!.settings.arguments as List<String>;
+    final _position = ModalRoute.of(context)!.settings.arguments as List;
     final _positioName = _position[0];
     final _positionId = _position[1];
+    final _positionDetails = _position[2];
 
     return Scaffold(
       appBar: AppBar(
@@ -23,9 +24,14 @@ class AfterPositionsScreen extends StatelessWidget {
           children: [
             InkWell(
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) =>
-                        (PositionDetailScreen(positionId: _positionId))));
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => (PositionDetailScreen(
+                      positionId: _positionId,
+                      detailsFuture: _positionDetails,
+                    )),
+                  ),
+                );
               },
               child: Card(
                 shape: RoundedRectangleBorder(
@@ -56,8 +62,44 @@ class AfterPositionsScreen extends StatelessWidget {
             const SizedBox(
               height: 9,
             ),
-            eachCard2('Evaluate Applicants', 'assets/images/check.png', context,
-                '/to_evaluate_screen', _positionId, _positioName),
+            InkWell(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => (ToEvaluateScreen(
+                      detailsFuture: _positionDetails,
+                    )),
+                  ),
+                );
+              },
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
+                elevation: 9,
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        width: 60,
+                        height: 60,
+                        child: Image.asset('assets/images/check.png'),
+                      ),
+                      const Expanded(
+                        child: Text(
+                          'Evaluate Applicants',
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            // eachCard2('Evaluate Applicants', 'assets/images/check.png', context,
+            //     '/to_evaluate_screen', _positionId, _positioName),
             const SizedBox(
               height: 9,
             ),
