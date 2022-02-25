@@ -260,15 +260,12 @@ const WebcamStreamCapture = () => {
           <div
             className="face"
             style={{
-              width: faceWidth,
-              height: faceHeight,
-              left: `calc(${leftMargin} + ${
-                videoWidth / 2 -
-                parseFloat(faceWidth.slice(0, faceWidth.length - 2)) / 2
-              }px)`,
-              top: `${
-                0.05 * parseFloat(faceHeight.slice(0, faceHeight.length - 2))
-              }px`,
+              width: `${faceWidth}px`,
+              height: `${faceHeight}px`,
+              left: `calc(${
+                videoWidth / 2 - faceWidth / 2
+              }px + ${leftMargin}rem )`,
+              top: `${0.15 * videoHeight}px`,
               border: `2px solid ${faceColor}`,
             }}
           ></div>
@@ -326,9 +323,9 @@ const WebcamStreamCapture = () => {
     );
   };
 
-  const faceWidth = `${0.7 * videoWidth}px`;
-  const leftMargin = !smallScreen ? '3rem' : '';
-  const faceHeight = `${0.75 * videoHeight}px`;
+  const faceWidth = 0.5 * videoWidth;
+  const faceHeight = 0.55 * videoHeight;
+  const leftMargin = !smallScreen ? 3 : 0;
   return render();
 };
 
