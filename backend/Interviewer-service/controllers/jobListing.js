@@ -374,3 +374,8 @@ module.exports.postInvite = async (req, res, next) => {
     next(err);
   }
 };
+
+module.exports.getInterviewAnswers = (req, res, next) =>{
+  const interviewId = req.params.interview_id;
+  
+};

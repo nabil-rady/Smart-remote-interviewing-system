@@ -158,3 +158,8 @@ Content-Type: application/json
         }
     ]
 }
+
+### 
+GET {{host}}:8001/job-listing/answers/689e93fd-a12a-43ce-b6ed-f1e0afb2ac9a
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYWQ1NzIwYi00YzNmLTQ2NTctOTA2MC1kN2ZjNTk0MTQ5OGYiLCJpYXQiOjE2NDU3OTY4MTQsImV4cCI6MTY0NTgzMjgxNH0.4n9JEIerr10asLh8TSWPNZLbL28xl0Emy0fEUhQl1GY
+Content-Type: application/json

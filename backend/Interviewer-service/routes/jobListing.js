@@ -30,4 +30,6 @@ router.post(
   jobListingControllers.postInvite
 );
 
+router.get('/answers/:interview_id', isAuth, jobListingControllers.getInterviewAnswers);
+
 module.exports = router;
