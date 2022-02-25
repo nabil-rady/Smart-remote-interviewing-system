@@ -20,10 +20,8 @@ class _StartIntrviewState extends State<StartIntrview> {
     });
     try {
       print(myController.text);
-      await Provider.of<SessionDetails>(context, listen: false)
-          .getSessionDetails(myController.text)
-          .then((value) {
-        Navigator.of(context).pushReplacementNamed("/intro_screen");
+      await getSessionQuestions(context, myController.text).then((value) {
+        Navigator.of(context).pushReplacementNamed("/welcome_screen");
       });
     } on HttpException catch (error) {
       var errorMessage = 'Entering interview failed';
@@ -36,6 +34,7 @@ class _StartIntrviewState extends State<StartIntrview> {
         _isLoading = false;
       });
     } catch (error) {
+      print(error);
       const errorMessage =
           'Could not start your interview. Please try again later.';
       showErrorDialog(context, errorMessage);
@@ -95,9 +94,6 @@ class _StartIntrviewState extends State<StartIntrview> {
                   style: TextStyle(color: Colors.white),
                 ),
                 onPressed: _submit,
-                //     () {
-                //   print(myController.text);
-                // },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
                 ),
