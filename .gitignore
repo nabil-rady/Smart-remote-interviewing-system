@@ -21,3 +21,9 @@ videos/
 solidBG/
 videos/
 test/
+*.wav
+config/
+backend/*/models/index.js
+migrations
+seeders
+

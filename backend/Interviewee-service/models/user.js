@@ -53,6 +53,18 @@ const User = sequelize.define('User', {
     allowNull: false,
     defaultValue: false,
   },
+  verificationCodeGenerationDate: {
+    type: DataTypes.DATE,
+    allowNull: true,
+  },
+  webNotificationToken: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  mobileNotificationToken: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
 });
 
 module.exports = User;

@@ -9,11 +9,14 @@ import math
 model_name = 'bert-base-nli-mean-tokens'
 model = SentenceTransformer(model_name)
 
+
 class recomm:
     y = 0.0
-    def __init__(self,path,keywords):
+
+    def __init__(self, path, keywords):
         video_clip = me.VideoFileClip(r"{}".format(path))
-        path2 = path.replace("mp4", "wav")
+        # path2 = path.replace("mp4", "wav")
+        path2 = "audio.wav"
         video_clip.audio.write_audiofile(r"{}".format(path2), nbytes=2)
         recognizer = sr.Recognizer()
         d = denoise(path2)
@@ -35,5 +38,6 @@ class recomm:
         for i in range(len(x)):
             self.y = self.y + x[0][i]
         self.y = (self.y / (len(sent) - 1)) * 1000.0
+
     def res(self):
         return self.y

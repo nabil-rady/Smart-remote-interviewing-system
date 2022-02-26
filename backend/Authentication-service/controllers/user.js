@@ -79,6 +79,12 @@ module.exports.postConfirmEmail = async (req, res, next) => {
     error.statusCode = 404;
     return next(error);
   }
+  // check if the email has been verified
+  if (user.dataValues.emailConfirmed) {
+    const error = new Error('This email is already verified.');
+    error.statusCode = 422;
+    return next(error);
+  }
 
   // create a confirmation code.
   let fetchedCode, generatedCode;
@@ -103,6 +109,7 @@ module.exports.postConfirmEmail = async (req, res, next) => {
   User.update(
     {
       verificationCode: generatedCode,
+      verificationCodeGenerationDate: new Date(),
     },
     {
       where: {
@@ -120,7 +127,7 @@ module.exports.postConfirmEmail = async (req, res, next) => {
         })
       );
 
-      // sending email with verification link.
+      // sending email with verification code.
       return transporter.sendMail({
         to: user.dataValues.email,
         from: 'vividlyinterviewing@gmail.com',
@@ -177,6 +184,19 @@ module.exports.postVerifyEmail = (req, res, next) => {
         error.statusCode = 422;
         throw error;
       }
+      // get the date difference in hours
+      let dateDifference =
+        (new Date() -
+          new Date(fetchedUser.dataValues.verificationCodeGenerationDate)) /
+        36e5;
+      console.log(`############# ${dateDifference} #################`);
+      // check if the code in generated in less than one hour
+      if (dateDifference >= 1) {
+        const error = new Error('Verification code has been expired.');
+        error.statusCode = 422;
+        throw error;
+      }
+
       // emailConfirmed => true
       return User.update(
         {

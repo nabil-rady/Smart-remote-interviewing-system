@@ -1,30 +1,39 @@
-import pika, sys, os, json
+import pika
+import sys
+import os
+import json
 from dotenv import load_dotenv
 
 from recommendation import recomm
 from emotion import emotionDetect
 from openpose import openPose
 
+
 def processing(interview):
     print(interview['interviewId'])
     for question in interview['questions']:
-        path = question['videoLink']
+        # path = question['videoLink']
+        path = os.path.join(
+            os.getcwd(), 'videos/A Short Interview with Sharan Shah.mp4')
         keywords = question['keywords']
         print(path, keywords)
-        
-        r = recomm(path,keywords)
-        resText = r.res() #return double value containing the score
-        print('The recommendation output: ', r, resText)
-        #send result
-        
+
+        r = recomm(path, keywords)
+        resText = r.res()  # return double value containing the score
+        print(
+            f'###############################\nThe recommendation output: r=> {r}, resText=> {resText}\n##################################\n')
+        # send result
+
         e = emotionDetect(path)
         status = e.user_status()
-        print('The emotion output: ', e, status)
-        #send result
+        print(
+            f'##################\nThe emotion output: e=> {e}, status=> {status}\n#############################\n')
+        # send result
 
         o = openPose(path)
         res = o.res()
-        print('The openPose output: ', o, res)
+        print(
+            f'#################\nThe openPose output: o=> {o}, res=> {res}\n#################\n')
 
     # AFTER FINSHING THE INTERVIEW PROCESSING PUBLISH TO THE QUEUE
     # result = None
@@ -33,13 +42,11 @@ def processing(interview):
     # params.socket_timeout = 5
     # connection = pika.BlockingConnection(params)
     # channel = connection.channel()
-    
+
     # send a message
     # channel.basic_publish(exchange='', routing_key='Results', body=result)
     # print (f"{interview_id} result sent to consumer")
     # connection.close()
-
-
 
 
 def main():
@@ -47,7 +54,7 @@ def main():
     # conn = engine.connect()
 
     load_dotenv()
-    
+
     params = pika.URLParameters(os.getenv('rabbitMQ_url'))
     interviews_connection = pika.BlockingConnection(params)
     interviews_channel = interviews_connection.channel()
@@ -61,6 +68,7 @@ def main():
 
     # start consuming (blocks)
     interviews_channel.start_consuming()
+
 
 if __name__ == '__main__':
     try:

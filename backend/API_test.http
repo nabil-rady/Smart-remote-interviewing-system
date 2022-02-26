@@ -20,17 +20,17 @@ POST {{host}}:8000/user/confirm-email
 Content-Type: application/json
 
 {
-    "userId": "0199bebb-7d95-4fae-a57d-a556867e07d5"
+    "userId": "ead5720b-4c3f-4657-9060-d7fc5941498f"
 }
 
 ###
 
-POST {{host}}/user/verify
+POST {{host}}:8000/user/verify
 Content-Type: application/json
 
 {
     "userId": "ead5720b-4c3f-4657-9060-d7fc5941498f",
-    "verificationCode": "69MV36O9"
+    "verificationCode": "78EA46GM"
 }
 
 ###
