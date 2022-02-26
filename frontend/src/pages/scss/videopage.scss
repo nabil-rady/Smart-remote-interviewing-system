@@ -36,6 +36,50 @@
   }
 }
 
+.start-interview {
+  font-size: 1.3rem;
+  margin-top: 0rem;
+  &-button {
+    width: 150px;
+    height: 40px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border: none;
+    border-radius: 20px;
+    padding: 5px;
+    cursor: pointer;
+    background-color: $primary-blue;
+    color: white;
+    font-weight: 500;
+    font-size: 1.1rem;
+    @include transition;
+    &:hover {
+      border: 2px solid $primary-blue;
+      background-color: white;
+      color: $primary-blue;
+    }
+    &:disabled,
+    &[disabled] {
+      background-color: gray;
+      color: black;
+    }
+  }
+  &-card {
+    padding: 1rem;
+    text-align: center;
+    font-size: 1.4rem;
+    width: 55%;
+    margin: 0 auto;
+  }
+  &-title {
+    padding-bottom: 0.5rem;
+    width: 90%;
+    margin: 0 auto;
+  }
+}
+
 .questions {
   width: 90%;
   padding: 7px;
@@ -122,5 +166,11 @@
     margin-top: 2rem;
     margin-left: calc(50% - 75px);
     margin-bottom: 0.5rem;
+  }
+
+  .start-interview {
+    &-card {
+      margin-top: 2.5rem;
+    }
   }
 }

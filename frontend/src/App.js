@@ -13,7 +13,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.scss';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
-import InterviewPage from './pages/TakeInterview';
+import TakeInterviewPage from './pages/TakeInterview';
 import avatar from './user.jpg';
 import AddQues from './pages/AddQues';
 import InvitationPage from './pages/inviteUserPage';
@@ -23,15 +23,16 @@ import NotificationPage from './pages/NotificationsPage';
 import AddPosition from './pages/AddPosition';
 import Dashboard from './pages/Dashboard';
 import ListingPage from './pages/Listingpage';
-import WebcamStreamCapture from './pages/newVideoPage';
+import InterviewPage from './pages/InterviewPage';
 import PositionPage from './pages/PositionPage';
 import PositionDetails from './pages/PositionDetails';
 import IntroPage from './pages/IntroPage';
 import ViewApplicants from './pages/viewApplicants';
 import ApplicantDetails from './pages/applicantDeteils';
-import BeforeInterviewPage from './pages/BeforeInterviewPage';
+import BeforeInterviewPage from './pages/InterviewPage';
 import NewLanding from './pages/newLandingpage';
 import WelcomePage from './pages/WelcomePage';
+
 const mockUserObject = {
   userId: 'ABC123',
   token: 'aiwdjssqwijeoqiweoqu2398192381123',
@@ -81,7 +82,7 @@ function App() {
               <SignUpPage />
             </PublicRoute>
             <PrivateRoute isAuthenticated={!!authUser} path="/interview" exact>
-              <InterviewPage />
+              <TakeInterviewPage />
             </PrivateRoute>
             <PrivateRoute isAuthenticated={!!authUser} path="/before-interview">
               <BeforeInterviewPage />
@@ -121,7 +122,7 @@ function App() {
               <AddPosition />
             </PrivateRoute>
             <PrivateRoute isAuthenticated={!!authUser} path="/video" exact>
-              <WebcamStreamCapture />
+              <InterviewPage />
             </PrivateRoute>
             <PrivateRoute isAuthenticated={!!authUser} path="/dashboard" exact>
               <Dashboard />
