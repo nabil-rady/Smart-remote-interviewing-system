@@ -1,3 +1,5 @@
+@import '../../sassConfig/colors';
+@import '../../sassConfig/transition';
 // html {
 //   font-size: 14px;
 //   scroll-behavior: smooth;
@@ -31,7 +33,9 @@
 //   color: #363636 !important;
 //   background: white;
 // }
-
+.my-auto {
+  z-index: 5;
+}
 a:hover {
   text-decoration: none;
 }
@@ -232,7 +236,7 @@ header .navbar .navbar-brand .nav_logo {
 }
 
 .btn-outline-primary {
-  border: 1px solid #6d6bdb;
+  border: 1px solid white;
 }
 
 .rounded_button {
@@ -242,8 +246,8 @@ header .navbar .navbar-brand .nav_logo {
 }
 
 .btn-outline-primary {
-  color: #6d6bdb;
-  border: 2px solid #6d6bdb;
+  color: $primary-blue;
+  border: 2px solid $primary-blue;
 }
 
 .rounded_button.rounded_button {
@@ -330,7 +334,7 @@ header .navbar .navbar-brand .nav_logo {
   height: 3em;
   bottom: 2.2rem;
   right: 2.2rem;
-  background-color: #6d6bdb;
+  background-color: $hover-gray;
   color: #fff;
   text-align: center;
   border-radius: 5px;
@@ -677,7 +681,7 @@ section.feature_section.home_section2 {
 .home_section2 .square_304 {
   right: 2rem;
   top: -4.5rem;
-  background: #4f42c2;
+  background: $primary-blue;
 }
 
 .home_section2 .feature_model {
@@ -1039,7 +1043,7 @@ section.feature_section.home_section2 {
 
 /*Footer*/
 footer {
-  background-color: #1c1b5c;
+  background-color: $primary-blue;
   color: #c1bfff;
   text-align: center;
   position: relative;
@@ -1052,6 +1056,7 @@ footer {
 footer p,
 footer a {
   font-size: 1rem;
+  color: white;
 }
 
 .footer_logo {
@@ -1120,7 +1125,7 @@ footer a {
 }
 
 .abcd {
-  fill: #615fc2;
+  fill: $primary-blue;
 }
 .x {
   fill: #ffd500;
@@ -1145,7 +1150,7 @@ footer a {
 }
 
 .svg12-a {
-  fill: #6d6bdb;
+  fill: $primary-blue;
 }
 .svg13-a {
   fill: #2bdf73;
@@ -1335,7 +1340,7 @@ button.navbar-toggler:focus {
 }
 
 .all_aimation .circle_34 {
-  background: #4f42c2;
+  background: $primary-blue;
 }
 
 .all_aimation .circle_28 {
@@ -2050,9 +2055,12 @@ form.login_form,
     top: -3rem;
     left: 1rem;
   }
-  footer p,
   footer a {
     font-size: 1.1rem;
+  }
+  footer p {
+    font-size: 1.1rem;
+    color: white;
   }
   .footer_social {
     padding-top: 3.5rem;

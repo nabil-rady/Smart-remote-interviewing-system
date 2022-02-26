@@ -36,7 +36,7 @@ const Footer = () => {
               <div className="row">
                 <div className="col-md-4">
                   <div className="copy_year">
-                    <p>© 2020 Pawan</p>
+                    <p>© 2022 Vividly</p>
                   </div>
                 </div>
               </div>

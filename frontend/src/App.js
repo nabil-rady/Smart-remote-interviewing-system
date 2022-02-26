@@ -2,7 +2,6 @@ import { Route } from 'react-router-dom';
 
 import PublicRoute from './Routes/PublicRoute';
 import PrivateRoute from './Routes/PrivateRoute';
-import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
 import CounterPage from './pages/Questions';
@@ -73,7 +72,7 @@ function App() {
         <LoadingContext.Provider value={{ loading, setLoading }}>
           <UserContext.Provider value={{ authUser, setAuthUser }}>
             <Route path="/" exact>
-              <LandingPage />
+              <NewLanding />
             </Route>
             <PublicRoute isAuthenticated={!!authUser} path="/login" exact>
               <LoginPage />
@@ -156,9 +155,6 @@ function App() {
               exact
             >
               <ApplicantDetails />
-            </PrivateRoute>
-            <PrivateRoute isAuthenticated={!!authUser} path="/new" exact>
-              <NewLanding />
             </PrivateRoute>
             <PrivateRoute isAuthenticated={!!authUser} path="/welcome" exact>
               <WelcomePage />
