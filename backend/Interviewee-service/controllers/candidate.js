@@ -25,11 +25,11 @@ module.exports.getJoinInterview = async (req, res, next) => {
     }
 
     // check if this interview has been started before
-    if (interview.dataValues.started) {
-      const err = new Error('This interview has been started before');
-      err.statusCode = 403;
-      throw err;
-    }
+    // if (interview.dataValues.started) {
+    //   const err = new Error('This interview has been started before');
+    //   err.statusCode = 403;
+    //   throw err;
+    // }
 
     interview.started = true; // start the interview
     await interview.save();
@@ -82,11 +82,11 @@ module.exports.postFinishInterview = async (req, res, next) => {
     });
 
     // check if this interview has been submited before
-    if (interview.dataValues.submitedAt) {
-      const err = new Error('This interview has been submited before');
-      err.statusCode = 403;
-      throw err;
-    }
+    // if (interview.dataValues.submitedAt) {
+    //   const err = new Error('This interview has been submited before');
+    //   err.statusCode = 403;
+    //   throw err;
+    // }
 
     let interviewToPublish = {
       interviewId: interviewId,
