@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:graduation_project/providers/candidate_provider.dart';
 import 'package:provider/provider.dart';
-import '../providers/interview_provider.dart';
+
 import '../widgets/candidate_info_item.dart';
 import '../widgets/invitation_form.dart';
+import '../providers/candidate_provider.dart';
 
 class InvitationScreen extends StatelessWidget {
   static const routeName = '/invitation_screen';

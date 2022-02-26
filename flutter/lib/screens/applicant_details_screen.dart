@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:graduation_project/providers/positions.dart';
-import 'package:provider/provider.dart';
 
-import '../providers/interview_provider.dart';
 import '../widgets/applicant_info_card.dart';
+import '../local/http_exception.dart';
+import '../local/sharedpreferences.dart';
+import '../models/candidate.dart';
 
 class ApplicantDetailScreen extends StatefulWidget {
   static const routeName = '/applicant_details';
@@ -15,18 +15,41 @@ class ApplicantDetailScreen extends StatefulWidget {
 }
 
 class _ApplicantDetailScreenState extends State<ApplicantDetailScreen> {
+  var _isLoading = false;
+  late Candidate candidate;
+  Future<void> _submit() async {
+    setState(() {
+      _isLoading = true;
+    });
+    try {
+      await getAnswerDetails(context, candidate.id).then((value) {
+        Navigator.of(context).pushReplacementNamed("/video_evaluation");
+      });
+    } on HttpException catch (error) {
+      showErrorDialog(
+          context, "Could not loead answers, Please try again later.");
+
+      setState(() {
+        _isLoading = false;
+      });
+    } catch (error) {
+      print(error);
+      const errorMessage = 'Could not loead answers, Please try again later';
+      showErrorDialog(context, errorMessage);
+
+      setState(() {
+        _isLoading = false;
+      });
+    }
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    double _ratingValue;
+    candidate = ModalRoute.of(context)!.settings.arguments as Candidate;
 
-    final interviewId = ModalRoute.of(context)!.settings.arguments as String;
-    final loadedApplicant =
-        Provider.of<Interviews>(context).findById(interviewId);
-    // هيتغير برضو
-    // final _questions = Provider.of<Positionsmm>(context)
-    //     .findBypositionName(loadedApplicant.positionName);
-    final _questions = Provider.of<Positions>(context)
-        .findBypositionName(loadedApplicant.positionName);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Applicant Details'),
@@ -34,19 +57,25 @@ class _ApplicantDetailScreenState extends State<ApplicantDetailScreen> {
       ),
       body: Column(
         children: [
-          ApplicanInfornationCard(loadedApplicant: loadedApplicant),
-          RaisedButton(
-            child: const Text('See Answers',
-                style: TextStyle(color: Colors.white)),
-            onPressed: () {
-              Navigator.of(context)
-                  .pushNamed('/video_evaluation', arguments: interviewId);
-            },
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30),
-            ),
-            color: Theme.of(context).primaryColor,
-          ),
+          ApplicanInfornationCard(loadedApplicant: candidate),
+          _isLoading
+              ? CircularProgressIndicator(
+                  color: Theme.of(context).primaryColor,
+                )
+              : RaisedButton(
+                  child: const Text('See Answers',
+                      style: TextStyle(color: Colors.white)),
+                  onPressed: _submit,
+                  //() {
+                  //   // getAnswerDetails(context, applicantId)
+                  //   // Navigator.of(context)
+                  //   //     .pushNamed('/video_evaluation', arguments: interviewId);
+                  // },
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  color: Theme.of(context).primaryColor,
+                ),
         ],
       ),
     );

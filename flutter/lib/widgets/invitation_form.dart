@@ -1,26 +1,19 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 import 'package:country_pickers/country.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_webrtc/flutter_webrtc.dart';
-import 'package:graduation_project/models/candidate.dart';
-import 'package:graduation_project/models/positionCandidate.dart';
-import 'package:graduation_project/providers/candidate_provider.dart';
 import 'package:provider/provider.dart';
-import '../models/interview_model.dart';
-import '../providers/interview_provider.dart';
 import 'package:country_pickers/country_pickers.dart';
-import 'package:path/path.dart';
 import 'dart:async';
-import 'package:path_provider/path_provider.dart';
 import 'package:csv/csv.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import '../local/sharedpreferences.dart';
 import '../local/http_exception.dart';
+import '../models/positionCandidate.dart';
+import '../providers/candidate_provider.dart';
+
 //import 'package:universal_io/io.dart';
 
 //import 'dart:html';

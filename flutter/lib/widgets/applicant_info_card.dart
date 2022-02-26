@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../models/interview_model.dart';
+import '../models/candidate.dart';
 
 class ApplicanInfornationCard extends StatelessWidget {
   const ApplicanInfornationCard({
@@ -9,7 +9,7 @@ class ApplicanInfornationCard extends StatelessWidget {
     required this.loadedApplicant,
   }) : super(key: key);
 
-  final Interview loadedApplicant;
+  final Candidate loadedApplicant;
 
   @override
   Widget build(BuildContext context) {
@@ -41,13 +41,13 @@ class ApplicanInfornationCard extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              Text(
-                'position Name: ${loadedApplicant.positionName}',
-                style: Theme.of(context).textTheme.bodyText1,
-              ),
-              const SizedBox(
-                height: 10,
-              ),
+              // Text(
+              //   'position Name: ${loadedApplicant.positionName}',
+              //   style: Theme.of(context).textTheme.bodyText1,
+              // ),
+              // const SizedBox(
+              //   height: 10,
+              // ),
               Text(
                 'Email: ${loadedApplicant.email}',
                 style: Theme.of(context).textTheme.bodyText1,
@@ -56,14 +56,14 @@ class ApplicanInfornationCard extends StatelessWidget {
                 height: 10,
               ),
               Text(
-                'Phone: ${loadedApplicant.phone}',
+                'Phone: ${loadedApplicant.phoneNumber}',
                 style: Theme.of(context).textTheme.bodyText1,
               ),
               const SizedBox(
                 height: 10,
               ),
               Text(
-                'Date: ${DateFormat.yMd().add_jm().format(loadedApplicant.date)}',
+                'Date: ${DateFormat.yMd().add_jm().format(DateTime.parse(loadedApplicant.submitedAt))}',
                 style: Theme.of(context).textTheme.bodyText1,
               ),
             ],

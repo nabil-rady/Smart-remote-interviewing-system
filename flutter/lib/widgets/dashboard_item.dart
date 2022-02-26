@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:graduation_project/local/sharedpreferences.dart';
 import 'package:intl/intl.dart';
 
 var list = [
@@ -38,10 +39,12 @@ class DashboardItem extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
+    late Future detailsFuture;
     return InkWell(
       onTap: () {
+        detailsFuture = getPositionDetails(context, positionId);
         Navigator.of(context).pushNamed('/after_positions_screen',
-            arguments: [positionName, positionId]);
+            arguments: [positionName, positionId, detailsFuture]);
       },
       child: Padding(
         padding: const EdgeInsets.only(top: 20, right: 20, left: 20),
