@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import '../models/session_model.dart';
-
+import 'package:camera/camera.dart';
 import '../local/http_exception.dart';
 import 'package:http/http.dart' as http;
 
@@ -26,9 +26,12 @@ class SessionDetails with ChangeNotifier {
     return _session;
   }
 
+  late List<CameraDescription> cameras;
+
   Future<void> getSessionDetails(String id) async {
     final response = await http.get(
-      Uri.parse('http://10.0.2.2:8002/candidate/join/$id'),
+      //  Uri.parse('http://10.0.2.2:8002/candidate/join/$id'),
+      Uri.parse('https://vividly-api.herokuapp.com/candidate/join/$id'),
       headers: <String, String>{
         'Content-Type': 'application/json',
       },

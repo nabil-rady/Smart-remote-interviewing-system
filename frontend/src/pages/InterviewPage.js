@@ -15,7 +15,7 @@ const BeforeInterviewPage = () => {
   const [interviewBegun, setInterviewBegun] = useState(false);
   const [loading, setLoading] = useState(true);
   const [readyForInterview, setReadyForInterview] = useState(false);
-  const faceColor = readyForInterview ? 'green' : 'red';
+  const faceColor = readyForInterview ? 'red' : 'green';
 
   const sendFrames = async () => {
     const imageSrc = webcamRef.current.getScreenshot();
@@ -48,9 +48,9 @@ const BeforeInterviewPage = () => {
       }
 
       if (trueCount >= 5) {
-        setReadyForInterview(false);
-      } else if (falseCount >= 5) {
         setReadyForInterview(true);
+      } else if (falseCount >= 5) {
+        setReadyForInterview(false);
       }
     }
   };
