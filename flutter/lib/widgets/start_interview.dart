@@ -1,7 +1,10 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:graduation_project/local/http_exception.dart';
 import 'package:graduation_project/local/sharedpreferences.dart';
 import 'package:graduation_project/providers/session_provider.dart';
+import 'package:graduation_project/screens/interviewScreens/trailCamScreen.dart';
 import 'package:provider/provider.dart';
 
 class StartIntrview extends StatefulWidget {
@@ -12,6 +15,13 @@ class StartIntrview extends StatefulWidget {
 }
 
 class _StartIntrviewState extends State<StartIntrview> {
+  // late List<CameraDescription> cameras;
+  // Future<void> myFunc() async {
+  //   WidgetsFlutterBinding.ensureInitialized();
+
+  //   cameras = await availableCameras();
+  // }
+
   var _isLoading = false;
   final myController = TextEditingController();
   Future<void> _submit() async {
@@ -22,6 +32,11 @@ class _StartIntrviewState extends State<StartIntrview> {
       print(myController.text);
       await getSessionQuestions(context, myController.text).then((value) {
         Navigator.of(context).pushReplacementNamed("/welcome_screen");
+        // myFunc();
+        // Navigator.pushNamed(
+        //   context,
+        //   myIntroCamScreen.routeName,
+        // );
       });
     } on HttpException catch (error) {
       var errorMessage = 'Entering interview failed';

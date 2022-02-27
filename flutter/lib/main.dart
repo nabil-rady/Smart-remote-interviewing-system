@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -30,9 +31,12 @@ import '../screens/interviewScreens/intro_cam_screen.dart';
 import '../providers/candidate_provider.dart';
 import '../providers/session_provider.dart';
 import '../screens/interviewScreens/welcom_screen.dart';
+import './screens/interviewScreens/trailCamScreen.dart';
 
+List<CameraDescription>? cameras;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  cameras = await availableCameras();
   await sharedPreferences();
   runApp(MyApp());
 }
@@ -127,8 +131,10 @@ class MyApp extends StatelessWidget {
           //     ),
           FinishInterview.routeName: (ctx) => FinishInterview(),
           IntrviewScreen.routeName: (ctx) => IntrviewScreen(),
-          IntroCamScreen.routeName: (ctx) => IntroCamScreen(),
+          //  IntroCamScreen.routeName: (ctx) => IntroCamScreen(),
           WelcomeScreen.routeName: (ctx) => WelcomeScreen(),
+          myIntroCamScreen.routeName: (ctx) =>
+              myIntroCamScreen(cameras: cameras),
         },
       ),
     );
