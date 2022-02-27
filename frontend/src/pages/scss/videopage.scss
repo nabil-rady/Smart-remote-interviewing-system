@@ -8,7 +8,7 @@
 }
 
 .buttons {
-  margin-left: calc(45% - 75px);
+  margin-left: calc(50% - 75px);
   width: 150px;
   height: 40px;
   justify-content: center;
@@ -117,12 +117,11 @@
 .readCard {
   width: 100px;
   padding: 10px;
-  margin-left: calc(45% - 50px);
-  margin-top: 0.5rem;
+  margin: 0.5rem auto;
 }
 
 .questions {
-  margin: 0;
+  margin: 0 auto;
 }
 
 .readtimer {
