@@ -28,6 +28,12 @@ router.post(
   userControllers.postVerifyEmail
 );
 router.post('/login', userControllers.postLogin);
+router.post(
+  '/registration-token',
+  isAuth,
+  userValidations.postRegistrationToken,
+  userControllers.postRegistrationToken
+);
 router.post('/logout', isAuth, userControllers.postLogOut);
 
 module.exports = router;

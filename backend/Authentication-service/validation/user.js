@@ -111,8 +111,28 @@ const postVerifyEmail = [
   }),
 ];
 
+const postRegistrationToken = [
+  body('registrationToken', 'registrationToken should not be empty').custom(
+    (value) => {
+      if (value.length === 0) {
+        return false;
+      }
+      return true;
+    }
+  ),
+  body('web', 'The token should be sent from one device').custom(
+    (value, { req }) => {
+      if (value === req.body.mobile) {
+        return false;
+      }
+      return true;
+    }
+  ),
+];
+
 module.exports = {
   postSignupValidation,
   postConfirmEmail,
   postVerifyEmail,
+  postRegistrationToken,
 };

@@ -45,6 +45,18 @@ Content-Type: application/json
 
 ###
 
+POST {{host}}:8000/user/registration-token
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYWQ1NzIwYi00YzNmLTQ2NTctOTA2MC1kN2ZjNTk0MTQ5OGYiLCJpYXQiOjE2NDYxNDk3NDIsImV4cCI6MTY0NjE4NTc0Mn0.1zkbDuuj83YgDwWAVqZVNtTm_Ja1i8kGZwf8x30jCcQ
+Content-Type: application/json
+
+{
+    "registrationToken": "fgfs",
+    "web": false,
+    "mobile": true
+}
+
+###
+
 GET {{host}}:8001/user/ead5720b-4c3f-4657-9060-d7fc5941498f
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwMTk5YmViYi03ZDk1LTRmYWUtYTU3ZC1hNTU2ODY3ZTA3ZDUiLCJpYXQiOjE2NDUzMDc4ODUsImV4cCI6MTY0NTM0Mzg4NX0.lfdATDlZJI8vAlrkiaiCCfa9R4z1mpPMmnEXD3Tp_TE
 
@@ -74,7 +86,7 @@ Content-Type: application/json
 ###
 
 POST {{host}}:8000/user/logout
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwMTk5YmViYi03ZDk1LTRmYWUtYTU3ZC1hNTU2ODY3ZTA3ZDUiLCJpYXQiOjE2NDUzMDc4ODUsImV4cCI6MTY0NTM0Mzg4NX0.lfdATDlZJI8vAlrkiaiCCfa9R4z1mpPMmnEXD3Tp_TE
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYWQ1NzIwYi00YzNmLTQ2NTctOTA2MC1kN2ZjNTk0MTQ5OGYiLCJpYXQiOjE2NDYxNDk3NDIsImV4cCI6MTY0NjE4NTc0Mn0.1zkbDuuj83YgDwWAVqZVNtTm_Ja1i8kGZwf8x30jCcQ
 
 ###
 

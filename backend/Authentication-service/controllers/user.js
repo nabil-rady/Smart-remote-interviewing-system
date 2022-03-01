@@ -286,6 +286,43 @@ module.exports.postLogin = (req, res, next) => {
     });
 };
 
+module.exports.postRegistrationToken = async (req, res, next) => {
+  const { userId } = req;
+  const { registrationToken } = req.body;
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const error = new Error(`Validation failed.`);
+      error.statusCode = 422; // Validation error
+      error.data = errors.array();
+      throw error;
+    }
+
+    const user = await User.findOne({
+      where: {
+        userId,
+      },
+    });
+
+    if (req.body.web) {
+      user.webNotificationToken = registrationToken;
+      await user.save();
+    } else if (req.body.mobile) {
+      user.mobileNotificationToken = registrationToken;
+      await user.save();
+    }
+
+    res.status(200).json({
+      message: 'The registration token has been saved',
+    });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500; // serverSide error
+    }
+    return next(err);
+  }
+};
+
 module.exports.postLogOut = (req, res, next) => {
   const { userId } = req;
 
@@ -293,6 +330,8 @@ module.exports.postLogOut = (req, res, next) => {
   User.update(
     {
       loggedIn: false,
+      webNotificationToken: null,
+      mobileNotificationToken: null,
     },
     {
       where: {
