@@ -57,14 +57,6 @@ const User = sequelize.define('User', {
     type: DataTypes.DATE,
     allowNull: true,
   },
-  webNotificationToken: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
-  mobileNotificationToken: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
 });
 
 module.exports = User;

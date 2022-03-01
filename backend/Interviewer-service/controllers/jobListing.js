@@ -23,9 +23,9 @@ module.exports.postCreateListing = async (req, res, next) => {
     return next(error);
   }
 
-  const creatorId = req.userId;
-  const { positionName, expiryDate, questions } = req.body;
   try {
+    const creatorId = req.userId;
+    const { positionName, expiryDate, questions } = req.body;
     const creator = await User.findOne({
       where: {
         userId: creatorId,
@@ -111,9 +111,9 @@ module.exports.postCreateListing = async (req, res, next) => {
 };
 
 module.exports.getUserListings = async (req, res, next) => {
-  const userId = req.userId;
-
   try {
+    const userId = req.userId;
+
     const user = await User.findOne({
       where: {
         userId,
@@ -176,10 +176,10 @@ module.exports.getUserListings = async (req, res, next) => {
 };
 
 module.exports.getListing = async (req, res, next) => {
-  const userId = req.userId;
-  const listingId = req.params.listing_id;
-
   try {
+    const userId = req.userId;
+    const listingId = req.params.listing_id;
+
     const user = await User.findOne({
       where: {
         userId,
@@ -302,10 +302,10 @@ module.exports.postInvite = async (req, res, next) => {
     return next(error);
   }
 
-  const userId = req.userId;
-  const { listingId, candidates } = req.body;
-
   try {
+    const userId = req.userId;
+    const { listingId, candidates } = req.body;
+
     const user = await User.findOne({
       where: {
         userId,
@@ -407,10 +407,10 @@ module.exports.postInvite = async (req, res, next) => {
 };
 
 module.exports.getInterviewAnswers = async (req, res, next) => {
-  const interviewId = req.params.interview_id;
-  const userId = req.userId;
-
   try {
+    const interviewId = req.params.interview_id;
+    const userId = req.userId;
+
     const user = await User.findOne({
       where: {
         userId,

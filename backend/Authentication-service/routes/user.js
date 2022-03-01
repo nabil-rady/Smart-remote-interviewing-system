@@ -27,13 +27,14 @@ router.post(
   userValidations.postVerifyEmail,
   userControllers.postVerifyEmail
 );
-router.post('/login', userControllers.postLogin);
+
+router.post('/login', userValidations.postLogin, userControllers.postLogin);
+
 router.post(
-  '/registration-token',
+  '/logout',
   isAuth,
-  userValidations.postRegistrationToken,
-  userControllers.postRegistrationToken
+  userValidations.postLogout,
+  userControllers.postLogOut
 );
-router.post('/logout', isAuth, userControllers.postLogOut);
 
 module.exports = router;

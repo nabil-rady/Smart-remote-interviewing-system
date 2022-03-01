@@ -10,6 +10,7 @@ const Question = require('./models/question');
 const User = require('./models/user');
 const Video = require('./models/video');
 const Keyword = require('./models/keyword');
+const RegistartionToken = require('./models/registrationToken');
 
 // import routes
 const candidateRoutes = require('./routes/candidate');
