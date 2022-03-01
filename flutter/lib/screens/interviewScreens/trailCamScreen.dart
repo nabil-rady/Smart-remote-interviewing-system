@@ -1,12 +1,15 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:camera/camera.dart';
+import 'package:flutter_isolate/flutter_isolate.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:graduation_project/local/sharedpreferences.dart';
 import 'package:graduation_project/local/size_config.dart';
 import 'package:graduation_project/widgets/default_button.dart';
+
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 class myIntroCamScreen extends StatefulWidget {
@@ -72,15 +75,16 @@ class _myIntroCamScreenState extends State<myIntroCamScreen> {
   // }
 
   final _channel = WebSocketChannel.connect(
-    Uri.parse('ws://b7a4-45-243-197-41.ngrok.io'),
+    Uri.parse('ws://967f-45-246-210-47.ngrok.io'),
   );
   Timer? timer;
   CameraController? controller;
   bool redFlag = true;
-  int _counter = 0;
+  //int _counter = 0;
   Uint8List? _imageFile;
   XFile? pictureFile;
-
+  //TextEditingController trail = TextEditingController();
+  //CameraImage? image;
   // Future<void> takeScreen() async {
   //   final CameraController? cameraController = controller;
   //   if (cameraController == null || !cameraController.value.isInitialized) {
@@ -105,21 +109,65 @@ class _myIntroCamScreenState extends State<myIntroCamScreen> {
 
   // late var myCameras;
 
+  Future<void> takePic() async {
+    pictureFile = await controller!.takePicture();
+
+    _imageFile = await pictureFile!.readAsBytes().then((_) {
+      _channel.sink.add(_imageFile);
+    });
+  }
+
+  // @override
+  // void sd(onAvailable) {
+  //   var framesY = onAvailable.planes[0].bytes;
+  //   List<int>? gzipBytes = new GZipEncoder().encode(framesY);
+  //   //String compressedString = base64Encode(gzipBytes);
+  //   _channel.sink.add(gzipBytes);
+  // }
+
+  // Future<void> getScreenshot() async {
+  //   String? path = await NativeScreenshot.takeScreenshot();
+  //   print(path);
+  // }
+
   @override
   void initState() {
     // controller = getCameraController();
 
     super.initState();
     controller = CameraController(widget.cameras![0], ResolutionPreset.max);
-    controller?.initialize().then((_) {
+    controller?.initialize().then((_)
+        // async
+        {
+      //   await controller!.startImageStream((onAvailable) {
+      //     sd(onAvailable);
+      //   });
       if (!mounted) {
         return;
       }
+
       setState(() {});
     });
-    // timer = Timer.periodic(
-    //     const Duration(milliseconds: 500), (Timer t) => takeScreen());
+
+    // timer = Timer.periodic(const Duration(milliseconds: 500), (Timer t) async {
+    //   await takePic();
+    // });
   }
+
+  void isolateFunction(int dummy) {
+    timer = Timer.periodic(const Duration(milliseconds: 500), (Timer t) async {
+      print('ISOLATE');
+      await takePic();
+    });
+  }
+
+  // @override
+  // void didChangeDependencies() {
+  //   // TODO: implement didChangeDependencies
+  //   _imageFile = image!.planes[0].bytes;
+  //   _channel.sink.add(_imageFile);
+  //   super.didChangeDependencies();
+  // }
 
   @override
   void dispose() {
@@ -149,47 +197,67 @@ class _myIntroCamScreenState extends State<myIntroCamScreen> {
         ),
       );
     }
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Center(
-            child: SizedBox(
-              height: 400,
-              width: 400,
-              child: CameraPreview(controller!),
+    return Scaffold(
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Center(
+              child: SizedBox(
+                height: 400,
+                width: 400,
+                child:
+                    // CameraAwesome(
+                    //   imagesStreamBuilder: (imageStream) {
+                    //     _channel.sink.add(imageStream);
+
+                    //     /// listen for images preview stream
+                    //     /// you can use it to process AI recognition or anything else...
+                    //     print('-- init CamerAwesome images stream');
+                    //   },
+                    //   captureMode: ValueNotifier(CaptureModes.PHOTO),
+                    //   photoSize: ValueNotifier(screenSize),
+                    //   sensor: ValueNotifier(Sensors.BACK),
+                    // )
+                    CameraPreview(controller!),
+              ),
             ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ElevatedButton(
-            onPressed: () async {
-              pictureFile = await controller!.takePicture();
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton(
+              onPressed: () {
+                // await controller!.startImageStream((image) {
+                //   ;
+                //   print('111111');
+                //  });
+                FlutterIsolate.spawn(isolateFunction, 8);
+              },
 
-              _imageFile = await pictureFile!.readAsBytes();
-              _channel.sink.add(_imageFile);
-              print(_imageFile);
-              setState(() {});
-            },
-            child: const Text('Capture Image'),
+              // => takePic(),
+              child: const Text('Capture Image'),
+            ),
           ),
-        ),
-
-        // if (pictureFile != null)
-        //   Image.network(
-        //     pictureFile!.path,
-        //     height: 200,
-        //   )
-        //Android/iOS
-        // Image.file(File(pictureFile!.path)))
-        StreamBuilder(
-          stream: _channel.stream,
-          builder: (context, snapshot) {
-            return Text(snapshot.hasData ? 'jesus' : 'llllr');
-          },
-        )
-      ],
+          // Form(
+          //   child: TextFormField(
+          //     controller: trail,
+          //   ),
+          // ),
+          // if (pictureFile != null)
+          //   Image.network(
+          //     pictureFile!.path,
+          //     height: 200,
+          //   )
+          //Android/iOS
+          // Image.file(File(pictureFile!.path)))
+          StreamBuilder(
+            stream: _channel.stream,
+            builder: (context, snapshot) {
+              return Text(snapshot.hasData ? '${snapshot.data}' : 'llllr');
+            },
+          )
+        ],
+      ),
     );
     // Scaffold(
     //   body: Stack(
