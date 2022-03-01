@@ -61,13 +61,14 @@ const Camera = React.forwardRef((props, webcamRef) => {
             muted={true}
             screenshotFormat="image/png"
             className="video"
+            onUserMedia={props.onUserMedia}
+            onUserMediaError={props.onUserMediaError}
           />
           {props.children}
         </div>
       </>
     );
   };
-
   return render();
 });
 
