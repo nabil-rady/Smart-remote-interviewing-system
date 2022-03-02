@@ -6,9 +6,9 @@ const Keywords = require('../models/keyword');
 const rabbitMQ = require('../utils/rabbitMQ');
 
 module.exports.getJoinInterview = async (req, res, next) => {
-  const code = req.params.invitation_code;
-
   try {
+    const code = req.params.invitation_code;
+
     // get the interview
     const interview = await Interview.findOne({
       where: {
@@ -72,9 +72,9 @@ module.exports.getJoinInterview = async (req, res, next) => {
 };
 
 module.exports.postFinishInterview = async (req, res, next) => {
-  const { interviewId, videos } = req.body;
-
   try {
+    const { interviewId, videos } = req.body;
+
     const interview = await Interview.findOne({
       where: {
         interviewId,

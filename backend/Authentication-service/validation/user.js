@@ -111,8 +111,24 @@ const postVerifyEmail = [
   }),
 ];
 
+const postLogin = [
+  body('registrationToken', 'Invalid registration token').isLength({
+    min: 100,
+    max: 4096,
+  }),
+];
+
+const postLogout = [
+  body('registrationToken', 'Invalid registration token').isLength({
+    min: 100,
+    max: 4096,
+  }),
+];
+
 module.exports = {
   postSignupValidation,
   postConfirmEmail,
   postVerifyEmail,
+  postLogin,
+  postLogout,
 };

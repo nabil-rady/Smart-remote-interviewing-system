@@ -181,6 +181,47 @@ paths:
           description: Authentecation faild.
         '500':
           description: Server side error.
+
+  /user/registration-token:
+    post:
+      summary: Submit the registration token of the device.
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          description: jwt of the loggedin user.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                registrationToken:
+                  type: string
+                web:
+                  type: boolean
+                mobile:
+                  type: boolean
+      responses:
+        '200':
+          description: Registration token saved.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '404':
+          description: User not found.
+        '401':
+          description: Authentecation faild.
+        '500':
+          description: Server side error.
+
   /user/logout:
     post:
       summary: Logout for an interviewer.
@@ -203,6 +244,8 @@ paths:
                     type: string
         '401':
           description: Authentecation faild.
+        '422':
+          description: Validation faild.
         '500':
           description: Server side error.
   /user/{user_id}:
@@ -644,8 +687,12 @@ paths:
                           type: string
                         link:
                           type: string
+        '401':
+          description: Authentication faild, or email not confirmed.
         '403':
-          description: This interview has been started before.
+          description: You do not own the listing this interview belongs to.
+        '404':
+          description: Interview not found.
         '500':
           description: Server side error.
 

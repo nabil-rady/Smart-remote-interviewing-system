@@ -24,3 +24,9 @@ services:
       # - /app/node_modules
     ports:
       - 8002:8080
+
+  notification-service:
+    build: ./Notification-service
+    volumes:
+      - ./Notification-service:/app
+      # - /app/node_modules

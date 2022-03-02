@@ -8,6 +8,7 @@ const customId = require('custom-id');
 const uuid = require('uuid');
 
 const User = require('../models/user');
+const RegistrationToken = require('../models/registrationToken');
 
 module.exports.postSignup = (req, res, next) => {
   // Check for validation errors
@@ -222,93 +223,113 @@ module.exports.postVerifyEmail = (req, res, next) => {
     });
 };
 
-module.exports.postLogin = (req, res, next) => {
-  const { email, password } = req.body;
-  let fetchedUser, token, tokenExpireDate;
-  User.findOne({
-    // fetch the user
-    where: {
-      email,
-    },
-  })
-    .then((user) => {
-      if (!user) {
-        // check if the user does not exist.
-        const error = new Error('Email not found');
-        error.statusCode = 404;
-        throw error;
-      }
-      fetchedUser = user;
-      return bcrypt.compare(password.toString(), user.password); // compare the enterd password with the hashed one.
-    })
-    .then((isEqual) => {
-      if (!isEqual) {
-        // if the password is wrong
-        const error = new Error('Incorrect password');
-        error.statusCode = 401; // Authentication faild
-        throw error;
-      }
-      token = createToken(
-        fetchedUser.dataValues.userId,
-        process.env.TOKEN_SECRET,
-        '10h'
-      );
-      tokenExpireDate = new Date(0);
-      tokenExpireDate.setUTCSeconds(jwt.decode(token).exp);
+module.exports.postLogin = async (req, res, next) => {
+  // Check for validation errors
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const error = new Error(`Validation failed.`);
+    error.statusCode = 422; // Validation error
+    error.data = errors.array();
+    return next(error);
+  }
 
-      // loggedIn => true
-      return User.update(
-        {
-          loggedIn: true,
-        },
-        {
-          where: {
-            userId: fetchedUser.dataValues.userId,
-          },
-        }
-      );
-    })
-    .then((updatedsUser) => {
-      const { password, loggedIn, verificationCode, ...user } =
-        fetchedUser.dataValues;
-      user.loggedIn = true;
-      res.status(200).json({
-        user,
-        token,
-        tokenExpireDate,
-      });
-    })
-    .catch((err) => {
-      if (!err.statusCode) {
-        err.statusCode = 500; // serverSide error
-      }
-      next(err);
+  try {
+    const { email, registrationToken } = req.body;
+    const enteredPassword = req.body.password;
+
+    const user = await User.findOne({
+      // fetch the user
+      where: {
+        email,
+      },
     });
+
+    if (!user) {
+      // check if the user does not exist.
+      const error = new Error('Email not found');
+      error.statusCode = 404;
+      throw error;
+    }
+
+    // compare the enterd password with the hashed one.
+    const isEqual = await bcrypt.compare(
+      enteredPassword.toString(),
+      user.password
+    );
+    if (!isEqual) {
+      // if the password is wrong
+      const error = new Error('Incorrect password');
+      error.statusCode = 401; // Authentication faild
+      throw error;
+    }
+
+    const token = createToken(
+      user.dataValues.userId,
+      process.env.TOKEN_SECRET,
+      '10h'
+    );
+    let tokenExpireDate = new Date(0);
+    tokenExpireDate.setUTCSeconds(jwt.decode(token).exp);
+
+    user.loggedIn = true;
+    await user.save();
+
+    await RegistrationToken.create({
+      token: registrationToken,
+      userId: user.dataValues.userId,
+    });
+
+    const { password, verificationCode, ...returnedUser } = user.dataValues;
+    res.status(200).json({
+      user: returnedUser,
+      token,
+      tokenExpireDate,
+    });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500; // serverSide error
+    }
+    next(err);
+  }
 };
 
-module.exports.postLogOut = (req, res, next) => {
-  const { userId } = req;
+module.exports.postLogOut = async (req, res, next) => {
+  // Check for validation errors
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const error = new Error(`Validation failed.`);
+    error.statusCode = 422; // Validation error
+    error.data = errors.array();
+    return next(error);
+  }
 
-  // loggedIn => falsse, and return invalid token
-  User.update(
-    {
-      loggedIn: false,
-    },
-    {
+  try {
+    const { userId } = req;
+    const { registrationToken } = req.body;
+
+    // loggedIn => falsse, and return invalid token, remove the registration token
+    const user = await User.findOne({
       where: {
-        userId: userId,
+        userId,
       },
-    }
-  )
-    .then((updatesUser) => {
-      res.status(200).json({
-        token: createToken(userId, process.env.TOKEN_SECRET, '-10s'),
-      });
-    })
-    .catch((err) => {
-      if (!err.statusCode) {
-        err.statusCode = 500; // serverSide error
-      }
-      next(err);
     });
+    user.loggedIn = false;
+    await user.save();
+
+    await RegistrationToken.destroy({
+      where: {
+        userId,
+        token: registrationToken,
+      },
+    });
+
+    res.status(200).json({
+      token: createToken(userId, process.env.TOKEN_SECRET, '-10s'),
+    });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500; // serverSide error
+    }
+    next(err);
+  }
 };

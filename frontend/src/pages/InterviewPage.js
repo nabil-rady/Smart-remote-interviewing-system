@@ -4,7 +4,7 @@ import Card from '../components/Card';
 import InterviewQuestions from '../components/InterviewQuestions';
 import Timer from '../utils/timer';
 
-const BeforeInterviewPage = () => {
+const InterviewPage = () => {
   let trueCount = 0,
     falseCount = 0;
 
@@ -15,6 +15,8 @@ const BeforeInterviewPage = () => {
   const [interviewBegun, setInterviewBegun] = useState(false);
   const [loading, setLoading] = useState(true);
   const [readyForInterview, setReadyForInterview] = useState(false);
+  const [userHasCamera, setUserHasCamera] = useState(false);
+
   const faceColor = readyForInterview ? 'red' : 'green';
 
   const sendFrames = async () => {
@@ -40,16 +42,16 @@ const BeforeInterviewPage = () => {
       const notOk = new Int8Array(buffer)[0];
 
       if (notOk) {
-        if (trueCount < 5) trueCount++;
+        if (trueCount < 3) trueCount++;
         falseCount = 0;
       } else {
-        if (falseCount < 5) falseCount++;
+        if (falseCount < 3) falseCount++;
         trueCount = 0;
       }
 
-      if (trueCount >= 5) {
+      if (trueCount >= 3) {
         setReadyForInterview(true);
-      } else if (falseCount >= 5) {
+      } else if (falseCount >= 3) {
         setReadyForInterview(false);
       }
     }
@@ -57,6 +59,12 @@ const BeforeInterviewPage = () => {
 
   const onSocketClose = () => {
     if (timer.current) timer.current.stop();
+    console.log(loading);
+    if (!loading) {
+      // failre after connection has started already
+      console.log('Failed! Please restart.');
+      return;
+    }
     console.log('websocket Closed');
     if (!interviewBegun) {
       webSocket.current = new WebSocket('ws://localhost:8765');
@@ -91,25 +99,38 @@ const BeforeInterviewPage = () => {
           faceColor={faceColor}
           loading={loading}
           webSocket={webSocket.current}
+          onUserMedia={() => setUserHasCamera(true)}
+          onUserMediaError={() => setUserHasCamera(false)}
         >
           <div className="start-interview">
             <Card className="start-interview-card">
-              <p className="start-interview-title">
-                Make sure your face is in the indicated square and the lighting
-                in the room is bright enough
-              </p>
-              <button
-                className="start-interview-button"
-                onClick={beginInterview}
-                disabled={readyForInterview}
-              >
-                Start interview
-              </button>
+              {userHasCamera && (
+                <>
+                  <p className="start-interview-title">
+                    Make sure your face is in the indicated square and the
+                    lighting in the room is bright enough.
+                  </p>
+                  <button
+                    className="start-interview-button"
+                    onClick={beginInterview}
+                    disabled={readyForInterview}
+                  >
+                    Start interview
+                  </button>
+                </>
+              )}
+              {!userHasCamera && (
+                <p className="start-interview-title">
+                  No camera detected. Please make sure you connect your camera
+                  then refresh this page.
+                </p>
+              )}
             </Card>
           </div>
         </Camera>
       );
     }
+
     return (
       <Camera
         ref={webcamRef}
@@ -117,6 +138,8 @@ const BeforeInterviewPage = () => {
         loading={loading}
         webSocket={webSocket.current}
         interviewBegun={interviewBegun}
+        onUserMedia={() => setUserHasCamera(true)}
+        onUserMediaError={() => setUserHasCamera(false)}
       >
         <InterviewQuestions ref={webcamRef} />
       </Camera>
@@ -126,4 +149,4 @@ const BeforeInterviewPage = () => {
   return render();
 };
 
-export default BeforeInterviewPage;
+export default InterviewPage;

@@ -27,7 +27,14 @@ router.post(
   userValidations.postVerifyEmail,
   userControllers.postVerifyEmail
 );
-router.post('/login', userControllers.postLogin);
-router.post('/logout', isAuth, userControllers.postLogOut);
+
+router.post('/login', userValidations.postLogin, userControllers.postLogin);
+
+router.post(
+  '/logout',
+  isAuth,
+  userValidations.postLogout,
+  userControllers.postLogOut
+);
 
 module.exports = router;

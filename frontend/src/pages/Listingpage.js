@@ -65,17 +65,7 @@ function ListingPage() {
     im25,
     im26,
   ];
-  // const fetchPost = () => {
-  //   fetch(`${APIURL}/job-listing/get-listings`)
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       console.log(data);
-  //       getPositions(data.jobListings);
-  //     });
-  // };
-  // useEffect(() => {
-  //   fetchPost();
-  // }, []);
+
   let positions = [
     {
       positionName: 'Softwarqweeqwqwweqwqeweqwqeewqewqewwqeewqweqe',

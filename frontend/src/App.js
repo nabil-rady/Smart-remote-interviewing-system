@@ -28,7 +28,6 @@ import PositionDetails from './pages/PositionDetails';
 import IntroPage from './pages/IntroPage';
 import ViewApplicants from './pages/viewApplicants';
 import ApplicantDetails from './pages/applicantDeteils';
-import BeforeInterviewPage from './pages/InterviewPage';
 import NewLanding from './pages/newLandingpage';
 import WelcomePage from './pages/WelcomePage';
 
@@ -82,9 +81,6 @@ function App() {
             </PublicRoute>
             <PrivateRoute isAuthenticated={!!authUser} path="/interview" exact>
               <TakeInterviewPage />
-            </PrivateRoute>
-            <PrivateRoute isAuthenticated={!!authUser} path="/before-interview">
-              <BeforeInterviewPage />
             </PrivateRoute>
             <PrivateRoute isAuthenticated={!!authUser} path="/question" exact>
               <CounterPage />
