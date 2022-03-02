@@ -124,9 +124,7 @@ const SignUpForm = () => {
   };
   return (
     <>
-      {verificationCard && (
-        <EmailVerification verificationHandler={verificationHandler} />
-      )}
+      {verificationCard && <EmailVerification route={'/login'} />}
       {error && (
         <ErrorModal
           title={error.title}

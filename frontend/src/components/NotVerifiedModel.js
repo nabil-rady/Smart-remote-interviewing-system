@@ -8,7 +8,7 @@ const NotVerified = () => {
   const clickHandler = () => setShow(true);
   return (
     <>
-      {show && <EmailVerification />}
+      {show && <EmailVerification route={'/dashboard'} />}
       <img src={verifyImg} className="verifyImg" />
       <h1 className="verifyHeader"> Thanks for joinging Vividly! </h1>
       <p className="verifyTxtOne">Please confirm your email address</p>
