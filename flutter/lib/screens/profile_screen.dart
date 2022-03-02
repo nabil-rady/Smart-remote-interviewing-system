@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:graduation_project/local/http_exception.dart';
-import 'package:graduation_project/local/sharedpreferences.dart';
-import 'package:graduation_project/screens/change_pass.dart';
-import 'package:intl_phone_field/intl_phone_field.dart';
+import '../local/http_exception.dart';
+import '../local/sharedpreferences.dart';
+import '../screens/change_pass.dart';
 import '../providers/auth_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:country_pickers/country_pickers.dart';
@@ -24,15 +23,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
       await Provider.of<Auth>(context, listen: false)
           .editPhoneNumber(countryCode, phone);
       showErrorDialog(
-          context, 'Your phone number has been edited sucessfully.');
+          context, 'Your phone number has been edited sucessfully.', false);
     } on HttpException catch (error) {
       if (error.toString().contains('Validation failed')) {
-        showErrorDialog(
-            context, "Phone number should be between 7 and 15 numbers length!");
+        showErrorDialog(context,
+            "Phone number should be between 7 and 15 numbers length!", true);
       }
     } catch (e) {
-      showErrorDialog(
-          context, "Phone number coundn't be changed , please try again later");
+      showErrorDialog(context,
+          "Phone number coundn't be changed , please try again later", true);
     }
   }
 
@@ -132,24 +131,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       '+' + value.phoneCode.toString();
                                 },
                               ),
-                              SizedBox(
-                                  height: 20,
-                                  width: 100,
-                                  child: TextField(
-                                    controller: myController,
-                                  ))
+                              Expanded(
+                                child: SizedBox(
+                                    height: 20,
+                                    width: 100,
+                                    child: TextField(
+                                      controller: myController,
+                                    )),
+                              )
                             ])
                           : Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
-                                //  isTextFild
-                                // ? SizedBox(
-                                //     height: 20,
-                                //     width: 250,
-                                //     child: TextField(
-                                //       controller: myController,
-                                //     ))
-                                //:
                                 Text(employerData.countryCode +
                                     " " +
                                     employerData.phone),
@@ -159,7 +152,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     setState(() {
                                       isTextFild = !isTextFild;
                                       myflag = true;
-                                      //  print(employerData.countryCode);
                                     });
                                   },
                                   color: Theme.of(context).primaryColor,
@@ -189,22 +181,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                             color: Colors.white,
                           ),
-                          // RaisedButton(
-                          //   child: Text(
-                          //     'Change Phone Number',
-                          //     style: TextStyle(
-                          //       color: Theme.of(context).primaryColor,
-                          //     ),
-                          //   ),
-                          //   onPressed: () {
-                          //     Navigator.of(context)
-                          //         .pushNamed(ChangePassScreen.routeName);
-                          //   },
-                          //   shape: RoundedRectangleBorder(
-                          //     borderRadius: BorderRadius.circular(30),
-                          //   ),
-                          //   color: Colors.white,
-                          // ),
                           RaisedButton(
                             child: const Text(
                               'Save Changes',
@@ -214,9 +190,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               employerData.phone = myController.text;
                               editPhone(
                                   employerData.countryCode, employerData.phone);
-                              print(employerData.phone);
-                              //print(employerData.phone);
-                              // Navigator.of(context).pop();
                             },
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:graduation_project/screens/main_screen.dart';
+import '../screens/main_screen.dart';
 
 class TokenExpiry extends StatelessWidget {
   //static const routename = '/token_expiry';

@@ -52,7 +52,7 @@ class _InvitationFormState extends State<InvitationForm> {
   Map<String, dynamic> candidate = {
     'name': '',
     'email': '',
-    'phoneCode': '',
+    'phoneCode': '+20',
     'phoneNumber': ''
   };
   // var candidate = Candidate(
@@ -146,16 +146,17 @@ class _InvitationFormState extends State<InvitationForm> {
         await Provider.of<Candidates>(context, listen: false)
             .addAplicant(posCandidate, false);
 
-        showErrorDialog(context, "Invitaions have been sent successfully.");
+        showErrorDialog(
+            context, "Invitaions have been sent successfully.", false);
       } on HttpException catch (error) {
         ////  print(error);
         if (error.toString().contains('Validation failed')) {
-          showErrorDialog(
-              context, 'Please check the phone number of your candidate !');
+          showErrorDialog(context,
+              'Please check the phone number of your candidate !', true);
         }
       } catch (error) {
         print(error);
-        showErrorDialog(context, "Coundn't invite this candidite.");
+        showErrorDialog(context, "Coundn't invite this candidite.", true);
       }
     } else {
       try {
@@ -257,7 +258,7 @@ class _InvitationFormState extends State<InvitationForm> {
         // Provider.of<Interviews>(context, listen: false).addAplicant(candidate);
 
       } catch (e) {
-        showErrorDialog(context, "Coundn't invite these candidites.");
+        showErrorDialog(context, "Coundn't invite these candidites.", true);
       }
     }
     //print(employeeData);

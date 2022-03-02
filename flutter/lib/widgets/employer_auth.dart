@@ -1,4 +1,6 @@
 import 'package:country_pickers/country.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:country_pickers/country_pickers.dart';
@@ -17,6 +19,13 @@ class EmployerAuth extends StatefulWidget {
 }
 
 class _EmployerAuthState extends State<EmployerAuth> {
+  @override
+  void initState() {
+    super.initState();
+    Firebase.initializeApp();
+  }
+
+  // final FirebaseMessaging _fcm = FirebaseMessaging.instance;
   bool hasIntrnet = false;
   String confirmCode = '';
   Map<String, String> authData = {
@@ -98,9 +107,9 @@ class _EmployerAuthState extends State<EmployerAuth> {
                 });
                 Navigator.of(ctx).pop();
               } on HttpException catch (error) {
-                showErrorDialog(context, 'Wrong verification code');
+                showErrorDialog(context, 'Wrong verification code', true);
               } catch (error) {
-                showErrorDialog(context, 'Wrong verification code');
+                showErrorDialog(context, 'Wrong verification code', true);
               }
             },
           ),
@@ -110,7 +119,7 @@ class _EmployerAuthState extends State<EmployerAuth> {
               try {
                 await Provider.of<Auth>(context, listen: false).sendEmail();
               } catch (error) {
-                showErrorDialog(context, error.toString());
+                showErrorDialog(context, error.toString(), true);
               }
             },
           ),
@@ -130,15 +139,20 @@ class _EmployerAuthState extends State<EmployerAuth> {
     });
     try {
       if (_authMode == AuthMode.login) {
-        //  Log user in
+        final fbm = FirebaseMessaging.instance;
+        final token = await fbm.getToken();
+        saveFirebaseToken(token.toString());
+        print(token);
         await Provider.of<Auth>(context, listen: false)
             .login(
           authData['email'].toString(),
           authData['password'].toString(),
+          token.toString(),
         )
             .then((value) {
           Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
         });
+        //  });
       } else {
         // Sign user up
         await Provider.of<Auth>(context, listen: false).signup(
@@ -154,21 +168,23 @@ class _EmployerAuthState extends State<EmployerAuth> {
         _showConfirmDialog();
       }
     } on HttpException catch (error) {
+      print(error);
       var errorMessage = 'Authentication failed';
       if (error.toString().contains('Email not found')) {
         errorMessage = 'This email address is not found.';
       } else if (error.toString().contains('Incorrect password')) {
         errorMessage = 'Invalid password.';
       }
-      showErrorDialog(context, errorMessage);
+      showErrorDialog(context, errorMessage, true);
 
       setState(() {
         _isLoading = false;
       });
     } catch (error) {
+      print(error);
       const errorMessage =
           'Could not authenticate you. Please try again later.';
-      showErrorDialog(context, errorMessage);
+      showErrorDialog(context, errorMessage, true);
 
       setState(() {
         _isLoading = false;

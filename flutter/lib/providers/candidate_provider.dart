@@ -1,7 +1,7 @@
 import 'dart:convert';
 import '../local/http_exception.dart';
 import 'package:flutter/material.dart';
-import 'package:graduation_project/models/positionCandidate.dart';
+import '../models/positionCandidate.dart';
 import '../models/candidate.dart';
 import 'package:http/http.dart' as http;
 
@@ -22,40 +22,40 @@ class Candidates with ChangeNotifier {
   }
 
   Future<void> addAplicant(PositionCandidiate member, bool flag) async {
-    const url = 'https://vividly-api.herokuapp.com/job-listing/invite';
-    //  try {
+    // const url = 'https://vividly-api.herokuapp.com/job-listing/invite';
+    const url = 'http://10.0.2.2:8001/job-listing/invite';
+    try {
+      final response = await http.post(Uri.parse(url),
+          headers: <String, String>{
+            'Content-Type': 'application/json',
+            'Authorization': authToken.toString(),
+          },
+          body: json.encode({
+            'listingId': member.positionId,
+            'candidates': flag
+                ? _candidates
+                : [
+                    {
+                      'name': member.candidatesMapList['name'],
+                      'email': member.candidatesMapList['email'],
+                      'phoneCode': member.candidatesMapList['phoneCode'],
+                      'phoneNumber': member.candidatesMapList['phoneNumber']
+                    }
+                  ]
+          }));
 
-    final response = await http.post(Uri.parse(url),
-        headers: <String, String>{
-          'Content-Type': 'application/json',
-          'Authorization': authToken.toString(),
-        },
-        body: json.encode({
-          'listingId': member.positionId,
-          'candidates': flag
-              ? _candidates
-              : [
-                  {
-                    'name': member.candidatesMapList['name'],
-                    'email': member.candidatesMapList['email'],
-                    'phoneCode': member.candidatesMapList['phoneCode'],
-                    'phoneNumber': member.candidatesMapList['phoneNumber']
-                  }
-                ]
-        }));
+      print(response.statusCode);
 
-    print(response.statusCode);
-
-    final responseData = json.decode(response.body);
-    if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
-      _candidates.add(member.candidatesMapList);
-      notifyListeners();
-    } else {
-      throw HttpException(responseData['message']);
+      if (response.statusCode == 200) {
+        final responseData = json.decode(response.body);
+        _candidates.add(member.candidatesMapList);
+        notifyListeners();
+      } else {
+        throw HttpException(responseData['message']);
+      }
+    } catch (error) {
+      print(error);
     }
-    // } catch (error) {
-    //   print(error);
-    // }
   }
 }

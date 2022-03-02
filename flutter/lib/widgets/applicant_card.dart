@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:graduation_project/models/candidate.dart';
+import '../models/candidate.dart';
 import 'package:intl/intl.dart';
 
 class ApplicantCard extends StatelessWidget {

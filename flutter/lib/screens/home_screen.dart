@@ -76,9 +76,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   Navigator.of(ctx).pop();
                   _positionsFuture = getPositionsFuture(context);
                 } on HttpException catch (error) {
-                  showErrorDialog(context, 'Wrong verification code');
+                  showErrorDialog(context, 'Wrong verification code', true);
                 } catch (error) {
-                  showErrorDialog(context, 'Wrong verification code');
+                  showErrorDialog(context, 'Wrong verification code', true);
                 }
               },
             ),
@@ -88,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 try {
                   await Provider.of<Auth>(context, listen: false).sendEmail();
                 } catch (error) {
-                  showErrorDialog(context, error.toString());
+                  showErrorDialog(context, error.toString(), true);
                 }
               },
             ),
@@ -102,7 +102,7 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text('Dashboard'),
         backgroundColor: Theme.of(context).primaryColor,
       ),
-      drawer: AppDrawer(),
+      drawer: employerData.emailConfirmed ? AppDrawer() : null,
       body: !employerData.emailConfirmed
           ? SingleChildScrollView(
               child: Padding(

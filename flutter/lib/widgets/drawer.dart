@@ -3,13 +3,13 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:graduation_project/local/sharedpreferences.dart';
-import 'package:graduation_project/providers/auth_provider.dart';
-import 'package:graduation_project/screens/main_screen.dart';
+import '../local/sharedpreferences.dart';
+import '../providers/auth_provider.dart';
+import '../screens/main_screen.dart';
 
-import 'package:graduation_project/screens/position_screen.dart';
-import 'package:graduation_project/screens/profile_screen.dart';
-import 'package:graduation_project/screens/waiting_screen.dart';
+import '../screens/position_screen.dart';
+import '../screens/profile_screen.dart';
+import '../screens/waiting_screen.dart';
 import 'package:provider/provider.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -49,7 +49,8 @@ class AppDrawer extends StatelessWidget {
                 .pushReplacementNamed(PositionScreen.routeName);
           }),
           const Divider(),
-          _buildListTile(Icons.exit_to_app, 'Log out', () {
+          _buildListTile(Icons.exit_to_app, 'Log out', () async{
+           
             Provider.of<Auth>(context, listen: false).logOut().then((value) {
               Navigator.pushAndRemoveUntil(
                   context,
