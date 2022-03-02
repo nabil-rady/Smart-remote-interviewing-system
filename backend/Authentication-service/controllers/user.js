@@ -279,8 +279,7 @@ module.exports.postLogin = async (req, res, next) => {
       userId: user.dataValues.userId,
     });
 
-    const { password, loggedIn, verificationCode, ...returnedUser } =
-      user.dataValues;
+    const { password, verificationCode, ...returnedUser } = user.dataValues;
     res.status(200).json({
       user: returnedUser,
       token,

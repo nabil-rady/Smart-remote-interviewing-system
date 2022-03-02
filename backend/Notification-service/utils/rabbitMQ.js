@@ -1,7 +1,7 @@
 /* RabbitMQ */
 const amqp = require('amqplib');
 const admin = require('firebase-admin');
-const serviceAccount = require('./vividly-cadbb-firebase-adminsdk-icsv1-68ec9a01f4.json');
+const serviceAccount = require('./vividly-notification-firebase-adminsdk-tjcu9-cd989f4539.json');
 
 const Interview = require('../models/interview');
 const User = require('../models/user');
