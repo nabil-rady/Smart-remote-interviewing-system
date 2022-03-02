@@ -5,10 +5,15 @@ import './scss/EmailVerification.scss';
 import { userId } from './SignUpForm';
 import { APIURL } from '../API/APIConstants';
 import handleError from '../utils/errorHandling';
+import { useHistory } from 'react-router-dom';
 const EmailVerification = (props) => {
   const [message, setMessage] = useState('');
   const [code, setCode] = useState();
   const [error, setError] = useState();
+  const history = useHistory();
+  const redirect = () => {
+    history.push(props.route);
+  };
   const changeHandler = (e) => {
     setCode(e.target.value);
   };
@@ -37,6 +42,7 @@ const EmailVerification = (props) => {
         console.log(data);
         if (statusCode === 200) {
           setMessage(data.message);
+          redirect();
         } else handleError(statusCode, data, setError);
       })
       .catch((error) => {

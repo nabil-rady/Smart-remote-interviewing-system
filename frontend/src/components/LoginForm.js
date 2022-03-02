@@ -7,12 +7,16 @@ import handleError from '../utils/errorHandling';
 import './scss/login.scss';
 import avatarURL from '../user.jpg';
 import { Link } from 'react-router-dom';
-
+import { useHistory } from 'react-router-dom';
 const LoginForm = () => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [error, setError] = useState();
   const setAuthUser = useContext(UserContext).setAuthUser;
+  const history = useHistory();
+  const redirect = () => {
+    history.push('/dashboard');
+  };
   const submitHandler = (e) => {
     e.preventDefault();
     // Send data to backend
@@ -39,6 +43,7 @@ const LoginForm = () => {
             ...data.user,
             token: data.token,
           });
+          redirect();
         } else handleError(statusCode, data, setError);
       })
       .catch((error) => {
