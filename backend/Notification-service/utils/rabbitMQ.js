@@ -31,25 +31,30 @@ module.exports.consume = async () => {
             interviewId: result.interviewId,
           },
         });
-        const user = await User.findOne({
-          where: {
-            userId: interview.dataValues.userId,
-          },
-        });
+
         const jobListing = await JobListing.findOne({
           where: {
             jobListingId: interview.dataValues.jobListingId,
           },
         });
+
+        const user = await User.findOne({
+          where: {
+            userId: jobListing.dataValues.userId,
+          },
+        });
+
         const fetchedRegistrationTokens = await RegistartionToken.findAll({
           where: {
-            uesrId: user.dataValues.userId,
+            userId: user.dataValues.userId,
           },
         });
 
         const registrationTokens = fetchedRegistrationTokens.map(
           (token) => token.dataValues.token
         );
+
+        // const registrationTokens = 'eUdWYJMIT4m6cCOB_e7rIV:APA91bGGIX0EG3WsjeeBm4org6it-mmt_fAdtU5DfjkvIn6CKwMi4gSbkWvDf74akjWhNuszau8zsT4UwUItk_VVk3vhHchX2Og_ogu2dMRJV8N-GsIzWwnnDEcwzJaTwM9NAI1MJVBX';
 
         const notification = {
           notification: {
