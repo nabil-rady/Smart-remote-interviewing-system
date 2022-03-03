@@ -58,8 +58,10 @@ module.exports.consume = async () => {
 
         const notification = {
           notification: {
-            title: 'This is a Notification',
-            body: 'This is the body of the notification message.',
+            title: 'Interview result!!',
+            body: `${interview.dataValues.name} interview for ${jobListing.dataValues.positionName} position has been processed.
+            /nCome to see the reults.`,
+            interviewId: interview.dataValues.interviewId,
           },
         };
 
