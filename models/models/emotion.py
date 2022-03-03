@@ -18,23 +18,27 @@ class emotionDetect:
         while cap.isOpened():
             # Grab a single frame of video
             ret, frame = cap.read()
-            gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-            faces = face_classifier.detectMultiScale(gray, 1.3, 5)
-            for (x, y, w, h) in faces:
-                #cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
-                roi_gray = gray[y:y + h, x:x + w]
-                roi_gray = cv2.resize(roi_gray, (48, 48), interpolation=cv2.INTER_AREA)
+            try:
+                gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+                faces = face_classifier.detectMultiScale(gray, 1.3, 5)
+                for (x, y, w, h) in faces:
+                    #cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
+                    roi_gray = gray[y:y + h, x:x + w]
+                    roi_gray = cv2.resize(roi_gray, (48, 48), interpolation=cv2.INTER_AREA)
 
-                if np.sum([roi_gray]) != 0:
-                    roi = roi_gray.astype('float') / 255.0
-                    roi = img_to_array(roi)
-                    roi = np.expand_dims(roi, axis=0)
+                    if np.sum([roi_gray]) != 0:
+                        roi = roi_gray.astype('float') / 255.0
+                        roi = img_to_array(roi)
+                        roi = np.expand_dims(roi, axis=0)
 
-                    # make a prediction on the ROI, then lookup the class
+                        # make a prediction on the ROI, then lookup the class
 
-                    preds = classifier.predict(roi)[0]
-                    label = class_labels[preds.argmax()]
-                    self.status.append(label)
+                        preds = classifier.predict(roi)[0]
+                        label = class_labels[preds.argmax()]
+                        #print(label)
+                        self.status.append(label)
+            except:
+                break
         cap.release()
         cv2.destroyAllWindows()
     def user_status(self):
@@ -54,20 +58,3 @@ class emotionDetect:
         for i in range(len(count)):
             res.append([class_labels[i], count[i] / len(self.status)])
         return res
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

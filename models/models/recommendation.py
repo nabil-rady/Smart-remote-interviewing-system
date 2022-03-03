@@ -14,22 +14,23 @@ class recomm:
     def __init__(self,path,keywords):
         video_clip = me.VideoFileClip(r"{}".format(path))
         #path2 = path.replace("mp4", "wav")
-        path2 = "x.wav"
+        path2 = "y2.wav"
         video_clip.audio.write_audiofile(r"{}".format(path2), nbytes=2)
         recognizer = sr.Recognizer()
         d = denoise(path2)
-        a = AudioSegment.from_wav(path2)
+        """a = AudioSegment.from_wav(path2)
         a = a + 5
-        a.export(path2, "wav")
+        a.export(path2, "wav")"""
         audio_clip = sr.AudioFile("{}".format(path2))
         with audio_clip as source:
+            #recognizer.adjust_for_ambient_noise(source)
             audio_file = recognizer.record(source)
         sent = []
         result = ""
         try:
             result = recognizer.recognize_google(audio_file)
         except sr.UnknownValueError:
-            print("Can not process audio")
+            print("Can not process audio ")
         if not result:
             self.y = 0
         else:
