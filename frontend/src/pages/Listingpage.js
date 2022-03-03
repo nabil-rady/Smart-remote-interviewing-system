@@ -35,7 +35,7 @@ import im26 from '../solidBG/26.jpg';
 
 import NotVerified from '../components/NotVerifiedModel';
 function ListingPage() {
-  const [positions, getPositions] = useState();
+  const [positions, getPositions] = useState([]);
   const authUser = useContext(UserContext).authUser;
   let backgrounds = [
     im1,
@@ -66,7 +66,12 @@ function ListingPage() {
     im26,
   ];
   const fetchPost = () => {
-    fetch(`${HRURL}/job-listing/get-listings`)
+    fetch(`${HRURL}/job-listing/get-listings`, {
+      method: 'GET',
+      headers: {
+        Authorization: authUser.token,
+      },
+    })
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
@@ -105,9 +110,13 @@ function ListingPage() {
   return (
     <>
       {authUser.emailConfirmed ? (
-        <div classpositionName="positions">
-          <PositionCard positions={positions} backgrounds={backgrounds} />
-        </div>
+        positions.length > 0 ? (
+          <div classpositionName="positions">
+            <PositionCard positions={positions} backgrounds={backgrounds} />
+          </div>
+        ) : (
+          <h1>No Positions to view</h1>
+        )
       ) : (
         <NotVerified />
       )}

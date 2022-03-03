@@ -9,6 +9,7 @@ import { useHistory } from 'react-router-dom';
 import { UserContext } from '../App';
 const EmailVerification = (props) => {
   const authUser = useContext(UserContext).authUser;
+  const setAuthUser = useContext(UserContext).setAuthUser;
   const [message, setMessage] = useState('');
   const [verificationCode, setCode] = useState();
   const [error, setError] = useState();
@@ -31,9 +32,9 @@ const EmailVerification = (props) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: authUser.token,
       },
       body: JSON.stringify({
-        userId: authUser.userId,
         verificationCode,
       }),
     })
@@ -46,6 +47,10 @@ const EmailVerification = (props) => {
         console.log(data);
         if (statusCode === 200) {
           setMessage(data.message);
+          setAuthUser((oldUser) => ({
+            ...oldUser,
+            emaiConfirmed: true,
+          }));
           redirect();
         } else handleError(statusCode, data, setError);
       })

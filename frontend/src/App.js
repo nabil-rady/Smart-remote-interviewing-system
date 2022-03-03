@@ -30,24 +30,29 @@ import NewLanding from './pages/newLandingpage';
 import WelcomePage from './pages/WelcomePage';
 import NotificationTest from './pages/TestNotification';
 
-const mockUserObject = {
-  userId: 'ABC123',
-  token: 'aiwdjssqwijeoqiweoqu2398192381123',
-  password: '123456789',
-  firstName: 'Mohammed',
-  lastName: 'Moussa',
-  CompanyName: 'Mentor',
-  email: 'mm9079381@gmail.com',
-  PhoneCode: '02',
-  PhoneNo: '01125894119',
-  emailConfirmed: false,
-};
+// const mockUserObject = {
+//   userId: 'ABC123',
+//   token: 'aiwdjssqwijeoqiweoqu2398192381123',
+//   password: '123456789',
+//   firstName: 'Mohammed',
+//   lastName: 'Moussa',
+//   CompanyName: 'Mentor',
+//   email: 'mm9079381@gmail.com',
+//   PhoneCode: '02',
+//   PhoneNo: '01125894119',
+//   emailConfirmed: false,
+// };
 
 const UserContext = React.createContext();
 const LoadingContext = React.createContext();
 
 function App() {
-  const [authUser, setAuthUser] = useState(mockUserObject);
+  const [authUser, setAuthUser] = useState(
+    JSON.parse(localStorage.getItem('user')) || null
+  );
+  useEffect(() => {
+    localStorage.setItem('user', JSON.stringify(authUser));
+  }, [authUser]);
   const [loading, setLoading] = useState(false);
   const isVerified = authUser?.emailConfirmed;
   const render = () => {

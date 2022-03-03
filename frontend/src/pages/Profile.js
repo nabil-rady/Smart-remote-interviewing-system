@@ -9,7 +9,7 @@ import { HRURL } from '../API/APIConstants';
 import ErrorModal from '../components/ErrorModal';
 import handleError from '../utils/errorHandling';
 function ProfilePage() {
-  let formattedvalue = '';
+  let formattedValue = '';
   const authUser = useContext(UserContext).authUser;
   const [enteredPhoneNo, setEnteredPhoneNo] = useState('');
   const [error, setError] = useState();
@@ -21,24 +21,6 @@ function ProfilePage() {
   };
   const submitHandler = (e) => {
     e.preventDefault();
-  };
-
-  const Modify = () => {
-    let tests = formattedvalue.split(' ');
-    console.log(tests);
-    let num = '';
-    for (let i = 1; i < tests.length; i++) {
-      num += tests[i];
-    }
-    console.log(num);
-    setEnteredPhoneCode(tests[0]);
-    setEnteredPhoneNo(num);
-  };
-  const handleOnChange = (value, data, event, formattedValue) => {
-    formattedvalue = formattedValue;
-    Modify();
-  };
-  const handleSave = () => {
     let statusCode;
     fetch(`${HRURL}/user/edit`, {
       method: 'PUT',
@@ -47,8 +29,8 @@ function ProfilePage() {
         Authorization: authUser.token,
       },
       body: JSON.stringify({
-        enteredPhoneCode,
-        enteredPhoneNo,
+        phoneCode: enteredPhoneCode,
+        phoneNumber: enteredPhoneNo,
       }),
     })
       .then((response) => {
@@ -59,14 +41,31 @@ function ProfilePage() {
       .then((data) => {
         console.log(data);
         if (statusCode === 200) {
-          setAuthUser({
+          setAuthUser((oldUser) => ({
+            ...oldUser,
             ...data.user,
-          });
+          }));
         } else handleError(statusCode, data, setError);
       })
       .catch((error) => {
         console.error('Error:', error);
       });
+  };
+
+  const Modify = (formattedValue) => {
+    let tests = formattedValue.split(' ');
+    console.log(tests);
+    let num = '';
+    for (let i = 1; i < tests.length; i++) {
+      num += tests[i];
+    }
+    console.log(num);
+    setEnteredPhoneCode(tests[0]);
+    setEnteredPhoneNo(num);
+  };
+  const handleOnChange = (value, data, event, modifiedValue) => {
+    formattedValue = modifiedValue;
+    Modify(formattedValue);
   };
   return (
     <>
@@ -110,7 +109,7 @@ function ProfilePage() {
             className="change-inputs"
             type="text"
             placeholder="Company Name"
-            value={authUser.CompanyName}
+            value={authUser.companyName}
             disabled
           />
           <label htmlFor="Email" className="change-label">
@@ -135,7 +134,7 @@ function ProfilePage() {
                 autoFocus: true,
                 disabled: false,
               }}
-              value={authUser.PhoneNo}
+              value={authUser.phoneCode + authUser.phoneNumber}
               country={'eg'}
               onChange={handleOnChange}
               inputStyle={{
@@ -171,7 +170,7 @@ function ProfilePage() {
             <button className="changepass">
               <a href="/changepass">Change Password</a>
             </button>
-            <button className="save" type="submit" onClick={handleSave}>
+            <button className="save" type="submit">
               Save Changes
             </button>
           </div>

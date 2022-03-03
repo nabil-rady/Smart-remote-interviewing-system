@@ -9,15 +9,55 @@ import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import EmailVerification from './EmailVerification';
 import { Link } from 'react-router-dom';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/messaging';
 let userId;
 const SignUpForm = () => {
-  const [Email, setEmail] = useState();
-  const [Password, setPassword] = useState();
-  const [CompanyName, setCompanyName] = useState();
-  const [Phone, setNum] = useState();
+  const [registrationToken, setToken] = useState();
+  const firebaseConfig = {
+    apiKey: 'AIzaSyDuqj0k4SCgC-KQjHnZhV4dLxMDI8NaiS8',
+    authDomain: 'vividly-notification.firebaseapp.com',
+    projectId: 'vividly-notification',
+    storageBucket: 'vividly-notification.appspot.com',
+    messagingSenderId: '964487453958',
+    appId: '1:964487453958:web:93e6d088edf1bb5fe4d287',
+    measurementId: 'G-G29W0NWEVB',
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const messaging = firebase.messaging();
+  const [show, setShow] = useState(false);
+  const [isTokenFound, setTokenFound] = useState(false);
+  const [notification, setNotification] = useState({ title: '', body: '' });
+  // getToken(setTokenFound);
+  const onMessageListener = () =>
+    new Promise((resolve) => {
+      messaging.onMessage((payload) => {
+        resolve(payload);
+      });
+    });
+  onMessageListener()
+    .then((message) => {
+      console.log(message);
+      setNotification(message.notification);
+      setShow(true);
+    })
+    .catch((err) => console.log('failed: ', err));
+  messaging
+    .getToken()
+    .then((token) => {
+      setToken(token);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+  const [companyName, setCompanyName] = useState();
+  const [phone, setNum] = useState();
   const [firstName, setFirstName] = useState();
-  const [LastName, setLastName] = useState();
-  const [ConfirmPassword, setConfirmPassword] = useState();
+  const [lastName, setLastName] = useState();
+  const [confirmPassword, setConfirmPassword] = useState();
   const [error, setError] = useState();
   const [phoneCode, setCode] = useState();
   const [verificationCard, setVerificationCard] = useState(false);
@@ -35,14 +75,14 @@ const SignUpForm = () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        firstName: firstName,
-        lastName: LastName,
-        companyName: CompanyName,
-        email: Email,
-        password: Password,
-        confirmPassword: ConfirmPassword,
-        phoneCode: phoneCode,
-        phoneNumber: Phone,
+        firstName,
+        lastName,
+        companyName,
+        email,
+        password,
+        confirmPassword,
+        phoneCode,
+        phoneNumber: phone,
       }),
     })
       .then((response) => {
@@ -53,18 +93,40 @@ const SignUpForm = () => {
         console.log(data);
         if (statusCode === 201) {
           console.log('Success');
-          setAuthUser(data.user);
-          setVerificationCard(true);
         } else handleError(statusCode, data, setError);
-        return fetch(`${APIURL}/user/confirm-email`, {
+        console.log(registrationToken);
+        return fetch(`${APIURL}/user/login`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            userId: data.user.userId,
+            email,
+            password,
+            registrationToken,
           }),
         });
+      })
+      .then((loginResponse) => {
+        statusCode = loginResponse.status;
+        return loginResponse.json();
+      })
+      .then((response) => {
+        console.log(response);
+        if (statusCode === 200) {
+          console.log('Success');
+          console.log(response);
+          setAuthUser({ ...response.user, token: response.token });
+          // console.log(authUser);
+          setVerificationCard(true);
+          return fetch(`${APIURL}/user/confirm-email`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: response.token,
+            },
+          });
+        } else handleError(statusCode, response.data, setError);
       })
       .then((confirmResponse) => {
         return confirmResponse.json();
@@ -73,6 +135,7 @@ const SignUpForm = () => {
         console.log(response);
         if (statusCode === 200) {
           console.log('Success');
+          setVerificationCard(true);
         } else handleError(statusCode, response.data, setError);
       })
       .catch((error) => {
