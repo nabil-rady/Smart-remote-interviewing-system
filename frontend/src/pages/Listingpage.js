@@ -4,7 +4,7 @@ import PositionCard from '../components/positionCard';
 import SideMenu from '../components/SideMenu';
 import NoNotification from '../components/NoNotification';
 import './scss/listingpage.scss';
-import { APIURL } from '../API/APIConstants';
+import { HRURL } from '../API/APIConstants';
 import { UserContext } from '../App';
 import im1 from '../solidBG/1.jpg';
 import im2 from '../solidBG/2.jpg';
@@ -35,7 +35,7 @@ import im26 from '../solidBG/26.jpg';
 
 import NotVerified from '../components/NotVerifiedModel';
 function ListingPage() {
-  // const [positions, getPositions] = useState();
+  const [positions, getPositions] = useState();
   const authUser = useContext(UserContext).authUser;
   let backgrounds = [
     im1,
@@ -65,33 +65,43 @@ function ListingPage() {
     im25,
     im26,
   ];
-
-  let positions = [
-    {
-      positionName: 'Softwarqweeqwqwweqwqeweqwqeewqewqewwqeewqweqe',
-      expiryDate: '2022-11-7',
-      invitationsNumber: 5,
-      interviewsNumber: 4,
-    },
-    {
-      positionName: 'Hardware',
-      expiryDate: '2021-11-7',
-      invitationsNumber: 5,
-      interviewsNumber: 4,
-    },
-    {
-      positionName: 'AI',
-      expiryDate: '2021-11-7',
-      invitationsNumber: 5,
-      interviewsNumber: 4,
-    },
-    {
-      positionName: 'Digital Design',
-      expiryDate: '2021-11-7',
-      invitationsNumber: 5,
-      interviewsNumber: 4,
-    },
-  ];
+  const fetchPost = () => {
+    fetch(`${HRURL}/job-listing/get-listings`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        getPositions(data.jobListings);
+      });
+  };
+  useEffect(() => {
+    fetchPost();
+  }, []);
+  // let positions = [
+  //   {
+  //     positionName: 'Softwarqweeqwqwweqwqeweqwqeewqewqewwqeewqweqe',
+  //     expiryDate: '2022-11-7',
+  //     invitationsNumber: 5,
+  //     interviewsNumber: 4,
+  //   },
+  //   {
+  //     positionName: 'Hardware',
+  //     expiryDate: '2021-11-7',
+  //     invitationsNumber: 5,
+  //     interviewsNumber: 4,
+  //   },
+  //   {
+  //     positionName: 'AI',
+  //     expiryDate: '2021-11-7',
+  //     invitationsNumber: 5,
+  //     interviewsNumber: 4,
+  //   },
+  //   {
+  //     positionName: 'Digital Design',
+  //     expiryDate: '2021-11-7',
+  //     invitationsNumber: 5,
+  //     interviewsNumber: 4,
+  //   },
+  // ];
   return (
     <>
       {authUser.emailConfirmed ? (

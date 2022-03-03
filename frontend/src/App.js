@@ -4,10 +4,8 @@ import PublicRoute from './Routes/PublicRoute';
 import PrivateRoute from './Routes/PrivateRoute';
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
-import CounterPage from './pages/Questions';
 import React, { useEffect, useState } from 'react';
 import { TailSpin } from 'react-loader-spinner';
-import ImageSlider from './pages/ImageSlider';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.scss';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
@@ -51,7 +49,7 @@ const LoadingContext = React.createContext();
 function App() {
   const [authUser, setAuthUser] = useState(mockUserObject);
   const [loading, setLoading] = useState(false);
-
+  const isVerified = authUser?.emailConfirmed;
   const render = () => {
     if (loading) {
       return (
@@ -74,24 +72,29 @@ function App() {
             <Route path="/" exact>
               <NewLanding />
             </Route>
-            <PublicRoute isAuthenticated={!!authUser} path="/login" exact>
-              <LoginPage />
-            </PublicRoute>
-            <PublicRoute isAuthenticated={!!authUser} path="/signup" exact>
-              <SignUpPage />
-            </PublicRoute>
-            <PrivateRoute isAuthenticated={!!authUser} path="/interview" exact>
-              <TakeInterviewPage />
-            </PrivateRoute>
-            <PrivateRoute isAuthenticated={!!authUser} path="/question" exact>
-              <CounterPage />
-            </PrivateRoute>
-            <PrivateRoute
+            <PublicRoute
               isAuthenticated={!!authUser}
-              path="/instructions"
+              isVerified={isVerified}
+              path="/login"
               exact
             >
-              <ImageSlider />
+              <LoginPage />
+            </PublicRoute>
+            <PublicRoute
+              isAuthenticated={!!authUser}
+              isVerified={isVerified}
+              path="/signup"
+              exact
+            >
+              <SignUpPage />
+            </PublicRoute>
+            <PrivateRoute
+              isAuthenticated={!!authUser}
+              isVerified={isVerified}
+              path="/interview"
+              exact
+            >
+              <TakeInterviewPage />
             </PrivateRoute>
             {/* <PrivateRoute isAuthenticated={!!authUser} path="/selectposition" exact>
             <PositionForm />
@@ -102,38 +105,84 @@ function App() {
             {/* <PrivateRoute isAuthenticated={!!authUser} path="/profile" exact>
             <Profile />
           </PrivateRoute> */}
-            <PrivateRoute isAuthenticated={!!authUser} path="/add" exact>
+            <PrivateRoute
+              isAuthenticated={!!authUser}
+              isVerified={isVerified}
+              path="/add"
+              exact
+            >
               <AddQues />
             </PrivateRoute>
-            <PrivateRoute isAuthenticated={!!authUser} path="/invite" exact>
+            <PrivateRoute
+              isAuthenticated={!!authUser}
+              isVerified={isVerified}
+              path="/invite"
+              exact
+            >
               <InvitationPage />
             </PrivateRoute>
-            <PrivateRoute isAuthenticated={!!authUser} path="/changepass" exact>
+            <PrivateRoute
+              isAuthenticated={!!authUser}
+              isVerified={isVerified}
+              path="/changepass"
+              exact
+            >
               <ChangePassword />
             </PrivateRoute>
             {/* <PrivateRoute isAuthenticated={!!authUser} path="/notifications" exact>
             <NotificationPage />
           </PrivateRoute> */}
-            <PrivateRoute isAuthenticated={!!authUser} path="/positions" exact>
+            <PrivateRoute
+              isAuthenticated={!!authUser}
+              isVerified={isVerified}
+              path="/positions"
+              exact
+            >
               <AddPosition />
             </PrivateRoute>
-            <PrivateRoute isAuthenticated={!!authUser} path="/video" exact>
+            <PrivateRoute
+              isAuthenticated={!!authUser}
+              isVerified={isVerified}
+              path="/video"
+              exact
+            >
               <InterviewPage />
             </PrivateRoute>
-            <PrivateRoute isAuthenticated={!!authUser} path="/dashboard" exact>
+            <PrivateRoute
+              isAuthenticated={!!authUser}
+              isVerified={isVerified}
+              path="/dashboard"
+              exact
+            >
               <Dashboard />
             </PrivateRoute>
-            <PrivateRoute isAuthenticated={!!authUser} path="/listing" exact>
+            <PrivateRoute
+              isAuthenticated={!!authUser}
+              isVerified={isVerified}
+              path="/listing"
+              exact
+            >
               <ListingPage />
             </PrivateRoute>
-            <PrivateRoute isAuthenticated={!!authUser} path="/position" exact>
+            <PrivateRoute
+              isAuthenticated={!!authUser}
+              isVerified={isVerified}
+              path="/position"
+              exact
+            >
               <PositionPage />
             </PrivateRoute>
-            <PrivateRoute isAuthenticated={!!authUser} path="/intro" exact>
+            <PrivateRoute
+              isAuthenticated={!!authUser}
+              isVerified={isVerified}
+              path="/intro"
+              exact
+            >
               <IntroPage />
             </PrivateRoute>
             <PrivateRoute
               isAuthenticated={!!authUser}
+              isVerified={isVerified}
               path="/positiondetails"
               exact
             >
@@ -141,6 +190,7 @@ function App() {
             </PrivateRoute>
             <PrivateRoute
               isAuthenticated={!!authUser}
+              isVerified={isVerified}
               path="/view_applicants"
               exact
             >
@@ -148,15 +198,26 @@ function App() {
             </PrivateRoute>
             <PrivateRoute
               isAuthenticated={!!authUser}
+              isVerified={isVerified}
               path="/applicant_details"
               exact
             >
               <ApplicantDetails />
             </PrivateRoute>
-            <PrivateRoute isAuthenticated={!!authUser} path="/welcome" exact>
+            <PrivateRoute
+              isAuthenticated={!!authUser}
+              isVerified={isVerified}
+              path="/welcome"
+              exact
+            >
               <WelcomePage />
             </PrivateRoute>
-            <PrivateRoute isAuthenticated={!!authUser} path="/test" exact>
+            <PrivateRoute
+              isAuthenticated={!!authUser}
+              isVerified={isVerified}
+              path="/test"
+              exact
+            >
               <NotificationTest />
             </PrivateRoute>
             {/* <PrivateRoute isAuthenticated={!!authUser} path="/evaluate">

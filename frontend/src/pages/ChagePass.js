@@ -3,7 +3,7 @@ import NavBar from '../components/NavBar';
 import SideMenu from '../components/SideMenu';
 import Card from '../components/Card';
 import { UserContext } from '../App';
-import { APIURL } from '../API/APIConstants';
+import { HRURL } from '../API/APIConstants';
 import './scss/changepass.scss';
 import EmailVerification from '../components/EmailVerification';
 import handleError from '../utils/errorHandling';
@@ -70,7 +70,7 @@ const ChangePassword = () => {
   const submitHandler = (e) => {
     e.preventDefault();
     let statusCode;
-    fetch(`${APIURL}/user/changepassword`, {
+    fetch(`${HRURL}/user/changepassword`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

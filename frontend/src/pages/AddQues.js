@@ -4,7 +4,7 @@ import SideMenu from '../components/SideMenu';
 import QuestionCard from '../components/QuestionCard';
 import './scss/Add.scss';
 import PositionForm from '../components/position';
-import { APIURL } from '../API/APIConstants';
+import { HRURL } from '../API/APIConstants';
 import ErrorModal from '../components/ErrorModal';
 import handleError from '../utils/errorHandling';
 import { Button, Row, Col, Toast } from 'react-bootstrap';
@@ -158,7 +158,7 @@ function AddQues() {
   };
   const saveHandler = () => {
     let statusCode;
-    fetch(`${APIURL}/job-listing/create`, {
+    fetch(`${HRURL}/job-listing/create`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

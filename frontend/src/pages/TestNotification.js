@@ -20,7 +20,10 @@ function NotificationTest() {
   const messaging = firebase.messaging();
   const [show, setShow] = useState(false);
   const [isTokenFound, setTokenFound] = useState(false);
-  const [notification, setNotification] = useState({ title: '', body: '' });
+  const [notification, setNotification] = useState({
+    title: '',
+    body: '',
+  });
   // getToken(setTokenFound);
   const onMessageListener = () =>
     new Promise((resolve) => {
@@ -49,7 +52,7 @@ function NotificationTest() {
       <Toast
         onClose={() => setShow(false)}
         show={show}
-        delay={6000}
+        delay={10000}
         autohide
         animation
         style={{
