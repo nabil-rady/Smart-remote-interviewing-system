@@ -28,7 +28,6 @@ module.exports.postSignup = (req, res, next) => {
     password,
     phoneCode,
     phoneNumber,
-    registrationToken,
   } = req.body;
   bcrypt
     .hash(password, 12) // hash the password
@@ -42,23 +41,13 @@ module.exports.postSignup = (req, res, next) => {
         password: hashedPassword,
         phoneCode: phoneCode.toString(),
         phoneNumber: phoneNumber.toString(),
-        loggedIn: true,
       });
     })
     .then(async (createdUser) => {
       const { password, verificationCode, ...user } = createdUser.dataValues;
-      const token = createToken(user.userId, process.env.TOKEN_SECRET, '10h');
-      let tokenExpireDate = new Date(0);
-      tokenExpireDate.setUTCSeconds(jwt.decode(token).exp);
 
-      await RegistrationToken.create({
-        token: registrationToken,
-        userId: user.userId,
-      });
       res.status(201).json({
         user,
-        token,
-        tokenExpireDate,
       });
     })
     .catch((err) => {
@@ -79,7 +68,7 @@ module.exports.postConfirmEmail = async (req, res, next) => {
     return next(error);
   }
 
-  const { userId } = req.body;
+  const { userId } = req;
   const user = await User.findOne({
     // fetch the user's data
     where: {
@@ -173,7 +162,8 @@ module.exports.postVerifyEmail = (req, res, next) => {
     throw error;
   }
 
-  const { verificationCode, userId } = req.body;
+  const { verificationCode } = req.body;
+  const { userId } = req;
 
   User.findOne({
     // fetch the user.

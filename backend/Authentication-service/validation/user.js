@@ -80,10 +80,6 @@ const postSignupValidation = [
       }
       return true;
     }),
-  body('registrationToken', 'Invalid registration token').isLength({
-    min: 100,
-    max: 4096,
-  }),
 ];
 
 const postConfirmEmail = [
@@ -107,12 +103,12 @@ const postVerifyEmail = [
     }
     return true;
   }),
-  body('userId', 'User id is not correct.').custom((value) => {
-    if (value.length !== 36) {
-      return false;
-    }
-    return true;
-  }),
+  // body('userId', 'User id is not correct.').custom((value) => {
+  //   if (value.length !== 36) {
+  //     return false;
+  //   }
+  //   return true;
+  // }),
 ];
 
 const postLogin = [
