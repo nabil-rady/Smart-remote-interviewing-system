@@ -80,6 +80,10 @@ const postSignupValidation = [
       }
       return true;
     }),
+  body('registrationToken', 'Invalid registration token').isLength({
+    min: 100,
+    max: 4096,
+  }),
 ];
 
 const postConfirmEmail = [

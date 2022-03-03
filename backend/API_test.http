@@ -7,11 +7,12 @@ Content-Type: application/json
     "firstName": "test",
     "lastName": "test",
     "companyName": "Vividly",
-    "email": "test@gmail.com",
+    "email": "test223@gmail.com",
     "password": 123456789,
     "confirmPassword": 123456789,
     "phoneCode": "+20",
-    "phoneNumber": 1155282790
+    "phoneNumber": 1155282790,
+    "registrationToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwMTk5YmViYi03ZDk1LTRmYWUtYTU3ZC1hNTU2ODY3ZTA3ZDUiLCJpYXQiOjE2NDUzMDc4ODUsImV4cCI6MTY0NTM0Mzg4NX0.lfdATDlZJI8vAlrkiaiCCfa9R4z1mpPMmnEXD3Tp_TE"
 }
 
 ###

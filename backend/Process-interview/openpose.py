@@ -21,9 +21,11 @@ class openPose:
         net = cv2.dnn.readNetFromTensorflow("graph_opt.pb")
         cap = cv2.VideoCapture(path)
         while cap.isOpened():
-            inWidth = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
-            inHeight = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
             hasFrame, frame = cap.read()
+            if not hasFrame:
+                break
+            inWidth = 224
+            inHeight = 224
             frameWidth = frame.shape[1]
             frameHeight = frame.shape[0]
 
@@ -53,16 +55,23 @@ class openPose:
                 pnt_change = 0
                 for i in range(min(len(points), len(self.pointsCur))):
                     p_dif = np.subtract(points[i], self.pointsCur[i])
-                    # print(p_dif)
-                    x_dif = abs(p_dif[0] / points[i][0])
-                    y_dif = abs(p_dif[1] / points[i][1])
-                    if x_dif >= 0.05 or y_dif >= 0.05:
-                        pnt_change = pnt_change + 1
+                    try:
+                        x_dif = abs(p_dif[0] / points[i][0])
+                        y_dif = abs(p_dif[1] / points[i][1])
+                        if x_dif >= 0.05 or y_dif >= 0.05:
+                            pnt_change = pnt_change + 1
+                    except:
+                        continue
                     # print(x_dif)
                     # print(y_dif)
                 if pnt_change > 1:
                     self.change = self.change + 1
             self.pointsCur = points
+            self.count = self.count + 1
+        cap.release()
+        cv2.destroyAllWindows()
     def res(self):
+        print(self.change)
+        print(self.count)
         per = (self.change / self.count) * 100.0
         return per
