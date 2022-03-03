@@ -6,11 +6,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/messaging';
 function NotificationTest() {
-  // getToken();
-  // const [show, setShow] = useState(false);
-  // const [notification, setNotification] = useState({title: '', body: ''});
-  // const [isTokenFound, setTokenFound] = useState(false);
-
   const firebaseConfig = {
     apiKey: 'AIzaSyDuqj0k4SCgC-KQjHnZhV4dLxMDI8NaiS8',
     authDomain: 'vividly-notification.firebaseapp.com',
