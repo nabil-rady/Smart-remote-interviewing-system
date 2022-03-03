@@ -28,7 +28,7 @@ const SignUpForm = () => {
     e.preventDefault();
     // Send data to backend
     let statusCode;
-    setVerificationCard(true);
+
     fetch(`${APIURL}/user/signup`, {
       method: 'POST',
       headers: {
@@ -51,9 +51,10 @@ const SignUpForm = () => {
       })
       .then((data) => {
         console.log(data);
-        if (statusCode === 200) {
+        if (statusCode === 201) {
           console.log('Success');
-          userId = data.user.userId;
+          setAuthUser(data.user);
+          setVerificationCard(true);
         } else handleError(statusCode, data, setError);
         return fetch(`${APIURL}/user/confirm-email`, {
           method: 'POST',
@@ -124,7 +125,7 @@ const SignUpForm = () => {
   };
   return (
     <>
-      {verificationCard && <EmailVerification route={'/login'} />}
+      {verificationCard && <EmailVerification route={'/dashboard'} />}
       {error && (
         <ErrorModal
           title={error.title}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Card from './Card';
 import ErrorModal from './ErrorModal';
 import './scss/EmailVerification.scss';
@@ -6,9 +6,11 @@ import { userId } from './SignUpForm';
 import { APIURL } from '../API/APIConstants';
 import handleError from '../utils/errorHandling';
 import { useHistory } from 'react-router-dom';
+import { UserContext } from '../App';
 const EmailVerification = (props) => {
+  const authUser = useContext(UserContext).authUser;
   const [message, setMessage] = useState('');
-  const [code, setCode] = useState();
+  const [verificationCode, setCode] = useState();
   const [error, setError] = useState();
   const history = useHistory();
   const redirect = () => {
@@ -23,14 +25,16 @@ const EmailVerification = (props) => {
   const submitHandler = (e) => {
     e.preventDefault();
     let statusCode;
+    console.log(verificationCode);
+    console.log(userId);
     fetch(`${APIURL}/user/verify`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        userId,
-        code,
+        userId: authUser.userId,
+        verificationCode,
       }),
     })
       .then((response) => {
@@ -70,13 +74,14 @@ const EmailVerification = (props) => {
             minLength="8"
             maxLength="8"
             onChange={changeHandler}
-            value={code}
+            value={verificationCode}
             required
           />
           <button
             className="ok"
             onClick={props.verificationHandler}
             type="submit"
+            disabled={!authUser}
           >
             OK
           </button>

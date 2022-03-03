@@ -5,7 +5,7 @@ import './scss/profile.scss';
 import { UserContext } from '../App';
 import Card from '../components/Card';
 import PhoneInput from 'react-phone-input-2';
-import { APIURL } from '../API/APIConstants';
+import { HRURL } from '../API/APIConstants';
 import ErrorModal from '../components/ErrorModal';
 import handleError from '../utils/errorHandling';
 function ProfilePage() {
@@ -40,7 +40,7 @@ function ProfilePage() {
   };
   const handleSave = () => {
     let statusCode;
-    fetch(`${APIURL}/user/edit`, {
+    fetch(`${HRURL}/user/edit`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

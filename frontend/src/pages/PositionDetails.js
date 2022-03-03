@@ -4,7 +4,7 @@ import SideMenu from '../components/SideMenu';
 import EmailVerification from '../components/EmailVerification';
 import NavBar from '../components/NavBar';
 import { globalId } from '../components/positionCard';
-import { APIURL } from '../API/APIConstants';
+import { HRURL } from '../API/APIConstants';
 import { Button, Row, Col, Toast } from 'react-bootstrap';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/messaging';
@@ -60,7 +60,7 @@ const PositionDetails = () => {
     setVerificationCard(false);
   };
   const fetchPost = () => {
-    fetch(`${APIURL}/job-listing/${globalId}`)
+    fetch(`${HRURL}/job-listing/${globalId}`)
       .then((res) => res.json())
       .then((res) => {
         console.log(res);
