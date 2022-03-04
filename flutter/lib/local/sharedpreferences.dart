@@ -102,9 +102,3 @@ void saveFirebaseToken(String token) async {
 String getFirebaseToken() {
   return firebasetoken;
 }
-
-// Future<String?> getToken() async {
-//   String? token = await FirebaseMessaging.instance.getToken();
-//   print(token);
-//   return token;
-// }

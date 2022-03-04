@@ -54,14 +54,22 @@ class _PositionScreenState extends State<PositionScreen> {
                   children: <Widget>[
                     Flexible(
                         child: Consumer<DashboardPositions>(
-                      builder: (ctx, positionData, child) => ListView.builder(
-                        shrinkWrap: true,
-                        itemBuilder: (ctx, i) => PositionItem(
-                            positionData.positionsItems[i].position,
-                            positionData.positionsItems[i].id),
-                        itemCount: positionData.positionsItems.length,
-                      ),
-                    )),
+                            builder: (ctx, positionData, child) => positionData
+                                    .positionsItems.isNotEmpty
+                                ? ListView.builder(
+                                    shrinkWrap: true,
+                                    itemBuilder: (ctx, i) => PositionItem(
+                                        positionData.positionsItems[i].position,
+                                        positionData.positionsItems[i].id),
+                                    itemCount:
+                                        positionData.positionsItems.length,
+                                  )
+                                : const Center(
+                                    child: Text(
+                                      "welcome to Vividly please add some positions",
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ))),
                     CircleAvatar(
                       radius: 20,
                       backgroundColor: Theme.of(context).primaryColor,

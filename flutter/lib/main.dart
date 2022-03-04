@@ -142,6 +142,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
+import 'package:test/local/navigator.dart';
 import 'package:test/widgets/position_form.dart';
 // import '../screens/intro_to_interview_screen.dart';
 
@@ -176,27 +177,46 @@ import '../providers/session_provider.dart';
 import '../screens/interviewScreens/welcom_screen.dart';
 import './screens/interviewScreens/trailCamScreen.dart';
 
-const AndroidNotificationChannel channel = AndroidNotificationChannel(
-  'high_importance_channel', // id
-  'High Importance Notifications', // title
-  description:
-      'This channel is used for important notifications.', // description
-  importance: Importance.high,
-);
+// const AndroidNotificationChannel channel = AndroidNotificationChannel(
+//   'high_importance_channel', // id
+//   'High Importance Notifications', // title
+//   description:
+//       'This channel is used for important notifications.', // description
+//   importance: Importance.high,
+// );
+// Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+//   print("onBackgroundMessage: $message");
+// }
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
 List<CameraDescription>? cameras;
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   cameras = await availableCameras();
   await sharedPreferences();
   await Firebase.initializeApp();
-  await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>()
-      ?.createNotificationChannel(channel);
+  // await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+  //   alert: true,
+  //   badge: true,
+  //   sound: true,
+  // );
+  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  // FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
+  //   print("onMessageOpenedApp: $message");
+  //   // Navigator.pushNamed(
+  //   //     context,
+  //   //     NotificationScreen.routeName,
+
+  //   //   );
+  // });
+  // await Firebase.initializeApp();
+  // await flutterLocalNotificationsPlugin
+  //     .resolvePlatformSpecificImplementation<
+  //         AndroidFlutterLocalNotificationsPlugin>()
+  //     ?.createNotificationChannel(channel);
 
   //FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   runApp(MyApp());
@@ -245,6 +265,7 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
+        // navigatorKey: GlobalVariable.navState,
         // theme: ThemeData.dark(),
         title: 'Vividly',
         theme: ThemeData(

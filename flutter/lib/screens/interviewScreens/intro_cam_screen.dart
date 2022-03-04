@@ -32,8 +32,8 @@ class _IntroCamScreenState extends State<IntroCamScreen> {
   void initState() {
     controller = getCameraController();
     super.initState();
-    timer = Timer.periodic(
-        const Duration(milliseconds: 500), (Timer t) => takeScreen());
+    // timer = Timer.periodic(
+    //     const Duration(milliseconds: 500), (Timer t) => takeScreen());
   }
 
   Future<void> takeScreen() async {
@@ -73,7 +73,8 @@ class _IntroCamScreenState extends State<IntroCamScreen> {
     double cameraScale = screenSize.aspectRatio * controller.value.aspectRatio;
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    // print(height);
+    print(height);
+    print(width);
     var padding = MediaQuery.of(context).padding;
     double newheight = height - padding.top - padding.bottom;
     double margin = 50 / 100 * (height);
@@ -95,9 +96,11 @@ class _IntroCamScreenState extends State<IntroCamScreen> {
                   Align(
                     alignment: Alignment.topCenter,
                     child: Container(
-                      margin: EdgeInsets.only(top: height * 18 / 100),
-                      height: height > 700 ? 500 : 350,
-                      width: height > 700 ? 500 : 350,
+                      margin: EdgeInsets.only(top: height * 15 / 100),
+                      // height: height > 700 ? 500 : 350,
+                      // width: height > 700 ? 500 : 350,
+                      height: height * 0.55,
+                      width: width * 0.5,
                       decoration: BoxDecoration(
                         border: Border.all(
                           color: !snapshot.hasData ||
