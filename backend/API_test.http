@@ -7,7 +7,7 @@ Content-Type: application/json
     "firstName": "test",
     "lastName": "test",
     "companyName": "Vividly",
-    "email": "test@gmail.com",
+    "email": "test225@gmail.com",
     "password": 123456789,
     "confirmPassword": 123456789,
     "phoneCode": "+20",
@@ -16,33 +16,30 @@ Content-Type: application/json
 
 ###
 
-POST {{host}}:8000/user/confirm-email
-Content-Type: application/json
-
-{
-    "userId": "ead5720b-4c3f-4657-9060-d7fc5941498f"
-}
-
-###
-
-POST {{host}}:8000/user/verify
-Content-Type: application/json
-
-{
-    "userId": "ead5720b-4c3f-4657-9060-d7fc5941498f",
-    "verificationCode": "78EA46GM"
-}
-
-###
-
 POST {{host}}:8000/user/login
 Content-Type: application/json
 
 {
-    "email": "mohamed.medhat2199@gmail.com",
+    "email": "test225@gmail.com",
     "password": 123456789,
     "registrationToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwMTk5YmViYi03ZDk1LTRmYWUtYTU3ZC1hNTU2ODY3ZTA3ZDUiLCJpYXQiOjE2NDUzMDc4ODUsImV4cCI6MTY0NTM0Mzg4NX0.lfdATDlZJI8vAlrkiaiCCfa9R4z1mpPMmnEXD3Tp_TE"
 }
+
+###
+
+POST {{host}}:8000/user/confirm-email
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1MjBhYzNkNC04Zjc0LTRhN2EtYmI4OC1lODM1M2Y5YTZlNDEiLCJpYXQiOjE2NDYzMzMxOTIsImV4cCI6MTY0NjM2OTE5Mn0.H6BWVjJaIJEnEi61W1NQg56vcX0s4RJ902oEqmPg7RY
+
+###
+
+POST {{host}}:8000/user/verify
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1MjBhYzNkNC04Zjc0LTRhN2EtYmI4OC1lODM1M2Y5YTZlNDEiLCJpYXQiOjE2NDYzMzMxOTIsImV4cCI6MTY0NjM2OTE5Mn0.H6BWVjJaIJEnEi61W1NQg56vcX0s4RJ902oEqmPg7RY
+Content-Type: application/json
+
+{
+    "verificationCode": "77ST87AT"
+}
+
 
 ###
 

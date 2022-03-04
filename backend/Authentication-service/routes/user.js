@@ -17,13 +17,10 @@ router.post(
   userValidations.postSignupValidation,
   userControllers.postSignup
 );
-router.post(
-  '/confirm-email',
-  userValidations.postConfirmEmail,
-  userControllers.postConfirmEmail
-);
+router.post('/confirm-email', isAuth, userControllers.postConfirmEmail);
 router.post(
   '/verify/',
+  isAuth,
   userValidations.postVerifyEmail,
   userControllers.postVerifyEmail
 );

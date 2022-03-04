@@ -103,12 +103,12 @@ const postVerifyEmail = [
     }
     return true;
   }),
-  body('userId', 'User id is not correct.').custom((value) => {
-    if (value.length !== 36) {
-      return false;
-    }
-    return true;
-  }),
+  // body('userId', 'User id is not correct.').custom((value) => {
+  //   if (value.length !== 36) {
+  //     return false;
+  //   }
+  //   return true;
+  // }),
 ];
 
 const postLogin = [

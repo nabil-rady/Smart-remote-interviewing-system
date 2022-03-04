@@ -102,10 +102,12 @@ class _EmployerAuthState extends State<EmployerAuth> {
                 await Provider.of<Auth>(context, listen: false).confirmEmail(
                   confirmCode,
                 );
-                setState(() {
-                  _authMode = AuthMode.login;
-                });
-                Navigator.of(ctx).pop();
+                Navigator.of(context)
+                    .pushReplacementNamed(HomeScreen.routeName);
+                // setState(() {
+                //   _authMode = AuthMode.login;
+                // });
+                // Navigator.of(ctx).pop();
               } on HttpException catch (error) {
                 showErrorDialog(context, 'Wrong verification code', true);
               } catch (error) {
@@ -165,7 +167,19 @@ class _EmployerAuthState extends State<EmployerAuth> {
           authData['phone'].toString(),
           authData['countryCode'].toString(),
         );
-        _showConfirmDialog();
+        final fbm = FirebaseMessaging.instance;
+        final token = await fbm.getToken();
+        await Provider.of<Auth>(context, listen: false)
+            .login(
+          authData['email'].toString(),
+          authData['password'].toString(),
+          token.toString(),
+        )
+            .then((value) async {
+          await Provider.of<Auth>(context, listen: false).sendEmail();
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil(HomeScreen.routeName, (route) => false);
+        });
       }
     } on HttpException catch (error) {
       print(error);

@@ -43,8 +43,9 @@ module.exports.postSignup = (req, res, next) => {
         phoneNumber: phoneNumber.toString(),
       });
     })
-    .then((createdUser) => {
+    .then(async (createdUser) => {
       const { password, verificationCode, ...user } = createdUser.dataValues;
+
       res.status(201).json({
         user,
       });
@@ -67,7 +68,7 @@ module.exports.postConfirmEmail = async (req, res, next) => {
     return next(error);
   }
 
-  const { userId } = req.body;
+  const { userId } = req;
   const user = await User.findOne({
     // fetch the user's data
     where: {
@@ -161,7 +162,8 @@ module.exports.postVerifyEmail = (req, res, next) => {
     throw error;
   }
 
-  const { verificationCode, userId } = req.body;
+  const { verificationCode } = req.body;
+  const { userId } = req;
 
   User.findOne({
     // fetch the user.

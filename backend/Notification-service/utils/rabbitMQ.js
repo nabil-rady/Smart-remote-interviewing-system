@@ -54,12 +54,12 @@ module.exports.consume = async () => {
           (token) => token.dataValues.token
         );
 
-        // const registrationTokens = 'eUdWYJMIT4m6cCOB_e7rIV:APA91bGGIX0EG3WsjeeBm4org6it-mmt_fAdtU5DfjkvIn6CKwMi4gSbkWvDf74akjWhNuszau8zsT4UwUItk_VVk3vhHchX2Og_ogu2dMRJV8N-GsIzWwnnDEcwzJaTwM9NAI1MJVBX';
+        // const registrationTokens = 'eWlqQ6xC7Ot7Vyo1KyQYNZ:APA91bFFD_WdwoyAkR39Ix4UZHJVldySqTPPMQ2QB8GegI_jnTOE5Xw31Vg0Xh1MeRjU4HSxGycYtbeBRETp_TSMKc-pbjHu2LT_4NxVlgaK-5TQoVXH0dPbAUHLkNeMCcbwG_b4Ik1V';
 
         const notification = {
           notification: {
-            title: 'This is a Notification',
-            body: 'This is the body of the notification message.',
+            title: 'Interview result!!',
+            body: `${interview.dataValues.name} interview for ${jobListing.dataValues.positionName} position has been processed.`,
           },
         };
 

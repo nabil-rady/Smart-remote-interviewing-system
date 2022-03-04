@@ -59,7 +59,7 @@ class Auth with ChangeNotifier {
       final responseData = json.decode(response.body);
       _employer.userId = responseData['user']['userId'];
       saveUserId('${responseData['user']['userId']}');
-      sendEmail();
+      // sendEmail();
     } else if (response.statusCode == 422) {
       throw Exception(responseData['details'][0]['msg']);
     } else {
@@ -114,9 +114,9 @@ class Auth with ChangeNotifier {
       Uri.parse('http://10.0.2.2:8000/user/verify'),
       headers: <String, String>{
         'Content-Type': 'application/json',
+        'Authorization': getUserToken().toString(),
       },
       body: jsonEncode(<String, String>{
-        'userId': getUserId().toString(),
         'verificationCode': code,
       }),
     );
@@ -134,10 +134,8 @@ class Auth with ChangeNotifier {
       Uri.parse('http://10.0.2.2:8000/user/confirm-email'),
       headers: <String, String>{
         'Content-Type': 'application/json',
+        'Authorization': getUserToken().toString(),
       },
-      body: jsonEncode(<String, String>{
-        'userId': getUserId().toString(),
-      }),
     );
     final validationResponseData = json.decode(validationResponse.body);
   }
@@ -160,6 +158,7 @@ class Auth with ChangeNotifier {
     final responseData = json.decode(response.body);
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
+      _employer.loggedIn = false;
     } else {
       throw HttpException(responseData['message']);
     }

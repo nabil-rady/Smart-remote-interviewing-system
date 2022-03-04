@@ -43,7 +43,7 @@ class DashboardPositions with ChangeNotifier {
       notifyListeners();
       //inspect(_positionsItems);
     } else {
-      print(responseData['message']);
+      // print(responseData['message']);
       throw HttpException(responseData['message']);
     }
   }
