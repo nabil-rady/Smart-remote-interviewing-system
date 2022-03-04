@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import NavBar from '../components/NavBar';
 import SideMenu from '../components/SideMenu';
 import QuestionCard from '../components/QuestionCard';
@@ -10,7 +10,9 @@ import handleError from '../utils/errorHandling';
 import { Button, Row, Col, Toast } from 'react-bootstrap';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/messaging';
+import { UserContext } from '../App';
 function AddQues() {
+  const authUser = useContext(UserContext).authUser;
   const firebaseConfig = {
     apiKey: 'AIzaSyDuqj0k4SCgC-KQjHnZhV4dLxMDI8NaiS8',
     authDomain: 'vividly-notification.firebaseapp.com',
@@ -51,7 +53,7 @@ function AddQues() {
   const [error, setError] = useState();
   const [questions, setQuestions] = useState([
     {
-      fullQuestion: '',
+      statement: '',
       timeToThink: '',
       timeToAnswer: '',
       keywords: [],
@@ -74,7 +76,7 @@ function AddQues() {
         if (index + 1 !== id) return oldQuestion;
         return {
           ...oldQuestion,
-          fullQuestion: e.target.value,
+          statement: e.target.value,
         };
       })
     );
@@ -125,7 +127,7 @@ function AddQues() {
     setQuestions((oldQuestions) => [
       ...oldQuestions,
       {
-        fullQuestion: '',
+        statement: '',
         timeToThink: '',
         timeToAnswer: '',
         keywords: [],
@@ -158,10 +160,12 @@ function AddQues() {
   };
   const saveHandler = () => {
     let statusCode;
+    console.log(positionName, expiryDate, questions);
     fetch(`${HRURL}/job-listing/create`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: authUser.token,
       },
       body: JSON.stringify({
         positionName,

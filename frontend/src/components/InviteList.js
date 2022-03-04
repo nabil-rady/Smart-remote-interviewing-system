@@ -14,7 +14,7 @@ const UsersList = (props) => {
               <h2 className="uname">{user.name}</h2>
               <p className="uemail">{user.email}</p>
               <p className="uphone">
-                {user.phoneCode} {user.phone}
+                {user.phoneCode} {user.phoneNumber}
               </p>
             </Card>
           </li>

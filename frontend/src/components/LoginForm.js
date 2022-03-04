@@ -63,6 +63,7 @@ const LoginForm = () => {
     let statusCode;
     fetch(`${APIURL}/user/login`, {
       method: 'POST',
+
       headers: {
         'Content-Type': 'application/json',
       },

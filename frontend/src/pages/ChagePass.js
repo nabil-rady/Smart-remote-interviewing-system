@@ -77,9 +77,9 @@ const ChangePassword = () => {
         Authorization: authUser.token,
       },
       body: JSON.stringify({
-        oldPass,
-        newPass,
-        confirmPass,
+        oldPassword: oldPass,
+        newPassword: newPass,
+        newConfirmPassword: confirmPass,
       }),
     })
       .then((response) => {
@@ -91,8 +91,17 @@ const ChangePassword = () => {
         console.log(data);
         if (statusCode === 200) {
           setAuthUser({
-            ...data.user,
+            userId: authUser.userId,
+            firstName: authUser.firstName,
+            lastName: authUser.lastName,
+            companyName: authUser.companyName,
+            email: authUser.email,
             password: newPass,
+            phoneCode: authUser.phoneCode,
+            phoneNumber: authUser.phoneNumber,
+            loggedIn: authUser.loggedIn,
+            emailConfirmed: authUser.emailConfirmed,
+            token: authUser.token,
           });
         } else handleError(statusCode, data, setError);
       })

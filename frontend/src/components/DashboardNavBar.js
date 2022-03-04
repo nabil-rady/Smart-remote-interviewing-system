@@ -1,22 +1,89 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../App';
 import MobileBurgerButtons from './MobileBurgerButtons';
 import NavBarSideMenu from './NavBarSideMenu';
 import NavBarUserInfoMenu from './NavBarUserInfoMenu';
 import './scss/dashboard-navbar.scss';
-
+import { APIURL } from '../API/APIConstants';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/messaging';
 const DashboardNavBar = (props) => {
-  const authUser = useContext(UserContext).authUser; // Object or null
+  const authUser = useContext(UserContext).authUser;
+  const setAuthUser = useContext(UserContext).setAuthUser; // Object or null
   const isLoggedIn = !!authUser;
+  const [registrationToken, setToken] = useState();
+  const firebaseConfig = {
+    apiKey: 'AIzaSyDuqj0k4SCgC-KQjHnZhV4dLxMDI8NaiS8',
+    authDomain: 'vividly-notification.firebaseapp.com',
+    projectId: 'vividly-notification',
+    storageBucket: 'vividly-notification.appspot.com',
+    messagingSenderId: '964487453958',
+    appId: '1:964487453958:web:93e6d088edf1bb5fe4d287',
+    measurementId: 'G-G29W0NWEVB',
+  };
 
+  firebase.initializeApp(firebaseConfig);
+  const messaging = firebase.messaging();
+  const [show, setShow] = useState(false);
+  const [isTokenFound, setTokenFound] = useState(false);
+  const [notification, setNotification] = useState({ title: '', body: '' });
+  // getToken(setTokenFound);
+  const onMessageListener = () =>
+    new Promise((resolve) => {
+      messaging.onMessage((payload) => {
+        resolve(payload);
+      });
+    });
+  onMessageListener()
+    .then((message) => {
+      console.log(message);
+      setNotification(message.notification);
+      setShow(true);
+    })
+    .catch((err) => console.log('failed: ', err));
+  messaging
+    .getToken()
+    .then((token) => {
+      setToken(token);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   const handleClick = () => {
     const menu = document.querySelector('.navbar-sidemenu');
     const mobileBurgerButton = document.querySelector('.mobile-burger-button');
     menu.classList.toggle('clicked');
     mobileBurgerButton.classList.toggle('black');
   };
-
+  const logoutHandler = () => {
+    let statusCode;
+    fetch(`${APIURL}/user/logout`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: authUser.token,
+      },
+      body: JSON.stringify({
+        registrationToken,
+      }),
+    })
+      .then((response) => {
+        statusCode = response.status;
+        console.log(response);
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        if (statusCode === 200) {
+          setAuthUser(null);
+          localStorage.clear();
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  };
   return (
     <header className="Navheader">
       <MobileBurgerButtons handleClick={handleClick} />
@@ -31,6 +98,7 @@ const DashboardNavBar = (props) => {
           <li className={`dashboard-menu__li`} onClick={props.listingHandler}>
             Listings
           </li>
+
           <li
             className={`dashboard-menu__li`}
             onClick={props.notificationsHandler}
@@ -39,6 +107,9 @@ const DashboardNavBar = (props) => {
           </li>
           <li className={`dashboard-menu__li`} onClick={props.profileHandler}>
             Edit Profile
+          </li>
+          <li className={`dashboard-menu__li`} onClick={logoutHandler}>
+            Logout
           </li>
         </ul>
         <ul

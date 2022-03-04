@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState, useContext } from 'react';
+import { Link } from 'react-router-dom';
 import NavBar from '../components/NavBar';
 import PositionCard from '../components/positionCard';
 import SideMenu from '../components/SideMenu';
@@ -37,6 +38,7 @@ import NotVerified from '../components/NotVerifiedModel';
 function ListingPage() {
   const [positions, getPositions] = useState([]);
   const authUser = useContext(UserContext).authUser;
+  console.log(authUser);
   let backgrounds = [
     im1,
     im2,
@@ -120,6 +122,9 @@ function ListingPage() {
       ) : (
         <NotVerified />
       )}
+      <button className="addposition">
+        <Link to="/add">Add Position</Link>
+      </button>
     </>
   );
 }

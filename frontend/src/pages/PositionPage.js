@@ -15,6 +15,8 @@ import { Button, Row, Col, Toast } from 'react-bootstrap';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/messaging';
 function PositionPage() {
+  const globalId = useContext(UserContext).globalId;
+  console.log(globalId);
   const firebaseConfig = {
     apiKey: 'AIzaSyDuqj0k4SCgC-KQjHnZhV4dLxMDI8NaiS8',
     authDomain: 'vividly-notification.firebaseapp.com',

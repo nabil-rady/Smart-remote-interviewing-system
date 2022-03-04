@@ -4,15 +4,17 @@ import Card from './Card';
 import './scss/invite.scss';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
-import { APIURL } from '../API/APIConstants';
+import { HRURL } from '../API/APIConstants';
 import handleError from '../utils/errorHandling';
 import ErrorModal from './ErrorModal';
 // import { useFilePicker } from 'use-file-picker';
 import { UserContext } from '../App';
 import ReactFileReader from 'react-file-reader';
+
 const InviteUser = (props) => {
   let usersLate = props.users;
   const authUser = useContext(UserContext).authUser;
+  const globalId = useContext(UserContext).globalId;
   const [enteredName, setEnteredName] = useState('');
   const [enteredEmail, setEnteredEmail] = useState('');
   const [enteredPhoneNo, setEnteredPhoneNo] = useState('');
@@ -36,8 +38,8 @@ const InviteUser = (props) => {
       usersLate.push({
         name: names[i],
         email: emails[i],
-        phoneCode: enteredPhoneCode,
-        phone: enteredPhoneNo,
+        phoneCode: phoneCodes[i],
+        phoneNumber: phoneNums[i],
       });
     }
 
@@ -58,16 +60,18 @@ const InviteUser = (props) => {
       name: enteredName,
       email: enteredEmail,
       phoneCode: enteredPhoneCode,
-      phone: enteredPhoneNo,
+      phoneNumber: enteredPhoneNo,
     });
-    fetch(`${APIURL}/job-listing/invite`, {
+    console.log(globalId, usersLate);
+    fetch(`${HRURL}/job-listing/invite`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Authorization: authUser.token,
       },
       body: JSON.stringify({
-        usersLate,
+        listingId: globalId,
+        candidates: usersLate,
       }),
     })
       .then((response) => {
@@ -167,6 +171,7 @@ const InviteUser = (props) => {
             }}
             country={'eg'}
             onChange={handleOnChange}
+            value={enteredPhoneCode + enteredPhoneNo}
             inputStyle={{
               display: 'block',
               border: 'none',

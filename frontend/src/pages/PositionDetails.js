@@ -3,7 +3,6 @@ import Details from '../components/Details';
 import SideMenu from '../components/SideMenu';
 import EmailVerification from '../components/EmailVerification';
 import NavBar from '../components/NavBar';
-import { globalId } from '../components/positionCard';
 import { HRURL } from '../API/APIConstants';
 import { Button, Row, Col, Toast } from 'react-bootstrap';
 import firebase from 'firebase/compat/app';

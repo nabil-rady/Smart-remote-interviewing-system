@@ -24,11 +24,11 @@ const BurgerMenu = React.forwardRef((props, sideMenu) => {
                   </div>
                   <div className="side-menu__header__logo">Hire Mi</div>
                 </div>
-                <div className="letter">{authUser?.firstName[0]}</div>
+                <div className="letter">{authUser.firstName[0]}</div>
                 <p className="name">
-                  {authUser?.firstName} {authUser?.lastName}
+                  {authUser.firstName} {authUser.lastName}
                 </p>
-                <p className="email">{authUser?.email}</p>
+                <p className="email">{authUser.email}</p>
               </div>
             </li>
 

@@ -47,9 +47,19 @@ const EmailVerification = (props) => {
         console.log(data);
         if (statusCode === 200) {
           setMessage(data.message);
+          console.log(message);
           setAuthUser((oldUser) => ({
-            ...oldUser,
-            emaiConfirmed: true,
+            userId: oldUser.userId,
+            firstName: oldUser.firstName,
+            lastName: oldUser.lastName,
+            companyName: oldUser.companyName,
+            email: oldUser.email,
+            password: oldUser.password,
+            phoneCode: oldUser.phoneCode,
+            phoneNumber: oldUser.phoneNumber,
+            loggedIn: oldUser.loggedIn,
+            emailConfirmed: true,
+            token: oldUser.token,
           }));
           redirect();
         } else handleError(statusCode, data, setError);

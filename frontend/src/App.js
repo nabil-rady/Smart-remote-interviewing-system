@@ -47,12 +47,16 @@ const UserContext = React.createContext();
 const LoadingContext = React.createContext();
 
 function App() {
+  const [globalId, setglobalId] = useState(localStorage.getItem('ID') || null);
   const [authUser, setAuthUser] = useState(
     JSON.parse(localStorage.getItem('user')) || null
   );
   useEffect(() => {
     localStorage.setItem('user', JSON.stringify(authUser));
   }, [authUser]);
+  useEffect(() => {
+    localStorage.setItem('ID', JSON.stringify(globalId));
+  }, [globalId]);
   const [loading, setLoading] = useState(false);
   const isVerified = authUser?.emailConfirmed;
   const render = () => {
@@ -73,7 +77,9 @@ function App() {
     return (
       <>
         <LoadingContext.Provider value={{ loading, setLoading }}>
-          <UserContext.Provider value={{ authUser, setAuthUser }}>
+          <UserContext.Provider
+            value={{ authUser, setAuthUser, globalId, setglobalId }}
+          >
             <Route path="/" exact>
               <NewLanding />
             </Route>

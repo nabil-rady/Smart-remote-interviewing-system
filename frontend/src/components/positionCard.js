@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Card from './Card';
 import './scss/listing.scss';
-let globalId;
+import { UserContext } from '../App';
 const PositionCard = (props) => {
+  const setglobalId = useContext(UserContext).setglobalId;
   const [id, setId] = useState();
   const renderExpired = (pos) => {
     const second = pos.expiryDate;
@@ -13,10 +14,20 @@ const PositionCard = (props) => {
       return null;
     }
   };
-  const idHandler = (position) => {
-    setId(position.id);
-    globalId = id;
+  const idHandler = (id) => {
+    console.log(id);
+    setglobalId(id);
   };
+  const Dates = props.positions.map((position) => {
+    let nowDate = new Date(position.expiryDate);
+    let date =
+      nowDate.getFullYear() +
+      '-' +
+      (nowDate.getMonth() + 1) +
+      '-' +
+      nowDate.getDate();
+    return date;
+  });
   return (
     <div className="PositionCard">
       <ul className="positions-list">
@@ -26,7 +37,12 @@ const PositionCard = (props) => {
               src={props.backgrounds[Math.floor(Math.random() * 26)]}
               className="photo"
             />
-            <Link to="/position" className="pos_name" title={position.name}>
+            <Link
+              to="/position"
+              className="pos_name"
+              title={position.name}
+              onClick={idHandler(position.jobListingId)}
+            >
               {position.positionName}
             </Link>
             {renderExpired(position)} <br />
@@ -34,7 +50,7 @@ const PositionCard = (props) => {
               Expiry Date:
             </p>
             <p name="expirydate" className="pos_expirydate">
-              {position.expiryDate}
+              {Dates[index]}
             </p>{' '}
             <br></br>
             <p htmlFor="candidatesNo" className="labels">
@@ -56,5 +72,4 @@ const PositionCard = (props) => {
     </div>
   );
 };
-export { globalId };
 export default PositionCard;
