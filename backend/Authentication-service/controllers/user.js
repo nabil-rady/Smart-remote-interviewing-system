@@ -276,10 +276,19 @@ module.exports.postLogin = async (req, res, next) => {
     user.loggedIn = true;
     await user.save();
 
-    await RegistrationToken.create({
-      token: registrationToken,
-      userId: user.dataValues.userId,
+    const registratinToken = await RegistrationToken.findOne({
+      where: {
+        token: registrationToken,
+        userId: user.dataValues.userId,
+      },
     });
+
+    if (!registratinToken) {
+      await RegistrationToken.create({
+        token: registrationToken,
+        userId: user.dataValues.userId,
+      });
+    }
 
     const { password, verificationCode, ...returnedUser } = user.dataValues;
     res.status(200).json({
