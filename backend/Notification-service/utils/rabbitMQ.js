@@ -7,6 +7,7 @@ const Interview = require('../models/interview');
 const User = require('../models/user');
 const JobListing = require('../models/jobListing');
 const RegistartionToken = require('../models/registrationToken');
+const Notification = require('../models/notification');
 
 module.exports.consume = async () => {
   try {
@@ -53,27 +54,35 @@ module.exports.consume = async () => {
         const registrationTokens = fetchedRegistrationTokens.map(
           (token) => token.dataValues.token
         );
-
         // const registrationTokens = 'eWlqQ6xC7Ot7Vyo1KyQYNZ:APA91bFFD_WdwoyAkR39Ix4UZHJVldySqTPPMQ2QB8GegI_jnTOE5Xw31Vg0Xh1MeRjU4HSxGycYtbeBRETp_TSMKc-pbjHu2LT_4NxVlgaK-5TQoVXH0dPbAUHLkNeMCcbwG_b4Ik1V';
 
-        const notification = {
+        const title = 'Interview result.';
+        const body = `${interview.dataValues.name} interview for ${jobListing.dataValues.positionName} position has been processed.`;
+        const pushNotification = {
           notification: {
-            title: 'Interview result!!',
-            body: `${interview.dataValues.name} interview for ${jobListing.dataValues.positionName} position has been processed.`,
+            title: title,
+            body: body,
           },
         };
 
+        // save notification into database.
+        const notification = await Notification.create({
+          userId: user.dataValues.userId,
+          interviewId: interview.dataValues.interviewId,
+          title,
+          body,
+        });
+
+        // send push notification
         admin
           .messaging()
-          .sendToDevice(registrationTokens, notification)
+          .sendToDevice(registrationTokens, pushNotification)
           .then((response) => {
             console.log('Successfully sent message:', response);
           })
           .catch((error) => {
             console.log('Error sending message:', error);
           });
-
-        // Save to data base
       },
       {
         noAck: true,

@@ -8,6 +8,7 @@ const customId = require('custom-id');
 const uuid = require('uuid');
 
 const User = require('../models/user');
+const Notification = require('../models/notification');
 
 module.exports.getInfo = (req, res, next) => {
   const id = req.params.user_id;
@@ -177,4 +178,45 @@ module.exports.putChangePassword = (req, res, next) => {
       }
       next(err);
     });
+};
+
+module.exports.getNotifications = async (req, res, next) => {
+  try {
+    const userId = req.userId;
+    const user = await User.findOne({
+      where: {
+        userId,
+      },
+    });
+
+    // check if the user is logged in
+    if (!user.dataValues.loggedIn) {
+      const err = new Error('Please log in');
+      err.statusCode = 401;
+      throw err;
+    }
+    // check if the user's email is confirmed
+    if (!user.dataValues.emailConfirmed) {
+      const err = new Error('Please confirm your email');
+      err.statusCode = 401;
+      throw err;
+    }
+
+    const fetchedNotifications = await Notification.findAll({
+      where: {
+        userId,
+      },
+      order: [['createdAt', 'DESC']],
+    });
+
+    const notifications = fetchedNotifications.map((notification) => {
+      return notification.dataValues;
+    });
+    res.status(200).json({ notifications });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500; // serverSide error
+    }
+    next(err);
+  }
 };

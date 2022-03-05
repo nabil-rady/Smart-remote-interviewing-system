@@ -12,8 +12,7 @@ const router = express.Router();
     router.get('/dashboard', isAuth, userControllers.theMethod);
 */
 
-// router.get('/:user_id', isAuth, userControllers.getInfo);
-router.get('/:user_id', userControllers.getInfo); // just for testing
+router.get('/notifications', isAuth, userControllers.getNotifications);
 
 router.put(
   '/edit',
@@ -28,5 +27,7 @@ router.put(
   userValidations.putChangePassword,
   userControllers.putChangePassword
 );
+
+router.get('/:user_id', isAuth, userControllers.getInfo);
 
 module.exports = router;
