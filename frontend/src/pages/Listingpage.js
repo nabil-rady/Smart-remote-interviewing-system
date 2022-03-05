@@ -33,10 +33,10 @@ import im23 from '../solidBG/23.jpg';
 import im24 from '../solidBG/24.jpg';
 import im25 from '../solidBG/25.jpg';
 import im26 from '../solidBG/26.jpg';
-
+import { TailSpin } from 'react-loader-spinner';
 import NotVerified from '../components/NotVerifiedModel';
 function ListingPage() {
-  const [positions, getPositions] = useState([]);
+  const [positions, getPositions] = useState(null);
   const authUser = useContext(UserContext).authUser;
   console.log(authUser);
   let backgrounds = [
@@ -112,19 +112,33 @@ function ListingPage() {
   return (
     <>
       {authUser.emailConfirmed ? (
-        positions.length > 0 ? (
-          <div classpositionName="positions">
-            <PositionCard positions={positions} backgrounds={backgrounds} />
-          </div>
+        positions ? (
+          positions.length > 0 ? (
+            <>
+              <div classpositionName="positions">
+                <PositionCard positions={positions} backgrounds={backgrounds} />
+              </div>
+              <button className="addposition">
+                <Link to="/add">Add Position</Link>
+              </button>
+            </>
+          ) : (
+            <h1>No Positions to view</h1>
+          )
         ) : (
-          <h1>No Positions to view</h1>
+          <div
+            style={{
+              position: 'absolute',
+              top: 'calc(50vh - 40px)',
+              left: 'calc(50vw - 40px)',
+            }}
+          >
+            <TailSpin color="hsl(215deg, 79%, 42%)" height={80} width={80} />
+          </div>
         )
       ) : (
         <NotVerified />
       )}
-      <button className="addposition">
-        <Link to="/add">Add Position</Link>
-      </button>
     </>
   );
 }

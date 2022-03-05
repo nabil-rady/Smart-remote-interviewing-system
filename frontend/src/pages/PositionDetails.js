@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useContext } from 'react';
 import Details from '../components/Details';
 import SideMenu from '../components/SideMenu';
 import EmailVerification from '../components/EmailVerification';
@@ -7,7 +7,10 @@ import { HRURL } from '../API/APIConstants';
 import { Button, Row, Col, Toast } from 'react-bootstrap';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/messaging';
+import { UserContext } from '../App';
 const PositionDetails = () => {
+  const globalId = useContext(UserContext).globalId;
+  const authUser = useContext(UserContext).authUser;
   const firebaseConfig = {
     apiKey: 'AIzaSyDuqj0k4SCgC-KQjHnZhV4dLxMDI8NaiS8',
     authDomain: 'vividly-notification.firebaseapp.com',
@@ -54,16 +57,18 @@ const PositionDetails = () => {
   const navClickHandler = () => {
     setVerificationCard(true);
   };
-  const cardClickHandler = () => {
-    setVerified(true);
-    setVerificationCard(false);
-  };
   const fetchPost = () => {
-    fetch(`${HRURL}/job-listing/${globalId}`)
+    console.log(globalId);
+    fetch(`${HRURL}/job-listing/${globalId}`, {
+      method: 'GET',
+      headers: {
+        Authorization: authUser.token,
+      },
+    })
       .then((res) => res.json())
-      .then((res) => {
-        console.log(res);
-        setPosition(res);
+      .then((data) => {
+        console.log(data);
+        setPosition(data);
       });
   };
   useEffect(() => {
@@ -114,9 +119,6 @@ const PositionDetails = () => {
   // };
   return (
     <>
-      {verificationCard && (
-        <EmailVerification verificationHandler={cardClickHandler} />
-      )}
       <div className="blue-gradient">
         <NavBar
           handleToggleButtonClick={handleToggleButtonClick}
