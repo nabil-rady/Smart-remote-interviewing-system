@@ -1,4 +1,4 @@
-import React, { useContext, useState, useRef } from 'react';
+import React, { useContext, useState, useRef, useEffect } from 'react';
 import '../components/scss/utility.scss';
 import NavBar from '../components/NavBar';
 import './scss/profile.scss';
@@ -7,54 +7,48 @@ import Card from '../components/Card';
 import search from './SVGs/research.png';
 import invite from './SVGs/invitation.png';
 import check from './SVGs/check.png';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import SideMenu from '../components/SideMenu';
 import EmailVerification from '../components/EmailVerification';
 import './scss/positionpage.scss';
 import { Button, Row, Col, Toast } from 'react-bootstrap';
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/messaging';
-function PositionPage() {
-  const globalId = useContext(UserContext).globalId;
-  console.log(globalId);
-  const firebaseConfig = {
-    apiKey: 'AIzaSyDuqj0k4SCgC-KQjHnZhV4dLxMDI8NaiS8',
-    authDomain: 'vividly-notification.firebaseapp.com',
-    projectId: 'vividly-notification',
-    storageBucket: 'vividly-notification.appspot.com',
-    messagingSenderId: '964487453958',
-    appId: '1:964487453958:web:93e6d088edf1bb5fe4d287',
-    measurementId: 'G-G29W0NWEVB',
-  };
+import { HRURL } from '../API/APIConstants';
+import ErrorModal from '../components/ErrorModal';
 
-  firebase.initializeApp(firebaseConfig);
-  const messaging = firebase.messaging();
+import messaging from '../utils/firebase';
+import {
+  setFirebaseMessageListenerEvent,
+  getFirebaseToken,
+} from '../utils/firebaseUtils';
+
+function PositionPage(props) {
+  const params = useParams();
+  console.log(params);
+  const positionNameAndId = params.positionNameAndId;
+
+  const [positionName, positionId] = positionNameAndId.split('$');
+  console.log(positionName, positionId);
+
+  useEffect(async () => {
+    setFirebaseMessageListenerEvent(messaging)
+      .then((message) => {
+        console.log(message);
+        setNotification(message.notification);
+        setShow(true);
+      })
+      .catch((err) => console.log(err));
+    try {
+      const token = await getFirebaseToken(messaging);
+      console.log(token);
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
+
   const [show, setShow] = useState(false);
   const [isTokenFound, setTokenFound] = useState(false);
   const [notification, setNotification] = useState({ title: '', body: '' });
-  // getToken(setTokenFound);
-  const onMessageListener = () =>
-    new Promise((resolve) => {
-      messaging.onMessage((payload) => {
-        resolve(payload);
-      });
-    });
-  onMessageListener()
-    .then((message) => {
-      console.log(message);
-      setNotification(message.notification);
-      setShow(true);
-    })
-    .catch((err) => console.log('failed: ', err));
-  messaging
-    .getToken()
-    .then((token) => {
-      console.log(token);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-  let positionName = 'Software';
+
   const sideMenu = useRef(null);
   const handleToggleButtonClick = () =>
     sideMenu.current.classList.toggle('change');
@@ -67,6 +61,7 @@ function PositionPage() {
     setVerified(true);
     setVerificationCard(false);
   };
+
   return (
     <>
       {verificationCard && (
@@ -105,7 +100,10 @@ function PositionPage() {
       <Card className="detailsCard">
         <img src={search} className="images" />
         <div className="labelContainer">
-          <Link to="/positiondetails" className="cardLabel">
+          <Link
+            to={`/positiondetails/${positionName}$${positionId}`}
+            className="cardLabel"
+          >
             Position Details
           </Link>
         </div>
@@ -113,7 +111,10 @@ function PositionPage() {
       <Card className="detailsCard">
         <img src={check} className="images" />
         <div className="labelContainer">
-          <Link to="/view_applicants" className="cardLabel">
+          <Link
+            to={`/view_applicants/${positionName}$${positionId}`}
+            className="cardLabel"
+          >
             Evalute Applicants
           </Link>
         </div>

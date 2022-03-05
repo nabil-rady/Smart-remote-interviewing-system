@@ -15,7 +15,7 @@ module.exports = (req, res, next) => {
   } catch (err) {
     // if the token can not be decoded.
     err.message = 'The json web token has expired';
-    err.statusCode = 500;
+    err.statusCode = 401;
     throw err;
   }
   if (!decodedToken) {

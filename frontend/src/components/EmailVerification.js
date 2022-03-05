@@ -4,7 +4,7 @@ import ErrorModal from './ErrorModal';
 import './scss/EmailVerification.scss';
 import { userId } from './SignUpForm';
 import { APIURL } from '../API/APIConstants';
-import handleError from '../utils/errorHandling';
+import handleAPIError from '../utils/APIErrorHandling';
 import { useHistory } from 'react-router-dom';
 import { UserContext } from '../App';
 const EmailVerification = (props) => {
@@ -62,7 +62,7 @@ const EmailVerification = (props) => {
             token: oldUser.token,
           }));
           redirect();
-        } else handleError(statusCode, data, setError);
+        } else handleAPIError(statusCode, data, setError);
       })
       .catch((error) => {
         console.error('Error:', error);

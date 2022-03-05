@@ -6,7 +6,7 @@ import { UserContext } from '../App';
 import { HRURL } from '../API/APIConstants';
 import './scss/changepass.scss';
 import EmailVerification from '../components/EmailVerification';
-import handleError from '../utils/errorHandling';
+import handleAPIError from '../utils/APIErrorHandling';
 import ErrorModal from '../components/ErrorModal';
 import { Button, Row, Col, Toast } from 'react-bootstrap';
 import firebase from 'firebase/compat/app';
@@ -103,7 +103,7 @@ const ChangePassword = () => {
             emailConfirmed: authUser.emailConfirmed,
             token: authUser.token,
           });
-        } else handleError(statusCode, data, setError);
+        } else handleAPIError(statusCode, data, setError);
       })
       .catch((error) => {
         console.error('Error:', error);

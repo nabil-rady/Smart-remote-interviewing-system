@@ -115,7 +115,7 @@ function ListingPage() {
         positions ? (
           positions.length > 0 ? (
             <>
-              <div classpositionName="positions">
+              <div className="positions">
                 <PositionCard positions={positions} backgrounds={backgrounds} />
               </div>
               <button className="addposition">

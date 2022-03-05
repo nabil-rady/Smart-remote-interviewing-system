@@ -7,7 +7,8 @@ import Card from '../components/Card';
 import PhoneInput from 'react-phone-input-2';
 import { HRURL } from '../API/APIConstants';
 import ErrorModal from '../components/ErrorModal';
-import handleError from '../utils/errorHandling';
+import handleAPIError from '../utils/APIErrorHandling';
+
 function ProfilePage() {
   let formattedValue = '';
   const authUser = useContext(UserContext).authUser;
@@ -45,7 +46,7 @@ function ProfilePage() {
             ...oldUser,
             ...data.user,
           }));
-        } else handleError(statusCode, data, setError);
+        } else handleAPIError(statusCode, data, setError);
       })
       .catch((error) => {
         console.error('Error:', error);

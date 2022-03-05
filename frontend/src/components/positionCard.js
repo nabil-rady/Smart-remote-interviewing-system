@@ -3,9 +3,8 @@ import { Link } from 'react-router-dom';
 import Card from './Card';
 import './scss/listing.scss';
 import { UserContext } from '../App';
+
 const PositionCard = (props) => {
-  const setglobalId = useContext(UserContext).setglobalId;
-  const [id, setId] = useState();
   const renderExpired = (pos) => {
     const second = pos.expiryDate;
     if (new Date().getTime() > new Date(second).getTime()) {
@@ -14,10 +13,7 @@ const PositionCard = (props) => {
       return null;
     }
   };
-  const idHandler = (id) => {
-    console.log(id);
-    setglobalId(id);
-  };
+
   const Dates = props.positions.map((position) => {
     let nowDate = new Date(position.expiryDate);
     let date =
@@ -28,6 +24,7 @@ const PositionCard = (props) => {
       nowDate.getDate();
     return date;
   });
+
   return (
     <div className="PositionCard">
       <ul className="positions-list">
@@ -38,10 +35,9 @@ const PositionCard = (props) => {
               className="photo"
             />
             <Link
-              to="/position"
+              to={`/position/${position.positionName}$${position.jobListingId}`}
               className="pos_name"
               title={position.name}
-              onClick={idHandler(position.jobListingId)}
             >
               {position.positionName}
             </Link>
@@ -72,4 +68,5 @@ const PositionCard = (props) => {
     </div>
   );
 };
+
 export default PositionCard;

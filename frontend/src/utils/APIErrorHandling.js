@@ -1,9 +1,10 @@
-const handleError = (statusCode, data, setError) => {
+const handleError = (statusCode, data, setError, invalidJWTCallback) => {
   if (statusCode === 401) {
     setError({
       title: 'Authintication Failed',
       message: data.message,
     });
+    if (invalidJWTCallback) invalidJWTCallback();
     return true;
   } else if (statusCode === 404) {
     setError({

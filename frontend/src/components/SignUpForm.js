@@ -4,7 +4,7 @@ import Card from './Card';
 import ErrorModal from './ErrorModal';
 import { APIURL } from '../API/APIConstants';
 import { UserContext } from '../App';
-import handleError from '../utils/errorHandling';
+import handleAPIError from '../utils/APIErrorHandling';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import EmailVerification from './EmailVerification';
@@ -93,7 +93,7 @@ const SignUpForm = () => {
         console.log(data);
         if (statusCode === 201) {
           console.log('Success');
-        } else handleError(statusCode, data, setError);
+        } else handleAPIError(statusCode, data, setError);
         console.log(registrationToken);
         return fetch(`${APIURL}/user/login`, {
           method: 'POST',
@@ -126,7 +126,7 @@ const SignUpForm = () => {
               Authorization: response.token,
             },
           });
-        } else handleError(statusCode, response.data, setError);
+        } else handleAPIError(statusCode, response.data, setError);
       })
       .then((confirmResponse) => {
         return confirmResponse.json();
@@ -136,7 +136,7 @@ const SignUpForm = () => {
         if (statusCode === 200) {
           console.log('Success');
           setVerificationCard(true);
-        } else handleError(statusCode, response.data, setError);
+        } else handleAPIError(statusCode, response.data, setError);
       })
       .catch((error) => {
         console.error('Error:', error);

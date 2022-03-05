@@ -6,7 +6,7 @@ import './scss/Add.scss';
 import PositionForm from '../components/position';
 import { HRURL } from '../API/APIConstants';
 import ErrorModal from '../components/ErrorModal';
-import handleError from '../utils/errorHandling';
+import handleAPIError from '../utils/APIErrorHandling';
 import { Button, Row, Col, Toast } from 'react-bootstrap';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/messaging';
@@ -182,7 +182,7 @@ function AddQues() {
         console.log(data);
         if (statusCode === 200) {
           console.log('successful');
-        } else handleError(statusCode, data, setError);
+        } else handleAPIError(statusCode, data, setError);
       })
       .catch((error) => {
         console.error('Error:', error);

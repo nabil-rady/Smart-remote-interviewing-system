@@ -3,7 +3,7 @@ import Card from './Card';
 import ErrorModal from './ErrorModal';
 import { UserContext } from '../App';
 import { APIURL } from '../API/APIConstants';
-import handleError from '../utils/errorHandling';
+import handleAPIError from '../utils/APIErrorHandling';
 import './scss/login.scss';
 import avatarURL from '../user.jpg';
 import { Link } from 'react-router-dom';
@@ -86,7 +86,7 @@ const LoginForm = () => {
             token: data.token,
           });
           redirect();
-        } else handleError(statusCode, data, setError);
+        } else handleAPIError(statusCode, data, setError);
       })
       .catch((error) => {
         console.error('Error:', error);

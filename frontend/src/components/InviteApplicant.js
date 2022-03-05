@@ -5,7 +5,7 @@ import './scss/invite.scss';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import { HRURL } from '../API/APIConstants';
-import handleError from '../utils/errorHandling';
+import handleAPIError from '../utils/APIErrorHandling';
 import ErrorModal from './ErrorModal';
 // import { useFilePicker } from 'use-file-picker';
 import { UserContext } from '../App';
@@ -83,7 +83,7 @@ const InviteUser = (props) => {
         console.log(data);
         if (statusCode === 200) {
           console.log('successful');
-        } else handleError(statusCode, data, setError);
+        } else handleAPIError(statusCode, data, setError);
       })
       .catch((error) => {
         console.error('Error:', error);

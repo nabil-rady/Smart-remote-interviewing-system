@@ -47,18 +47,15 @@ const UserContext = React.createContext();
 const LoadingContext = React.createContext();
 
 function App() {
-  const [globalId, setglobalId] = useState(localStorage.getItem('ID') || null);
   const [authUser, setAuthUser] = useState(
     JSON.parse(localStorage.getItem('user')) || null
   );
   useEffect(() => {
     localStorage.setItem('user', JSON.stringify(authUser));
   }, [authUser]);
-  useEffect(() => {
-    localStorage.setItem('ID', JSON.stringify(globalId));
-  }, [globalId]);
   const [loading, setLoading] = useState(false);
   const isVerified = authUser?.emailConfirmed;
+
   const render = () => {
     if (loading) {
       return (
@@ -77,9 +74,7 @@ function App() {
     return (
       <>
         <LoadingContext.Provider value={{ loading, setLoading }}>
-          <UserContext.Provider
-            value={{ authUser, setAuthUser, globalId, setglobalId }}
-          >
+          <UserContext.Provider value={{ authUser, setAuthUser }}>
             <Route path="/" exact>
               <NewLanding />
             </Route>
@@ -178,7 +173,7 @@ function App() {
             <PrivateRoute
               isAuthenticated={!!authUser}
               isVerified={isVerified}
-              path="/position"
+              path="/position/:positionNameAndId"
               exact
             >
               <PositionPage />
@@ -194,7 +189,7 @@ function App() {
             <PrivateRoute
               isAuthenticated={!!authUser}
               isVerified={isVerified}
-              path="/positiondetails"
+              path="/positiondetails/:positionNameAndId"
               exact
             >
               <PositionDetails />

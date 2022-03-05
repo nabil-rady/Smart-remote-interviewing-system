@@ -4,7 +4,7 @@ import EmailVerification from './EmailVerification';
 import './scss/NotVerified.scss';
 import { UserContext } from '../App';
 import { APIURL } from '../API/APIConstants';
-import handleError from '../utils/errorHandling';
+import handleAPIError from '../utils/APIErrorHandling';
 import ErrorModal from './ErrorModal';
 const NotVerified = () => {
   const [show, setShow] = useState(false);
@@ -33,7 +33,7 @@ const NotVerified = () => {
         if (statusCode === 200) {
           console.log('successful');
           setShow(true);
-        } else handleError(statusCode, data, setError);
+        } else handleAPIError(statusCode, data, setError);
       })
       .catch((error) => {
         console.error('Error:', error);

@@ -8,9 +8,14 @@ import { Button, Row, Col, Toast } from 'react-bootstrap';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/messaging';
 import { UserContext } from '../App';
+import { useParams } from 'react-router-dom';
+import handleAPIError from '../utils/APIErrorHandling';
+
 const PositionDetails = () => {
-  const globalId = useContext(UserContext).globalId;
-  const authUser = useContext(UserContext).authUser;
+  const params = useParams();
+  const positionNameAndId = params.positionNameAndId;
+  const [positionName, positionId] = positionNameAndId.split('$');
+  const { authUser, setAuthUser } = useContext(UserContext);
   const firebaseConfig = {
     apiKey: 'AIzaSyDuqj0k4SCgC-KQjHnZhV4dLxMDI8NaiS8',
     authDomain: 'vividly-notification.firebaseapp.com',
@@ -57,22 +62,29 @@ const PositionDetails = () => {
   const navClickHandler = () => {
     setVerificationCard(true);
   };
+
   const fetchPost = () => {
-    console.log(globalId);
-    fetch(`${HRURL}/job-listing/${globalId}`, {
+    return fetch(`${HRURL}/job-listing/${positionId}`, {
       method: 'GET',
       headers: {
         Authorization: authUser.token,
       },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        setPosition(data);
-      });
+    });
   };
-  useEffect(() => {
-    fetchPost();
+
+  useEffect(async () => {
+    const response = await fetchPost();
+    const data = await response.json();
+    if (response.status === 200) {
+      setPosition(data);
+    } else {
+      handleAPIError(
+        response.status,
+        data,
+        () => {},
+        () => setAuthUser(null)
+      );
+    }
   }, []);
   // let position = {
   //   positionName: 'Software',
