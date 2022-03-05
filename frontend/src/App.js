@@ -149,7 +149,7 @@ function App() {
             <PrivateRoute
               isAuthenticated={!!authUser}
               isVerified={isVerified}
-              path="/video"
+              path="/video/:interviewId"
               exact
             >
               <InterviewPage />
@@ -165,14 +165,6 @@ function App() {
             <PrivateRoute
               isAuthenticated={!!authUser}
               isVerified={isVerified}
-              path="/listing"
-              exact
-            >
-              <ListingPage />
-            </PrivateRoute>
-            <PrivateRoute
-              isAuthenticated={!!authUser}
-              isVerified={isVerified}
               path="/position/:positionNameAndId"
               exact
             >
@@ -181,7 +173,7 @@ function App() {
             <PrivateRoute
               isAuthenticated={!!authUser}
               isVerified={isVerified}
-              path="/intro"
+              path="/intro/:interviewId"
               exact
             >
               <IntroPage />
@@ -197,7 +189,7 @@ function App() {
             <PrivateRoute
               isAuthenticated={!!authUser}
               isVerified={isVerified}
-              path="/view_applicants"
+              path="/view_applicants/:positionNameAndId"
               exact
             >
               <ViewApplicants />
@@ -205,7 +197,7 @@ function App() {
             <PrivateRoute
               isAuthenticated={!!authUser}
               isVerified={isVerified}
-              path="/applicant_details"
+              path="/applicant_details/:positionNameAndapplicantId"
               exact
             >
               <ApplicantDetails />
@@ -213,7 +205,7 @@ function App() {
             <PrivateRoute
               isAuthenticated={!!authUser}
               isVerified={isVerified}
-              path="/welcome"
+              path="/welcome/:interviewId"
               exact
             >
               <WelcomePage />
@@ -226,9 +218,12 @@ function App() {
             >
               <NotificationTest />
             </PrivateRoute>
-            {/* <PrivateRoute isAuthenticated={!!authUser} path="/evaluate">
-            <EvaluationPage />
-          </PrivateRoute> */}
+            <PrivateRoute
+              isAuthenticated={!!authUser}
+              path="/evaluate/:applicantId"
+            >
+              <EvaluationPage />
+            </PrivateRoute>
           </UserContext.Provider>
         </LoadingContext.Provider>
       </>

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext, useEffect } from 'react';
 import NavBar from '../components/NavBar';
 import SideMenu from '../components/SideMenu';
 import EmailVerification from '../components/EmailVerification';
@@ -9,7 +9,16 @@ import './scss/viewApplicants.scss';
 import { Button, Row, Col, Toast } from 'react-bootstrap';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/messaging';
+import { useParams } from 'react-router-dom';
+import handleError from '../utils/APIErrorHandling';
+import { HRURL } from '../API/APIConstants';
 function ViewApplicants() {
+  const authUser = useContext(UserContext).authUser;
+  const setAuthUser = useContext(UserContext).setAuthUser;
+  const params = useParams();
+  console.log(params);
+  const positionNameAndId = params.positionNameAndId;
+  const [positionName, positionId] = positionNameAndId.split('$');
   const firebaseConfig = {
     apiKey: 'AIzaSyDuqj0k4SCgC-KQjHnZhV4dLxMDI8NaiS8',
     authDomain: 'vividly-notification.firebaseapp.com',
@@ -25,6 +34,7 @@ function ViewApplicants() {
   const [show, setShow] = useState(false);
   const [isTokenFound, setTokenFound] = useState(false);
   const [notification, setNotification] = useState({ title: '', body: '' });
+
   // getToken(setTokenFound);
   const onMessageListener = () =>
     new Promise((resolve) => {
@@ -52,6 +62,7 @@ function ViewApplicants() {
     sideMenu.current.classList.toggle('change');
   const [verificationCard, setVerificationCard] = useState(false);
   const [verified, setVerified] = useState(false);
+  const [interviews, setInterviews] = useState([]);
   const navClickHandler = () => {
     setVerificationCard(true);
   };
@@ -59,20 +70,43 @@ function ViewApplicants() {
     setVerified(true);
     setVerificationCard(false);
   };
-  let applicants = [
-    {
-      name: 'Mohamed Moussa',
-      interviewDate: '2/13/2022 1:50 pm',
-    },
-    {
-      name: 'Mohamed Nabil',
-      interviewDate: '2/13/2022 1:40 pm',
-    },
-    {
-      name: 'Mohamed Medhat',
-      interviewDate: '2/13/2022 1:30 pm',
-    },
-  ];
+  const fetchPost = () => {
+    return fetch(`${HRURL}/job-listing/${positionId}`, {
+      method: 'GET',
+      headers: {
+        Authorization: authUser.token,
+      },
+    });
+  };
+
+  useEffect(async () => {
+    const response = await fetchPost();
+    const data = await response.json();
+    if (response.status === 200) {
+      setInterviews(data.interviews);
+    } else {
+      handleAPIError(
+        response.status,
+        data,
+        () => {},
+        () => setAuthUser(null)
+      );
+    }
+  }, []);
+  // let applicants = [
+  //   {
+  //     name: 'Mohamed Moussa',
+  //     interviewDate: '2/13/2022 1:50 pm',
+  //   },
+  //   {
+  //     name: 'Mohamed Nabil',
+  //     interviewDate: '2/13/2022 1:40 pm',
+  //   },
+  //   {
+  //     name: 'Mohamed Medhat',
+  //     interviewDate: '2/13/2022 1:30 pm',
+  //   },
+  // ];
   return (
     <>
       {verificationCard && (
@@ -109,10 +143,10 @@ function ViewApplicants() {
       </Toast>
       <p className="evaluate_label">Evaluate Applicants</p>
       <ul className="applicants_list">
-        {applicants.map((applicant, index) => (
+        {interviews.map((applicant, index) => (
           <Card key={index} className="applicantcard">
             <Link
-              to="/applicant_details"
+              to={`/applicant_details/${positionName}$${applicant.interviewId}`}
               className="app_name"
               title={applicant.name}
             >
@@ -122,7 +156,7 @@ function ViewApplicants() {
               Interview Date:
             </p>
             <p name="interviewdate" className="app_interviewdate">
-              {applicant.interviewDate}
+              {applicant.submitedAt}
             </p>
           </Card>
         ))}

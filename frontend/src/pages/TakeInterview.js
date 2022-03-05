@@ -9,16 +9,6 @@ function InterviewPage() {
   return (
     <>
       <NavBar />
-      {/* <div className="Interviewanimation">
-        <Lottie
-          options={{
-            animationData: require('../components/lottie/41391-we-are-hiring-get-ready-to-work-job-recruitment-isometric-hiring-process.json'),
-            renderer: 'svg',
-            loop: true,
-            autoplay: true,
-          }}
-        />
-      </div> */}
       <Interview />
     </>
   );

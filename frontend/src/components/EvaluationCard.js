@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import Card from './Card';
 import './scss/evaluate.scss';
 const EvaluationCard = React.forwardRef((props, ratings) => {
+  console.log(props.answers);
   return (
     <div ref={ratings}>
       <ul>
@@ -9,12 +10,11 @@ const EvaluationCard = React.forwardRef((props, ratings) => {
           <li key={index}>
             <Card className="evaluation_card">
               <p className="question-title">
-                Question{index + 1}: {answer.ques}
+                Question{index + 1}: {answer.statement}
               </p>
               <div className="evaluate_video">
                 <video width="83%" height="250" controls>
-                  <source src={answer.ans} type="video/mp4" />
-                  <source src={answer.ans2} type="video/ogg" />
+                  <source src={answer.link} />
                 </video>
               </div>
               <label className="rate-label">Rate Question:</label>

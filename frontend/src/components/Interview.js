@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import './scss/interview.scss';
 import Card from './Card';
 import ErrorModal from './ErrorModal';
-let interviewLink;
+import { Link } from 'react-router-dom';
 const Interview = () => {
   const [cursorStyle, setcursorStyle] = useState('auto');
   const [displayColor, setColor] = useState('rgb(162, 172, 182)');
@@ -21,13 +21,13 @@ const Interview = () => {
   };
   const submitHandler = (e) => {
     e.preventDefault();
-    if (link !== 'app.interview') {
-      setError({
-        title: 'Invalid Link',
-        message: 'The Link You Entered Is Invalid, Please Try Again',
-      });
-      return;
-    } else interviewLink = link;
+    // if (link !== 'app.interview') {
+    //   setError({
+    //     title: 'Invalid Link',
+    //     message: 'The Link You Entered Is Invalid, Please Try Again',
+    //   });
+    //   return;
+    // } else interviewLink = link;
   };
   const errorHandler = () => {
     setError(null);
@@ -55,9 +55,13 @@ const Interview = () => {
             interview link to start
           </p>
           <br />
-          <button id="go" style={{ cursor: cursorStyle, color: displayColor }}>
+          <Link
+            className="goInterview"
+            style={{ cursor: cursorStyle, color: displayColor }}
+            to={`/welcome/${link}`}
+          >
             Go to Interview
-          </button>
+          </Link>
         </form>
       </Card>
     </div>
@@ -65,4 +69,3 @@ const Interview = () => {
 };
 
 export default Interview;
-export { interviewLink };
