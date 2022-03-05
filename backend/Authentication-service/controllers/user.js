@@ -318,21 +318,29 @@ module.exports.postLogOut = async (req, res, next) => {
     const { userId } = req;
     const { registrationToken } = req.body;
 
-    // loggedIn => falsse, and return invalid token, remove the registration token
-    const user = await User.findOne({
-      where: {
-        userId,
-      },
-    });
-    user.loggedIn = false;
-    await user.save();
-
     await RegistrationToken.destroy({
       where: {
         userId,
         token: registrationToken,
       },
     });
+
+    const registratinTokens = await RegistrationToken.findAll({
+      where: {
+        userId,
+      },
+    });
+
+    if (!registratinTokens) {
+      // loggedIn => falsse, and return invalid token, remove the registration token
+      const user = await User.findOne({
+        where: {
+          userId,
+        },
+      });
+      user.loggedIn = false;
+      await user.save();
+    }
 
     res.status(200).json({
       token: createToken(userId, process.env.TOKEN_SECRET, '-10s'),
