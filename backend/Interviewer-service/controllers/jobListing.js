@@ -12,6 +12,7 @@ const JobListing = require('../models/jobListing');
 const Keyword = require('../models/keyword');
 const Interview = require('../models/interview');
 const Video = require('../models/video');
+const Notification = require('../models/notification');
 
 module.exports.postCreateListing = async (req, res, next) => {
   // Check for validation errors
@@ -441,6 +442,18 @@ module.exports.getInterviewAnswers = async (req, res, next) => {
       const err = new Error('interview is not found.');
       err.statusCode = 404;
       throw err;
+    }
+
+    const notification = await Notification.findOne({
+      where: {
+        userId,
+        interviewId,
+      },
+    });
+
+    if (notification && !notification.dataValues.read) {
+      notification.read = true;
+      await notification.save();
     }
 
     const jobListing = await JobListing.findOne({

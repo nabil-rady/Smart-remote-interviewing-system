@@ -276,10 +276,19 @@ module.exports.postLogin = async (req, res, next) => {
     user.loggedIn = true;
     await user.save();
 
-    await RegistrationToken.create({
-      token: registrationToken,
-      userId: user.dataValues.userId,
+    const registratinToken = await RegistrationToken.findOne({
+      where: {
+        token: registrationToken,
+        userId: user.dataValues.userId,
+      },
     });
+
+    if (!registratinToken) {
+      await RegistrationToken.create({
+        token: registrationToken,
+        userId: user.dataValues.userId,
+      });
+    }
 
     const { password, verificationCode, ...returnedUser } = user.dataValues;
     res.status(200).json({
@@ -309,21 +318,29 @@ module.exports.postLogOut = async (req, res, next) => {
     const { userId } = req;
     const { registrationToken } = req.body;
 
-    // loggedIn => falsse, and return invalid token, remove the registration token
-    const user = await User.findOne({
-      where: {
-        userId,
-      },
-    });
-    user.loggedIn = false;
-    await user.save();
-
     await RegistrationToken.destroy({
       where: {
         userId,
         token: registrationToken,
       },
     });
+
+    const registratinTokens = await RegistrationToken.findAll({
+      where: {
+        userId,
+      },
+    });
+
+    if (!registratinTokens) {
+      // loggedIn => falsse, and return invalid token, remove the registration token
+      const user = await User.findOne({
+        where: {
+          userId,
+        },
+      });
+      user.loggedIn = false;
+      await user.save();
+    }
 
     res.status(200).json({
       token: createToken(userId, process.env.TOKEN_SECRET, '-10s'),

@@ -1,13 +1,26 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../utils/db');
+
 const User = require('./user');
+const Interview = require('./interview');
 
 const Notification = sequelize.define('Notification', {
-  userId: {
+  notificationId: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
     allowNull: false,
     primaryKey: true,
+    unique: true,
+  },
+  userId: {
+    type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV4,
+    allowNull: false,
+  },
+  interviewId: {
+    type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV4,
+    allowNull: false,
   },
   title: {
     type: DataTypes.STRING,
@@ -28,6 +41,11 @@ const Notification = sequelize.define('Notification', {
 
 User.hasMany(Notification, {
   foreignKey: 'userId',
+  onDelete: 'CASCADE',
+});
+
+Interview.hasOne(Notification, {
+  foreignKey: 'interviewId',
   onDelete: 'CASCADE',
 });
 
