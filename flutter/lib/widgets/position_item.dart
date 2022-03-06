@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:graduation_project/local/sharedpreferences.dart';
+import '../local/sharedpreferences.dart';
 import 'package:provider/provider.dart';
 import '../providers/positions.dart';
 

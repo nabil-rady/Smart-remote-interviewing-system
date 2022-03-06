@@ -1,4 +1,4 @@
-import 'package:graduation_project/models/position.dart';
+import '../models/position.dart';
 
 class PositionCandidiate {
   // final String positionName;

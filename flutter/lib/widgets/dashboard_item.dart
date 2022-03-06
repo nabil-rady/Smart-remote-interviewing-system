@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:graduation_project/local/sharedpreferences.dart';
+import '../local/sharedpreferences.dart';
 import 'package:intl/intl.dart';
 
 var list = [

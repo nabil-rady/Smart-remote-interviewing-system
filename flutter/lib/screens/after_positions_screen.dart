@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:graduation_project/screens/to_evaluate_screen.dart';
+import '../screens/to_evaluate_screen.dart';
 import '../screens/position_details_screen.dart';
 
 class AfterPositionsScreen extends StatelessWidget {

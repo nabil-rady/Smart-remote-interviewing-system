@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -15,7 +17,8 @@ class DashboardPositions with ChangeNotifier {
 
   Future<void> getListings() async {
     final response = await http.get(
-      Uri.parse('https://vividly-api.herokuapp.com/job-listing/get-listings'),
+      // Uri.parse('https://vividly-api.herokuapp.com/job-listing/get-listings'),
+      Uri.parse('http://10.0.2.2:8001/job-listing/get-listings'),
       headers: <String, String>{
         'Content-Type': 'application/json',
         'Authorization': _authToken.toString(),
@@ -38,7 +41,9 @@ class DashboardPositions with ChangeNotifier {
           .toList();
       _positionsItems = _finalList.reversed.toList();
       notifyListeners();
+      //inspect(_positionsItems);
     } else {
+      // print(responseData['message']);
       throw HttpException(responseData['message']);
     }
   }

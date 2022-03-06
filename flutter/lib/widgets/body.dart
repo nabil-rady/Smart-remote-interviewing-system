@@ -1,7 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:graduation_project/local/sharedpreferences.dart';
-import 'package:graduation_project/screens/interviewScreens/intro_cam_screen.dart';
+import '../local/sharedpreferences.dart';
+import '../screens/interviewScreens/intro_cam_screen.dart';
 
 import '../local/constants.dart';
 import '../local/size_config.dart';

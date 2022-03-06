@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:test/screens/notifications_screen.dart';
 
 import '../local/sharedpreferences.dart';
 import '../providers/auth_provider.dart';
@@ -20,8 +22,19 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
+    // noticication();
     super.initState();
     navigator();
+  }
+
+  noticication() {
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
+      print("onMessageOpenedApp: $message");
+      Navigator.pushNamed(
+        context,
+        NotificationScreen.routeName,
+      );
+    });
   }
 
   navigator() async {

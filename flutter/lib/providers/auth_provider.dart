@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/widgets.dart';
 import '../models/employer_model.dart';
 import '../local/http_exception.dart';
@@ -36,6 +38,7 @@ class Auth with ChangeNotifier {
       String countryCode) async {
     final response = await http.post(
       Uri.parse('https://vividly-api.herokuapp.com/user/signup'),
+      //Uri.parse('http://10.0.2.2:8000/user/signup'),
       headers: <String, String>{
         'Content-Type': 'application/json',
       },
@@ -56,7 +59,7 @@ class Auth with ChangeNotifier {
       final responseData = json.decode(response.body);
       _employer.userId = responseData['user']['userId'];
       saveUserId('${responseData['user']['userId']}');
-      sendEmail();
+      // sendEmail();
     } else if (response.statusCode == 422) {
       throw Exception(responseData['details'][0]['msg']);
     } else {
@@ -64,15 +67,18 @@ class Auth with ChangeNotifier {
     }
   }
 
-  Future<void> login(String email, String password) async {
+  Future<void> login(
+      String email, String password, String webNotificationToken) async {
     final response = await http.post(
       Uri.parse('https://vividly-api.herokuapp.com/user/login'),
+      //Uri.parse('http://10.0.2.2:8000/user/login'),
       headers: <String, String>{
         'Content-Type': 'application/json',
       },
       body: jsonEncode(<String, String>{
         'email': email,
         'password': password,
+        'registrationToken': webNotificationToken,
       }),
     );
     final responseData = json.decode(response.body);
@@ -87,9 +93,10 @@ class Auth with ChangeNotifier {
       _employer.updatedAt = responseData['user']['updatedAt'];
       _employer.countryCode = responseData['user']['phoneCode'];
       _employer.phone = responseData['user']['phoneNumber'];
-      _employer.loggedIn = responseData['user']['loggedIn'];
+      _employer.loggedIn = true;
+      //responseData['user']['loggedIn'];
       _employer.emailConfirmed = responseData['user']['emailConfirmed'];
-
+      print(_employer.email);
       saveUserToken('${responseData['token']}');
       saveUserId('${responseData['user']['userId']}');
       saveUserExpiryDate('${DateTime.parse(responseData['tokenExpireDate'])}');
@@ -104,11 +111,12 @@ class Auth with ChangeNotifier {
   Future<void> confirmEmail(String code) async {
     final response = await http.post(
       Uri.parse('https://vividly-api.herokuapp.com/user/verify'),
+      //Uri.parse('http://10.0.2.2:8000/user/verify'),
       headers: <String, String>{
         'Content-Type': 'application/json',
+        'Authorization': getUserToken().toString(),
       },
       body: jsonEncode(<String, String>{
-        'userId': getUserId().toString(),
         'verificationCode': code,
       }),
     );
@@ -123,30 +131,34 @@ class Auth with ChangeNotifier {
   Future<void> sendEmail() async {
     final validationResponse = await http.post(
       Uri.parse('https://vividly-api.herokuapp.com/user/confirm-email'),
+      //Uri.parse('http://10.0.2.2:8000/user/confirm-email'),
       headers: <String, String>{
         'Content-Type': 'application/json',
+        'Authorization': getUserToken().toString(),
       },
-      body: jsonEncode(<String, String>{
-        'userId': getUserId().toString(),
-      }),
     );
     final validationResponseData = json.decode(validationResponse.body);
   }
 
   Future<void> logOut() async {
+    String? token = await FirebaseMessaging.instance.getToken();
+
     final response = await http.post(
-      Uri.parse('https://vividly-api.herokuapp.com/user/logout'),
+      // Uri.parse('https://vividly-api.herokuapp.com/user/logout'),
+      Uri.parse('http://10.0.2.2:8000/user/logout'),
+
       headers: <String, String>{
         'Content-Type': 'application/json',
         'Authorization': getUserToken().toString(),
       },
-      body: jsonEncode(<String, String>{
-        'token': getUserToken().toString(),
-      }),
+      body:
+          jsonEncode(<String, String>{'registrationToken': getFirebaseToken()}),
+      // jsonEncode(<String, String>{'registrationToken': token.toString()}),
     );
     final responseData = json.decode(response.body);
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
+      _employer.loggedIn = false;
     } else {
       throw HttpException(responseData['message']);
     }
@@ -174,7 +186,8 @@ class Auth with ChangeNotifier {
     try {
       final id = getUserId().toString();
       final response = await http.get(
-        Uri.parse('https://vividly-api.herokuapp.com/user/$id'),
+        // Uri.parse('https://vividly-api.herokuapp.com/user/$id'),
+        Uri.parse('http://10.0.2.2:8001/user/$id'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': getUserToken().toString(),
@@ -208,7 +221,8 @@ class Auth with ChangeNotifier {
       String oldPassword, String newPassword, String confirmPassword) async {
     final usertoken = getUserToken().toString();
     final response = await http.put(
-      Uri.parse('https://vividly-api.herokuapp.com/user/changepassword'),
+      // Uri.parse('https://vividly-api.herokuapp.com/user/changepassword'),
+      Uri.parse('http://10.0.2.2:8001/user/changepassword'),
       headers: <String, String>{
         'Content-Type': 'application/json',
         'Authorization': usertoken,
@@ -230,7 +244,8 @@ class Auth with ChangeNotifier {
   Future<void> editPhoneNumber(String phoneCode, String phoneNumber) async {
     final usertoken = getUserToken().toString();
     final response = await http.put(
-      Uri.parse('https://vividly-api.herokuapp.com/user/edit'),
+      // Uri.parse('https://vividly-api.herokuapp.com/user/edit'),
+      Uri.parse('http://10.0.2.2:8001/user/edit'),
       headers: <String, String>{
         'Content-Type': 'application/json',
         'Authorization': usertoken,
@@ -240,9 +255,6 @@ class Auth with ChangeNotifier {
         'phoneNumber': phoneNumber,
       }),
     );
-    // print(phoneCode);
-    // print(phoneNumber);
-    print(response.body);
     final responseData = json.decode(response.body);
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);

@@ -39,9 +39,11 @@ class _PositionDetailScreenState extends State<PositionDetailScreen> {
             future: _detailsFuture,
             builder: (ctx, dataSnapshot) {
               if (dataSnapshot.connectionState == ConnectionState.waiting) {
+                print(dataSnapshot.error.toString());
                 return const Center(
                     child: CircularProgressIndicator(color: Color(0xFF165DC0)));
               } else {
+                print(dataSnapshot.data.toString());
                 if (dataSnapshot.error != null) {
                   // ...
                   // Do error handling stuff
