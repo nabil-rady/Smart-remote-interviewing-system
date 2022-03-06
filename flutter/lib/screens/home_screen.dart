@@ -76,9 +76,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   Navigator.of(ctx).pop();
                   _positionsFuture = getPositionsFuture(context);
                 } on HttpException catch (error) {
-                  showErrorDialog(context, 'Wrong verification code');
+                  showErrorDialog(context, 'Wrong verification code', true);
                 } catch (error) {
-                  showErrorDialog(context, 'Wrong verification code');
+                  showErrorDialog(context, 'Wrong verification code', true);
                 }
               },
             ),
@@ -88,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 try {
                   await Provider.of<Auth>(context, listen: false).sendEmail();
                 } catch (error) {
-                  showErrorDialog(context, error.toString());
+                  showErrorDialog(context, error.toString(), true);
                 }
               },
             ),
@@ -102,6 +102,7 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text('Dashboard'),
         backgroundColor: Theme.of(context).primaryColor,
       ),
+      // drawer: employerData.emailConfirmed ? AppDrawer() : null,
       drawer: AppDrawer(),
       body: !employerData.emailConfirmed
           ? SingleChildScrollView(
@@ -135,8 +136,25 @@ class _HomeScreenState extends State<HomeScreen> {
                           Divider(),
                           const Text(
                             'To finish signing up, please confirm your email address. This ensures we have the right email in case we need to contact you.',
+                            textAlign: TextAlign.center,
                             style: TextStyle(fontSize: 20),
                           ),
+
+                          // RaisedButton(
+                          //   shape: RoundedRectangleBorder(
+                          //     borderRadius: BorderRadius.circular(30),
+                          //   ),
+                          //   color: Theme.of(context).primaryColor,
+                          //   onPressed: () async {
+                          //     await Provider.of<Auth>(context,
+                          //             listen: false)
+                          //         .sendEmail();
+                          //   },
+                          //   child: const Text(
+                          //     'Send Code',
+                          //     style: TextStyle(color: Colors.white),
+                          //   ),
+                          // ),
                           RaisedButton(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30),

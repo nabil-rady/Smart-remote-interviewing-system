@@ -1,11 +1,7 @@
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:graduation_project/local/http_exception.dart';
-import 'package:graduation_project/local/sharedpreferences.dart';
-import 'package:graduation_project/providers/session_provider.dart';
-import 'package:graduation_project/screens/interviewScreens/trailCamScreen.dart';
-import 'package:provider/provider.dart';
+
+import '../local/http_exception.dart';
+import '../local/sharedpreferences.dart';
 
 class StartIntrview extends StatefulWidget {
   const StartIntrview({Key? key}) : super(key: key);
@@ -43,7 +39,7 @@ class _StartIntrviewState extends State<StartIntrview> {
       if (error.toString().contains('This interview has been started before')) {
         errorMessage = 'This interview has been started before.';
       }
-      showErrorDialog(context, errorMessage);
+      showErrorDialog(context, errorMessage, true);
 
       setState(() {
         _isLoading = false;
@@ -52,7 +48,7 @@ class _StartIntrviewState extends State<StartIntrview> {
       print(error);
       const errorMessage =
           'Could not start your interview. Please try again later.';
-      showErrorDialog(context, errorMessage);
+      showErrorDialog(context, errorMessage, true);
 
       setState(() {
         _isLoading = false;

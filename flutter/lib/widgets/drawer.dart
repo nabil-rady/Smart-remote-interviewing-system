@@ -3,13 +3,13 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:graduation_project/local/sharedpreferences.dart';
-import 'package:graduation_project/providers/auth_provider.dart';
-import 'package:graduation_project/screens/main_screen.dart';
+import '../local/sharedpreferences.dart';
+import '../providers/auth_provider.dart';
+import '../screens/main_screen.dart';
 
-import 'package:graduation_project/screens/position_screen.dart';
-import 'package:graduation_project/screens/profile_screen.dart';
-import 'package:graduation_project/screens/waiting_screen.dart';
+import '../screens/position_screen.dart';
+import '../screens/profile_screen.dart';
+import '../screens/waiting_screen.dart';
 import 'package:provider/provider.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -22,7 +22,9 @@ class AppDrawer extends StatelessWidget {
         children: <Widget>[
           GestureDetector(
             onTap: () {
-              Navigator.of(context).pushNamed(ProfileScreen.routeName);
+              employerData.emailConfirmed && employerData.loggedIn
+                  ? Navigator.of(context).pushNamed(ProfileScreen.routeName)
+                  : null;
             },
             child: UserAccountsDrawerHeader(
               accountName: Text(employerData.firstName),
@@ -38,41 +40,48 @@ class AppDrawer extends StatelessWidget {
               decoration: BoxDecoration(color: Theme.of(context).primaryColor),
             ),
           ),
-          _buildListTile(Icons.notifications, 'Notifications',
-              () => Navigator.of(context).pushNamed('/notification_screen')),
+          _buildListTile(Icons.notifications, 'Notifications', () {
+            employerData.loggedIn
+                ? Navigator.of(context).pushNamed('/notification_screen')
+                : null;
+          }, employerData.loggedIn, employerData.emailConfirmed),
           const Divider(),
-          _buildListTile(Icons.dashboard, 'Dashboard',
-              () => Navigator.of(context).pushReplacementNamed('/home_screen')),
+          _buildListTile(
+              Icons.dashboard,
+              'Dashboard',
+              () => Navigator.of(context).pushReplacementNamed('/home_screen'),
+              employerData.loggedIn,
+              employerData.emailConfirmed),
           const Divider(),
           _buildListTile(Icons.app_registration_sharp, 'Job positions', () {
-            Navigator.of(context)
-                .pushReplacementNamed(PositionScreen.routeName);
-          }),
+            employerData.emailConfirmed
+                ? Navigator.of(context)
+                    .pushReplacementNamed(PositionScreen.routeName)
+                : null;
+          }, employerData.loggedIn, employerData.emailConfirmed),
           const Divider(),
-          _buildListTile(Icons.exit_to_app, 'Log out', () {
-            Provider.of<Auth>(context, listen: false).logOut().then((value) {
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => CompanySignupScreen()),
-                  (Route<dynamic> route) => false);
-            });
-          }),
+          if (employerData.loggedIn)
+            _buildListTile(Icons.exit_to_app, 'Log out', () async {
+              Provider.of<Auth>(context, listen: false).logOut().then((value) {
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => CompanySignupScreen()),
+                    (Route<dynamic> route) => false);
+              });
+            }, employerData.loggedIn, true),
         ],
       ),
     );
   }
 }
 
-Widget _buildListTile(
-  IconData iconLeading,
-  String title,
-  GestureTapCallback ontap,
-) {
+Widget _buildListTile(IconData iconLeading, String title,
+    GestureTapCallback ontap, bool loggedin, bool emailconfirmed) {
   return ListTile(
     leading: Icon(
       iconLeading,
-      color: const Color(0xFF165DC0),
+      color: loggedin && emailconfirmed ? const Color(0xFF165DC0) : Colors.grey,
     ),
     title: Text(title),
     onTap: ontap,

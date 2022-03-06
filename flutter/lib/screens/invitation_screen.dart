@@ -5,11 +5,19 @@ import '../widgets/candidate_info_item.dart';
 import '../widgets/invitation_form.dart';
 import '../providers/candidate_provider.dart';
 
-class InvitationScreen extends StatelessWidget {
+class InvitationScreen extends StatefulWidget {
   static const routeName = '/invitation_screen';
+
+  @override
+  State<InvitationScreen> createState() => _InvitationScreenState();
+}
+
+class _InvitationScreenState extends State<InvitationScreen> {
+  bool myflag = true;
 
   void startAddNewCandidate(BuildContext ctx, String id) {
     showModalBottomSheet(
+        isScrollControlled: true,
         context: ctx,
         builder: (bctx) {
           return InvitationForm(id);
@@ -17,7 +25,19 @@ class InvitationScreen extends StatelessWidget {
   }
 
   @override
+  void didChangeDependencies() {
+    if (myflag) {
+      Provider.of<Candidates>(context).setItems = [];
+    }
+    // TODO: implement didChangeDependencies
+    myflag = false;
+
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    Provider.of<Candidates>(context, listen: false).setcsvCandidateList = [];
     final candidateInfo = Provider.of<Candidates>(context);
     final candidates = candidateInfo.candidates;
     final _position =

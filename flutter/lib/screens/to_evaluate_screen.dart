@@ -51,12 +51,20 @@ class _ToEvaluateScreenState extends State<ToEvaluateScreen> {
               );
             } else {
               return Consumer<PostionDetails>(
-                builder: (ctx, position, child) => ListView.builder(
-                  itemCount: position.cacandidates.length,
-                  itemBuilder: (ctx, index) {
-                    return ApplicantCard(position.cacandidates[index]);
-                  },
-                ),
+                builder: (ctx, position, child) => position
+                            .cacandidates.length >
+                        0
+                    ? ListView.builder(
+                        itemCount: position.cacandidates.length,
+                        itemBuilder: (ctx, index) {
+                          return ApplicantCard(position.cacandidates[index]);
+                        },
+                      )
+                    : Center(
+                        child: Text(
+                        "No Applicants To Evaluate Yet, Please Invite More People ",
+                        textAlign: TextAlign.center,
+                      )),
               );
             }
           }

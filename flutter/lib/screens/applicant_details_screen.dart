@@ -27,7 +27,7 @@ class _ApplicantDetailScreenState extends State<ApplicantDetailScreen> {
       });
     } on HttpException catch (error) {
       showErrorDialog(
-          context, "Could not loead answers, Please try again later.");
+          context, "Could not loead answers, Please try again later.", true);
 
       setState(() {
         _isLoading = false;
@@ -35,7 +35,7 @@ class _ApplicantDetailScreenState extends State<ApplicantDetailScreen> {
     } catch (error) {
       print(error);
       const errorMessage = 'Could not loead answers, Please try again later';
-      showErrorDialog(context, errorMessage);
+      showErrorDialog(context, errorMessage, true);
 
       setState(() {
         _isLoading = false;

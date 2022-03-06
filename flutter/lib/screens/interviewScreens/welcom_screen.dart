@@ -21,10 +21,10 @@ class WelcomeScreen extends StatelessWidget {
       // body: Text(sessionData.email),
       body: Column(
         children: <Widget>[
-          // Padding(
-          //   padding: const EdgeInsets.only(top: 30.0),
-          //   child: Lottie.asset('assets/lottie/welcome.json'),
-          // ),
+          Padding(
+            padding: const EdgeInsets.only(top: 30.0),
+            child: Lottie.asset('assets/lottie/welcome.json'),
+          ),
           const SizedBox(
             height: 30,
           ),

@@ -1,7 +1,8 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:graduation_project/providers/dashboard_provider.dart';
-import 'package:graduation_project/providers/position_details_provider.dart';
-import 'package:graduation_project/providers/session_provider.dart';
+import '../providers/dashboard_provider.dart';
+import '../providers/position_details_provider.dart';
+import '../providers/session_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:camera/camera.dart';
@@ -10,7 +11,7 @@ late SharedPreferences preferences;
 late CameraController cameraConroller;
 late Future sessionQuestion;
 late Future answerDetails;
-
+late String firebasetoken;
 Future<void> sharedPreferences() async {
   preferences = await SharedPreferences.getInstance();
 }
@@ -41,12 +42,12 @@ CameraController getCameraController() {
   return cameraConroller;
 }
 
-void showErrorDialog(BuildContext context, String message) {
+void showErrorDialog(BuildContext context, String message, bool error) {
   showDialog(
     context: context,
     builder: (ctx) => AlertDialog(
       title: Text(
-        'An Error Occurred!',
+        error ? 'An Error Occurred!' : 'All Done',
         style: Theme.of(context).textTheme.headline1,
       ),
       content: Text(
@@ -92,4 +93,12 @@ Future getAnswerDetails(BuildContext context, String applicantId) {
 
 Future fetchAnswerDetails() {
   return answerDetails;
+}
+
+void saveFirebaseToken(String token) async {
+  firebasetoken = token;
+}
+
+String getFirebaseToken() {
+  return firebasetoken;
 }
