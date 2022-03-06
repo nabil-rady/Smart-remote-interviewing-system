@@ -69,7 +69,7 @@ class AppDrawer extends StatelessWidget {
                         builder: (context) => CompanySignupScreen()),
                     (Route<dynamic> route) => false);
               });
-            }, employerData.loggedIn, employerData.emailConfirmed),
+            }, employerData.loggedIn, true),
         ],
       ),
     );
