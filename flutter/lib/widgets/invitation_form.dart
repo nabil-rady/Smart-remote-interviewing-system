@@ -36,6 +36,7 @@ class _InvitationFormState extends State<InvitationForm> {
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   bool flag = false;
+  bool csvFlag = false;
   List<PlatformFile>? _paths;
   String? _extension = "csv";
   FileType _pickingType = FileType.custom;
@@ -86,7 +87,7 @@ class _InvitationFormState extends State<InvitationForm> {
         .transform(utf8.decoder)
         .transform(new CsvToListConverter())
         .toList();
-    print(fields);
+    // print(fields);
     setState(() {
       employeeData = fields;
       employeeData.forEach((element) {
@@ -144,10 +145,12 @@ class _InvitationFormState extends State<InvitationForm> {
         posCandidate = PositionCandidiate(
             positionId: posCandidate.positionId, candidatesMapList: candidate);
         await Provider.of<Candidates>(context, listen: false)
-            .addAplicant(posCandidate, false);
-
-        showErrorDialog(
-            context, "Invitaions have been sent successfully.", false);
+            .addAplicant(posCandidate);
+        // .then((value) {}
+        //showErrorDialog(
+        //  context, "Invitaion has been successfully sent .", false
+        //)
+        //    );
       } on HttpException catch (error) {
         ////  print(error);
         if (error.toString().contains('Validation failed')) {
@@ -179,6 +182,14 @@ class _InvitationFormState extends State<InvitationForm> {
         //);
 
         print('2222222222222');
+        // Provider.of<Candidates>(context, listen: false).csvCandidateList =
+        //     employeeData;
+        var posCandidate = PositionCandidiate(
+            positionId: widget.positionId, candidatesMapList: candidate);
+        await Provider.of<Candidates>(context, listen: false)
+            .addAplicantList(employeeData, posCandidate);
+        showErrorDialog(
+            context, "Invitaions have been sent successfully.", false);
         // for (int i = 0; i < employeeData.length; i++) {
         //   employeeData.forEach((element) {
         //     //list2 = filter(' ', element);
@@ -187,76 +198,83 @@ class _InvitationFormState extends State<InvitationForm> {
         // }
 
         // print(employeeData);
-        employeeData.forEach((element) {
-          // candidate = Candidate(
-          //   name: element[0].toString(),
-          //   email: element[1].toString(),
-          //   phoneNumber: element[3].toString(),
-          //   //  date: candidate.date,
-          //   phoneCode: element[2].toString(),
-          //   id: candidate.id,
-          // );
-          // element.forEach((element2) {
-          //   //list2 = filter(' ', element);
-          //   print(element2);
-          // });
+        // employeeData.forEach((element) {
+        //   // candidate = Candidate(
+        //   //   name: element[0].toString(),
+        //   //   email: element[1].toString(),
+        //   //   phoneNumber: element[3].toString(),
+        //   //   //  date: candidate.date,
+        //   //   phoneCode: element[2].toString(),
+        //   //   id: candidate.id,
+        //   // );
+        //   // element.forEach((element2) {
+        //   //   //list2 = filter(' ', element);
+        //   //   print(element2);
+        //   // });
 
-          // element.removeWhere((element) => element == ' ');
-          // name for name in starring if name.strip()
-          candidate = {
-            'name': element[0].toString(),
-            'email': element[1].toString(),
-            'phoneCode': '+ ${element[2].toString()}',
-            'phoneNumber': element[3].toString(),
-          };
+        //   // element.removeWhere((element) => element == ' ');
+        //   // name for name in starring if name.strip()
+        //   candidate = {
+        //     'name': element[0].toString(),
+        //     'email': element[1].toString(),
+        //     'phoneCode': '+ ${element[2].toString()}',
+        //     'phoneNumber': element[3].toString(),
+        //   };
 
-          // rate: candidate.rate,
-          // videoAnswers: candidate.videoAnswers,
-          // isRated: candidate.isRated,
-          // positionName: candidate.positionName
+        //   // rate: candidate.rate,
+        //   // videoAnswers: candidate.videoAnswers,
+        //   // isRated: candidate.isRated,
+        //   // positionName: candidate.positionName
 
-          // candidate = Interview(
-          //     name: candidate.name,
-          //     email: element[1].toString(),
-          //     phone: candidate.phone,
-          //     phoneCode: candidate.phoneCode,
-          //     date: candidate.date,
-          //     id: candidate.id,
-          //     rate: candidate.rate,
-          //     videoAnswers: candidate.videoAnswers,
-          //     isRated: candidate.isRated,
-          //     positionName: candidate.positionName);
-          // candidate = Interview(
-          //     name: candidate.name,
-          //     email: candidate.email,
-          //     phone: candidate.phone,
-          //     phoneCode: element[2].toString(),
-          //     date: candidate.date,
-          //     id: candidate.id,
-          //     rate: candidate.rate,
-          //     videoAnswers: candidate.videoAnswers,
-          //     isRated: candidate.isRated,
-          //     positionName: candidate.positionName);
-          // candidate = Interview(
-          //     name: candidate.name,
-          //     email: candidate.email,
-          //     phone: element[3].toString(),
-          //     phoneCode: candidate.phoneCode,
-          //     date: candidate.date,
-          //     id: candidate.id,
-          //     rate: candidate.rate,
-          //     videoAnswers: candidate.videoAnswers,
-          //     isRated: candidate.isRated,
-          //     positionName: candidate.positionName);
-          var posCandidate = PositionCandidiate(
-              positionId: widget.positionId, candidatesMapList: candidate);
-          Provider.of<Candidates>(context, listen: false)
-              .addAplicant(posCandidate, true);
-          // print(candidate.name);
-        });
+        //   // candidate = Interview(
+        //   //     name: candidate.name,
+        //   //     email: element[1].toString(),
+        //   //     phone: candidate.phone,
+        //   //     phoneCode: candidate.phoneCode,
+        //   //     date: candidate.date,
+        //   //     id: candidate.id,
+        //   //     rate: candidate.rate,
+        //   //     videoAnswers: candidate.videoAnswers,
+        //   //     isRated: candidate.isRated,
+        //   //     positionName: candidate.positionName);
+        //   // candidate = Interview(
+        //   //     name: candidate.name,
+        //   //     email: candidate.email,
+        //   //     phone: candidate.phone,
+        //   //     phoneCode: element[2].toString(),
+        //   //     date: candidate.date,
+        //   //     id: candidate.id,
+        //   //     rate: candidate.rate,
+        //   //     videoAnswers: candidate.videoAnswers,
+        //   //     isRated: candidate.isRated,
+        //   //     positionName: candidate.positionName);
+        //   // candidate = Interview(
+        //   //     name: candidate.name,
+        //   //     email: candidate.email,
+        //   //     phone: element[3].toString(),
+        //   //     phoneCode: candidate.phoneCode,
+        //   //     date: candidate.date,
+        //   //     id: candidate.id,
+        //   //     rate: candidate.rate,
+        //   //     videoAnswers: candidate.videoAnswers,
+        //   //     isRated: candidate.isRated,
+        //   //     positionName: candidate.positionName);
+        //   var posCandidate = PositionCandidiate(
+        //       positionId: widget.positionId, candidatesMapList: candidate);
+        //   Provider.of<Candidates>(context, listen: false)
+        //       .addAplicant(posCandidate, true);
+        //   // print(candidate.name);
+        // });
+        //   Navigator.of(context).pop();
         // _form.currentState!.save();
         // Provider.of<Interviews>(context, listen: false).addAplicant(candidate);
 
+      } on HttpException catch (error) {
+        print(error);
+        if (error.toString().contains('Validation failed.')) {
+          showErrorDialog(context,
+              'Please check the phone number of your candidates !', true);
+        }
       } catch (e) {
         showErrorDialog(context, "Coundn't invite these candidites.", true);
       }
@@ -276,6 +294,7 @@ class _InvitationFormState extends State<InvitationForm> {
           left: 10,
           bottom: MediaQuery.of(context).viewInsets.bottom + 10),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Form(
               key: _form,
@@ -300,6 +319,9 @@ class _InvitationFormState extends State<InvitationForm> {
                     },
                     validator: (value) {
                       if (value!.isEmpty) {
+                        if (csvFlag) {
+                          return null;
+                        }
                         return 'Please write the full-name';
                       }
                       return null;
@@ -330,6 +352,9 @@ class _InvitationFormState extends State<InvitationForm> {
                     },
                     validator: (value) {
                       if (value!.isEmpty) {
+                        if (csvFlag) {
+                          return null;
+                        }
                         return 'Please write the email';
                       }
                       return null;
@@ -408,6 +433,9 @@ class _InvitationFormState extends State<InvitationForm> {
                             },
                             validator: (value) {
                               if (value!.isEmpty) {
+                                if (csvFlag) {
+                                  return null;
+                                }
                                 return 'Please write the phone number';
                               }
                               return null;
@@ -455,6 +483,7 @@ class _InvitationFormState extends State<InvitationForm> {
                 onPressed: () {
                   setState(() {
                     flag = true;
+                    csvFlag = true;
                   });
                   print("my flag : ${flag}");
                   _openFileExplorer(context, flag);

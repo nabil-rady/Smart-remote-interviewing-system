@@ -17,6 +17,7 @@ class _InvitationScreenState extends State<InvitationScreen> {
 
   void startAddNewCandidate(BuildContext ctx, String id) {
     showModalBottomSheet(
+        isScrollControlled: true,
         context: ctx,
         builder: (bctx) {
           return InvitationForm(id);
@@ -30,11 +31,13 @@ class _InvitationScreenState extends State<InvitationScreen> {
     }
     // TODO: implement didChangeDependencies
     myflag = false;
+
     super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<Candidates>(context, listen: false).setcsvCandidateList = [];
     final candidateInfo = Provider.of<Candidates>(context);
     final candidates = candidateInfo.candidates;
     final _position =
