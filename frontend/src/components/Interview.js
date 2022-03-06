@@ -8,16 +8,10 @@ const Interview = () => {
   const [cursorStyle, setcursorStyle] = useState('auto');
   const [displayColor, setColor] = useState('rgb(162, 172, 182)');
   const [error, setError] = useState();
-  const [link, setLink] = useState();
+  const [link, setLink] = useState('');
   const changeHandler = (e) => {
-    if (e.target.value) {
-      setcursorStyle('pointer');
-      setColor('white');
-      setLink(e.target.value);
-    } else {
-      setcursorStyle('auto');
-      setColor('rgb(162, 172, 182)');
-    }
+    setLink(e.target.value);
+    console.log(link);
   };
   const submitHandler = (e) => {
     e.preventDefault();
@@ -55,13 +49,9 @@ const Interview = () => {
             interview link to start
           </p>
           <br />
-          <Link
-            className="goInterview"
-            style={{ cursor: cursorStyle, color: displayColor }}
-            to={`/welcome/${link}`}
-          >
-            Go to Interview
-          </Link>
+          <button className="goInterview" disabled={link.length === 0}>
+            <Link to={`/welcome/${link}`}>Go to Interview</Link>
+          </button>
         </form>
       </Card>
     </div>

@@ -36,7 +36,7 @@ import im26 from '../solidBG/26.jpg';
 import { TailSpin } from 'react-loader-spinner';
 import NotVerified from '../components/NotVerifiedModel';
 function ListingPage() {
-  const [positions, getPositions] = useState(null);
+  const [positions, getPositions] = useState();
   const authUser = useContext(UserContext).authUser;
   console.log(authUser);
   let backgrounds = [

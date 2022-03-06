@@ -6,19 +6,19 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
   let i = 0;
   let Questions = [
     {
-      title:
+      statement:
         'How are you nfslbknnfl snblkaj;ha; hgrhah;hg f;hljsjf;ls klhklskjfhl;rshj;l lkjrhjs;lrjljl;sb kljgrjs;ljbsj ljgs;j.bl;jg srgj;jsl;bb',
-      readTime: 1,
+      timeToThink: 1,
       answerTime: 1,
     },
     {
-      title: 'State your skills',
-      readTime: 6,
-      answerTime: 8,
+      statement: 'State your skills',
+      timeToThink: 6,
+      timeToAnswer: 8,
     },
     {
-      title: "What's your name",
-      readTime: 5,
+      statement: "What's your name",
+      timeToThink: 5,
       answerTime: 5,
     },
   ];
@@ -37,21 +37,21 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
   const [readTimerVisibility, setReadTimer] = useState('visible');
 
   const [timeLeftRead, { start: startRead }] = useCountDown(
-    Questions[counter].readTime * 60 * 1000,
+    Questions[counter].timeToThink * 60 * 1000,
     interval
   );
 
   const [timeLeftAnswer, { start: startAnswer, pause: pauseAnswer }] =
-    useCountDown(Questions[counter].answerTime * 60 * 1000, interval);
+    useCountDown(Questions[counter].timeToAnswer * 60 * 1000, interval);
 
   const renderReadTime = (time) => {
     let secTime, minTime;
     minTime = parseInt(time / 1000 / 60);
     secTime = parseInt((time / 1000) % 60);
     if (time === 0) {
-      if (Questions[counter].readTime < 10)
-        return '0' + Questions[counter].readTime.toString() + ':00';
-      return Questions[counter].readTime.toString() + ':00';
+      if (Questions[counter].timeToThink < 10)
+        return '0' + Questions[counter].timeToThink.toString() + ':00';
+      return Questions[counter].timeToThink.toString() + ':00';
     } else if (time > 0) {
       if (minTime < 10 && secTime < 10) {
         return '0' + minTime.toString() + ':0' + secTime.toString();
@@ -67,9 +67,9 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
     minTime = parseInt(time / 1000 / 60);
     secTime = parseInt((time / 1000) % 60);
     if ((start || !next) && time === 0) {
-      if (Questions[counter].answerTime < 10)
-        return '0' + Questions[counter].answerTime.toString() + ':00';
-      return Questions[counter].readTime.toString() + ':00';
+      if (Questions[counter].timeToAnswer < 10)
+        return '0' + Questions[counter].timeToAnswer.toString() + ':00';
+      return Questions[counter].timeToThink.toString() + ':00';
     } else if (time > 0) {
       if (minTime < 10 && secTime < 10) {
         return '0' + minTime.toString() + ':0' + secTime.toString();
@@ -82,14 +82,14 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
 
   const startInterview = () => {
     setRecordedChunks([]);
-    startRead(Questions[counter].readTime * 60 * 1000);
+    startRead(Questions[counter].timeToThink * 60 * 1000);
     if (visible === 'hidden') setVisibility('visible');
     if (start) setStart(false);
 
     setTimeout(() => {
       handleStartCaptureClick();
       console.log('Start recording (setTimeout)');
-    }, Questions[counter].readTime * 60 * 1000);
+    }, Questions[counter].timeToThink * 60 * 1000);
 
     recordTimeout.current = setTimeout(() => {
       console.log('Stop recording (setTimeout)');
@@ -101,7 +101,7 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
         }
         return false;
       });
-    }, Questions[counter].readTime * 60 * 1000 + Questions[counter].answerTime * 60 * 1000);
+    }, Questions[counter].timeToThink * 60 * 1000 + Questions[counter].timeToAnswer * 60 * 1000);
   };
 
   const handleStartCaptureClick = useCallback(() => {
@@ -113,7 +113,7 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
       handleDataAvailable
     );
     mediaRecorderRef.current.start();
-    startAnswer(Questions[counter].answerTime * 60 * 1000);
+    startAnswer(Questions[counter].timeToAnswer * 60 * 1000);
     console.log('Created MediaRecorder');
     if (!stop) setStop(true);
     if (readTimerVisibility === 'visible') setReadTimer('hidden');
@@ -180,7 +180,7 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
       <div style={{ visibility: visible }}>
         <Card className="questions">
           <p className="answertimer">{renderAnswerTime(timeLeftAnswer)}</p>
-          <p className="questionTitle">{Questions[counter].title}</p>
+          <p className="questionTitle">{Questions[counter].statement}</p>
         </Card>
       </div>
 

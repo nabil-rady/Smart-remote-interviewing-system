@@ -10,8 +10,10 @@ import ErrorModal from './ErrorModal';
 // import { useFilePicker } from 'use-file-picker';
 import { UserContext } from '../App';
 import ReactFileReader from 'react-file-reader';
-
+import { useParams } from 'react-router-dom';
 const InviteUser = (props) => {
+  const params = useParams();
+  const listingId = params.listingId;
   let usersLate = props.users;
   const authUser = useContext(UserContext).authUser;
   const globalId = useContext(UserContext).globalId;
@@ -34,13 +36,40 @@ const InviteUser = (props) => {
       phoneNums.push(appData[3]);
     }
     for (let i = 0; i < names.length - 1; i++) {
-      props.onInviteUser(names[i], emails[i], phoneNums[i], phoneCodes[i]);
+      props.onInviteUser(names[i], emails[i], phoneCodes[i], phoneNums[i]);
       usersLate.push({
         name: names[i],
         email: emails[i],
         phoneCode: phoneCodes[i],
         phoneNumber: phoneNums[i],
       });
+      let statusCode;
+      fetch(`${HRURL}/job-listing/invite`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: authUser.token,
+        },
+        body: JSON.stringify({
+          listingId: listingId,
+          candidates: usersLate,
+        }),
+      })
+        .then((response) => {
+          statusCode = response.status;
+          console.log(response);
+          return response.json();
+        })
+        .then((data) => {
+          console.log(data);
+          if (statusCode === 200) {
+            console.log('successful');
+            usersLate.length = 0;
+          } else handleAPIError(statusCode, data, setError);
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
     }
 
     console.log(usersLate);
@@ -70,7 +99,7 @@ const InviteUser = (props) => {
         Authorization: authUser.token,
       },
       body: JSON.stringify({
-        listingId: globalId,
+        listingId: listingId,
         candidates: usersLate,
       }),
     })
@@ -83,6 +112,7 @@ const InviteUser = (props) => {
         console.log(data);
         if (statusCode === 200) {
           console.log('successful');
+          usersLate.length = 0;
         } else handleAPIError(statusCode, data, setError);
       })
       .catch((error) => {
@@ -196,7 +226,7 @@ const InviteUser = (props) => {
               fileTypes={['.csv']}
               handleFiles={handleFiles}
             >
-              <button className="file">Import from a file</button>
+              <p className="file">Import from a file</p>
             </ReactFileReader>
           </div>
         </form>

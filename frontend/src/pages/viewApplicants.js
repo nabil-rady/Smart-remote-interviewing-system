@@ -12,6 +12,7 @@ import 'firebase/compat/messaging';
 import { useParams } from 'react-router-dom';
 import handleError from '../utils/APIErrorHandling';
 import { HRURL } from '../API/APIConstants';
+import { TailSpin } from 'react-loader-spinner';
 function ViewApplicants() {
   const authUser = useContext(UserContext).authUser;
   const setAuthUser = useContext(UserContext).setAuthUser;
@@ -62,7 +63,7 @@ function ViewApplicants() {
     sideMenu.current.classList.toggle('change');
   const [verificationCard, setVerificationCard] = useState(false);
   const [verified, setVerified] = useState(false);
-  const [interviews, setInterviews] = useState([]);
+  const [interviews, setInterviews] = useState();
   const navClickHandler = () => {
     setVerificationCard(true);
   };
@@ -141,26 +142,44 @@ function ViewApplicants() {
         </Toast.Header>
         <Toast.Body>{notification.body}</Toast.Body>
       </Toast>
-      <p className="evaluate_label">Evaluate Applicants</p>
-      <ul className="applicants_list">
-        {interviews.map((applicant, index) => (
-          <Card key={index} className="applicantcard">
-            <Link
-              to={`/applicant_details/${positionName}$${applicant.interviewId}`}
-              className="app_name"
-              title={applicant.name}
-            >
-              {applicant.name}
-            </Link>
-            <p htmlFor="interviewdate" className="labels">
-              Interview Date:
-            </p>
-            <p name="interviewdate" className="app_interviewdate">
-              {applicant.submitedAt}
-            </p>
-          </Card>
-        ))}
-      </ul>
+      {interviews ? (
+        interviews.length > 0 ? (
+          <>
+            <p className="evaluate_label">Evaluate Applicants</p>
+            <ul className="applicants_list">
+              {interviews.map((applicant, index) => (
+                <Card key={index} className="applicantcard">
+                  <Link
+                    to={`/applicant_details/${positionName}$${applicant.interviewId}`}
+                    className="app_name"
+                    title={applicant.name}
+                  >
+                    {applicant.name}
+                  </Link>
+                  <p htmlFor="interviewdate" className="labels">
+                    Interview Date:
+                  </p>
+                  <p name="interviewdate" className="app_interviewdate">
+                    {applicant.submitedAt}
+                  </p>
+                </Card>
+              ))}
+            </ul>
+          </>
+        ) : (
+          <h1>There's no applicants to evaluate</h1>
+        )
+      ) : (
+        <div
+          style={{
+            position: 'absolute',
+            top: 'calc(50vh - 40px)',
+            left: 'calc(50vw - 40px)',
+          }}
+        >
+          <TailSpin color="hsl(215deg, 79%, 42%)" height={80} width={80} />
+        </div>
+      )}
     </>
   );
 }

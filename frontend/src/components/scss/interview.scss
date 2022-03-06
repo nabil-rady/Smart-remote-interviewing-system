@@ -1,15 +1,34 @@
+@import '../../sassConfig/colors';
+@import '../../sassConfig/transition';
 #header {
   display: inline-block;
   margin-left: 5%;
 }
 .goInterview {
+  margin-left: calc(50% - 75px);
   width: 150px;
-  height: 30px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border: none;
   border-radius: 20px;
-  background-color: rgb(0, 119, 255);
-  font-weight: bold;
-  margin-left: 32%;
+  cursor: pointer;
+  background-color: $primary-blue;
+  color: white;
+  font-weight: 500;
+  font-size: 1.1rem;
+  @include transition;
+  &:hover {
+    border: 2px solid $primary-blue;
+    background-color: white;
+    color: $primary-blue;
+  }
+  &:disabled,
+  &[disabled] {
+    background-color: gray;
+    color: black;
+  }
 }
 #link {
   display: inline-block;
@@ -32,6 +51,7 @@
   display: block;
   width: 100%;
   padding: 1em 0;
+  margin-bottom: 0.5rem;
 }
 #animation {
   width: 500px;

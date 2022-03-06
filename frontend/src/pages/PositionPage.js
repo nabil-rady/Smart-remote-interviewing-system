@@ -122,7 +122,7 @@ function PositionPage(props) {
       <Card className="detailsCard">
         <img src={invite} className="images" />
         <div className="labelContainer">
-          <Link to="/invite" className="cardLabel">
+          <Link to={`/invite/${positionId}`} className="cardLabel">
             Invite Applicants
           </Link>
         </div>

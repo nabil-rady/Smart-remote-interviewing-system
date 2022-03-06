@@ -4,8 +4,11 @@ import intro2 from './SVGs/2.png';
 import intro3 from './SVGs/3.png';
 import './scss/intro.scss';
 import { Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 const Intro = () => {
   let introImages = [intro1, intro2, intro3];
+  const params = useParams();
+  const interviewId = params.interviewId;
   let introText = [
     "Welcome to Vividly, Let's start interview!",
     'We help people connenct with companies arrount the world.',
@@ -35,7 +38,7 @@ const Intro = () => {
         )}
         {start && (
           <button className="goButton">
-            <Link to="/video">Go to Interview</Link>
+            <Link to={`/video/${interviewId}`}>Go to Interview</Link>
           </button>
         )}
       </div>

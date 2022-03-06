@@ -94,14 +94,14 @@ function App() {
             >
               <SignUpPage />
             </PublicRoute>
-            <PrivateRoute
+            <PublicRoute
               isAuthenticated={!!authUser}
               isVerified={isVerified}
               path="/interview"
               exact
             >
               <TakeInterviewPage />
-            </PrivateRoute>
+            </PublicRoute>
             {/* <PrivateRoute isAuthenticated={!!authUser} path="/selectposition" exact>
             <PositionForm />
           </PrivateRoute> */}
@@ -122,7 +122,7 @@ function App() {
             <PrivateRoute
               isAuthenticated={!!authUser}
               isVerified={isVerified}
-              path="/invite"
+              path="/invite/:listingId"
               exact
             >
               <InvitationPage />
@@ -146,14 +146,14 @@ function App() {
             >
               <AddPosition />
             </PrivateRoute>
-            <PrivateRoute
+            <PublicRoute
               isAuthenticated={!!authUser}
               isVerified={isVerified}
               path="/video/:interviewId"
               exact
             >
               <InterviewPage />
-            </PrivateRoute>
+            </PublicRoute>
             <PrivateRoute
               isAuthenticated={!!authUser}
               isVerified={isVerified}
@@ -170,14 +170,14 @@ function App() {
             >
               <PositionPage />
             </PrivateRoute>
-            <PrivateRoute
+            <PublicRoute
               isAuthenticated={!!authUser}
               isVerified={isVerified}
               path="/intro/:interviewId"
               exact
             >
               <IntroPage />
-            </PrivateRoute>
+            </PublicRoute>
             <PrivateRoute
               isAuthenticated={!!authUser}
               isVerified={isVerified}
@@ -202,14 +202,14 @@ function App() {
             >
               <ApplicantDetails />
             </PrivateRoute>
-            <PrivateRoute
+            <PublicRoute
               isAuthenticated={!!authUser}
               isVerified={isVerified}
               path="/welcome/:interviewId"
               exact
             >
               <WelcomePage />
-            </PrivateRoute>
+            </PublicRoute>
             <PrivateRoute
               isAuthenticated={!!authUser}
               isVerified={isVerified}
