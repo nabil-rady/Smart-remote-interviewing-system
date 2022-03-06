@@ -5,8 +5,15 @@ import '../widgets/candidate_info_item.dart';
 import '../widgets/invitation_form.dart';
 import '../providers/candidate_provider.dart';
 
-class InvitationScreen extends StatelessWidget {
+class InvitationScreen extends StatefulWidget {
   static const routeName = '/invitation_screen';
+
+  @override
+  State<InvitationScreen> createState() => _InvitationScreenState();
+}
+
+class _InvitationScreenState extends State<InvitationScreen> {
+  bool myflag = true;
 
   void startAddNewCandidate(BuildContext ctx, String id) {
     showModalBottomSheet(
@@ -14,6 +21,16 @@ class InvitationScreen extends StatelessWidget {
         builder: (bctx) {
           return InvitationForm(id);
         });
+  }
+
+  @override
+  void didChangeDependencies() {
+    if (myflag) {
+      Provider.of<Candidates>(context).setItems = [];
+    }
+    // TODO: implement didChangeDependencies
+    myflag = false;
+    super.didChangeDependencies();
   }
 
   @override

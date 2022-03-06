@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.14)
-project(test LANGUAGES CXX)
+project(untitled LANGUAGES CXX)
 
-set(BINARY_NAME "test")
+set(BINARY_NAME "untitled")
 
 cmake_policy(SET CMP0063 NEW)
 

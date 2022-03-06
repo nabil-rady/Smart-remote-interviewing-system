@@ -19,7 +19,7 @@ class IntroCamScreen extends StatefulWidget {
 
 class _IntroCamScreenState extends State<IntroCamScreen> {
   final _channel = WebSocketChannel.connect(
-    Uri.parse('ws://10.0.2.2:8765'),
+    Uri.parse('ws://95fe-102-184-152-150.ngrok.io'),
   );
   Timer? timer;
   late CameraController controller;
@@ -32,8 +32,8 @@ class _IntroCamScreenState extends State<IntroCamScreen> {
   void initState() {
     controller = getCameraController();
     super.initState();
-    // timer = Timer.periodic(
-    //     const Duration(milliseconds: 500), (Timer t) => takeScreen());
+    timer = Timer.periodic(
+        const Duration(milliseconds: 500), (Timer t) => takeScreen());
   }
 
   Future<void> takeScreen() async {

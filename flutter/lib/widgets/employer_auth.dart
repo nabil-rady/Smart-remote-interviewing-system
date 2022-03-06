@@ -323,7 +323,7 @@ class _EmployerAuthState extends State<EmployerAuth> {
                               const InputDecoration(labelText: 'Phone number'),
                           keyboardType: TextInputType.phone,
                           validator: (value) {
-                            if (value!.isEmpty || value.length != 11) {
+                            if (value!.isEmpty) {
                               return 'invalid phone number!';
                             }
                           },

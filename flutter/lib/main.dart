@@ -198,6 +198,12 @@ void main() async {
   cameras = await availableCameras();
   await sharedPreferences();
   await Firebase.initializeApp();
+  // await Firebase.initializeApp(
+  //     options: FirebaseOptions(
+  //         apiKey: 'AIzaSyDuqj0k4SCgC-KQjHnZhV4dLxMDI8NaiS8',
+  //         appId: '1:964487453958:web:93e6d088edf1bb5fe4d287',
+  //         messagingSenderId: '964487453958',
+  //         projectId: 'vividly-notification'));
   // await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
   //   alert: true,
   //   badge: true,

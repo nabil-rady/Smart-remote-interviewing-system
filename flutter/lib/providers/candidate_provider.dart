@@ -21,6 +21,10 @@ class Candidates with ChangeNotifier {
     return [..._candidates];
   }
 
+  set setItems(List<Map<String, dynamic>> mylist) {
+    _candidates = mylist;
+  }
+
   Future<void> addAplicant(PositionCandidiate member, bool flag) async {
     // const url = 'https://vividly-api.herokuapp.com/job-listing/invite';
     const url = 'http://10.0.2.2:8001/job-listing/invite';
@@ -32,19 +36,21 @@ class Candidates with ChangeNotifier {
           },
           body: json.encode({
             'listingId': member.positionId,
-            'candidates': flag
-                ? _candidates
-                : [
-                    {
-                      'name': member.candidatesMapList['name'],
-                      'email': member.candidatesMapList['email'],
-                      'phoneCode': member.candidatesMapList['phoneCode'],
-                      'phoneNumber': member.candidatesMapList['phoneNumber']
-                    }
-                  ]
+            'candidates':
+                //  flag
+                //     ? _candidates
+                //     :
+                [
+              {
+                'name': member.candidatesMapList['name'],
+                'email': member.candidatesMapList['email'],
+                'phoneCode': member.candidatesMapList['phoneCode'],
+                'phoneNumber': member.candidatesMapList['phoneNumber']
+              }
+            ]
           }));
 
-      print(response.statusCode);
+      print(response.body);
 
       final responseData = json.decode(response.body);
       if (response.statusCode == 200) {

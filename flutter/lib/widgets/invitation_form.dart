@@ -186,7 +186,7 @@ class _InvitationFormState extends State<InvitationForm> {
         //   });
         // }
 
-        print(employeeData);
+        // print(employeeData);
         employeeData.forEach((element) {
           // candidate = Candidate(
           //   name: element[0].toString(),
@@ -354,7 +354,7 @@ class _InvitationFormState extends State<InvitationForm> {
                           // alignment: Alignment.centerLeft,
                           child: CountryPickerDropdown(
                             initialValue: 'EG',
-                            onValuePicked: (Country country) {
+                            onValuePicked: (value) {
                               // candidate = Candidate(
                               //   name: candidate.name,
                               //   email: candidate.email,
@@ -367,12 +367,11 @@ class _InvitationFormState extends State<InvitationForm> {
                               //   // isRated: candidate.isRated,
                               //   // positionName: candidate.positionName
                               // );
-                              print(country);
-                              if (country.toString() == "") {
+                              // print(country);
+                              if (value.toString() == "") {
                                 candidate['phoneCode'] = '+20';
                               } else {
-                                candidate['phoneCode'] =
-                                    '+' + country.phoneCode;
+                                candidate['phoneCode'] = '+' + value.phoneCode;
                               }
 
                               // candidate = {
