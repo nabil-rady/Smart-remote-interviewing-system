@@ -43,9 +43,11 @@ const InterviewPage = () => {
 
       if (notOk) {
         if (trueCount < 3) trueCount++;
+        console.log(`true count is ${trueCount}`);
         falseCount = 0;
       } else {
         if (falseCount < 3) falseCount++;
+        console.log(`false count is ${falseCount}`);
         trueCount = 0;
       }
 
@@ -80,11 +82,17 @@ const InterviewPage = () => {
     webSocket.current.addEventListener('error', onSocketClose);
     webSocket.current.addEventListener('message', onSocketMessage);
 
-    return () => webSocket.current.close();
+    return () => {
+      webSocket.current.close();
+      timer.current.stop();
+    };
   }, []);
 
   useEffect(() => {
-    if (interviewBegun) webSocket.current.close();
+    if (interviewBegun) {
+      webSocket.current.close();
+      timer.current.stop();
+    }
   }, [interviewBegun]);
 
   const beginInterview = () => {

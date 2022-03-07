@@ -11,11 +11,13 @@ import { ApplicantURL } from '../API/APIConstants';
 import handleAPIError from '../utils/APIErrorHandling';
 import { useParams } from 'react-router-dom';
 import { TailSpin } from 'react-loader-spinner';
+import ErrorModal from '../components/ErrorModal';
 function WelcomePage() {
   const params = useParams();
   console.log(params);
   const interviewId = params.interviewId;
   const [appInfo, setAppInfo] = useState();
+  const [error, setError] = useState();
   const fetchPost = () => {
     return fetch(`${ApplicantURL}/candidate/join/${interviewId}`, {
       method: 'GET',
@@ -29,12 +31,7 @@ function WelcomePage() {
       console.log(data);
       setAppInfo(data);
     } else {
-      handleAPIError(
-        response.status,
-        data,
-        () => {},
-        () => setAuthUser(null)
-      );
+      handleAPIError(response.status, data, setError, () => setAuthUser(null));
     }
   }, []);
   // const appInfo = {
@@ -61,8 +58,19 @@ function WelcomePage() {
   //     },
   //   ],
   // };
+  const errorHandler = () => {
+    setError(null);
+  };
+
   return (
     <>
+      {error && (
+        <ErrorModal
+          title={error.title}
+          message={error.message}
+          onConfirm={errorHandler}
+        />
+      )}
       <NavBar />
       {appInfo ? (
         <div className="welcome_container">
@@ -83,7 +91,7 @@ function WelcomePage() {
             </p>
             <p className="start_interview">Let's start the interview!</p>
             <button className="startInterview_btn">
-              <Link to="/intro" className="toIntro">
+              <Link to={`/intro/${interviewId}`} className="toIntro">
                 Start Interview
               </Link>
             </button>

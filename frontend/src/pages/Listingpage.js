@@ -123,7 +123,12 @@ function ListingPage() {
               </button>
             </>
           ) : (
-            <h1>No Positions to view</h1>
+            <>
+              <h1>No Positions to view</h1>
+              <button className="addposition">
+                <Link to="/add">Add Position</Link>
+              </button>
+            </>
           )
         ) : (
           <div

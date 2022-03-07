@@ -81,9 +81,10 @@
 }
 
 .questions {
-  width: 90%;
+  width: auto;
   padding: 7px;
   height: auto;
+  margin: 0 auto;
 }
 
 .questionTitle {
@@ -91,8 +92,9 @@
   color: $primary-blue;
   font-weight: bold;
   display: block;
-  width: 100%;
-  font-size: 1.1rem;
+  width: 50%;
+  margin: 0 auto;
+  font-size: 1.5rem;
 }
 
 .video {
@@ -118,10 +120,6 @@
   width: 100px;
   padding: 10px;
   margin: 0.5rem auto;
-}
-
-.questions {
-  margin: 0 auto;
 }
 
 .readtimer {
