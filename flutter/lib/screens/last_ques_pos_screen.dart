@@ -33,7 +33,10 @@ class _LastQuestionScreenState extends State<LastQuestionScreen> {
   bool _isLoading = false;
   bool myflag = true;
   void startAddNewQuestion(BuildContext ctx) {
-    showModalBottomSheet(context: ctx, builder: (bctx) => QuestionForm());
+    showModalBottomSheet(
+        context: ctx,
+        isScrollControlled: true,
+        builder: (bctx) => QuestionForm());
   }
 
   void _showDialog(BuildContext context) {
@@ -60,6 +63,7 @@ class _LastQuestionScreenState extends State<LastQuestionScreen> {
   void didChangeDependencies() {
     if (myflag) {
       Provider.of<Questions>(context).setItems = [];
+      Provider.of<Questions>(context).setItemsMap = [];
     }
     // TODO: implement didChangeDependencies
     myflag = false;

@@ -28,6 +28,7 @@ class _InvitationScreenState extends State<InvitationScreen> {
   void didChangeDependencies() {
     if (myflag) {
       Provider.of<Candidates>(context).setItems = [];
+      Provider.of<Candidates>(context).setCandidatesUI = [];
     }
     // TODO: implement didChangeDependencies
     myflag = false;
@@ -39,7 +40,7 @@ class _InvitationScreenState extends State<InvitationScreen> {
   Widget build(BuildContext context) {
     Provider.of<Candidates>(context, listen: false).setcsvCandidateList = [];
     final candidateInfo = Provider.of<Candidates>(context);
-    final candidates = candidateInfo.candidates;
+    final candidates = candidateInfo.candidatesUI;
     final _position =
         ModalRoute.of(context)!.settings.arguments as List<String>;
     final _positioName = _position[0];

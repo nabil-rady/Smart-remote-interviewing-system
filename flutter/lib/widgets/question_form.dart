@@ -39,6 +39,7 @@ class _QuestionFormState extends State<QuestionForm> {
           left: 10,
           bottom: MediaQuery.of(context).viewInsets.bottom + 10),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Form(
               key: _form,
