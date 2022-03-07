@@ -34,30 +34,6 @@ function WelcomePage() {
       handleAPIError(response.status, data, setError, () => setAuthUser(null));
     }
   }, []);
-  // const appInfo = {
-  //   positionName: 'Software',
-  //   email: 'mm9079381@gmail.com',
-  //   name: 'Mohamed Moussa',
-  //   phoneCode: '02',
-  //   phoneNumber: '1125894119',
-  //   questions: [
-  //     {
-  //       statement: 'How are you?',
-  //       timeToThink: 8,
-  //       timeToAnswer: 5,
-  //     },
-  //     {
-  //       statement: 'How are you?',
-  //       timeToThink: 3,
-  //       timeToAnswer: 9,
-  //     },
-  //     {
-  //       statement: 'How are you?',
-  //       timeToThink: 4,
-  //       timeToAnswer: 2,
-  //     },
-  //   ],
-  // };
   const errorHandler = () => {
     setError(null);
   };

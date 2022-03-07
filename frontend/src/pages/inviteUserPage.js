@@ -1,50 +1,35 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import NavBar from '../components/NavBar';
 import InviteUser from '../components/InviteApplicant';
 import UsersList from '../components/InviteList';
 import SideMenu from '../components/SideMenu';
 import NotVerified from '../components/NotVerifiedModel';
 import { Button, Row, Col, Toast } from 'react-bootstrap';
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/messaging';
-function InvitationPage() {
-  const firebaseConfig = {
-    apiKey: 'AIzaSyDuqj0k4SCgC-KQjHnZhV4dLxMDI8NaiS8',
-    authDomain: 'vividly-notification.firebaseapp.com',
-    projectId: 'vividly-notification',
-    storageBucket: 'vividly-notification.appspot.com',
-    messagingSenderId: '964487453958',
-    appId: '1:964487453958:web:93e6d088edf1bb5fe4d287',
-    measurementId: 'G-G29W0NWEVB',
-  };
+import ErrorModal from '../components/ErrorModal';
+import messaging from '../utils/firebase';
+import {
+  setFirebaseMessageListenerEvent,
+  getFirebaseToken,
+} from '../utils/firebaseUtils';
 
-  firebase.initializeApp(firebaseConfig);
-  const messaging = firebase.messaging();
+function InvitationPage() {
   const [show, setShow] = useState(false);
-  const [isTokenFound, setTokenFound] = useState(false);
   const [notification, setNotification] = useState({ title: '', body: '' });
-  // getToken(setTokenFound);
-  const onMessageListener = () =>
-    new Promise((resolve) => {
-      messaging.onMessage((payload) => {
-        resolve(payload);
-      });
-    });
-  onMessageListener()
-    .then((message) => {
-      console.log(message);
-      setNotification(message.notification);
-      setShow(true);
-    })
-    .catch((err) => console.log('failed: ', err));
-  messaging
-    .getToken()
-    .then((token) => {
+  useEffect(async () => {
+    setFirebaseMessageListenerEvent(messaging)
+      .then((message) => {
+        console.log(message);
+        setNotification(message.notification);
+        setShow(true);
+      })
+      .catch((err) => console.log(err));
+    try {
+      const token = await getFirebaseToken(messaging);
       console.log(token);
-    })
-    .catch((err) => {
+    } catch (err) {
       console.log(err);
-    });
+    }
+  }, []);
   const [usersList, setUsersList] = useState([]);
   const sideMenu = useRef(null);
   const handleToggleButtonClick = () =>

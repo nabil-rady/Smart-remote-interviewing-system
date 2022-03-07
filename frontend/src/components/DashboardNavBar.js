@@ -8,6 +8,7 @@ import './scss/dashboard-navbar.scss';
 import { APIURL } from '../API/APIConstants';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/messaging';
+import handleError from '../utils/APIErrorHandling';
 const DashboardNavBar = (props) => {
   const authUser = useContext(UserContext).authUser;
   const setAuthUser = useContext(UserContext).setAuthUser; // Object or null
@@ -78,6 +79,13 @@ const DashboardNavBar = (props) => {
         if (statusCode === 200) {
           setAuthUser(null);
           localStorage.clear();
+        } else {
+          handleError(
+            response.status,
+            data,
+            () => {},
+            () => setAuthUser(null)
+          );
         }
       })
       .catch((error) => {

@@ -62,7 +62,9 @@ const EmailVerification = (props) => {
             token: oldUser.token,
           }));
           redirect();
-        } else handleAPIError(statusCode, data, setError);
+        } else {
+          handleAPIError(statusCode, data, setError, () => setAuthUser(null));
+        }
       })
       .catch((error) => {
         console.error('Error:', error);

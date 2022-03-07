@@ -24,7 +24,6 @@ const UploadImageToS3WithNativeSdk = () => {
 
   const uploadFile = (file) => {
     const params = {
-      ACL: 'public-read',
       Body: file,
       Bucket: S3_BUCKET,
       Key: file.name,

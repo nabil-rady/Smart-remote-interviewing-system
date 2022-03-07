@@ -7,55 +7,41 @@ import { UserContext } from '../App';
 import Card from '../components/Card';
 import './scss/applicantDetails.scss';
 import { Button, Row, Col, Toast } from 'react-bootstrap';
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/messaging';
 import { useParams } from 'react-router-dom';
 import { HRURL } from '../API/APIConstants';
 import { TailSpin } from 'react-loader-spinner';
 import handleAPIError from '../utils/APIErrorHandling';
+import ErrorModal from '../components/ErrorModal';
+import messaging from '../utils/firebase';
+import {
+  setFirebaseMessageListenerEvent,
+  getFirebaseToken,
+} from '../utils/firebaseUtils';
+
 function ApplicantDetails() {
   const authUser = useContext(UserContext).authUser;
   const params = useParams();
   console.log(params);
   const positionNameAndapplicantId = params.positionNameAndapplicantId;
   const [positionName, applicantId] = positionNameAndapplicantId.split('$');
-  const firebaseConfig = {
-    apiKey: 'AIzaSyDuqj0k4SCgC-KQjHnZhV4dLxMDI8NaiS8',
-    authDomain: 'vividly-notification.firebaseapp.com',
-    projectId: 'vividly-notification',
-    storageBucket: 'vividly-notification.appspot.com',
-    messagingSenderId: '964487453958',
-    appId: '1:964487453958:web:93e6d088edf1bb5fe4d287',
-    measurementId: 'G-G29W0NWEVB',
-  };
-
-  firebase.initializeApp(firebaseConfig);
-  const messaging = firebase.messaging();
   const [show, setShow] = useState(false);
   const [isTokenFound, setTokenFound] = useState(false);
   const [notification, setNotification] = useState({ title: '', body: '' });
-  // getToken(setTokenFound);
-  const onMessageListener = () =>
-    new Promise((resolve) => {
-      messaging.onMessage((payload) => {
-        resolve(payload);
-      });
-    });
-  onMessageListener()
-    .then((message) => {
-      console.log(message);
-      setNotification(message.notification);
-      setShow(true);
-    })
-    .catch((err) => console.log('failed: ', err));
-  messaging
-    .getToken()
-    .then((token) => {
+  useEffect(async () => {
+    setFirebaseMessageListenerEvent(messaging)
+      .then((message) => {
+        console.log(message);
+        setNotification(message.notification);
+        setShow(true);
+      })
+      .catch((err) => console.log(err));
+    try {
+      const token = await getFirebaseToken(messaging);
       console.log(token);
-    })
-    .catch((err) => {
+    } catch (err) {
       console.log(err);
-    });
+    }
+  }, []);
   const sideMenu = useRef(null);
   const handleToggleButtonClick = () =>
     sideMenu.current.classList.toggle('change');
