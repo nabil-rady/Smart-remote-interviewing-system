@@ -37,6 +37,8 @@ class _InvitationFormState extends State<InvitationForm> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   bool flag = false;
   bool csvFlag = false;
+  bool isLoading1 = false;
+  bool isLoading2 = false;
   List<PlatformFile>? _paths;
   String? _extension = "csv";
   FileType _pickingType = FileType.custom;
@@ -145,14 +147,17 @@ class _InvitationFormState extends State<InvitationForm> {
         posCandidate = PositionCandidiate(
             positionId: posCandidate.positionId, candidatesMapList: candidate);
         await Provider.of<Candidates>(context, listen: false)
-            .addAplicant(posCandidate);
+            .addAplicant(posCandidate, context);
+        setState(() {
+          isLoading1 = false;
+        });
         // .then((value) {}
         //showErrorDialog(
         //  context, "Invitaion has been successfully sent .", false
         //)
         //    );
       } on HttpException catch (error) {
-        ////  print(error);
+        print(error);
         if (error.toString().contains('Validation failed')) {
           showErrorDialog(context,
               'Please check the phone number of your candidate !', true);
@@ -187,9 +192,15 @@ class _InvitationFormState extends State<InvitationForm> {
         var posCandidate = PositionCandidiate(
             positionId: widget.positionId, candidatesMapList: candidate);
         await Provider.of<Candidates>(context, listen: false)
-            .addAplicantList(employeeData, posCandidate);
-        showErrorDialog(
-            context, "Invitaions have been sent successfully.", false);
+            .addAplicantList(employeeData, posCandidate, context);
+        setState(() {
+          isLoading2 = false;
+        });
+        // if (response) {
+        //   showErrorDialog(
+        //       context, "Invitaions have been sent successfully.", false);
+        // }
+
         // for (int i = 0; i < employeeData.length; i++) {
         //   employeeData.forEach((element) {
         //     //list2 = filter(' ', element);
@@ -462,6 +473,7 @@ class _InvitationFormState extends State<InvitationForm> {
                 onPressed: () {
                   setState(() {
                     flag = false;
+                    isLoading1 = true;
                   });
                   _saveForms(context, flag);
                   clearTextInput();
@@ -469,10 +481,30 @@ class _InvitationFormState extends State<InvitationForm> {
                   print(posCandidate.candidatesMapList);
                   // print("my flag : ${flag}");
                 },
-                child: const Text(
-                  'Invite Candidate',
-                  style: const TextStyle(color: Colors.white),
-                ),
+                child: isLoading1
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          SizedBox(
+                            height: 13,
+                            width: 12,
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            'Please wait..',
+                            style: TextStyle(color: Colors.white),
+                          )
+                        ],
+                      )
+                    : const Text(
+                        'Invite Candidate',
+                        style: const TextStyle(color: Colors.white),
+                      ),
               ),
               RaisedButton(
                 shape: RoundedRectangleBorder(
@@ -484,16 +516,37 @@ class _InvitationFormState extends State<InvitationForm> {
                   setState(() {
                     flag = true;
                     csvFlag = true;
+                    isLoading2 = true;
                   });
                   print("my flag : ${flag}");
                   _openFileExplorer(context, flag);
                   // Navigator.of(context).pop();
                   //  pickFiles();
                 },
-                child: const Text(
-                  'Import from file',
-                  style: const TextStyle(color: Colors.white),
-                ),
+                child: isLoading2
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          SizedBox(
+                            height: 13,
+                            width: 12,
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            'Please wait..',
+                            style: TextStyle(color: Colors.white),
+                          )
+                        ],
+                      )
+                    : const Text(
+                        'Import from file',
+                        style: const TextStyle(color: Colors.white),
+                      ),
               )
             ],
           ),

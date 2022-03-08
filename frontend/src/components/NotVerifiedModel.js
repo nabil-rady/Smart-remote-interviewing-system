@@ -33,7 +33,9 @@ const NotVerified = () => {
         if (statusCode === 200) {
           console.log('successful');
           setShow(true);
-        } else handleAPIError(statusCode, data, setError);
+        } else {
+          handleAPIError(statusCode, data, setError, () => setAuthUser(null));
+        }
       })
       .catch((error) => {
         console.error('Error:', error);

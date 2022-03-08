@@ -30,8 +30,8 @@ class SessionDetails with ChangeNotifier {
 
   Future<void> getSessionDetails(String id) async {
     final response = await http.get(
-      Uri.parse('http://10.0.2.2:8002/candidate/join/$id'),
-      // Uri.parse('https://vividly-api.herokuapp.com/candidate/join/$id'),
+      //Uri.parse('http://10.0.2.2:8002/candidate/join/$id'),
+      Uri.parse('https://vividly-api.herokuapp.com/candidate/join/$id'),
       headers: <String, String>{
         'Content-Type': 'application/json',
       },

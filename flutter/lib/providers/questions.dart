@@ -13,6 +13,10 @@ class Questions with ChangeNotifier {
     _items = mylist;
   }
 
+  set setItemsMap(List<Map<String, dynamic>> mylist) {
+    _itemsMap = mylist;
+  }
+
   bool flag = true;
   void addForm(Question newquestion) {
     _items.add(newquestion);

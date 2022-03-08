@@ -25,7 +25,6 @@ function PositionPage(props) {
   const params = useParams();
   console.log(params);
   const positionNameAndId = params.positionNameAndId;
-
   const [positionName, positionId] = positionNameAndId.split('$');
   console.log(positionName, positionId);
 
@@ -52,27 +51,17 @@ function PositionPage(props) {
   const sideMenu = useRef(null);
   const handleToggleButtonClick = () =>
     sideMenu.current.classList.toggle('change');
-  const [verificationCard, setVerificationCard] = useState(false);
-  const [verified, setVerified] = useState(false);
   const navClickHandler = () => {
     setVerificationCard(true);
-  };
-  const cardClickHandler = () => {
-    setVerified(true);
-    setVerificationCard(false);
   };
 
   return (
     <>
-      {verificationCard && (
-        <EmailVerification verificationHandler={cardClickHandler} />
-      )}
       <div className="blue-gradient">
         <NavBar
           handleToggleButtonClick={handleToggleButtonClick}
           burgerButton={true}
           clickHandler={navClickHandler}
-          verified={verified}
         />
         <SideMenu ref={sideMenu} />
       </div>

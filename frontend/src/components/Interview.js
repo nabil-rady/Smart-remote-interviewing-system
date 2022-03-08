@@ -49,7 +49,7 @@ const Interview = () => {
             interview link to start
           </p>
           <br />
-          <button className="goInterview" disabled={link.length === 0}>
+          <button className="goInterview" disabled={link.length < 8}>
             <Link to={`/welcome/${link}`}>Go to Interview</Link>
           </button>
         </form>

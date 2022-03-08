@@ -65,7 +65,14 @@ const InviteUser = (props) => {
           if (statusCode === 200) {
             console.log('successful');
             usersLate.length = 0;
-          } else handleAPIError(statusCode, data, setError);
+          } else {
+            handleAPIError(
+              statusCode,
+              data,
+              () => {},
+              () => setAuthUser(null)
+            );
+          }
         })
         .catch((error) => {
           console.error('Error:', error);
@@ -113,7 +120,9 @@ const InviteUser = (props) => {
         if (statusCode === 200) {
           console.log('successful');
           usersLate.length = 0;
-        } else handleAPIError(statusCode, data, setError);
+        } else {
+          handleAPIError(statusCode, data, setError, () => setAuthUser(null));
+        }
       })
       .catch((error) => {
         console.error('Error:', error);

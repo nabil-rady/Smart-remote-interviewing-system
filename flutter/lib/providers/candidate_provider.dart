@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:test/local/sharedpreferences.dart';
+
 import '../local/http_exception.dart';
 import 'package:flutter/material.dart';
 import '../models/positionCandidate.dart';
@@ -15,11 +17,15 @@ class Candidates with ChangeNotifier {
       'phoneNumber': '1201668189'
     }
   ];
-
+  List<Map<String, dynamic>> candidatesUI = [];
   Candidates(this.authToken, this._candidates);
 
   List<Map<String, dynamic>> get candidates {
     return [..._candidates];
+  }
+
+  set setCandidatesUI(List<Map<String, dynamic>> mylist) {
+    candidatesUI = mylist;
   }
 
   set setItems(List<Map<String, dynamic>> mylist) {
@@ -36,10 +42,11 @@ class Candidates with ChangeNotifier {
     _csvCandidateList = mylist;
   }
 
-  Future<void> addAplicant(PositionCandidiate member) async {
+  Future<void> addAplicant(
+      PositionCandidiate member, BuildContext context) async {
     // bool errorFlag = false;
-    // const url = 'https://vividly-api.herokuapp.com/job-listing/invite';
-    const url = 'http://10.0.2.2:8001/job-listing/invite';
+    const url = 'https://vividly-api.herokuapp.com/job-listing/invite';
+    // const url = 'http://10.0.2.2:8001/job-listing/invite';
     try {
       // if (flag) {
       final response = await http.post(Uri.parse(url),
@@ -68,11 +75,16 @@ class Candidates with ChangeNotifier {
       final responseData = json.decode(response.body);
       if (response.statusCode == 200) {
         final responseData = json.decode(response.body);
+        candidatesUI.add(member.candidatesMapList);
         //  errorFlag = true;
         _candidates.add(member.candidatesMapList);
+        showErrorDialog(
+            context, "Invitaion has been successfully sent .", false);
         notifyListeners();
+        // return true;
       } else {
         throw HttpException(responseData['message']);
+        // return false;
       }
       //}
 
@@ -96,10 +108,10 @@ class Candidates with ChangeNotifier {
     }
   }
 
-  Future<void> addAplicantList(
-      List<List<dynamic>> myList, PositionCandidiate member) async {
-    // const url = 'https://vividly-api.herokuapp.com/job-listing/invite';
-    const url = 'http://10.0.2.2:8001/job-listing/invite';
+  Future<void> addAplicantList(List<List<dynamic>> myList,
+      PositionCandidiate member, BuildContext context) async {
+    const url = 'https://vividly-api.herokuapp.com/job-listing/invite';
+    // const url = 'http://10.0.2.2:8001/job-listing/invite';
     try {
       _csvCandidateList = myList;
       _csvCandidateList.forEach((element) {
@@ -145,11 +157,21 @@ class Candidates with ChangeNotifier {
       // } else
       if (response.statusCode == 422) {
         // _candidates.add();
+        // _csvCandidateList.clear();
         _candidates.clear();
         notifyListeners();
       }
+      // if (response.statusCode == 422) {
+      //   return false;
+      // }
       if (response.statusCode == 200) {
+        _candidates.forEach((element) {
+          candidatesUI.add(element);
+        });
+        showErrorDialog(
+            context, "Invitaion has been successfully sent .", false);
         notifyListeners();
+        // return true;
       } else {
         throw HttpException(responseData['message']);
       }

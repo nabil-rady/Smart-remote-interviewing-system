@@ -46,7 +46,9 @@ function ProfilePage() {
             ...oldUser,
             ...data.user,
           }));
-        } else handleAPIError(statusCode, data, setError);
+        } else {
+          handleAPIError(statusCode, data, setError, () => setAuthUser(null));
+        }
       })
       .catch((error) => {
         console.error('Error:', error);

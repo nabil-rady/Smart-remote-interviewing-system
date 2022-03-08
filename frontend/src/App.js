@@ -29,6 +29,7 @@ import ApplicantDetails from './pages/applicantDeteils';
 import NewLanding from './pages/newLandingpage';
 import WelcomePage from './pages/WelcomePage';
 import NotificationTest from './pages/TestNotification';
+import UploadImageToS3WithNativeSdk from './pages/uploadVideos';
 
 // const mockUserObject = {
 //   userId: 'ABC123',
@@ -78,6 +79,14 @@ function App() {
             <Route path="/" exact>
               <NewLanding />
             </Route>
+            <PublicRoute
+              isAuthenticated={!!authUser}
+              isVerified={isVerified}
+              path="/upload"
+              exact
+            >
+              <UploadImageToS3WithNativeSdk />
+            </PublicRoute>
             <PublicRoute
               isAuthenticated={!!authUser}
               isVerified={isVerified}

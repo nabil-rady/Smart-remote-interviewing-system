@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from 'react';
+import React, { useState, useRef, useContext, useEffect } from 'react';
 import NavBar from '../components/NavBar';
 import SideMenu from '../components/SideMenu';
 import Card from '../components/Card';
@@ -9,46 +9,30 @@ import EmailVerification from '../components/EmailVerification';
 import handleAPIError from '../utils/APIErrorHandling';
 import ErrorModal from '../components/ErrorModal';
 import { Button, Row, Col, Toast } from 'react-bootstrap';
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/messaging';
+import messaging from '../utils/firebase';
+import {
+  setFirebaseMessageListenerEvent,
+  getFirebaseToken,
+} from '../utils/firebaseUtils';
 const ChangePassword = () => {
-  const firebaseConfig = {
-    apiKey: 'AIzaSyDuqj0k4SCgC-KQjHnZhV4dLxMDI8NaiS8',
-    authDomain: 'vividly-notification.firebaseapp.com',
-    projectId: 'vividly-notification',
-    storageBucket: 'vividly-notification.appspot.com',
-    messagingSenderId: '964487453958',
-    appId: '1:964487453958:web:93e6d088edf1bb5fe4d287',
-    measurementId: 'G-G29W0NWEVB',
-  };
-
-  firebase.initializeApp(firebaseConfig);
-  const messaging = firebase.messaging();
   const [show, setShow] = useState(false);
   const [isTokenFound, setTokenFound] = useState(false);
   const [notification, setNotification] = useState({ title: '', body: '' });
-  // getToken(setTokenFound);
-  const onMessageListener = () =>
-    new Promise((resolve) => {
-      messaging.onMessage((payload) => {
-        resolve(payload);
-      });
-    });
-  onMessageListener()
-    .then((message) => {
-      console.log(message);
-      setNotification(message.notification);
-      setShow(true);
-    })
-    .catch((err) => console.log('failed: ', err));
-  messaging
-    .getToken()
-    .then((token) => {
+  useEffect(async () => {
+    setFirebaseMessageListenerEvent(messaging)
+      .then((message) => {
+        console.log(message);
+        setNotification(message.notification);
+        setShow(true);
+      })
+      .catch((err) => console.log(err));
+    try {
+      const token = await getFirebaseToken(messaging);
       console.log(token);
-    })
-    .catch((err) => {
+    } catch (err) {
       console.log(err);
-    });
+    }
+  }, []);
   const authUser = useContext(UserContext).authUser;
   const [oldPass, setOldPass] = useState();
   const [newPass, setNewPass] = useState();
@@ -103,7 +87,9 @@ const ChangePassword = () => {
             emailConfirmed: authUser.emailConfirmed,
             token: authUser.token,
           });
-        } else handleAPIError(statusCode, data, setError);
+        } else {
+          handleAPIError(statusCode, data, setError, () => setAuthUser(null));
+        }
       })
       .catch((error) => {
         console.error('Error:', error);

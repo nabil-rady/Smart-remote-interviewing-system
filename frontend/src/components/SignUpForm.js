@@ -93,7 +93,9 @@ const SignUpForm = () => {
         console.log(data);
         if (statusCode === 201) {
           console.log('Success');
-        } else handleAPIError(statusCode, data, setError);
+        } else {
+          handleAPIError(statusCode, data, setError, () => setAuthUser(null));
+        }
         console.log(registrationToken);
         return fetch(`${APIURL}/user/login`, {
           method: 'POST',
@@ -117,7 +119,6 @@ const SignUpForm = () => {
           console.log('Success');
           console.log(response);
           setAuthUser({ ...response.user, token: response.token });
-          // console.log(authUser);
           setVerificationCard(true);
           return fetch(`${APIURL}/user/confirm-email`, {
             method: 'POST',
@@ -126,7 +127,9 @@ const SignUpForm = () => {
               Authorization: response.token,
             },
           });
-        } else handleAPIError(statusCode, response.data, setError);
+        } else {
+          handleAPIError(statusCode, data, setError, () => setAuthUser(null));
+        }
       })
       .then((confirmResponse) => {
         return confirmResponse.json();
@@ -136,7 +139,9 @@ const SignUpForm = () => {
         if (statusCode === 200) {
           console.log('Success');
           setVerificationCard(true);
-        } else handleAPIError(statusCode, response.data, setError);
+        } else {
+          handleAPIError(statusCode, data, setError, () => setAuthUser(null));
+        }
       })
       .catch((error) => {
         console.error('Error:', error);

@@ -79,8 +79,8 @@ class Positions with ChangeNotifier {
   }
 
   Future<void> addPosition(Position singlePosition) async {
-    // const url = 'https://vividly-api.herokuapp.com/job-listing/create';
-     const url = 'http://10.0.2.2:8001/job-listing/create';
+    const url = 'https://vividly-api.herokuapp.com/job-listing/create';
+    // const url = 'http://10.0.2.2:8001/job-listing/create';
     try {
       final response = await http.post(Uri.parse(url),
           headers: <String, String>{
@@ -93,18 +93,26 @@ class Positions with ChangeNotifier {
             'expiryDate': singlePosition.expireyDate.toString(),
             'questions': singlePosition.qustionsMapList
           }));
+      final responseData = json.decode(response.body);
+      print(response.body);
+      print(response.statusCode);
+      if (response.statusCode == 201) {
+        final newposition = Position(
+          id: singlePosition.id,
+          position: singlePosition.position,
+          questions: singlePosition.questions,
+          expireyDate: singlePosition.expireyDate,
+          /////new //////
+          qustionsMapList: singlePosition.qustionsMapList,
+          /////////////////////
+        );
 
-      final newposition = Position(
-        id: singlePosition.id,
-        position: singlePosition.position,
-        questions: singlePosition.questions,
-        expireyDate: singlePosition.expireyDate,
-        /////new //////
-        qustionsMapList: singlePosition.qustionsMapList,
-        /////////////////////
-      );
-      _positionsItems.add(newposition);
-      notifyListeners();
+        _positionsItems.add(newposition);
+        notifyListeners();
+      }
+      // else if (response.statusCode == 422) {
+      //   // throw Exception
+      // }
     } catch (error) {
       print(error);
       throw error;

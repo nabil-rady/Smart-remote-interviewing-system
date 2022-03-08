@@ -86,32 +86,13 @@ const LoginForm = () => {
             token: data.token,
           });
           redirect();
-        } else handleAPIError(statusCode, data, setError);
+        } else {
+          handleAPIError(statusCode, data, setError, () => setAuthUser(null));
+        }
       })
       .catch((error) => {
         console.error('Error:', error);
       });
-
-    // Reference
-    // fetch(`${APIURL}/user/login`, {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     'Authorization': token => when login is required only
-    //   },
-    //   body: JSON.stringify({ => with POST request only
-    //     email: Email,
-    //     password: Password
-    //   }),
-    // })
-    // .then(response => response.json())
-    // .then(data => {
-    //   setToken(data.token)
-    //   console.log('Success:', data);
-    // })
-    // .catch(error => {
-    //   console.error('Error:', error);
-    // });
   };
   const emailHandler = (e) => {
     setEmail(e.target.value);
