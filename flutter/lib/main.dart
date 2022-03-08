@@ -143,6 +143,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import 'package:test/local/navigator.dart';
+import 'package:test/providers/notification_provider.dart';
 import 'package:test/widgets/position_form.dart';
 // import '../screens/intro_to_interview_screen.dart';
 
@@ -241,6 +242,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (ctx) => SessionDetails(),
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => Notifications(),
         ),
         //  ChangeNotifierProvider(
         //   create: (ctx) => Interviews(),

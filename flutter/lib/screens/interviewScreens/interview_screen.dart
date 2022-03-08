@@ -348,8 +348,10 @@
 // }
 import 'dart:async';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+import 'package:simple_s3/simple_s3.dart';
 import '../../local/sharedpreferences.dart';
 import '../../models/session_model.dart';
 import '../../providers/session_provider.dart';
@@ -421,11 +423,24 @@ class _IntrviewScreenState extends State<IntrviewScreen> {
   }
 
   void _saveVideo() {
-    stopVideoRecording().then((file) {
+    stopVideoRecording().then((file) async {
       if (mounted) setState(() {});
       if (file != null) {
         videoFile = file;
         print('Video recorded to ${videoFile?.path}');
+        Uint8List? video = await videoFile!.readAsBytes();
+        print(video);
+        // returns url pointing to S3 file
+
+        // SimpleS3 _simpleS3 = SimpleS3();
+        // //Upload function
+        // String result = await _simpleS3.uploadFile(
+        //   File(videoFile!.path), //<--------------- Selected File
+        //   "sris", //<--------- Your Bucket Name
+        //   "", //<------------- Your POOL ID
+        //   AWSRegions.usEast2, //<- S3 server region
+        // );
+
         if (videoFile == null) {
           return;
         }

@@ -145,6 +145,7 @@ class _EmployerAuthState extends State<EmployerAuth> {
         final token = await fbm.getToken();
         saveFirebaseToken(token.toString());
         print(token);
+        print("start auth");
         await Provider.of<Auth>(context, listen: false)
             .login(
           authData['email'].toString(),

@@ -1,5 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:test/providers/notification_provider.dart';
 import '../providers/dashboard_provider.dart';
 import '../providers/position_details_provider.dart';
 import '../providers/session_provider.dart';
@@ -68,6 +69,10 @@ void showErrorDialog(BuildContext context, String message, bool error) {
 
 Future getPositionsFuture(BuildContext context) {
   return Provider.of<DashboardPositions>(context, listen: false).getListings();
+}
+
+Future getNotificationssFuture(BuildContext context) {
+  return Provider.of<Notifications>(context, listen: false).getNotidfications();
 }
 
 Future getPositionDetails(BuildContext context, positionId) {
