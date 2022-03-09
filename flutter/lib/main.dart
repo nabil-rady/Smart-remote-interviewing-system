@@ -323,10 +323,10 @@ class MyApp extends StatelessWidget {
           //     ),
           FinishInterview.routeName: (ctx) => FinishInterview(),
           IntrviewScreen.routeName: (ctx) => IntrviewScreen(),
-          IntroCamScreen.routeName: (ctx) => IntroCamScreen(),
+          //IntroCamScreen.routeName: (ctx) => IntroCamScreen(),
           WelcomeScreen.routeName: (ctx) => WelcomeScreen(),
-          // myIntroCamScreen.routeName: (ctx) =>
-          //     myIntroCamScreen(cameras: cameras),
+          myIntroCamScreen.routeName: (ctx) =>
+              myIntroCamScreen(cameras: cameras),
         },
       ),
     );
