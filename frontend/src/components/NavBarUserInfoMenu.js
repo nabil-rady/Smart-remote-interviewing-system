@@ -71,7 +71,7 @@ const NavBarUserInfoMenu = () => {
           localStorage.clear();
         } else {
           handleError(
-            response.status,
+            statusCode,
             data,
             () => {},
             () => setAuthUser(null)

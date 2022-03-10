@@ -69,6 +69,7 @@ class Auth with ChangeNotifier {
 
   Future<void> login(
       String email, String password, String webNotificationToken) async {
+    print("in login");
     final response = await http.post(
       Uri.parse('https://vividly-api.herokuapp.com/user/login'),
       //Uri.parse('http://10.0.2.2:8000/user/login'),
@@ -82,6 +83,7 @@ class Auth with ChangeNotifier {
       }),
     );
     final responseData = json.decode(response.body);
+    print(responseData);
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
       _employer.userId = responseData['user']['userId'];
@@ -111,7 +113,7 @@ class Auth with ChangeNotifier {
   Future<void> confirmEmail(String code) async {
     final response = await http.post(
       Uri.parse('https://vividly-api.herokuapp.com/user/verify'),
-      //Uri.parse('http://10.0.2.2:8000/user/verify'),
+      // Uri.parse('http://10.0.2.2:8000/user/verify'),
       headers: <String, String>{
         'Content-Type': 'application/json',
         'Authorization': getUserToken().toString(),
@@ -203,7 +205,7 @@ class Auth with ChangeNotifier {
         _employer.updatedAt = responseData['user']['updatedAt'];
         _employer.countryCode = responseData['user']['phoneCode'];
         _employer.phone = responseData['user']['phoneNumber'];
-        _employer.loggedIn = responseData['user']['loggedIn'];
+        _employer.loggedIn = true;
         _employer.emailConfirmed = responseData['user']['emailConfirmed'];
         _employer.userId = id;
       } else {

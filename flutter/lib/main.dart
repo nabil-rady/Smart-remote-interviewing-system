@@ -143,6 +143,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import 'package:test/local/navigator.dart';
+import 'package:test/providers/notification_provider.dart';
 import 'package:test/widgets/position_form.dart';
 // import '../screens/intro_to_interview_screen.dart';
 
@@ -242,6 +243,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (ctx) => SessionDetails(),
         ),
+        ChangeNotifierProvider(
+          create: (ctx) => Notifications(),
+        ),
         //  ChangeNotifierProvider(
         //   create: (ctx) => Interviews(),
         // ),
@@ -319,10 +323,10 @@ class MyApp extends StatelessWidget {
           //     ),
           FinishInterview.routeName: (ctx) => FinishInterview(),
           IntrviewScreen.routeName: (ctx) => IntrviewScreen(),
-          IntroCamScreen.routeName: (ctx) => IntroCamScreen(),
+          //IntroCamScreen.routeName: (ctx) => IntroCamScreen(),
           WelcomeScreen.routeName: (ctx) => WelcomeScreen(),
-          // myIntroCamScreen.routeName: (ctx) =>
-          //     myIntroCamScreen(cameras: cameras),
+          myIntroCamScreen.routeName: (ctx) =>
+              myIntroCamScreen(cameras: cameras),
         },
       ),
     );
