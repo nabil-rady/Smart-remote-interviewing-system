@@ -11,6 +11,7 @@ import EmailVerification from './EmailVerification';
 import { Link } from 'react-router-dom';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/messaging';
+
 let userId;
 const SignUpForm = () => {
   const [registrationToken, setToken] = useState();
@@ -26,10 +27,6 @@ const SignUpForm = () => {
 
   firebase.initializeApp(firebaseConfig);
   const messaging = firebase.messaging();
-  const [show, setShow] = useState(false);
-  const [isTokenFound, setTokenFound] = useState(false);
-  const [notification, setNotification] = useState({ title: '', body: '' });
-  // getToken(setTokenFound);
   const onMessageListener = () =>
     new Promise((resolve) => {
       messaging.onMessage((payload) => {
@@ -39,8 +36,6 @@ const SignUpForm = () => {
   onMessageListener()
     .then((message) => {
       console.log(message);
-      setNotification(message.notification);
-      setShow(true);
     })
     .catch((err) => console.log('failed: ', err));
   messaging
@@ -63,7 +58,6 @@ const SignUpForm = () => {
   const [verificationCard, setVerificationCard] = useState(false);
   let formattedvalue = '';
   const setAuthUser = useContext(UserContext).setAuthUser;
-  const authUser = useContext(UserContext).authUser;
   const submitHandler = (e) => {
     e.preventDefault();
     // Send data to backend
@@ -191,10 +185,6 @@ const SignUpForm = () => {
     Modify();
   };
 
-  const verificationHandler = () => {
-    if (authUser.emailConfirmed) setVerificationCard(false);
-    else setVerificationCard(true);
-  };
   return (
     <>
       {verificationCard && <EmailVerification route={'/dashboard'} />}

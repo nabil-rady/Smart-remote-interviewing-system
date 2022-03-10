@@ -2,7 +2,6 @@ import React from 'react';
 import NavBar from '../components/NavBar';
 import Interview from '../components/Interview';
 import '../components/scss/utility.scss';
-import Lottie from 'lottie-react-web';
 import './scss/Interview.scss';
 
 function InterviewPage() {

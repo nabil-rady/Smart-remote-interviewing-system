@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-// import { getToken, onMessageListener } from '../components/firebase';
-// import messaging from '../components/firebase';
-import { Button, Row, Col, Toast } from 'react-bootstrap';
+import { Button, Toast } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/messaging';
+
 function NotificationTest() {
   const firebaseConfig = {
     apiKey: 'AIzaSyDuqj0k4SCgC-KQjHnZhV4dLxMDI8NaiS8',
@@ -19,12 +18,13 @@ function NotificationTest() {
   firebase.initializeApp(firebaseConfig);
   const messaging = firebase.messaging();
   const [show, setShow] = useState(false);
-  const [isTokenFound, setTokenFound] = useState(false);
   const [notification, setNotification] = useState({
     title: '',
     body: '',
   });
-  // getToken(setTokenFound);
+
+  const isTokenFound = false;
+
   const onMessageListener = () =>
     new Promise((resolve) => {
       messaging.onMessage((payload) => {

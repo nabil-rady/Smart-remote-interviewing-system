@@ -5,15 +5,13 @@ import MobileBurgerButtons from './MobileBurgerButtons';
 import NavBarSideMenu from './NavBarSideMenu';
 import NavBarUserInfoMenu from './NavBarUserInfoMenu';
 import './scss/dashboard-navbar.scss';
-import { APIURL } from '../API/APIConstants';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/messaging';
-import handleError from '../utils/APIErrorHandling';
+
 const DashboardNavBar = (props) => {
   const authUser = useContext(UserContext).authUser;
-  const setAuthUser = useContext(UserContext).setAuthUser; // Object or null
   const isLoggedIn = !!authUser;
-  const [registrationToken, setToken] = useState();
+
   const firebaseConfig = {
     apiKey: 'AIzaSyDuqj0k4SCgC-KQjHnZhV4dLxMDI8NaiS8',
     authDomain: 'vividly-notification.firebaseapp.com',
@@ -26,10 +24,7 @@ const DashboardNavBar = (props) => {
 
   firebase.initializeApp(firebaseConfig);
   const messaging = firebase.messaging();
-  const [show, setShow] = useState(false);
-  const [isTokenFound, setTokenFound] = useState(false);
-  const [notification, setNotification] = useState({ title: '', body: '' });
-  // getToken(setTokenFound);
+
   const onMessageListener = () =>
     new Promise((resolve) => {
       messaging.onMessage((payload) => {
@@ -39,14 +34,12 @@ const DashboardNavBar = (props) => {
   onMessageListener()
     .then((message) => {
       console.log(message);
-      setNotification(message.notification);
-      setShow(true);
     })
     .catch((err) => console.log('failed: ', err));
   messaging
     .getToken()
     .then((token) => {
-      setToken(token);
+      console.log(token);
     })
     .catch((err) => {
       console.log(err);

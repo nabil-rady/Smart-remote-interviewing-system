@@ -6,6 +6,7 @@ import { UserContext } from '../App';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/messaging';
 import handleError from '../utils/APIErrorHandling';
+
 const NavBarUserInfoMenu = () => {
   const authUser = useContext(UserContext).authUser;
   const setAuthUser = useContext(UserContext).setAuthUser;
@@ -22,9 +23,6 @@ const NavBarUserInfoMenu = () => {
 
   firebase.initializeApp(firebaseConfig);
   const messaging = firebase.messaging();
-  const [show, setShow] = useState(false);
-  const [isTokenFound, setTokenFound] = useState(false);
-  const [notification, setNotification] = useState({ title: '', body: '' });
   // getToken(setTokenFound);
   const onMessageListener = () =>
     new Promise((resolve) => {
@@ -35,8 +33,6 @@ const NavBarUserInfoMenu = () => {
   onMessageListener()
     .then((message) => {
       console.log(message);
-      setNotification(message.notification);
-      setShow(true);
     })
     .catch((err) => console.log('failed: ', err));
   messaging

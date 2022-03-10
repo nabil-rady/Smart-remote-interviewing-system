@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React from 'react';
 import { useMediaQuery } from '@react-hook/media-query';
 import Webcam from 'react-webcam';
 import useDimensions from 'react-cool-dimensions';

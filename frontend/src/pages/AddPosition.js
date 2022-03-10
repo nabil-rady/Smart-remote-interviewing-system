@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { count } from './SelectPosition';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import './scss/Addposition.scss';
 import NavBar from '../components/NavBar';

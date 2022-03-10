@@ -1,12 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 //import Lottie from 'lottie-react-web';
 import './scss/interview.scss';
 import Card from './Card';
 import ErrorModal from './ErrorModal';
 import { Link } from 'react-router-dom';
+
 const Interview = () => {
-  const [cursorStyle, setcursorStyle] = useState('auto');
-  const [displayColor, setColor] = useState('rgb(162, 172, 182)');
   const [error, setError] = useState();
   const [link, setLink] = useState('');
   const changeHandler = (e) => {

@@ -1,27 +1,26 @@
 import React, { useEffect, useState, useRef, useContext } from 'react';
 import Details from '../components/Details';
 import SideMenu from '../components/SideMenu';
-import EmailVerification from '../components/EmailVerification';
 import NavBar from '../components/NavBar';
 import { HRURL } from '../API/APIConstants';
-import { Button, Row, Col, Toast } from 'react-bootstrap';
+import { Toast } from 'react-bootstrap';
 import { UserContext } from '../App';
 import { useParams } from 'react-router-dom';
 import handleAPIError from '../utils/APIErrorHandling';
-import ErrorModal from '../components/ErrorModal';
 import messaging from '../utils/firebase';
 import {
   setFirebaseMessageListenerEvent,
   getFirebaseToken,
 } from '../utils/firebaseUtils';
+
 const PositionDetails = () => {
   const params = useParams();
   const positionNameAndId = params.positionNameAndId;
-  const [positionName, positionId] = positionNameAndId.split('$');
+  const positionId = positionNameAndId.split('$')[1];
   const { authUser, setAuthUser } = useContext(UserContext);
   const [show, setShow] = useState(false);
   const [notification, setNotification] = useState({ title: '', body: '' });
-  useEffect(async () => {
+  useEffect(() => {
     setFirebaseMessageListenerEvent(messaging)
       .then((message) => {
         console.log(message);
@@ -29,24 +28,16 @@ const PositionDetails = () => {
         setShow(true);
       })
       .catch((err) => console.log(err));
-    try {
-      const token = await getFirebaseToken(messaging);
-      console.log(token);
-    } catch (err) {
-      console.log(err);
-    }
+    getFirebaseToken(messaging)
+      .then((token) => console.log(token))
+      .catch((err) => err);
   }, []);
   const sideMenu = useRef(null);
   const [position, setPosition] = useState();
   const handleToggleButtonClick = () =>
     sideMenu.current.classList.toggle('change');
-  const [verificationCard, setVerificationCard] = useState(false);
-  const [verified, setVerified] = useState(false);
-  const navClickHandler = () => {
-    setVerificationCard(true);
-  };
 
-  const fetchPost = () => {
+  const fetchPosition = () => {
     return fetch(`${HRURL}/job-listing/${positionId}`, {
       method: 'GET',
       headers: {
@@ -55,19 +46,22 @@ const PositionDetails = () => {
     });
   };
 
-  useEffect(async () => {
-    const response = await fetchPost();
-    const data = await response.json();
-    if (response.status === 200) {
-      setPosition(data);
-    } else {
-      handleAPIError(
-        response.status,
-        data,
-        () => {},
-        () => setAuthUser(null)
-      );
-    }
+  useEffect(() => {
+    const setFetchedPosition = async () => {
+      const response = await fetchPosition();
+      const data = await response.json();
+      if (response.status === 200) {
+        setPosition(data);
+      } else {
+        handleAPIError(
+          response.status,
+          data,
+          () => {},
+          () => setAuthUser(null)
+        );
+      }
+    };
+    setFetchedPosition();
   }, []);
   // let position = {
   //   positionName: 'Software',
@@ -118,8 +112,6 @@ const PositionDetails = () => {
         <NavBar
           handleToggleButtonClick={handleToggleButtonClick}
           burgerButton={true}
-          clickHandler={navClickHandler}
-          verified={verified}
         />
         <SideMenu ref={sideMenu} />
       </div>

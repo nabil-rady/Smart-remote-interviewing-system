@@ -5,20 +5,19 @@ import Card from '../components/Card';
 import { UserContext } from '../App';
 import { HRURL } from '../API/APIConstants';
 import './scss/changepass.scss';
-import EmailVerification from '../components/EmailVerification';
 import handleAPIError from '../utils/APIErrorHandling';
 import ErrorModal from '../components/ErrorModal';
-import { Button, Row, Col, Toast } from 'react-bootstrap';
+import { Toast } from 'react-bootstrap';
 import messaging from '../utils/firebase';
 import {
   setFirebaseMessageListenerEvent,
   getFirebaseToken,
 } from '../utils/firebaseUtils';
+
 const ChangePassword = () => {
   const [show, setShow] = useState(false);
-  const [isTokenFound, setTokenFound] = useState(false);
   const [notification, setNotification] = useState({ title: '', body: '' });
-  useEffect(async () => {
+  useEffect(() => {
     setFirebaseMessageListenerEvent(messaging)
       .then((message) => {
         console.log(message);
@@ -26,12 +25,9 @@ const ChangePassword = () => {
         setShow(true);
       })
       .catch((err) => console.log(err));
-    try {
-      const token = await getFirebaseToken(messaging);
-      console.log(token);
-    } catch (err) {
-      console.log(err);
-    }
+    getFirebaseToken(messaging)
+      .then((token) => console.log(token))
+      .catch((err) => console.log(err));
   }, []);
   const authUser = useContext(UserContext).authUser;
   const [oldPass, setOldPass] = useState();
@@ -42,15 +38,7 @@ const ChangePassword = () => {
   const setAuthUser = useContext(UserContext).setAuthUser;
   const handleToggleButtonClick = () =>
     sideMenu.current.classList.toggle('change');
-  const [verificationCard, setVerificationCard] = useState(false);
-  const [verified, setVerified] = useState(false);
-  const navClickHandler = () => {
-    setVerificationCard(true);
-  };
-  const cardClickHandler = () => {
-    setVerified(true);
-    setVerificationCard(false);
-  };
+
   const submitHandler = (e) => {
     e.preventDefault();
     let statusCode;
@@ -120,8 +108,6 @@ const ChangePassword = () => {
         <NavBar
           handleToggleButtonClick={handleToggleButtonClick}
           burgerButton={true}
-          clickHandler={navClickHandler}
-          verified={verified}
         />
         <SideMenu ref={sideMenu} />
       </div>

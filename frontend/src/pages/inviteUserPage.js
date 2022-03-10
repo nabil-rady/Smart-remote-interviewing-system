@@ -3,9 +3,7 @@ import NavBar from '../components/NavBar';
 import InviteUser from '../components/InviteApplicant';
 import UsersList from '../components/InviteList';
 import SideMenu from '../components/SideMenu';
-import NotVerified from '../components/NotVerifiedModel';
-import { Button, Row, Col, Toast } from 'react-bootstrap';
-import ErrorModal from '../components/ErrorModal';
+import { Toast } from 'react-bootstrap';
 import messaging from '../utils/firebase';
 import {
   setFirebaseMessageListenerEvent,
@@ -15,7 +13,8 @@ import {
 function InvitationPage() {
   const [show, setShow] = useState(false);
   const [notification, setNotification] = useState({ title: '', body: '' });
-  useEffect(async () => {
+
+  useEffect(() => {
     setFirebaseMessageListenerEvent(messaging)
       .then((message) => {
         console.log(message);
@@ -23,13 +22,11 @@ function InvitationPage() {
         setShow(true);
       })
       .catch((err) => console.log(err));
-    try {
-      const token = await getFirebaseToken(messaging);
-      console.log(token);
-    } catch (err) {
-      console.log(err);
-    }
+    getFirebaseToken(messaging)
+      .then((token) => console.log(token))
+      .catch((err) => console.log(err));
   }, []);
+
   const [usersList, setUsersList] = useState([]);
   const sideMenu = useRef(null);
   const handleToggleButtonClick = () =>

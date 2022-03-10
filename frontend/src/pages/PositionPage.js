@@ -1,19 +1,16 @@
-import React, { useContext, useState, useRef, useEffect } from 'react';
+/* eslint-disable jsx-a11y/alt-text */
+import React, { useState, useRef, useEffect } from 'react';
 import '../components/scss/utility.scss';
 import NavBar from '../components/NavBar';
 import './scss/profile.scss';
-import { UserContext } from '../App';
 import Card from '../components/Card';
 import search from './SVGs/research.png';
 import invite from './SVGs/invitation.png';
 import check from './SVGs/check.png';
 import { Link, useParams } from 'react-router-dom';
 import SideMenu from '../components/SideMenu';
-import EmailVerification from '../components/EmailVerification';
 import './scss/positionpage.scss';
-import { Button, Row, Col, Toast } from 'react-bootstrap';
-import { HRURL } from '../API/APIConstants';
-import ErrorModal from '../components/ErrorModal';
+import { Toast } from 'react-bootstrap';
 
 import messaging from '../utils/firebase';
 import {
@@ -28,7 +25,7 @@ function PositionPage(props) {
   const [positionName, positionId] = positionNameAndId.split('$');
   console.log(positionName, positionId);
 
-  useEffect(async () => {
+  useEffect(() => {
     setFirebaseMessageListenerEvent(messaging)
       .then((message) => {
         console.log(message);
@@ -36,16 +33,12 @@ function PositionPage(props) {
         setShow(true);
       })
       .catch((err) => console.log(err));
-    try {
-      const token = await getFirebaseToken(messaging);
-      console.log(token);
-    } catch (err) {
-      console.log(err);
-    }
+    getFirebaseToken(messaging)
+      .then((token) => console.log(token))
+      .catch((err) => console.log(err));
   }, []);
 
   const [show, setShow] = useState(false);
-  const [isTokenFound, setTokenFound] = useState(false);
   const [notification, setNotification] = useState({ title: '', body: '' });
 
   const sideMenu = useRef(null);

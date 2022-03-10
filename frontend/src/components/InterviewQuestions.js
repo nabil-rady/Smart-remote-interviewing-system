@@ -12,6 +12,7 @@ import { useParams } from 'react-router-dom';
 import { TailSpin } from 'react-loader-spinner';
 import handleAPIError from '../utils/APIErrorHandling';
 import { UserContext } from '../App';
+
 const InterviewQuestions = React.forwardRef((props, webcamRef) => {
   let i = 0;
   const params = useParams();
@@ -30,26 +31,27 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
   // const [secAnswerTime, setAnswerSecTime] = useState();
   // const [minAnswerTime, setAnswerMinTime] = useState();
   let secAnswerTime, minAnswerTime;
+
   const fetchQuestions = () => {
-    return fetch(`${ApplicantURL}/candidate/join/${interviewId}`, {
-      method: 'GET',
-    });
+    return fetch(`${ApplicantURL}/candidate/join/${interviewId}`);
   };
 
-  useEffect(async () => {
-    const response = await fetchQuestions();
-    const data = await response.json();
-    if (response.status === 200) {
-      console.log(data);
-      setQuestions(data.questions);
-    } else {
-      handleAPIError(
-        response.status,
-        data,
-        () => {},
-        () => setAuthUser(null)
-      );
-    }
+  useEffect(() => {
+    const setFetchedQuestions = async () => {
+      const response = await fetchQuestions();
+      const data = await response.json();
+      if (response.status === 200) {
+        setQuestions(data.questions);
+      } else {
+        handleAPIError(
+          response.status,
+          data,
+          () => {},
+          () => setAuthUser(null)
+        );
+      }
+    };
+    setFetchedQuestions();
   }, []);
 
   // let questions = [
@@ -72,8 +74,6 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
   // ];
 
   const interval = 1000;
-
-  const [uselessState, __] = useState('34an n3rf e7na f anhy component');
 
   const [timeLeftRead, { start: startRead }] = useCountDown(
     questions ? questions[counter]?.timeToThink * 60 * 1000 : 0,

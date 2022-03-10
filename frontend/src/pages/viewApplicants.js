@@ -6,14 +6,12 @@ import { Link } from 'react-router-dom';
 import { UserContext } from '../App';
 import Card from '../components/Card';
 import './scss/viewApplicants.scss';
-import { Button, Row, Col, Toast } from 'react-bootstrap';
-import firebase from 'firebase/compat/app';
+import { Toast } from 'react-bootstrap';
 import 'firebase/compat/messaging';
 import { useParams } from 'react-router-dom';
 import handleAPIError from '../utils/APIErrorHandling';
 import { HRURL } from '../API/APIConstants';
 import { TailSpin } from 'react-loader-spinner';
-import ErrorModal from '../components/ErrorModal';
 import messaging from '../utils/firebase';
 import {
   setFirebaseMessageListenerEvent,
@@ -23,13 +21,18 @@ import {
 function ViewApplicants() {
   const authUser = useContext(UserContext).authUser;
   const setAuthUser = useContext(UserContext).setAuthUser;
+
   const params = useParams();
-  console.log(params);
   const positionNameAndId = params.positionNameAndId;
   const [positionName, positionId] = positionNameAndId.split('$');
+
   const [show, setShow] = useState(false);
   const [notification, setNotification] = useState({ title: '', body: '' });
-  useEffect(async () => {
+  const [verificationCard, setVerificationCard] = useState(false);
+  const [verified, setVerified] = useState(false);
+  const [interviews, setInterviews] = useState();
+
+  useEffect(() => {
     setFirebaseMessageListenerEvent(messaging)
       .then((message) => {
         console.log(message);
@@ -37,19 +40,14 @@ function ViewApplicants() {
         setShow(true);
       })
       .catch((err) => console.log(err));
-    try {
-      const token = await getFirebaseToken(messaging);
-      console.log(token);
-    } catch (err) {
-      console.log(err);
-    }
+    getFirebaseToken(messaging)
+      .then((token) => console.log(token))
+      .catch((err) => console.log(err));
   }, []);
+
   const sideMenu = useRef(null);
   const handleToggleButtonClick = () =>
     sideMenu.current.classList.toggle('change');
-  const [verificationCard, setVerificationCard] = useState(false);
-  const [verified, setVerified] = useState(false);
-  const [interviews, setInterviews] = useState();
   const navClickHandler = () => {
     setVerificationCard(true);
   };
@@ -57,7 +55,8 @@ function ViewApplicants() {
     setVerified(true);
     setVerificationCard(false);
   };
-  const fetchPost = () => {
+
+  const fetchInterviews = () => {
     return fetch(`${HRURL}/job-listing/${positionId}`, {
       method: 'GET',
       headers: {
@@ -66,19 +65,22 @@ function ViewApplicants() {
     });
   };
 
-  useEffect(async () => {
-    const response = await fetchPost();
-    const data = await response.json();
-    if (response.status === 200) {
-      setInterviews(data.interviews);
-    } else {
-      handleAPIError(
-        response.status,
-        data,
-        () => {},
-        () => setAuthUser(null)
-      );
-    }
+  useEffect(() => {
+    const setFetchedInterviews = async () => {
+      const response = await fetchInterviews();
+      const data = await response.json();
+      if (response.status === 200) {
+        setInterviews(data.interviews);
+      } else {
+        handleAPIError(
+          response.status,
+          data,
+          () => {},
+          () => setAuthUser(null)
+        );
+      }
+    };
+    setFetchedInterviews();
   }, []);
   // let applicants = [
   //   {

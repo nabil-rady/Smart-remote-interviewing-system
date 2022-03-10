@@ -1,8 +1,8 @@
-import React, { useEffect, useState, useContext } from 'react';
+/* eslint-disable jsx-a11y/alt-text */
+import React from 'react';
 import { Link } from 'react-router-dom';
 import Card from './Card';
 import './scss/listing.scss';
-import { UserContext } from '../App';
 
 const PositionCard = (props) => {
   const renderExpired = (pos) => {

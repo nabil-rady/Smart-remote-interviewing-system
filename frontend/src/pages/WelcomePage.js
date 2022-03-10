@@ -3,36 +3,39 @@ import NavBar from '../components/NavBar';
 import Lottie from 'lottie-react-web';
 import './scss/Interview.scss';
 import Card from '../components/Card';
-import { interviewLink } from '../components/Interview';
 import { Link } from 'react-router-dom';
-import Circle from '../LandingPagecomponents/Circle';
 import './scss/Welcome.scss';
 import { ApplicantURL } from '../API/APIConstants';
 import handleAPIError from '../utils/APIErrorHandling';
 import { useParams } from 'react-router-dom';
 import { TailSpin } from 'react-loader-spinner';
 import ErrorModal from '../components/ErrorModal';
+
 function WelcomePage() {
   const params = useParams();
   console.log(params);
   const interviewId = params.interviewId;
   const [appInfo, setAppInfo] = useState();
   const [error, setError] = useState();
-  const fetchPost = () => {
+
+  const fetchAppInfo = () => {
     return fetch(`${ApplicantURL}/candidate/join/${interviewId}`, {
       method: 'GET',
     });
   };
 
-  useEffect(async () => {
-    const response = await fetchPost();
-    const data = await response.json();
-    if (response.status === 200) {
-      console.log(data);
-      setAppInfo(data);
-    } else {
-      handleAPIError(response.status, data, setError);
-    }
+  useEffect(() => {
+    const setFethedAppInfo = async () => {
+      const response = await fetchAppInfo();
+      const data = await response.json();
+      if (response.status === 200) {
+        console.log(data);
+        setAppInfo(data);
+      } else {
+        handleAPIError(response.status, data, setError);
+      }
+    };
+    setFethedAppInfo();
   }, []);
   const errorHandler = () => {
     setError(null);

@@ -7,6 +7,7 @@ import { APIURL } from '../API/APIConstants';
 import handleAPIError from '../utils/APIErrorHandling';
 import { useHistory } from 'react-router-dom';
 import { UserContext } from '../App';
+
 const EmailVerification = (props) => {
   const authUser = useContext(UserContext).authUser;
   const setAuthUser = useContext(UserContext).setAuthUser;
@@ -92,7 +93,6 @@ const EmailVerification = (props) => {
             maxLength="8"
             onChange={changeHandler}
             value={verificationCode}
-            required
           />
           <button
             className="ok"

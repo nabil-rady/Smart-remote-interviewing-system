@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 import React from 'react';
 import Card from './Card';
 import delIcon from '../components/SVGs/delete.svg';

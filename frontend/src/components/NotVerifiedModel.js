@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 import React, { useState, useContext } from 'react';
 import verifyImg from './SVGs/invitation.png';
 import EmailVerification from './EmailVerification';
@@ -6,6 +7,7 @@ import { UserContext } from '../App';
 import { APIURL } from '../API/APIConstants';
 import handleAPIError from '../utils/APIErrorHandling';
 import ErrorModal from './ErrorModal';
+
 const NotVerified = () => {
   const [show, setShow] = useState(false);
   const authUser = useContext(UserContext).authUser;

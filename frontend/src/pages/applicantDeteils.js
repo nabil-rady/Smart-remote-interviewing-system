@@ -6,12 +6,11 @@ import { Link } from 'react-router-dom';
 import { UserContext } from '../App';
 import Card from '../components/Card';
 import './scss/applicantDetails.scss';
-import { Button, Row, Col, Toast } from 'react-bootstrap';
+import { Toast } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import { HRURL } from '../API/APIConstants';
 import { TailSpin } from 'react-loader-spinner';
 import handleAPIError from '../utils/APIErrorHandling';
-import ErrorModal from '../components/ErrorModal';
 import messaging from '../utils/firebase';
 import {
   setFirebaseMessageListenerEvent,
@@ -25,10 +24,9 @@ function ApplicantDetails() {
   const positionNameAndapplicantId = params.positionNameAndapplicantId;
   const [positionName, applicantId] = positionNameAndapplicantId.split('$');
   const [show, setShow] = useState(false);
-  const [isTokenFound, setTokenFound] = useState(false);
   const [notification, setNotification] = useState({ title: '', body: '' });
   const setAuthUser = useContext(UserContext).setAuthUser;
-  useEffect(async () => {
+  useEffect(() => {
     setFirebaseMessageListenerEvent(messaging)
       .then((message) => {
         console.log(message);
@@ -36,12 +34,9 @@ function ApplicantDetails() {
         setShow(true);
       })
       .catch((err) => console.log(err));
-    try {
-      const token = await getFirebaseToken(messaging);
-      console.log(token);
-    } catch (err) {
-      console.log(err);
-    }
+    getFirebaseToken(messaging)
+      .then((token) => console.log(token))
+      .catch((err) => console.log(err));
   }, []);
   const sideMenu = useRef(null);
   const handleToggleButtonClick = () =>
@@ -56,7 +51,8 @@ function ApplicantDetails() {
     setVerified(true);
     setVerificationCard(false);
   };
-  const fetchPost = () => {
+
+  const fetchApplicant = () => {
     return fetch(`${HRURL}/job-listing/answers/${applicantId}`, {
       method: 'GET',
       headers: {
@@ -65,27 +61,24 @@ function ApplicantDetails() {
     });
   };
 
-  useEffect(async () => {
-    const response = await fetchPost();
-    const data = await response.json();
-    if (response.status === 200) {
-      setApplicant(data);
-    } else {
-      handleAPIError(
-        response.status,
-        data,
-        () => {},
-        () => setAuthUser(null)
-      );
-    }
+  useEffect(() => {
+    const setFetchedApplicant = async () => {
+      const response = await fetchApplicant();
+      const data = await response.json();
+      if (response.status === 200) {
+        setApplicant(data);
+      } else {
+        handleAPIError(
+          response.status,
+          data,
+          () => {},
+          () => setAuthUser(null)
+        );
+      }
+    };
+    setFetchedApplicant();
   }, []);
-  // let applicant = {
-  //   name: 'Mohamed Moussa',
-  //   positionName: 'Software',
-  //   email: 'mm191018101@gmail.com',
-  //   phone: '01125894119',
-  //   interviewDate: '2/13/2022 1:50 pm',
-  // };
+
   const Dates = (applicant) => {
     let nowDate = new Date(applicant.submitedAt);
     let date =

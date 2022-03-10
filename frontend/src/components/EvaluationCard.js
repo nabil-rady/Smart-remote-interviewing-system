@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import Card from './Card';
 import './scss/evaluate.scss';
 const EvaluationCard = React.forwardRef((props, ratings) => {

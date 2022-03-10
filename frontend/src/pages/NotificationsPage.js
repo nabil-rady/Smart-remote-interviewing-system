@@ -1,9 +1,8 @@
-import React, { useRef, useState } from 'react';
-import NavBar from '../components/NavBar';
+import React from 'react';
 import NotificationCard from '../components/NotificationCard';
-import SideMenu from '../components/SideMenu';
 import NoNotification from '../components/NoNotification';
 import './scss/NotificationPage.scss';
+
 function NotificationPage() {
   // const notifications = [
   //   'notification 1',

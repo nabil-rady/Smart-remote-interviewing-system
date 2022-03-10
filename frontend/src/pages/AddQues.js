@@ -7,8 +7,7 @@ import PositionForm from '../components/position';
 import { HRURL } from '../API/APIConstants';
 import ErrorModal from '../components/ErrorModal';
 import handleAPIError from '../utils/APIErrorHandling';
-import { Button, Row, Col, Toast } from 'react-bootstrap';
-import firebase from 'firebase/compat/app';
+import { Toast } from 'react-bootstrap';
 import 'firebase/compat/messaging';
 import { UserContext } from '../App';
 import messaging from '../utils/firebase';
@@ -22,7 +21,7 @@ function AddQues() {
   const [show, setShow] = useState(false);
   const [notification, setNotification] = useState({ title: '', body: '' });
   const setAuthUser = useContext(UserContext).setAuthUser;
-  useEffect(async () => {
+  useEffect(() => {
     setFirebaseMessageListenerEvent(messaging)
       .then((message) => {
         console.log(message);
@@ -30,12 +29,9 @@ function AddQues() {
         setShow(true);
       })
       .catch((err) => console.log(err));
-    try {
-      const token = await getFirebaseToken(messaging);
-      console.log(token);
-    } catch (err) {
-      console.log(err);
-    }
+    getFirebaseToken(messaging)
+      .then((token) => console.log(token))
+      .catch((err) => console.log(err));
   }, []);
   const [error, setError] = useState();
   const [questions, setQuestions] = useState([
@@ -49,8 +45,6 @@ function AddQues() {
 
   const [positionName, setPositionName] = useState('');
   const [expiryDate, setExpiryDate] = useState('');
-  const [date, setDate] = useState('');
-  let position;
   const expiryDateHandler = (e) => {
     setExpiryDate(e.target.value);
   };

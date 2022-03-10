@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react';
 import '../components/scss/utility.scss';
-import NavBar from '../components/NavBar';
 import './scss/profile.scss';
 import { UserContext } from '../App';
 import Card from '../components/Card';

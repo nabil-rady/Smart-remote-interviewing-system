@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from 'react';
+import React, { useContext } from 'react';
 import './scss/side-menu.scss';
 import { UserContext } from '../App';
 

@@ -3,18 +3,17 @@ import DashboardNavBar from '../components/DashboardNavBar';
 import ListingPage from './Listingpage';
 import NotificationPage from './NotificationsPage';
 import ProfilePage from './Profile';
-import { Button, Row, Col, Toast } from 'react-bootstrap';
-import ErrorModal from '../components/ErrorModal';
+import { Toast } from 'react-bootstrap';
 import messaging from '../utils/firebase';
 import {
   setFirebaseMessageListenerEvent,
   getFirebaseToken,
 } from '../utils/firebaseUtils';
+
 const Dashboard = () => {
   const [show, setShow] = useState(false);
-  const [isTokenFound, setTokenFound] = useState(false);
   const [notification, setNotification] = useState({ title: '', body: '' });
-  useEffect(async () => {
+  useEffect(() => {
     setFirebaseMessageListenerEvent(messaging)
       .then((message) => {
         console.log(message);
@@ -22,15 +21,12 @@ const Dashboard = () => {
         setShow(true);
       })
       .catch((err) => console.log(err));
-    try {
-      const token = await getFirebaseToken(messaging);
-      console.log(token);
-    } catch (err) {
-      console.log(err);
-    }
+    getFirebaseToken(messaging)
+      .then((token) => console.log(token))
+      .catch((err) => console.log(err));
   }, []);
 
-  const [Listing, setListing] = useState(false);
+  const [listing, setListing] = useState(false);
   const [notifications, setNotifications] = useState(true);
   const [profile, setProfile] = useState(false);
   const listingHandler = () => {
@@ -75,7 +71,7 @@ const Dashboard = () => {
         </Toast.Header>
         <Toast.Body>{notification.body}</Toast.Body>
       </Toast>
-      {Listing && <ListingPage />}
+      {listing && <ListingPage />}
       {notifications && <NotificationPage />}
       {profile && <ProfilePage />}
     </>

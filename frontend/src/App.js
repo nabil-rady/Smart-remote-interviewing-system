@@ -11,15 +11,12 @@ import './App.scss';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
 import TakeInterviewPage from './pages/TakeInterview';
-import avatar from './user.jpg';
 import AddQues from './pages/AddQues';
 import InvitationPage from './pages/inviteUserPage';
-import ChangePassword from './pages/ChagePass';
+import ChangePassword from './pages/ChangePass';
 import EvaluationPage from './pages/Evaluate';
-import NotificationPage from './pages/NotificationsPage';
 import AddPosition from './pages/AddPosition';
 import Dashboard from './pages/Dashboard';
-import ListingPage from './pages/Listingpage';
 import InterviewPage from './pages/InterviewPage';
 import PositionPage from './pages/PositionPage';
 import PositionDetails from './pages/PositionDetails';

@@ -1,9 +1,6 @@
-import React, { useRef, useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import NavBar from '../components/NavBar';
 import PositionCard from '../components/positionCard';
-import SideMenu from '../components/SideMenu';
-import NoNotification from '../components/NoNotification';
 import './scss/listingpage.scss';
 import { HRURL } from '../API/APIConstants';
 import { UserContext } from '../App';
@@ -36,6 +33,7 @@ import im26 from '../solidBG/26.jpg';
 import { TailSpin } from 'react-loader-spinner';
 import NotVerified from '../components/NotVerifiedModel';
 import handleAPIError from '../utils/APIErrorHandling';
+
 function ListingPage() {
   const [positions, getPositions] = useState();
   const authUser = useContext(UserContext).authUser;
@@ -69,7 +67,8 @@ function ListingPage() {
     im25,
     im26,
   ];
-  const fetchPost = () => {
+
+  const fetchPositions = () => {
     return fetch(`${HRURL}/job-listing/get-listings`, {
       method: 'GET',
       headers: {
@@ -78,19 +77,22 @@ function ListingPage() {
     });
   };
 
-  useEffect(async () => {
-    const response = await fetchPost();
-    const data = await response.json();
-    if (response.status === 200) {
-      getPositions(data.jobListings);
-    } else {
-      handleAPIError(
-        response.status,
-        data,
-        () => {},
-        () => setAuthUser(null)
-      );
-    }
+  useEffect(() => {
+    const setFetchedPositions = async () => {
+      const response = await fetchPositions();
+      const data = await response.json();
+      if (response.status === 200) {
+        getPositions(data.jobListings);
+      } else {
+        handleAPIError(
+          response.status,
+          data,
+          () => {},
+          () => setAuthUser(null)
+        );
+      }
+    };
+    setFetchedPositions();
   }, []);
   // const fetchPost = () => {
   //   fetch(`${HRURL}/job-listing/get-listings`, {

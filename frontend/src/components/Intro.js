@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
+/* eslint-disable jsx-a11y/alt-text */
+import React, { useState } from 'react';
 import intro1 from './SVGs/1.png';
 import intro2 from './SVGs/2.png';
 import intro3 from './SVGs/3.png';
 import './scss/intro.scss';
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
+
 const Intro = () => {
   let introImages = [intro1, intro2, intro3];
   const params = useParams();

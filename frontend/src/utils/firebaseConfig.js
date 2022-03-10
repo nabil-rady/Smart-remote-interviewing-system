@@ -1,4 +1,4 @@
-export default {
+const firebaseConfig = {
   apiKey: 'AIzaSyDuqj0k4SCgC-KQjHnZhV4dLxMDI8NaiS8',
   authDomain: 'vividly-notification.firebaseapp.com',
   projectId: 'vividly-notification',
@@ -7,3 +7,5 @@ export default {
   appId: '1:964487453958:web:93e6d088edf1bb5fe4d287',
   measurementId: 'G-G29W0NWEVB',
 };
+
+export default firebaseConfig;

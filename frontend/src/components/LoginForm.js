@@ -5,11 +5,11 @@ import { UserContext } from '../App';
 import { APIURL } from '../API/APIConstants';
 import handleAPIError from '../utils/APIErrorHandling';
 import './scss/login.scss';
-import avatarURL from '../user.jpg';
 import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/messaging';
+
 const LoginForm = () => {
   const [registrationToken, setToken] = useState();
   const firebaseConfig = {
@@ -24,10 +24,6 @@ const LoginForm = () => {
 
   firebase.initializeApp(firebaseConfig);
   const messaging = firebase.messaging();
-  const [show, setShow] = useState(false);
-  const [isTokenFound, setTokenFound] = useState(false);
-  const [notification, setNotification] = useState({ title: '', body: '' });
-  // getToken(setTokenFound);
   const onMessageListener = () =>
     new Promise((resolve) => {
       messaging.onMessage((payload) => {
@@ -37,8 +33,6 @@ const LoginForm = () => {
   onMessageListener()
     .then((message) => {
       console.log(message);
-      setNotification(message.notification);
-      setShow(true);
     })
     .catch((err) => console.log('failed: ', err));
   messaging

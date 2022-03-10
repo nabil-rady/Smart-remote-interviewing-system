@@ -3,27 +3,27 @@ import NavBar from '../components/NavBar';
 import SideMenu from '../components/SideMenu';
 import EvaluationCard from '../components/EvaluationCard';
 import './scss/evaluate.scss';
-import { Button, Row, Col, Toast } from 'react-bootstrap';
-import firebase from 'firebase/compat/app';
+import { Toast } from 'react-bootstrap';
 import 'firebase/compat/messaging';
 import { useParams } from 'react-router-dom';
 import handleAPIError from '../utils/APIErrorHandling';
 import { UserContext } from '../App';
 import { HRURL } from '../API/APIConstants';
 import { TailSpin } from 'react-loader-spinner';
-import ErrorModal from '../components/ErrorModal';
 import messaging from '../utils/firebase';
 import {
   setFirebaseMessageListenerEvent,
   getFirebaseToken,
 } from '../utils/firebaseUtils';
+
 function EvaluationPage() {
   const authUser = useContext(UserContext).authUser;
   const setAuthUser = useContext(UserContext).setAuthUser;
   const [answers, setAnswers] = useState([]);
   const params = useParams();
   const applicantId = params.applicantId;
-  const fetchPost = () => {
+
+  const fetchAnswers = () => {
     return fetch(`${HRURL}/job-listing/answers/${applicantId}`, {
       method: 'GET',
       headers: {
@@ -32,24 +32,27 @@ function EvaluationPage() {
     });
   };
 
-  useEffect(async () => {
-    const response = await fetchPost();
-    const data = await response.json();
-    if (response.status === 200) {
-      console.log(data);
-      setAnswers(data.questions);
-    } else {
-      handleAPIError(
-        response.status,
-        data,
-        () => {},
-        () => setAuthUser(null)
-      );
-    }
+  useEffect(() => {
+    const setFetchedAnswers = async () => {
+      const response = await fetchAnswers();
+      const data = await response.json();
+      if (response.status === 200) {
+        console.log(data);
+        setAnswers(data.questions);
+      } else {
+        handleAPIError(
+          response.status,
+          data,
+          () => {},
+          () => setAuthUser(null)
+        );
+      }
+    };
+    setFetchedAnswers();
   }, []);
   const [show, setShow] = useState(false);
   const [notification, setNotification] = useState({ title: '', body: '' });
-  useEffect(async () => {
+  useEffect(() => {
     setFirebaseMessageListenerEvent(messaging)
       .then((message) => {
         console.log(message);
@@ -57,12 +60,9 @@ function EvaluationPage() {
         setShow(true);
       })
       .catch((err) => console.log(err));
-    try {
-      const token = await getFirebaseToken(messaging);
-      console.log(token);
-    } catch (err) {
-      console.log(err);
-    }
+    getFirebaseToken(messaging)
+      .then((token) => console.log(token))
+      .catch((err) => console.log(err));
   }, []);
 
   const ratings = useRef(null);
@@ -75,7 +75,6 @@ function EvaluationPage() {
   //     );
   // };
   const clickHandler = () => {
-    const ratingsArray = [];
     for (const rating of ratings.current.children) {
       console.log(rating);
     }
