@@ -196,7 +196,7 @@ List<CameraDescription>? cameras;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  cameras = await availableCameras();
+  // cameras = await availableCameras();
   await sharedPreferences();
   await Firebase.initializeApp();
   // await Firebase.initializeApp(
@@ -323,10 +323,10 @@ class MyApp extends StatelessWidget {
           //     ),
           FinishInterview.routeName: (ctx) => FinishInterview(),
           IntrviewScreen.routeName: (ctx) => IntrviewScreen(),
-          //IntroCamScreen.routeName: (ctx) => IntroCamScreen(),
+          IntroCamScreen.routeName: (ctx) => IntroCamScreen(),
           WelcomeScreen.routeName: (ctx) => WelcomeScreen(),
-          myIntroCamScreen.routeName: (ctx) =>
-              myIntroCamScreen(cameras: cameras),
+          // myIntroCamScreen.routeName: (ctx) =>
+          //     myIntroCamScreen(cameras: cameras),
         },
       ),
     );
