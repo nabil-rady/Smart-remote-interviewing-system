@@ -19,6 +19,7 @@ import {
 } from '../utils/firebaseUtils';
 function EvaluationPage() {
   const authUser = useContext(UserContext).authUser;
+  const setAuthUser = useContext(UserContext).setAuthUser;
   const [answers, setAnswers] = useState([]);
   const params = useParams();
   const applicantId = params.applicantId;
@@ -110,10 +111,11 @@ function EvaluationPage() {
       </Toast>
       {answers ? (
         <>
-          <EvaluationCard answers={answers} ref={ratings} />
-          <button onClick={clickHandler} className="save-rating">
-            Save
-          </button>
+          <EvaluationCard
+            answers={answers}
+            ref={ratings}
+            clickHandler={clickHandler}
+          />
         </>
       ) : (
         <div

@@ -21,6 +21,7 @@ const InviteUser = (props) => {
   const [enteredEmail, setEnteredEmail] = useState('');
   const [enteredPhoneNo, setEnteredPhoneNo] = useState('');
   const [enteredPhoneCode, setEnteredPhoneCode] = useState('');
+  const setAuthUser = useContext(UserContext).setAuthUser;
   const [error, setError] = useState();
   const save = (file) => {
     let names = [];

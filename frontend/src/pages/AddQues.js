@@ -21,6 +21,7 @@ function AddQues() {
   const authUser = useContext(UserContext).authUser;
   const [show, setShow] = useState(false);
   const [notification, setNotification] = useState({ title: '', body: '' });
+  const setAuthUser = useContext(UserContext).setAuthUser;
   useEffect(async () => {
     setFirebaseMessageListenerEvent(messaging)
       .then((message) => {

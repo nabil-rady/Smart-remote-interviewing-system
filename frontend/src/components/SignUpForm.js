@@ -128,7 +128,9 @@ const SignUpForm = () => {
             },
           });
         } else {
-          handleAPIError(statusCode, data, setError, () => setAuthUser(null));
+          handleAPIError(statusCode, response.data, setError, () =>
+            setAuthUser(null)
+          );
         }
       })
       .then((confirmResponse) => {
@@ -140,7 +142,9 @@ const SignUpForm = () => {
           console.log('Success');
           setVerificationCard(true);
         } else {
-          handleAPIError(statusCode, data, setError, () => setAuthUser(null));
+          handleAPIError(statusCode, response.data, setError, () =>
+            setAuthUser(null)
+          );
         }
       })
       .catch((error) => {

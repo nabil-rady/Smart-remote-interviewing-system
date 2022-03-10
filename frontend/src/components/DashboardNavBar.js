@@ -57,41 +57,7 @@ const DashboardNavBar = (props) => {
     menu.classList.toggle('clicked');
     mobileBurgerButton.classList.toggle('black');
   };
-  const logoutHandler = () => {
-    let statusCode;
-    fetch(`${APIURL}/user/logout`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: authUser.token,
-      },
-      body: JSON.stringify({
-        registrationToken,
-      }),
-    })
-      .then((response) => {
-        statusCode = response.status;
-        console.log(response);
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data);
-        if (statusCode === 200) {
-          setAuthUser(null);
-          localStorage.clear();
-        } else {
-          handleError(
-            response.status,
-            data,
-            () => {},
-            () => setAuthUser(null)
-          );
-        }
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
-  };
+
   return (
     <header className="Navheader">
       <MobileBurgerButtons handleClick={handleClick} />
@@ -115,9 +81,6 @@ const DashboardNavBar = (props) => {
           </li>
           <li className={`dashboard-menu__li`} onClick={props.profileHandler}>
             Edit Profile
-          </li>
-          <li className={`dashboard-menu__li`} onClick={logoutHandler}>
-            Logout
           </li>
         </ul>
         <ul

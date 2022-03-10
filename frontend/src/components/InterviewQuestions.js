@@ -4,7 +4,8 @@ import Card from './Card';
 import { ApplicantURL } from '../API/APIConstants';
 import { useParams } from 'react-router-dom';
 import { TailSpin } from 'react-loader-spinner';
-
+import handleAPIError from '../utils/APIErrorHandling';
+import { UserContext } from '../App';
 const InterviewQuestions = React.forwardRef((props, webcamRef) => {
   let i = 0;
   const params = useParams();
@@ -19,6 +20,7 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
   const [visible, setVisibility] = useState('hidden');
   const [counter, setCounter] = useState(0);
   const [readTimerVisibility, setReadTimer] = useState('visible');
+  const setAuthUser = useContext(UserContext).setAuthUser;
   // const [secAnswerTime, setAnswerSecTime] = useState();
   // const [minAnswerTime, setAnswerMinTime] = useState();
   let secAnswerTime, minAnswerTime;
@@ -263,8 +265,8 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
         <div
           style={{
             position: 'absolute',
-            top: 'calc(50vh - 40px)',
-            left: 'calc(50vw - 40px)',
+            top: 'calc(30vh - 50px)',
+            left: 'calc(70vw - 40px)',
           }}
         >
           <TailSpin color="hsl(215deg, 79%, 42%)" height={80} width={80} />

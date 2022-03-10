@@ -31,7 +31,9 @@ body {
   font-size: x-large;
   font-weight: bold;
 }
-
+.cardLabel:hover {
+  color: $primary-blue;
+}
 .labelContainer {
   display: inline-block;
   position: absolute;

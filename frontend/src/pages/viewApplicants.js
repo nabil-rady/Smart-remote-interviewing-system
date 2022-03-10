@@ -10,7 +10,7 @@ import { Button, Row, Col, Toast } from 'react-bootstrap';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/messaging';
 import { useParams } from 'react-router-dom';
-import handleError from '../utils/APIErrorHandling';
+import handleAPIError from '../utils/APIErrorHandling';
 import { HRURL } from '../API/APIConstants';
 import { TailSpin } from 'react-loader-spinner';
 import ErrorModal from '../components/ErrorModal';

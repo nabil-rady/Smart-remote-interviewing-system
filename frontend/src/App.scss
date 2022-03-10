@@ -31,6 +31,9 @@ a {
 // .Logo:hover {
 //   color: white;
 // }
+a:hover {
+  color: inherit;
+}
 .resize-animation-stopper * {
   animation: none !important;
   transition: none !important;

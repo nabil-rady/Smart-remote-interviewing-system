@@ -10,6 +10,7 @@ const NotVerified = () => {
   const [show, setShow] = useState(false);
   const authUser = useContext(UserContext).authUser;
   const [error, setError] = useState();
+  const setAuthUser = useContext(UserContext).setAuthUser;
   const errorHandler = () => {
     setError(null);
   };

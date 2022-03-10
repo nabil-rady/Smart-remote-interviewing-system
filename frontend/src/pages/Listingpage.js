@@ -35,9 +35,11 @@ import im25 from '../solidBG/25.jpg';
 import im26 from '../solidBG/26.jpg';
 import { TailSpin } from 'react-loader-spinner';
 import NotVerified from '../components/NotVerifiedModel';
+import handleAPIError from '../utils/APIErrorHandling';
 function ListingPage() {
   const [positions, getPositions] = useState();
   const authUser = useContext(UserContext).authUser;
+  const setAuthUser = useContext(UserContext).setAuthUser;
   console.log(authUser);
   let backgrounds = [
     im1,
@@ -68,21 +70,44 @@ function ListingPage() {
     im26,
   ];
   const fetchPost = () => {
-    fetch(`${HRURL}/job-listing/get-listings`, {
+    return fetch(`${HRURL}/job-listing/get-listings`, {
       method: 'GET',
       headers: {
         Authorization: authUser.token,
       },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        getPositions(data.jobListings);
-      });
+    });
   };
-  useEffect(() => {
-    fetchPost();
+
+  useEffect(async () => {
+    const response = await fetchPost();
+    const data = await response.json();
+    if (response.status === 200) {
+      getPositions(data.jobListings);
+    } else {
+      handleAPIError(
+        response.status,
+        data,
+        () => {},
+        () => setAuthUser(null)
+      );
+    }
   }, []);
+  // const fetchPost = () => {
+  //   fetch(`${HRURL}/job-listing/get-listings`, {
+  //     method: 'GET',
+  //     headers: {
+  //       Authorization: authUser.token,
+  //     },
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       console.log(data);
+  //       getPositions(data.jobListings);
+  //     });
+  // };
+  // useEffect(() => {
+  //   fetchPost();
+  // }, []);
   // let positions = [
   //   {
   //     positionName: 'Softwarqweeqwqwweqwqeweqwqeewqewqewwqeewqweqe',
@@ -124,7 +149,7 @@ function ListingPage() {
             </>
           ) : (
             <>
-              <h1>No Positions to view</h1>
+              <h1 className="noPositions">No Positions created to view</h1>
               <button className="addposition">
                 <Link to="/add">Add Position</Link>
               </button>

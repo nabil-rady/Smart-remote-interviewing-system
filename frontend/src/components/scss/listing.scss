@@ -39,7 +39,9 @@
   text-overflow: ellipsis;
   overflow: hidden;
 }
-
+.pos_name:hover {
+  color: $primary-blue;
+}
 .pos_expirydate {
   display: inline-block;
 }

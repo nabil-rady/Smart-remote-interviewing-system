@@ -31,7 +31,7 @@ function WelcomePage() {
       console.log(data);
       setAppInfo(data);
     } else {
-      handleAPIError(response.status, data, setError, () => setAuthUser(null));
+      handleAPIError(response.status, data, setError);
     }
   }, []);
   const errorHandler = () => {

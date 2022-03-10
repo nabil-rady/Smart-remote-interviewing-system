@@ -64,9 +64,15 @@ const NavBar = () => {
         </ul>
 
         <ul className={`guest__ul ${!isLoggedIn ? '' : 'hidden'}`}>
-          <li className="guest__ul__li__interview">Take Interview</li>
-          <li className="guest__ul__li__login">Login</li>
-          <li className="guest__ul__li__signup">Sign Up</li>
+          <li className="guest__ul__li__interview">
+            <Link to="/interview">Take Interview</Link>
+          </li>
+          <li className="guest__ul__li__login">
+            <Link to="/login">Login</Link>
+          </li>
+          <li className="guest__ul__li__signup">
+            <Link to="/login">SignUp</Link>
+          </li>
         </ul>
       </nav>
     </header>

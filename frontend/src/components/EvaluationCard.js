@@ -27,6 +27,9 @@ const EvaluationCard = React.forwardRef((props, ratings) => {
           </li>
         ))}
       </ul>
+      <button onClick={props.clickHandler} className="save-rating">
+        Save
+      </button>
     </div>
   );
 });

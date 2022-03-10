@@ -51,9 +51,6 @@ function PositionPage(props) {
   const sideMenu = useRef(null);
   const handleToggleButtonClick = () =>
     sideMenu.current.classList.toggle('change');
-  const navClickHandler = () => {
-    setVerificationCard(true);
-  };
 
   return (
     <>
@@ -61,7 +58,6 @@ function PositionPage(props) {
         <NavBar
           handleToggleButtonClick={handleToggleButtonClick}
           burgerButton={true}
-          clickHandler={navClickHandler}
         />
         <SideMenu ref={sideMenu} />
       </div>

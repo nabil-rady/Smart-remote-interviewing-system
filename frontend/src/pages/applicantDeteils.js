@@ -27,6 +27,7 @@ function ApplicantDetails() {
   const [show, setShow] = useState(false);
   const [isTokenFound, setTokenFound] = useState(false);
   const [notification, setNotification] = useState({ title: '', body: '' });
+  const setAuthUser = useContext(UserContext).setAuthUser;
   useEffect(async () => {
     setFirebaseMessageListenerEvent(messaging)
       .then((message) => {
