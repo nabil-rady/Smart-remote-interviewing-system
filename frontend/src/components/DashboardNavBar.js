@@ -11,39 +11,6 @@ import 'firebase/compat/messaging';
 const DashboardNavBar = (props) => {
   const authUser = useContext(UserContext).authUser;
   const isLoggedIn = !!authUser;
-
-  const firebaseConfig = {
-    apiKey: 'AIzaSyDuqj0k4SCgC-KQjHnZhV4dLxMDI8NaiS8',
-    authDomain: 'vividly-notification.firebaseapp.com',
-    projectId: 'vividly-notification',
-    storageBucket: 'vividly-notification.appspot.com',
-    messagingSenderId: '964487453958',
-    appId: '1:964487453958:web:93e6d088edf1bb5fe4d287',
-    measurementId: 'G-G29W0NWEVB',
-  };
-
-  firebase.initializeApp(firebaseConfig);
-  const messaging = firebase.messaging();
-
-  const onMessageListener = () =>
-    new Promise((resolve) => {
-      messaging.onMessage((payload) => {
-        resolve(payload);
-      });
-    });
-  onMessageListener()
-    .then((message) => {
-      console.log(message);
-    })
-    .catch((err) => console.log('failed: ', err));
-  messaging
-    .getToken()
-    .then((token) => {
-      console.log(token);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
   const handleClick = () => {
     const menu = document.querySelector('.navbar-sidemenu');
     const mobileBurgerButton = document.querySelector('.mobile-burger-button');

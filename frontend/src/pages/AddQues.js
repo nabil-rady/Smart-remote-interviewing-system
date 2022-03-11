@@ -21,18 +21,18 @@ function AddQues() {
   const [show, setShow] = useState(false);
   const [notification, setNotification] = useState({ title: '', body: '' });
   const setAuthUser = useContext(UserContext).setAuthUser;
-  useEffect(() => {
-    setFirebaseMessageListenerEvent(messaging)
-      .then((message) => {
-        console.log(message);
-        setNotification(message.notification);
-        setShow(true);
-      })
-      .catch((err) => console.log(err));
-    getFirebaseToken(messaging)
-      .then((token) => console.log(token))
-      .catch((err) => console.log(err));
-  }, []);
+  // useEffect(() => {
+  //   setFirebaseMessageListenerEvent(messaging)
+  //     .then((message) => {
+  //       console.log(message);
+  //       setNotification(message.notification);
+  //       setShow(true);
+  //     })
+  //     .catch((err) => console.log(err));
+  //   getFirebaseToken(messaging)
+  //     .then((token) => console.log(token))
+  //     .catch((err) => console.log(err));
+  // }, []);
   const [error, setError] = useState();
   const [questions, setQuestions] = useState([
     {

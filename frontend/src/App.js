@@ -15,7 +15,7 @@ import { TailSpin } from 'react-loader-spinner';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.scss';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
-
+import NotificationCard from './components/NotificationCard';
 import TakeInterviewPage from './pages/TakeInterview';
 import AddQues from './pages/AddQues';
 import InvitationPage from './pages/inviteUserPage';
@@ -31,7 +31,6 @@ import ViewApplicants from './pages/viewApplicants';
 import ApplicantDetails from './pages/applicantDeteils';
 import NewLanding from './pages/newLandingpage';
 import WelcomePage from './pages/WelcomePage';
-import NotificationTest from './pages/TestNotification';
 import UploadImageToS3WithNativeSdk from './pages/uploadVideos';
 
 // const mockUserObject = {
@@ -54,23 +53,27 @@ function App() {
   const [authUser, setAuthUser] = useState(
     JSON.parse(localStorage.getItem('user')) || null
   );
+  const [notification, setNotification] = useState({
+    title: 'hi',
+    body: 'toz fyk',
+  });
   useEffect(() => {
-    // setFirebaseMessageListenerEvent(messaging)
-    //   .then((message) => {
-    //     console.log(message);
-    //     setNotification(message.notification);
-    //     setShow(true);
-    //   })
-    //   .catch((err) => console.log(err));
-    getFirebaseToken(firebase.messaging())
-      .then((token) => console.log(token))
-      .catch((err) => console.log(err));
-  }, []);
+    if (authUser?.emailConfirmed) {
+      setFirebaseMessageListenerEvent(firebase.messaging())
+        .then((message) => {
+          console.log(message);
+          setNotification(message.notification);
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [authUser]);
   useEffect(() => {
     localStorage.setItem('user', JSON.stringify(authUser));
   }, [authUser]);
   const [loading, setLoading] = useState(false);
   const isVerified = authUser?.emailConfirmed;
+
+  const removeNotification = () => setNotification(false);
 
   const render = () => {
     if (loading) {
@@ -91,6 +94,10 @@ function App() {
       <>
         <LoadingContext.Provider value={{ loading, setLoading }}>
           <UserContext.Provider value={{ authUser, setAuthUser }}>
+            <NotificationCard
+              notification={notification}
+              removeNotification={removeNotification}
+            />
             <Route path="/" exact>
               <NewLanding />
             </Route>
@@ -234,14 +241,6 @@ function App() {
             >
               <WelcomePage />
             </PublicRoute>
-            <PrivateRoute
-              isAuthenticated={!!authUser}
-              isVerified={isVerified}
-              path="/test"
-              exact
-            >
-              <NotificationTest />
-            </PrivateRoute>
             <PrivateRoute
               isAuthenticated={!!authUser}
               path="/evaluate/:applicantId"

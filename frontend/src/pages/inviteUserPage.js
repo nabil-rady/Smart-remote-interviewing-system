@@ -14,18 +14,18 @@ function InvitationPage() {
   const [show, setShow] = useState(false);
   const [notification, setNotification] = useState({ title: '', body: '' });
 
-  useEffect(() => {
-    setFirebaseMessageListenerEvent(messaging)
-      .then((message) => {
-        console.log(message);
-        setNotification(message.notification);
-        setShow(true);
-      })
-      .catch((err) => console.log(err));
-    getFirebaseToken(messaging)
-      .then((token) => console.log(token))
-      .catch((err) => console.log(err));
-  }, []);
+  // useEffect(() => {
+  //   setFirebaseMessageListenerEvent(messaging)
+  //     .then((message) => {
+  //       console.log(message);
+  //       setNotification(message.notification);
+  //       setShow(true);
+  //     })
+  //     .catch((err) => console.log(err));
+  //   getFirebaseToken(messaging)
+  //     .then((token) => console.log(token))
+  //     .catch((err) => console.log(err));
+  // }, []);
 
   const [usersList, setUsersList] = useState([]);
   const sideMenu = useRef(null);

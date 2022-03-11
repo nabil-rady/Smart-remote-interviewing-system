@@ -24,17 +24,6 @@ const LoginForm = () => {
 
   firebase.initializeApp(firebaseConfig);
   const messaging = firebase.messaging();
-  const onMessageListener = () =>
-    new Promise((resolve) => {
-      messaging.onMessage((payload) => {
-        resolve(payload);
-      });
-    });
-  onMessageListener()
-    .then((message) => {
-      console.log(message);
-    })
-    .catch((err) => console.log('failed: ', err));
   messaging
     .getToken()
     .then((token) => {
