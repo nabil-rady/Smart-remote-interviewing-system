@@ -351,7 +351,6 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
-import 'package:simple_s3/simple_s3.dart';
 import '../../local/sharedpreferences.dart';
 import '../../models/session_model.dart';
 import '../../providers/session_provider.dart';

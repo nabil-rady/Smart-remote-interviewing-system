@@ -31,7 +31,7 @@ class AppDrawer extends StatelessWidget {
               accountEmail: Text(employerData.email),
               currentAccountPicture: CircleAvatar(
                 child: Text(
-                  employerData.firstName[0],
+                  employerData.firstName[0].capitalized(),
                   style: const TextStyle(fontSize: 40),
                 ),
                 backgroundColor: Theme.of(context).canvasColor,

@@ -64,7 +64,6 @@ dependencies:
   path_provider: ^2.0.9
   http: ^0.13.4
   flutter_local_notifications: ^9.3.3
-  simple_s3: ^0.3.2
 
 dev_dependencies:
   flutter_test:

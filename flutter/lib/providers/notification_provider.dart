@@ -23,11 +23,13 @@ class Notifications with ChangeNotifier {
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
       final extractedData = responseData['notifications'] as List<dynamic>;
-      print(extractedData);
       final List<NotificationModel> _finalList = [];
       extractedData
           .map((notificationvalue) => _finalList.add(
                 NotificationModel(
+                  interviewId: notificationvalue["interviewId"],
+                  notificationId: notificationvalue["notificationId"],
+                  userId: notificationvalue["userId"],
                   read: notificationvalue["read"],
                   body: notificationvalue["body"],
                   title: notificationvalue["title"],

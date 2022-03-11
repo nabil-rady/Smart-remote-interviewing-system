@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:test/widgets/candidate_info_item.dart';
 
 import '../local/http_exception.dart';
 import '../models/question.dart';
@@ -12,10 +13,22 @@ class PostionDetails with ChangeNotifier {
   List<Question> _items = [];
   List<Candidate> _candidates = [];
   List<VideoEvaluation> _videoEvaluation = [];
+  Candidate _candidate = Candidate(
+      name: "",
+      email: "",
+      phoneCode: "",
+      phoneNumber: '',
+      id: '',
+      submitedAt: '');
+
   PostionDetails(
     this._authToken,
     this._items,
   );
+
+  Candidate get candidateInfo {
+    return _candidate;
+  }
 
   List<Question> get items {
     return [..._items];
@@ -92,6 +105,12 @@ class PostionDetails with ChangeNotifier {
       final responseData = json.decode(response.body);
       final extractedData = responseData['questions'] as List<dynamic>;
       final List<VideoEvaluation> _finalVideoList = [];
+      _candidate.name = responseData['name'];
+      _candidate.email = responseData['email'];
+      _candidate.phoneCode = responseData['phoneCode'];
+      _candidate.phoneNumber = responseData['phoneNumber'];
+      _candidate.submitedAt = responseData['submitedAt'];
+      _candidate.id = interviewid;
       extractedData
           .map(
             (vedioev) => _finalVideoList.add(

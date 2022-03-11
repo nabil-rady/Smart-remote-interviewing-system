@@ -35,7 +35,7 @@ class IntroCamScreen extends StatefulWidget {
 ////////////////////////////////////////////////
 class _IntroCamScreenState extends State<IntroCamScreen> {
   final _channel = WebSocketChannel.connect(
-    Uri.parse('ws://a4e0-45-243-236-6.ngrok.io'),
+    Uri.parse('ws://f944-197-133-174-207.ngrok.io'),
   );
   Timer? _timer;
   late CameraController controller;
