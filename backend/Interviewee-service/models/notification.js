@@ -37,6 +37,11 @@ const Notification = sequelize.define('Notification', {
     allowNull: false,
     defaultValue: false,
   },
+  manualRead: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+  },
 });
 
 User.hasMany(Notification, {

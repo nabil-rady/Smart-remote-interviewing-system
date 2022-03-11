@@ -220,3 +220,35 @@ module.exports.getNotifications = async (req, res, next) => {
     next(err);
   }
 };
+
+module.exports.setNotificationRead = async (req, res, next) => {
+  try {
+    const notificationId = req.params.notificationId;
+    const notification = await User.findOne({
+      where: {
+        notificationId,
+      },
+    });
+
+    await Notification.update(
+      {
+        manualRead: true,
+      },
+      {
+        where: {
+          notificationId,
+        },
+      }
+    );
+
+    res.status(200).json({
+      ...notification,
+      manualRead: true,
+    });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500; // serverSide error
+    }
+    next(err);
+  }
+};

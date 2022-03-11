@@ -13,6 +13,11 @@ const router = express.Router();
 */
 
 router.get('/notifications', isAuth, userControllers.getNotifications);
+router.post(
+  '/read-notification/:notificationId',
+  isAuth,
+  userControllers.setNotificationRead
+);
 
 router.put(
   '/edit',
