@@ -6,7 +6,7 @@ const onMessageListener = (messaging) =>
   });
 
 const setFirebaseMessageListenerEvent = (messaging) => {
-  return onMessageListener();
+  return onMessageListener(messaging);
 };
 
 const getFirebaseToken = (messaging) => {

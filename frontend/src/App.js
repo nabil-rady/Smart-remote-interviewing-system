@@ -1,5 +1,11 @@
 import { Route } from 'react-router-dom';
 
+import firebase from './utils/firebase';
+import {
+  getFirebaseToken,
+  setFirebaseMessageListenerEvent,
+} from './utils/firebaseUtils';
+
 import PublicRoute from './Routes/PublicRoute';
 import PrivateRoute from './Routes/PrivateRoute';
 import LoginPage from './pages/LoginPage';
@@ -48,6 +54,18 @@ function App() {
   const [authUser, setAuthUser] = useState(
     JSON.parse(localStorage.getItem('user')) || null
   );
+  useEffect(() => {
+    // setFirebaseMessageListenerEvent(messaging)
+    //   .then((message) => {
+    //     console.log(message);
+    //     setNotification(message.notification);
+    //     setShow(true);
+    //   })
+    //   .catch((err) => console.log(err));
+    getFirebaseToken(firebase.messaging())
+      .then((token) => console.log(token))
+      .catch((err) => console.log(err));
+  }, []);
   useEffect(() => {
     localStorage.setItem('user', JSON.stringify(authUser));
   }, [authUser]);

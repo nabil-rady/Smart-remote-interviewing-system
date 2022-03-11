@@ -32,18 +32,18 @@ function ViewApplicants() {
   const [verified, setVerified] = useState(false);
   const [interviews, setInterviews] = useState();
 
-  useEffect(() => {
-    setFirebaseMessageListenerEvent(messaging)
-      .then((message) => {
-        console.log(message);
-        setNotification(message.notification);
-        setShow(true);
-      })
-      .catch((err) => console.log(err));
-    getFirebaseToken(messaging)
-      .then((token) => console.log(token))
-      .catch((err) => console.log(err));
-  }, []);
+  // useEffect(() => {
+  //   setFirebaseMessageListenerEvent(messaging)
+  //     .then((message) => {
+  //       console.log(message);
+  //       setNotification(message.notification);
+  //       setShow(true);
+  //     })
+  //     .catch((err) => console.log(err));
+  //   getFirebaseToken(messaging)
+  //     .then((token) => console.log(token))
+  //     .catch((err) => console.log(err));
+  // }, []);
 
   const sideMenu = useRef(null);
   const handleToggleButtonClick = () =>

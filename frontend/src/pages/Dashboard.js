@@ -4,7 +4,7 @@ import ListingPage from './Listingpage';
 import NotificationPage from './NotificationsPage';
 import ProfilePage from './Profile';
 import { Toast } from 'react-bootstrap';
-import messaging from '../utils/firebase';
+// import messaging from '../utils/firebase';
 import {
   setFirebaseMessageListenerEvent,
   getFirebaseToken,
@@ -13,18 +13,18 @@ import {
 const Dashboard = () => {
   const [show, setShow] = useState(false);
   const [notification, setNotification] = useState({ title: '', body: '' });
-  useEffect(() => {
-    setFirebaseMessageListenerEvent(messaging)
-      .then((message) => {
-        console.log(message);
-        setNotification(message.notification);
-        setShow(true);
-      })
-      .catch((err) => console.log(err));
-    getFirebaseToken(messaging)
-      .then((token) => console.log(token))
-      .catch((err) => console.log(err));
-  }, []);
+  // useEffect(() => {
+  //   setFirebaseMessageListenerEvent(messaging)
+  //     .then((message) => {
+  //       console.log(message);
+  //       setNotification(message.notification);
+  //       setShow(true);
+  //     })
+  //     .catch((err) => console.log(err));
+  //   getFirebaseToken(messaging)
+  //     .then((token) => console.log(token))
+  //     .catch((err) => console.log(err));
+  // }, []);
 
   const [listing, setListing] = useState(false);
   const [notifications, setNotifications] = useState(true);

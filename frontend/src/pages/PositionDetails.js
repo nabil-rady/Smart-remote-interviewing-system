@@ -20,18 +20,18 @@ const PositionDetails = () => {
   const { authUser, setAuthUser } = useContext(UserContext);
   const [show, setShow] = useState(false);
   const [notification, setNotification] = useState({ title: '', body: '' });
-  useEffect(() => {
-    setFirebaseMessageListenerEvent(messaging)
-      .then((message) => {
-        console.log(message);
-        setNotification(message.notification);
-        setShow(true);
-      })
-      .catch((err) => console.log(err));
-    getFirebaseToken(messaging)
-      .then((token) => console.log(token))
-      .catch((err) => err);
-  }, []);
+  // useEffect(() => {
+  //   setFirebaseMessageListenerEvent(messaging)
+  //     .then((message) => {
+  //       console.log(message);
+  //       setNotification(message.notification);
+  //       setShow(true);
+  //     })
+  //     .catch((err) => console.log(err));
+  //   getFirebaseToken(messaging)
+  //     .then((token) => console.log(token))
+  //     .catch((err) => err);
+  // }, []);
   const sideMenu = useRef(null);
   const [position, setPosition] = useState();
   const handleToggleButtonClick = () =>

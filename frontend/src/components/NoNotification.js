@@ -1,6 +1,7 @@
 import React from 'react';
 import './scss/NoNotification.scss';
 import Notificationimg from './SVGs/notification-bell.png';
+
 const NoNotification = (props) => {
   return (
     <div className="noNotification">
@@ -12,4 +13,5 @@ const NoNotification = (props) => {
     </div>
   );
 };
+
 export default NoNotification;
