@@ -3,7 +3,7 @@ import Images from '../Images';
 import Circle from '../Circle';
 import Triangle from '../Triangle';
 import TextContent from '../TextContent';
-import Fade from 'react-reveal/Fade';
+import { Fade } from 'react-awesome-reveal';
 const Scholarships = () => {
   return (
     <section className="feature_section home_section6 bg_3" id="scholarships">
@@ -31,7 +31,7 @@ const Scholarships = () => {
       <div className="custom_container">
         <div className="row">
           <div className="col-md-7 my-auto">
-            <Fade left>
+            <Fade direction="left" triggerOnce="true">
               <TextContent
                 title="Find Scholarships best suited for you"
                 desc="Easily find scholarships that match your profile through our

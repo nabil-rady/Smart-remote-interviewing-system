@@ -34,7 +34,7 @@
 //   background: white;
 // }
 .my-auto {
-  z-index: 5;
+  z-index: 11;
 }
 a:hover {
   text-decoration: none;
@@ -477,7 +477,7 @@ section.main_sec {
   height: 15.875rem;
   z-index: 1;
   position: absolute;
-  z-index: 1;
+  z-index: 0;
   border-radius: 50%;
   background: #666;
 }
@@ -580,6 +580,7 @@ section.main_sec {
 .app_img {
   position: relative;
   padding-left: 3rem;
+  z-index: 10;
 }
 
 .home_screen_section .app_img .circle_254 {
@@ -626,7 +627,7 @@ section.home_section1 .circle_22 {
   position: absolute;
   left: 3.6rem;
   bottom: -1.3rem;
-  z-index: 1;
+  z-index: -1;
 }
 
 .about_app h4 {
@@ -791,7 +792,7 @@ section.feature_section.home_section2 {
   position: absolute;
   bottom: -9rem;
   right: 0rem;
-  z-index: 9;
+  z-index: -1;
 }
 
 .home_section4 .svg9 {
@@ -854,7 +855,7 @@ section.feature_section.home_section2 {
   background: #fcb100;
   right: 9rem;
   bottom: -5rem;
-  z-index: 1;
+  z-index: -1;
 }
 
 .home_section5 .app_img .circle_24 {
@@ -863,6 +864,7 @@ section.feature_section.home_section2 {
   right: 10.5rem;
   left: auto;
   background: #6f7474;
+  z-index: -1;
 }
 
 .home_section5 .circle_15 {
@@ -917,6 +919,7 @@ section.feature_section.home_section2 {
   position: absolute;
   right: -5rem;
   bottom: -6rem;
+  z-index: -1;
 }
 
 .home_section6 .about_app_left {
@@ -972,7 +975,7 @@ section.feature_section.home_section2 {
   position: absolute;
   bottom: -3rem;
   left: -4rem;
-  z-index: 1;
+  z-index: -1;
 }
 
 .home_section7 .app_img {
@@ -995,6 +998,7 @@ section.feature_section.home_section2 {
   top: 19rem;
   right: 10rem;
   background: #4442c2;
+  z-index: -1;
 }
 
 .home_section7 .circle_12 {
@@ -1012,7 +1016,7 @@ section.feature_section.home_section2 {
   top: -3rem;
   left: 5rem;
   background: #d338f8;
-  z-index: 1;
+  z-index: -1;
 }
 
 .home_section8 .circle_50 {
@@ -1756,6 +1760,7 @@ form.login_form,
 .home_section2 .square_304,
 .business_sec3 .square_304 {
   animation: ak2 5s linear alternate infinite;
+  z-index: 0;
 }
 
 .home_section3 .svg6 svg path {
@@ -1776,6 +1781,7 @@ form.login_form,
 
 .home_section6 .square_304 {
   animation: ak8 5s linear alternate infinite;
+  z-index: -1;
 }
 
 .home_section6 .svg12 svg path {
@@ -2613,6 +2619,7 @@ form.login_form,
   }
   .home_section4 .circle_15 {
     bottom: -10rem;
+    display: none;
   }
   .home_section5 .app_img .svg10 {
     top: -10rem;
@@ -2833,6 +2840,7 @@ form.login_form,
     left: 2.6rem;
     bottom: -8rem;
     width: 22rem;
+    z-index: -1;
   }
   .app_img .circle_24 {
     top: 7rem;
@@ -2862,6 +2870,9 @@ form.login_form,
   .app_img_right .svg4 {
     bottom: -6rem;
     left: -2rem;
+    z-index: -1;
+  }
+  .text-center {
     z-index: 1;
   }
   .home_section3 .about_app {
@@ -2950,7 +2961,7 @@ form.login_form,
     right: 1rem;
     bottom: -10rem;
     width: 18rem;
-    z-index: 1;
+    z-index: -1;
   }
   .home_section6 {
     padding: 0rem 0rem 7rem;

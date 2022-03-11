@@ -3,14 +3,14 @@ import Images from '../Images';
 import Circle from '../Circle';
 import Triangle from '../Triangle';
 import TextContent from '../TextContent';
-import Fade from 'react-reveal/Fade';
+import { Fade } from 'react-awesome-reveal';
 const Jobs = () => {
   return (
     <section className="feature_section home_section5" id="jobs">
       <div className="custom_container">
         <div className="row">
           <div className="col-md-7 order-md-2 my-auto">
-            <Fade right>
+            <Fade direction="right" triggerOnce="true">
               <TextContent
                 title="Prepare for Jobs and Higher Studies"
                 desc="Prepare for Placements, CAT, GATE or Government Exams through
