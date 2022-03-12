@@ -1,10 +1,8 @@
 import React, { useState, useRef } from 'react';
 import NavBar from '../components/NavBar';
 import Intro from '../components/Intro';
-import SideMenu from '../components/SideMenu';
 import EmailVerification from '../components/EmailVerification';
 function IntroPage() {
-  const sideMenu = useRef(null);
   const [verificationCard, setVerificationCard] = useState(false);
   const [verified, setVerified] = useState(false);
   const handleToggleButtonClick = () =>
@@ -22,13 +20,7 @@ function IntroPage() {
         <EmailVerification verificationHandler={cardClickHandler} />
       )}
       <div className="blue-gradient">
-        <NavBar
-          handleToggleButtonClick={handleToggleButtonClick}
-          burgerButton={true}
-          clickHandler={navClickHandler}
-          verified={verified}
-        />
-        <SideMenu ref={sideMenu} />
+        <NavBar burgerButton={true} />
       </div>
       <Intro />
     </>

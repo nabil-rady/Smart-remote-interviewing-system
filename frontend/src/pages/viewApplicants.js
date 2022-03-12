@@ -45,7 +45,7 @@ function ViewApplicants() {
   //     .catch((err) => console.log(err));
   // }, []);
 
-  const sideMenu = useRef(null);
+  const sideMenu = useRef();
   const handleToggleButtonClick = () =>
     sideMenu.current.classList.toggle('change');
   const navClickHandler = () => {

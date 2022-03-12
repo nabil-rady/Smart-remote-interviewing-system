@@ -7,7 +7,7 @@ import NavBar from '../components/NavBar';
 import SideMenu from '../components/SideMenu';
 
 function NewLanding() {
-  const sideMenu = useRef(null);
+  const sideMenu = useRef();
   const handleToggleButtonClick = () =>
     sideMenu.current.classList.toggle('change');
 
