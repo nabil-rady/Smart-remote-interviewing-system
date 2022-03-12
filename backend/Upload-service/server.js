@@ -12,7 +12,7 @@ const RegistartionToken = require('./models/registrationToken');
 const Notification = require('./models/notification');
 
 // import rabbitMQ function
-const rabbitMQ = require('./utils/rabbitMQ');
+const upload = require('./utils/upload').upload;
 
 // connect to database, then listen for Results queue
 sequelize
@@ -21,6 +21,6 @@ sequelize
   })
   .then((result) => {
     console.log('Notification service is running........');
-    rabbitMQ.consume(); // listen for Results queue
+    upload(); // listen for Results queue
   })
   .catch((err) => console.log(err));

@@ -85,9 +85,8 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYWQ1NzIwYi00
 
 ###
 
-GET {{host}}:8001/user/read-notification/7c809232-715a-4fce-9596-5f62fc654735
+Post {{host}}:8001/user/read-notification/7c809232-715a-4fce-9596-5f62fc654735
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYWQ1NzIwYi00YzNmLTQ2NTctOTA2MC1kN2ZjNTk0MTQ5OGYiLCJpYXQiOjE2NDcwODY5MTYsImV4cCI6MTY0NzEyMjkxNn0.B-zbiSjnZgFBIs5ZKeb_8a2iHZ0L9QTH01SOr_GFqJM
-Content-Type: application/json
 
 ###
 
