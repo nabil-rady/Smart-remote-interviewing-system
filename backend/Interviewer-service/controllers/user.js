@@ -223,12 +223,38 @@ module.exports.getNotifications = async (req, res, next) => {
 
 module.exports.setNotificationRead = async (req, res, next) => {
   try {
+    const userId = req.userId;
+    const user = await User.findOne({
+      where: {
+        userId,
+      },
+    });
+
+    // check if the user is logged in
+    if (!user.dataValues.loggedIn) {
+      const err = new Error('Please log in');
+      err.statusCode = 401;
+      throw err;
+    }
+    // check if the user's email is confirmed
+    if (!user.dataValues.emailConfirmed) {
+      const err = new Error('Please confirm your email');
+      err.statusCode = 401;
+      throw err;
+    }
+
     const notificationId = req.params.notificationId;
-    const notification = await User.findOne({
+    const fetchedNotification = await User.findOne({
       where: {
         notificationId,
       },
     });
+
+    if (fetchedNotification === null) {
+      const error = new Error('Notification not found.');
+      error.statusCode = 404;
+      throw error;
+    }
 
     await Notification.update(
       {
@@ -240,6 +266,8 @@ module.exports.setNotificationRead = async (req, res, next) => {
         },
       }
     );
+
+    const notification = fetchedNotification.dataValues;
 
     res.status(200).json({
       ...notification,

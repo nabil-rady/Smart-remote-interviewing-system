@@ -189,7 +189,7 @@ paths:
         - name: Authorization
           in: header
           required: true
-          description: jwt of the loggedin user.
+          description: JWT of the authorized user.
           schema:
             type: string
       requestBody:
@@ -229,7 +229,7 @@ paths:
         - name: Authorization
           in: header
           required: true
-          description: jwt of the loggedin user.
+          description: JWT of the authorized user.
           schema:
             type: string
       responses:
@@ -261,7 +261,7 @@ paths:
         - name: Authorization
           in: header
           required: true
-          description: jwt of the loggedin user.
+          description: JWT of the authorized user.
           schema:
             type: string
 
@@ -308,7 +308,7 @@ paths:
         - name: Authorization
           in: header
           required: true
-          description: jwt of the loggedin user.
+          description: JWT of the authorized user.
           schema:
             type: string
       requestBody:
@@ -365,7 +365,7 @@ paths:
         - name: Authorization
           in: header
           required: true
-          description: jwt of the loggedin user.
+          description: JWT of the authorized user.
           schema:
             type: string
       requestBody:
@@ -398,6 +398,86 @@ paths:
         '500':
           description: Server side error.
 
+  /user/notifications:
+    get:
+      summary: Get notification for a user.
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          description: JWT of the authorized user.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Notifications have been successfully retrieved.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    notificationId:
+                      type: string
+                    userId:
+                      type: string
+                    interviewId:
+                      type: string
+                    title:
+                      type: string
+                    body:
+                      type: string
+                    read:
+                      type: boolean
+                    manualRead:
+                      type: boolean
+        '401':
+          description: Authentication failed.
+        '500':
+          description: Server side error.
+  /user/read-notification:
+    post:
+      summary: Set notification as read.
+      parameters:
+        - name: Autorization
+          in: header
+          description: JWT of the authorized user.
+          schema:
+            type: string
+        - name: notificationId
+          in: path
+          dsecription: The id of the notification to be set as read.
+          schema:
+            type: string
+      respones:
+        '200':
+          description: Notifications have been successfully set as read.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  notificationId:
+                    type: string
+                  userId:
+                    type: string
+                  interviewId:
+                    type: string
+                  title:
+                    type: string
+                  body:
+                    type: string
+                  read:
+                    type: boolean
+                  manualRead:
+                    type: boolean
+        '401':
+          description: Authentication failed.
+        '404':
+          description: Notification not found.
+        '500':
+          description: Server side error.
   /job-listing/create:
     post:
       summary: Create a job listing.
@@ -405,7 +485,7 @@ paths:
         - name: Authorization
           in: header
           required: true
-          description: jwt of the loggedin user.
+          description: JWT of the authorized user.
           schema:
             type: string
       requestBody:
@@ -482,7 +562,7 @@ paths:
         - name: Authorization
           in: header
           required: true
-          description: jwt of the loggedin user.
+          description: JWT of the authorized user.
           schema:
             type: string
       responses:
@@ -529,7 +609,7 @@ paths:
         - name: Authorization
           in: header
           required: true
-          description: jwt of the loggedin user.
+          description: JWT of the authorized user.
           schema:
             type: string
       responses:
@@ -605,7 +685,7 @@ paths:
         - name: Authorization
           in: header
           required: true
-          description: jwt of the loggedin user.
+          description: JWT of the authorized user.
           schema:
             type: string
       requestBody:
