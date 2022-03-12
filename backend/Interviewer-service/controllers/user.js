@@ -244,13 +244,13 @@ module.exports.setNotificationRead = async (req, res, next) => {
     }
 
     const notificationId = req.params.notificationId;
-    const notification = await User.findOne({
+    const fetchedNotification = await User.findOne({
       where: {
         notificationId,
       },
     });
 
-    if (notification === null) {
+    if (fetchedNotification === null) {
       const error = new Error('Notification not found.');
       error.statusCode = 404;
       throw error;
@@ -266,6 +266,8 @@ module.exports.setNotificationRead = async (req, res, next) => {
         },
       }
     );
+
+    const notification = fetchedNotification.dataValues;
 
     res.status(200).json({
       ...notification,
