@@ -138,32 +138,31 @@ module.exports.getUserListings = async (req, res, next) => {
       where: {
         userId,
       },
+      include: [
+        {
+          model: Interview,
+        },
+      ],
     });
 
-    const returnedListings = jobListings.map((listing) => ({
-      ...listing.dataValues,
-    }));
+    const returnedListings = jobListings.map((listing) => {
+      const { Interviews, ...jobListing } = listing.dataValues;
+      if (Interviews.length === 0) {
+        jobListing.invitationsNumber = 0;
+        jobListing.interviewsNumber = 0;
+      } else {
+        let finishedInterviews = 0;
+        for (let interview of Interviews) {
+          if (interview.dataValues.submitedAt) {
+            finishedInterviews++;
+          }
+        }
 
-    for (let listing of returnedListings) {
-      const invitations = await Interview.findAll({
-        where: {
-          jobListingId: listing.jobListingId,
-        },
-      });
-
-      const notFinishedInterviews = await Interview.findAll({
-        where: {
-          jobListingId: listing.jobListingId,
-          submitedAt: null,
-        },
-      });
-
-      listing.invitationsNumber = invitations ? invitations.length : 0;
-      listing.interviewsNumber =
-        invitations && notFinishedInterviews
-          ? invitations.length - notFinishedInterviews.length
-          : 0;
-    }
+        jobListing.invitationsNumber = Interviews.length;
+        jobListing.interviewsNumber = finishedInterviews;
+      }
+      return jobListing;
+    });
 
     res.status(200).json({
       jobListings: returnedListings,
@@ -204,8 +203,21 @@ module.exports.getListing = async (req, res, next) => {
       where: {
         jobListingId: listingId,
       },
+      include: [
+        {
+          model: Interview,
+          where: {
+            submitedAt: {
+              [Op.not]: null,
+            },
+          },
+        },
+        {
+          model: Question,
+        },
+      ],
     });
-
+    
     // check if the listing exists
     if (!jobListing) {
       const err = new Error('Listing is not found.');
@@ -220,70 +232,49 @@ module.exports.getListing = async (req, res, next) => {
       throw err;
     }
 
-    // get the number of invitations and finished interviews
-    const invitations = await Interview.findAll({
-      where: {
-        jobListingId: jobListing.jobListingId,
-      },
-    });
-
-    const notFinishedInterviews = await Interview.findAll({
-      where: {
-        jobListingId: jobListing.jobListingId,
-        submitedAt: null,
-      },
-    });
-
-    const finishedInterviewsObjects = await Interview.findAll({
-      where: {
-        jobListingId: jobListing.jobListingId,
-        submitedAt: {
-          [Op.not]: null,
-        },
-      },
-    });
-
-    const finishedInterviews = finishedInterviewsObjects.map((i) => {
-      return i.dataValues;
-    });
-
-    // get the listing's questions
-    const questionObjects = await Question.findAll({
-      where: {
-        jobListingId: listingId,
-      },
-    });
-    let questions = questionObjects.map((questionObject) => ({
-      ...questionObject.dataValues,
-    }));
-
-    // attach the keywords to each question
-    for (let i = 0; i < questions.length; i++) {
-      const keywords = await Keyword.findAll({
-        where: {
-          questionId: questions[i].questionId,
-        },
-      });
-      questions[i].keywords = keywords.map(
-        (keyword) => keyword.dataValues.value
-      );
-    }
-
     // construct the object
-    const returnedObject = {
-      ...jobListing.dataValues,
-      invitationsNumber: invitations ? invitations.length : 0,
-      interviewsNumber:
-        invitations && notFinishedInterviews
-          ? invitations.length - notFinishedInterviews.length
-          : 0,
-      questions,
-      interviews: finishedInterviews,
-    };
+    const {Interviews, Questions, ...returnedObject} = jobListing.dataValues;
+    
+    // attach questions with its keywords
+    returnedObject.questions = [];
+    for (let question of Questions){
+      const keywords = await Keyword.findAll({
+        where:{
+          questionId: question.dataValues.questionId
+        }
+      });
+      returnedObject.questions.push({
+        ...question.dataValues,
+        keywords: keywords.map(keyword =>{
+          return keyword.dataValues.value
+        })
+      })
+    }
+    
+    // attach interviews
+    if (Interviews.length === 0) {
+      returnedObject.invitationsNumber = 0;
+      returnedObject.interviewsNumber = 0;
+    } else {
+      let finishedInterviews = 0;
+      for (let interview of Interviews) {
+        if (interview.dataValues.submitedAt) {
+          finishedInterviews++;
+          if (returnedObject.interviews){
+            returnedObject.interviews.push({...interview.dataValues});
+          } else {
+            returnedObject.interviews = [];
+            returnedObject.interviews.push({...interview.dataValues});
+          }
+        }
+      }
+      returnedObject.invitationsNumber = Interviews.length;
+      returnedObject.interviewsNumber = finishedInterviews;
+    }
 
     // send the response
     res.status(200).json({
-      ...returnedObject,
+      returnedObject,
     });
   } catch (err) {
     if (!err.statusCode) {
