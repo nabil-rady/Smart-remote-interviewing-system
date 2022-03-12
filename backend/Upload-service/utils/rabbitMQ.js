@@ -21,10 +21,14 @@ module.exports.consume = async () => {
       'Videos',
       async (message) => {
         const answer = JSON.parse(message.content.toString());
-        console.log(answer.interviewId, answer.questionId, answer.video, answer.lastVideo);
-        
-        // UPLOAD TO AWS
+        console.log(
+          answer.interviewId,
+          answer.questionId,
+          answer.video,
+          answer.lastVideo
+        );
 
+        // UPLOAD TO AWS
       },
       {
         noAck: true,

@@ -39,6 +39,8 @@ paths:
                   type: string
                 phoneNumber:
                   type: string
+                registrationToken:
+                  type: string
       responses:
         '201':
           description: A new user is created.
@@ -68,22 +70,26 @@ paths:
                         type: boolean
                       emailConfirmed:
                         type: boolean
+                  token:
+                    type: string
+                  tokenExpireDate:
+                    format: date-time
         '422':
           description: Input validation faild.
         '500':
           description: Server side error.
+
   /user/confirm-email:
     post:
       summary: Send Email confirmation to the user.
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                userId:
-                  type: string
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          description: jwt of the loggedin user.
+          schema:
+            type: string
+
       responses:
         '200':
           description: Email confirmation has been sent.
@@ -98,9 +104,17 @@ paths:
           description: User not found.
         '500':
           description: Server side error.
+
   /user/verify/:
     post:
       summary: Confirm user's email in the database.
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          description: jwt of the loggedin user.
+          schema:
+            type: string
       requestBody:
         required: true
         content:
@@ -108,8 +122,6 @@ paths:
             schema:
               type: object
               properties:
-                userId:
-                  type: string
                 verificationCode:
                   type: string
       responses:
@@ -141,6 +153,8 @@ paths:
                 email:
                   type: string
                 password:
+                  type: string
+                registrationToken:
                   type: string
       responses:
         '200':
@@ -182,14 +196,14 @@ paths:
         '500':
           description: Server side error.
 
-  /user/registration-token:
+  /user/logout:
     post:
-      summary: Submit the registration token of the device.
+      summary: Logout for an interviewer.
       parameters:
         - name: Authorization
           in: header
           required: true
-          description: JWT of the authorized user.
+          description: jwt of the loggedin user.
           schema:
             type: string
       requestBody:
@@ -201,37 +215,6 @@ paths:
               properties:
                 registrationToken:
                   type: string
-                web:
-                  type: boolean
-                mobile:
-                  type: boolean
-      responses:
-        '200':
-          description: Registration token saved.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-        '404':
-          description: User not found.
-        '401':
-          description: Authentecation faild.
-        '500':
-          description: Server side error.
-
-  /user/logout:
-    post:
-      summary: Logout for an interviewer.
-      parameters:
-        - name: Authorization
-          in: header
-          required: true
-          description: JWT of the authorized user.
-          schema:
-            type: string
       responses:
         '200':
           description: Loggedout.
@@ -261,7 +244,7 @@ paths:
         - name: Authorization
           in: header
           required: true
-          description: JWT of the authorized user.
+          description: jwt of the loggedin user.
           schema:
             type: string
 
@@ -308,7 +291,7 @@ paths:
         - name: Authorization
           in: header
           required: true
-          description: JWT of the authorized user.
+          description: jwt of the loggedin user.
           schema:
             type: string
       requestBody:
@@ -365,7 +348,7 @@ paths:
         - name: Authorization
           in: header
           required: true
-          description: JWT of the authorized user.
+          description: jwt of the loggedin user.
           schema:
             type: string
       requestBody:
@@ -400,57 +383,63 @@ paths:
 
   /user/notifications:
     get:
-      summary: Get notification for a user.
+      summary: get user's notifications.
       parameters:
         - name: Authorization
           in: header
           required: true
-          description: JWT of the authorized user.
+          description: jwt of the loggedin user.
           schema:
             type: string
       responses:
         '200':
-          description: Notifications have been successfully retrieved.
+          description: get all user's notifications.
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    notificationId:
-                      type: string
-                    userId:
-                      type: string
-                    interviewId:
-                      type: string
-                    title:
-                      type: string
-                    body:
-                      type: string
-                    read:
-                      type: boolean
-                    manualRead:
-                      type: boolean
+                type: object
+                properties:
+                  notifications:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        notificationId:
+                          type: string
+                        userId:
+                          type: string
+                        interviewId:
+                          type: string
+                        title:
+                          type: string
+                        body:
+                          type: string
+                        read:
+                          type: boolean
         '401':
-          description: Authentication failed.
+          description: Authentecation faild or unconfirmed email.
+        '422':
+          description: Validation error.
         '500':
           description: Server side error.
-  /user/read-notification:
+
+  /user/read-notification/{notificationId}:
     post:
       summary: Set notification as read.
       parameters:
         - name: Autorization
           in: header
+          required: true
           description: JWT of the authorized user.
           schema:
             type: string
         - name: notificationId
           in: path
-          dsecription: The id of the notification to be set as read.
+          required: true
+          description: The id of the notification to be set as read.
           schema:
             type: string
-      respones:
+      responses:
         '200':
           description: Notifications have been successfully set as read.
           content:
@@ -478,6 +467,7 @@ paths:
           description: Notification not found.
         '500':
           description: Server side error.
+
   /job-listing/create:
     post:
       summary: Create a job listing.
@@ -485,7 +475,7 @@ paths:
         - name: Authorization
           in: header
           required: true
-          description: JWT of the authorized user.
+          description: jwt of the loggedin user.
           schema:
             type: string
       requestBody:
@@ -562,7 +552,7 @@ paths:
         - name: Authorization
           in: header
           required: true
-          description: JWT of the authorized user.
+          description: jwt of the loggedin user.
           schema:
             type: string
       responses:
@@ -596,6 +586,7 @@ paths:
           description: Validation error.
         '500':
           description: Server side error.
+
   /job-listing/{listing_id}:
     get:
       summary: get the information of a single listing.
@@ -609,7 +600,7 @@ paths:
         - name: Authorization
           in: header
           required: true
-          description: JWT of the authorized user.
+          description: jwt of the loggedin user.
           schema:
             type: string
       responses:
@@ -685,7 +676,7 @@ paths:
         - name: Authorization
           in: header
           required: true
-          description: JWT of the authorized user.
+          description: jwt of the loggedin user.
           schema:
             type: string
       requestBody:
