@@ -211,6 +211,7 @@ module.exports.getListing = async (req, res, next) => {
               [Op.not]: null,
             },
           },
+          required: false,
         },
         {
           model: Question,

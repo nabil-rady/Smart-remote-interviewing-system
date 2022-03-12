@@ -32,7 +32,7 @@ const PositionDetails = () => {
   //     .then((token) => console.log(token))
   //     .catch((err) => err);
   // }, []);
-  const sideMenu = useRef(null);
+  const sideMenu = useRef();
   const [position, setPosition] = useState();
   const handleToggleButtonClick = () =>
     sideMenu.current.classList.toggle('change');

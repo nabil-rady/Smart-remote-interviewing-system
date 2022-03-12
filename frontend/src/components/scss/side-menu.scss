@@ -36,6 +36,9 @@
   position: relative;
   padding: 2px 0;
 }
+.nav_link:hover {
+  color: $primary-blue;
+}
 
 .nav_link::before,
 .nav_link::after {
@@ -44,18 +47,18 @@
   height: 2px;
   background-color: $primary-blue;
   position: absolute;
-  left: 0;
+  right: 0;
   transform: scaleX(0);
   transition: transform 0.5s;
 }
 .nav_link::after {
   bottom: 0;
-  transform-origin: right;
+  transform-origin: left;
 }
 
 .nav_link::before {
   top: 0;
-  transform-origin: left;
+  transform-origin: right;
 }
 
 .nav_link:hover::before,
@@ -65,13 +68,11 @@
 .burger_container {
   position: fixed;
   top: 0;
-  left: -280px;
+  right: -280px;
   width: 280px;
-  background: rgba(0, 0, 0, 0);
-  transition: left 0.3s ease-in-out;
+  transition: right 0.3s ease-in-out;
   &.change {
-    left: 0;
-    background: rgba(0, 0, 0, 0.3);
+    right: 0;
   }
 }
 .burger-bars-wrapper {
@@ -80,10 +81,16 @@
 .nav_header {
   list-style: none;
   background-color: $primary-blue;
-  height: 230px;
-  padding: 2rem;
-  padding-top: 0.7rem;
+  height: 65px;
+  // padding: 2rem;
+  // padding-top: 0.7rem;
   width: 100%;
+  color: white;
+  font-family: 'Baskerville Old Face';
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  padding-top: 0.5rem;
 }
 .letter {
   margin: 10px auto;

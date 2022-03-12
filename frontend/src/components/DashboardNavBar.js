@@ -7,7 +7,7 @@ import NavBarUserInfoMenu from './NavBarUserInfoMenu';
 import './scss/dashboard-navbar.scss';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/messaging';
-
+import notification from './SVGs/notification.png';
 const DashboardNavBar = (props) => {
   const authUser = useContext(UserContext).authUser;
   const isLoggedIn = !!authUser;
@@ -43,6 +43,7 @@ const DashboardNavBar = (props) => {
             Edit Profile
           </li>
         </ul>
+        <img src={notification} className="notificationImg" />
         <ul
           tabIndex="-1"
           className={`header__navbar__ul user-info ${

@@ -22,7 +22,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
   late Future _notificationsFuture;
   var _isLoading = false;
   late Candidate candidate;
-  Future<void> _submit(String interviewId) async {
+  Future<void> _submit(String interviewId, String notificationId) async {
     print(_isLoading);
     setState(() {
       _isLoading = true;
@@ -35,8 +35,14 @@ class _NotificationScreenState extends State<NotificationScreen> {
           .then((value) {
         candidate =
             Provider.of<PostionDetails>(context, listen: false).candidateInfo;
-        Navigator.of(context)
-            .pushNamed('/applicant_details', arguments: candidate);
+        Provider.of<Notifications>(context, listen: false)
+            .notificationRead(notificationId)
+            .then((value) {
+          Navigator.of(context)
+              .pushNamed('/applicant_details', arguments: candidate);
+        });
+        // Navigator.of(context)
+        //     .pushNamed('/applicant_details', arguments: candidate);
       });
       /////////////////////////////////////////////////////////////////////////////('
     } on HttpException catch (error) {
@@ -149,18 +155,30 @@ class _NotificationScreenState extends State<NotificationScreen> {
                       )
                     : ListView.builder(
                         itemCount: notificationData.notifications.length,
-                        itemBuilder: (ctx, i) => ListTile(
-                            leading: _isLoading
-                                ? CircularProgressIndicator()
-                                : const Icon(
-                                    Icons.done,
-                                    color: Colors.green,
-                                    size: 40.0,
-                                  ),
-                            title: Text(notificationData.notifications[i].body
-                                .capitalized()),
-                            onTap: () => _submit(
-                                notificationData.notifications[i].interviewId)),
+                        itemBuilder: (ctx, i) => Ink(
+                          color: notificationData.notifications[i].manualRead
+                              ? null
+                              : Color.fromARGB(124, 110, 137, 204),
+                          //   Container(
+                          // color: notificationData.notifications[i].manualRead
+                          //     ? null
+                          //     : Color.fromARGB(124, 110, 137, 204),
+                          child: ListTile(
+                              leading: _isLoading
+                                  ? CircularProgressIndicator()
+                                  : const Icon(
+                                      Icons.done,
+                                      color: Colors.green,
+                                      size: 40.0,
+                                    ),
+                              title: Text(notificationData.notifications[i].body
+                                  .capitalized()),
+                              onTap: () => _submit(
+                                  notificationData.notifications[i].interviewId,
+                                  notificationData
+                                      .notifications[i].notificationId)),
+                        ),
+                        // ),
                       ),
               );
             }

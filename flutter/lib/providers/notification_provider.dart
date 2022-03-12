@@ -23,6 +23,7 @@ class Notifications with ChangeNotifier {
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
       final extractedData = responseData['notifications'] as List<dynamic>;
+      print(extractedData);
       final List<NotificationModel> _finalList = [];
       extractedData
           .map((notificationvalue) => _finalList.add(
@@ -33,6 +34,7 @@ class Notifications with ChangeNotifier {
                   read: notificationvalue["read"],
                   body: notificationvalue["body"],
                   title: notificationvalue["title"],
+                  manualRead: notificationvalue["manualRead"],
                 ),
               ))
           .toList();
@@ -42,5 +44,25 @@ class Notifications with ChangeNotifier {
     } else {
       throw HttpException(responseData['message']);
     }
+  }
+
+  Future<void> notificationRead(String notificationId) async {
+    final response = await http.post(
+      Uri.parse('http://10.0.2.2:8000/user/read-notification/$notificationId'),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': getUserToken().toString(),
+      },
+    );
+    print("done");
+    print(response);
+
+    // if (response.statusCode == 200) {
+    //   print(responseData);
+    // } else {
+    //   throw HttpException(responseData['message']);
+    // }
+
+    notifyListeners();
   }
 }

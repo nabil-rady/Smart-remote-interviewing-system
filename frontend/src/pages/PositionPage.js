@@ -41,7 +41,7 @@ function PositionPage(props) {
   const [show, setShow] = useState(false);
   const [notification, setNotification] = useState({ title: '', body: '' });
 
-  const sideMenu = useRef(null);
+  const sideMenu = useRef();
   const handleToggleButtonClick = () =>
     sideMenu.current.classList.toggle('change');
 
