@@ -217,7 +217,7 @@ module.exports.getListing = async (req, res, next) => {
         },
       ],
     });
-    
+
     // check if the listing exists
     if (!jobListing) {
       const err = new Error('Listing is not found.');
@@ -233,24 +233,24 @@ module.exports.getListing = async (req, res, next) => {
     }
 
     // construct the object
-    const {Interviews, Questions, ...returnedObject} = jobListing.dataValues;
-    
+    const { Interviews, Questions, ...returnedObject } = jobListing.dataValues;
+
     // attach questions with its keywords
     returnedObject.questions = [];
-    for (let question of Questions){
+    for (let question of Questions) {
       const keywords = await Keyword.findAll({
-        where:{
-          questionId: question.dataValues.questionId
-        }
+        where: {
+          questionId: question.dataValues.questionId,
+        },
       });
       returnedObject.questions.push({
         ...question.dataValues,
-        keywords: keywords.map(keyword =>{
-          return keyword.dataValues.value
-        })
-      })
+        keywords: keywords.map((keyword) => {
+          return keyword.dataValues.value;
+        }),
+      });
     }
-    
+
     // attach interviews
     if (Interviews.length === 0) {
       returnedObject.invitationsNumber = 0;
@@ -260,11 +260,11 @@ module.exports.getListing = async (req, res, next) => {
       for (let interview of Interviews) {
         if (interview.dataValues.submitedAt) {
           finishedInterviews++;
-          if (returnedObject.interviews){
-            returnedObject.interviews.push({...interview.dataValues});
+          if (returnedObject.interviews) {
+            returnedObject.interviews.push({ ...interview.dataValues });
           } else {
             returnedObject.interviews = [];
-            returnedObject.interviews.push({...interview.dataValues});
+            returnedObject.interviews.push({ ...interview.dataValues });
           }
         }
       }
