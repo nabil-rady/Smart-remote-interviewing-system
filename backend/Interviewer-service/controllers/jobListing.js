@@ -253,6 +253,7 @@ module.exports.getListing = async (req, res, next) => {
     }
 
     // attach interviews
+    returnedObject.interviews = [];
     if (Interviews.length === 0) {
       returnedObject.invitationsNumber = 0;
       returnedObject.interviewsNumber = 0;
@@ -261,12 +262,7 @@ module.exports.getListing = async (req, res, next) => {
       for (let interview of Interviews) {
         if (interview.dataValues.submitedAt) {
           finishedInterviews++;
-          if (returnedObject.interviews) {
-            returnedObject.interviews.push({ ...interview.dataValues });
-          } else {
-            returnedObject.interviews = [];
-            returnedObject.interviews.push({ ...interview.dataValues });
-          }
+          returnedObject.interviews.push({ ...interview.dataValues });
         }
       }
       returnedObject.invitationsNumber = Interviews.length;
