@@ -34,7 +34,7 @@ const ChangePassword = () => {
   const [newPass, setNewPass] = useState();
   const [error, setError] = useState();
   const [confirmPass, setConfirmPass] = useState();
-  const sideMenu = useRef(null);
+  const sideMenu = useRef();
   const setAuthUser = useContext(UserContext).setAuthUser;
   const handleToggleButtonClick = () =>
     sideMenu.current.classList.toggle('change');

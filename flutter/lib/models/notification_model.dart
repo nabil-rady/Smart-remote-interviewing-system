@@ -5,6 +5,7 @@ class NotificationModel {
   final String title;
   final String body;
   final bool read;
+  final bool manualRead;
   NotificationModel({
     required this.interviewId,
     required this.notificationId,
@@ -12,5 +13,6 @@ class NotificationModel {
     required this.title,
     required this.body,
     required this.read,
+    required this.manualRead,
   });
 }

@@ -7,8 +7,8 @@ import NavBarUserInfoMenu from './NavBarUserInfoMenu';
 import './scss/utility.scss';
 import './scss/navbar.scss';
 import './scss/dashboard-navbar.scss';
-
-const NavBar = () => {
+import notification from './SVGs/notification.png';
+const NavBar = (props) => {
   const authUser = useContext(UserContext).authUser; // Object or null
   const isLoggedIn = !!authUser;
 
@@ -32,6 +32,11 @@ const NavBar = () => {
           Vividly
         </Link>
       </div>
+      <img
+        src={notification}
+        className="notificationImg"
+        onClick={props.handleToggleButtonClick}
+      />
       <nav className="header__navbar">
         <ul
           tabIndex="-1"

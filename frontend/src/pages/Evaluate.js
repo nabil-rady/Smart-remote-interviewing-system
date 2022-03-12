@@ -66,7 +66,7 @@ function EvaluationPage() {
   // }, []);
 
   const ratings = useRef(null);
-  const sideMenu = useRef(null);
+  const sideMenu = useRef();
   const handleToggleButtonClick = () =>
     sideMenu.current.classList.toggle('change');
   // const [ratings, setRatings] = useState([]);
