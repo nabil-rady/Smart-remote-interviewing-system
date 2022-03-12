@@ -244,7 +244,7 @@ module.exports.setNotificationRead = async (req, res, next) => {
     }
 
     const notificationId = req.params.notificationId;
-    const fetchedNotification = await User.findOne({
+    const fetchedNotification = await Notification.findOne({
       where: {
         notificationId,
       },

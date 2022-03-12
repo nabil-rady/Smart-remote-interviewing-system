@@ -85,6 +85,12 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYWQ1NzIwYi00
 
 ###
 
+GET {{host}}:8001/user/read-notification/7c809232-715a-4fce-9596-5f62fc654735
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYWQ1NzIwYi00YzNmLTQ2NTctOTA2MC1kN2ZjNTk0MTQ5OGYiLCJpYXQiOjE2NDcwODY5MTYsImV4cCI6MTY0NzEyMjkxNn0.B-zbiSjnZgFBIs5ZKeb_8a2iHZ0L9QTH01SOr_GFqJM
+Content-Type: application/json
+
+###
+
 POST {{host}}:8001/job-listing/create
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwMTk5YmViYi03ZDk1LTRmYWUtYTU3ZC1hNTU2ODY3ZTA3ZDUiLCJpYXQiOjE2NDUzMDc4ODUsImV4cCI6MTY0NTM0Mzg4NX0.lfdATDlZJI8vAlrkiaiCCfa9R4z1mpPMmnEXD3Tp_TE
 Content-Type: application/json
