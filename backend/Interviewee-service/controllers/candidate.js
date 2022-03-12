@@ -1,9 +1,6 @@
 const Interview = require('../models/interview');
 const JobListing = require('../models/jobListing');
 const Question = require('../models/question');
-const Video = require('../models/video');
-const Keywords = require('../models/keyword');
-const rabbitMQ = require('../utils/rabbitMQ');
 
 module.exports.getJoinInterview = async (req, res, next) => {
   try {
