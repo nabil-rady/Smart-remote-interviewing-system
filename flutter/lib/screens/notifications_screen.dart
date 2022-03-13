@@ -22,7 +22,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
   late Future _notificationsFuture;
   var _isLoading = false;
   late Candidate candidate;
-  Future<void> _submit(String interviewId, String notificationId) async {
+  Future<void> _submit(
+      String interviewId, String notificationId, bool manualRead) async {
     print(_isLoading);
     setState(() {
       _isLoading = true;
@@ -35,12 +36,15 @@ class _NotificationScreenState extends State<NotificationScreen> {
           .then((value) {
         candidate =
             Provider.of<PostionDetails>(context, listen: false).candidateInfo;
-        Provider.of<Notifications>(context, listen: false)
-            .notificationRead(notificationId)
-            .then((value) {
-          Navigator.of(context)
-              .pushNamed('/applicant_details', arguments: candidate);
-        });
+        manualRead
+            ? Navigator.of(context)
+                .pushNamed('/applicant_details', arguments: candidate)
+            : Provider.of<Notifications>(context, listen: false)
+                .notificationRead(notificationId)
+                .then((value) {
+                Navigator.of(context)
+                    .pushNamed('/applicant_details', arguments: candidate);
+              });
         // Navigator.of(context)
         //     .pushNamed('/applicant_details', arguments: candidate);
       });
@@ -158,7 +162,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         itemBuilder: (ctx, i) => Ink(
                           color: notificationData.notifications[i].manualRead
                               ? null
-                              : Color.fromARGB(124, 110, 137, 204),
+                              : Color.fromARGB(121, 110, 159, 231),
                           //   Container(
                           // color: notificationData.notifications[i].manualRead
                           //     ? null
@@ -167,8 +171,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
                               leading: _isLoading
                                   ? CircularProgressIndicator()
                                   : const Icon(
-                                      Icons.done,
-                                      color: Colors.green,
+                                      Icons.notifications,
+                                      color: Color.fromARGB(255, 224, 222, 73),
                                       size: 40.0,
                                     ),
                               title: Text(notificationData.notifications[i].body
@@ -176,7 +180,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
                               onTap: () => _submit(
                                   notificationData.notifications[i].interviewId,
                                   notificationData
-                                      .notifications[i].notificationId)),
+                                      .notifications[i].notificationId,
+                                  notificationData
+                                      .notifications[i].manualRead)),
                         ),
                         // ),
                       ),

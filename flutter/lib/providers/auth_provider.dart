@@ -154,8 +154,8 @@ class Auth with ChangeNotifier {
         'Authorization': getUserToken().toString(),
       },
       body:
-          jsonEncode(<String, String>{'registrationToken': getFirebaseToken()}),
-      // jsonEncode(<String, String>{'registrationToken': token.toString()}),
+          // jsonEncode(<String, String>{'registrationToken': getFirebaseToken()}),
+          jsonEncode(<String, String>{'registrationToken': token.toString()}),
     );
     final responseData = json.decode(response.body);
     if (response.statusCode == 200) {

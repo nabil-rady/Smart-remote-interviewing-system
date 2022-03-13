@@ -71,7 +71,7 @@ class PostionDetails with ChangeNotifier {
               )))
           .toList();
       _items = _finalList.reversed.toList();
-
+      print(responseData['interviews']);
       final candidateData = responseData['interviews'] as List<dynamic>;
       final List<Candidate> _finalcandidateList = [];
       candidateData

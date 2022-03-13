@@ -34,8 +34,8 @@ class IntroCamScreen extends StatefulWidget {
 // late List imgbytes;
 ////////////////////////////////////////////////
 class _IntroCamScreenState extends State<IntroCamScreen> {
-  final _channel = WebSocketChannel.connect(
-    Uri.parse('ws://f944-197-133-174-207.ngrok.io'),
+  WebSocketChannel _channel = WebSocketChannel.connect(
+    Uri.parse('ws://6b05-197-133-174-207.ngrok.io'),
   );
   Timer? _timer;
   late CameraController controller;
@@ -152,8 +152,12 @@ class _IntroCamScreenState extends State<IntroCamScreen> {
       // File _storedVideo = File(XFileImage!.path);
       _imageFile = await XFileImage!.readAsBytes();
       // print(_imageFile);
+      // _channel.sink.close();
+      // _channel = WebSocketChannel.connect(
+      //   Uri.parse('ws://6b05-197-133-174-207.ngrok.io'),
+      // );
       _channel.sink.add(_imageFile);
-    } on CameraException catch (e) {
+    } on Exception catch (e) {
       print(e);
       return;
     }
@@ -161,6 +165,7 @@ class _IntroCamScreenState extends State<IntroCamScreen> {
 
   @override
   void dispose() {
+    print("dispose");
     _timer?.cancel();
     _channel.sink.close();
     super.dispose();
@@ -232,7 +237,8 @@ class _IntroCamScreenState extends State<IntroCamScreen> {
                           //     snapshot.data as String == 'False') {
                           _timer!.cancel();
                           _channel.sink.close();
-                          Navigator.of(context).pushNamed('/interview-screen',
+                          Navigator.of(context).pushReplacementNamed(
+                              '/interview-screen',
                               arguments: controller);
                           // } else {
                           //   null;
