@@ -85,7 +85,7 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYWQ1NzIwYi00
 
 ###
 
-Post {{host}}:8001/user/read-notification/7c809232-715a-4fce-9596-5f62fc654735
+Post {{host}}:8001/user/read-notification/7c809232-715a-4fce-9596-5f62fc654736
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYWQ1NzIwYi00YzNmLTQ2NTctOTA2MC1kN2ZjNTk0MTQ5OGYiLCJpYXQiOjE2NDcxMTA3OTIsImV4cCI6MTY0NzE0Njc5Mn0.DD7oXezpu3wHgiCI2I4eL02JftYzIYL7Po3zcG50C_w
 
 ###

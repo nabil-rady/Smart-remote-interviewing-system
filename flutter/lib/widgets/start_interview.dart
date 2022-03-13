@@ -21,13 +21,15 @@ class _StartIntrviewState extends State<StartIntrview> {
   var _isLoading = false;
   final myController = TextEditingController();
   Future<void> _submit() async {
+    // myController.dispose();
+    // print("mycontroller from here");
     setState(() {
       _isLoading = true;
     });
     try {
       print(myController.text);
       await getSessionQuestions(context, myController.text).then((value) {
-        Navigator.of(context).pushReplacementNamed("/welcome_screen");
+        Navigator.of(context).pushNamed("/welcome_screen");
         // myFunc();
         // Navigator.pushNamed(
         //   context,
@@ -63,6 +65,7 @@ class _StartIntrviewState extends State<StartIntrview> {
 
   @override
   void dispose() {
+    print("  myController.dispose()");
     // TODO: implement dispose
     super.dispose();
     myController.dispose();

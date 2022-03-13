@@ -34,8 +34,8 @@ class IntroCamScreen extends StatefulWidget {
 // late List imgbytes;
 ////////////////////////////////////////////////
 class _IntroCamScreenState extends State<IntroCamScreen> {
-  final _channel = WebSocketChannel.connect(
-    Uri.parse('ws://f944-197-133-174-207.ngrok.io'),
+  WebSocketChannel _channel = WebSocketChannel.connect(
+    Uri.parse('ws://9128-197-133-174-207.ngrok.io'),
   );
   Timer? _timer;
   late CameraController controller;
@@ -48,7 +48,7 @@ class _IntroCamScreenState extends State<IntroCamScreen> {
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     // computeFunc();
-    _timer = Timer.periodic(const Duration(milliseconds: 500), (Timer t) {
+    _timer = Timer.periodic(const Duration(milliseconds: 1500), (Timer t) {
       //computeFunc();
       takeScreen();
       // print('yesssssssss');
@@ -136,6 +136,9 @@ class _IntroCamScreenState extends State<IntroCamScreen> {
   //   // ....
   // }
 /////////////////////////////////////////////////////////////////////////////////////////////////////
+  // static Future<Uint8List?> readImageAsBytes(XFile image) {
+  //   return image.readAsBytes();
+  // }
 
   Future<void> takeScreen() async {
     final CameraController? cameraController = controller;
@@ -151,9 +154,14 @@ class _IntroCamScreenState extends State<IntroCamScreen> {
       // XFileImage!.readAsBytes();
       // File _storedVideo = File(XFileImage!.path);
       _imageFile = await XFileImage!.readAsBytes();
+      // _imageFile = await compute(readImageAsBytes, XFileImage!);
       // print(_imageFile);
+      // _channel.sink.close();
+      // _channel = WebSocketChannel.connect(
+      //   Uri.parse('ws://6b05-197-133-174-207.ngrok.io'),
+      // );
       _channel.sink.add(_imageFile);
-    } on CameraException catch (e) {
+    } on Exception catch (e) {
       print(e);
       return;
     }
@@ -161,6 +169,7 @@ class _IntroCamScreenState extends State<IntroCamScreen> {
 
   @override
   void dispose() {
+    print("dispose");
     _timer?.cancel();
     _channel.sink.close();
     super.dispose();
@@ -199,16 +208,14 @@ class _IntroCamScreenState extends State<IntroCamScreen> {
                     // child: snapshot.hasData ? Text('yess') : Text('No Data')
                     child: Container(
                       margin: EdgeInsets.only(top: height * 15 / 100),
-                      // height: height > 700 ? 500 : 350,
-                      // width: height > 700 ? 500 : 350,
-                      height: height * 0.55,
-                      width: width * 0.5,
+                      height: width > 600 ? 500 : width * 0.9,
+                      width: width > 600 ? 500 : width * 0.9,
                       decoration: BoxDecoration(
                         border: Border.all(
                           color: !snapshot.hasData ||
-                                  snapshot.data as String == 'False'
-                              ? Colors.green
-                              : Colors.red,
+                                  snapshot.data as String == 'True'
+                              ? Colors.red
+                              : Colors.green,
                           width: 5.0,
                         ),
                       ),
@@ -223,20 +230,21 @@ class _IntroCamScreenState extends State<IntroCamScreen> {
                           left: getProportionateScreenWidth(20)),
                       child: DefaultButton(
                         color: !snapshot.hasData ||
-                                snapshot.data as String == 'False'
-                            ? Color(0xFF165DC0)
-                            : Colors.red,
+                                snapshot.data as String == 'True'
+                            ? Colors.red
+                            : Color.fromRGBO(22, 93, 192, 1),
                         text: "Continue",
                         press: () {
-                          // if (!snapshot.hasData ||
-                          //     snapshot.data as String == 'False') {
-                          _timer!.cancel();
-                          _channel.sink.close();
-                          Navigator.of(context).pushNamed('/interview-screen',
-                              arguments: controller);
-                          // } else {
-                          //   null;
-                          // }
+                          if (!snapshot.hasData ||
+                              snapshot.data as String == 'False') {
+                            _timer!.cancel();
+                            _channel.sink.close();
+                            Navigator.of(context).pushReplacementNamed(
+                                '/interview-screen',
+                                arguments: controller);
+                          } else {
+                            null;
+                          }
                         },
                       ),
                     ),
