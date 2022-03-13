@@ -7,7 +7,7 @@ import './scss/Interview.scss';
 function InterviewPage() {
   return (
     <>
-      <NavBar />
+      <NavBar visible={false} />
       <Interview />
     </>
   );

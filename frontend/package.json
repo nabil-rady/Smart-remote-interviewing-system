@@ -13,6 +13,7 @@
     "firebase": "^9.6.7",
     "jquery": "^3.6.0",
     "lottie-react-web": "^2.2.2",
+    "mqtt": "^4.3.6",
     "node-sass": "^6.0.1",
     "react": "^16.14.0",
     "react-awesome-reveal": "^3.8.1",

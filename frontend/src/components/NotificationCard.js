@@ -2,12 +2,16 @@ import React, { useState } from 'react';
 import './scss/NotificationCard.scss';
 import { Toast } from 'react-bootstrap';
 
-const NotificationCard = ({ notification, removeNotification }) => {
+const NotificationCard = ({
+  notification,
+  removeNotification,
+  showNotification,
+}) => {
   if (!notification) return null;
   const { title: notificationTitle, body: notificationBody } = notification;
   return (
     <Toast
-      show={true}
+      show={showNotification}
       onClose={removeNotification}
       delay={8000}
       autohide

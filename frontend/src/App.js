@@ -57,12 +57,14 @@ function App() {
     title: 'hi',
     body: 'toz fyk',
   });
+  const [show, setShow] = useState(false);
   useEffect(() => {
     if (authUser?.emailConfirmed) {
       setFirebaseMessageListenerEvent(firebase.messaging())
         .then((message) => {
           console.log(message);
           setNotification(message.notification);
+          setShow(true);
         })
         .catch((err) => console.log(err));
     }
@@ -97,6 +99,7 @@ function App() {
             <NotificationCard
               notification={notification}
               removeNotification={removeNotification}
+              showNotification={show}
             />
             <Route path="/" exact>
               <NewLanding />

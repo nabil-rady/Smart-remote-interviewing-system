@@ -1,6 +1,5 @@
 import React, { useState, useRef, useContext, useEffect } from 'react';
 import NavBar from '../components/NavBar';
-import SideMenu from '../components/SideMenu';
 import EmailVerification from '../components/EmailVerification';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../App';
@@ -21,41 +20,10 @@ import {
 function ViewApplicants() {
   const authUser = useContext(UserContext).authUser;
   const setAuthUser = useContext(UserContext).setAuthUser;
-
   const params = useParams();
   const positionNameAndId = params.positionNameAndId;
   const [positionName, positionId] = positionNameAndId.split('$');
-
-  const [show, setShow] = useState(false);
-  const [notification, setNotification] = useState({ title: '', body: '' });
-  const [verificationCard, setVerificationCard] = useState(false);
-  const [verified, setVerified] = useState(false);
   const [interviews, setInterviews] = useState();
-
-  // useEffect(() => {
-  //   setFirebaseMessageListenerEvent(messaging)
-  //     .then((message) => {
-  //       console.log(message);
-  //       setNotification(message.notification);
-  //       setShow(true);
-  //     })
-  //     .catch((err) => console.log(err));
-  //   getFirebaseToken(messaging)
-  //     .then((token) => console.log(token))
-  //     .catch((err) => console.log(err));
-  // }, []);
-
-  const sideMenu = useRef();
-  const handleToggleButtonClick = () =>
-    sideMenu.current.classList.toggle('change');
-  const navClickHandler = () => {
-    setVerificationCard(true);
-  };
-  const cardClickHandler = () => {
-    setVerified(true);
-    setVerificationCard(false);
-  };
-
   const fetchInterviews = () => {
     return fetch(`${HRURL}/job-listing/${positionId}`, {
       method: 'GET',
@@ -82,54 +50,14 @@ function ViewApplicants() {
     };
     setFetchedInterviews();
   }, []);
-  // let applicants = [
-  //   {
-  //     name: 'Mohamed Moussa',
-  //     interviewDate: '2/13/2022 1:50 pm',
-  //   },
-  //   {
-  //     name: 'Mohamed Nabil',
-  //     interviewDate: '2/13/2022 1:40 pm',
-  //   },
-  //   {
-  //     name: 'Mohamed Medhat',
-  //     interviewDate: '2/13/2022 1:30 pm',
-  //   },
-  // ];
   return (
     <>
       {verificationCard && (
         <EmailVerification verificationHandler={cardClickHandler} />
       )}
       <div className="blue-gradient">
-        <NavBar
-          handleToggleButtonClick={handleToggleButtonClick}
-          burgerButton={true}
-          clickHandler={navClickHandler}
-          verified={verified}
-        />
-        <SideMenu ref={sideMenu} />
+        <NavBar visible={true} />
       </div>
-      <Toast
-        onClose={() => setShow(false)}
-        show={show}
-        delay={6000}
-        autohide
-        animation
-        style={{
-          position: 'absolute',
-          bottom: 20,
-          right: 20,
-          minWidth: 200,
-        }}
-      >
-        <Toast.Header>
-          <img src="holder.js/20x20?text=%20" className="rounded mr-2" alt="" />
-          <strong className="mr-auto">{notification.title}</strong>
-          <small>just now</small>
-        </Toast.Header>
-        <Toast.Body>{notification.body}</Toast.Body>
-      </Toast>
       {interviews ? (
         interviews.length > 0 ? (
           <>

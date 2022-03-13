@@ -38,7 +38,6 @@ function ListingPage() {
   const [positions, getPositions] = useState();
   const authUser = useContext(UserContext).authUser;
   const setAuthUser = useContext(UserContext).setAuthUser;
-  console.log(authUser);
   let backgrounds = [
     im1,
     im2,
@@ -94,48 +93,6 @@ function ListingPage() {
     };
     setFetchedPositions();
   }, []);
-  // const fetchPost = () => {
-  //   fetch(`${HRURL}/job-listing/get-listings`, {
-  //     method: 'GET',
-  //     headers: {
-  //       Authorization: authUser.token,
-  //     },
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       console.log(data);
-  //       getPositions(data.jobListings);
-  //     });
-  // };
-  // useEffect(() => {
-  //   fetchPost();
-  // }, []);
-  // let positions = [
-  //   {
-  //     positionName: 'Softwarqweeqwqwweqwqeweqwqeewqewqewwqeewqweqe',
-  //     expiryDate: '2022-11-7',
-  //     invitationsNumber: 5,
-  //     interviewsNumber: 4,
-  //   },
-  //   {
-  //     positionName: 'Hardware',
-  //     expiryDate: '2021-11-7',
-  //     invitationsNumber: 5,
-  //     interviewsNumber: 4,
-  //   },
-  //   {
-  //     positionName: 'AI',
-  //     expiryDate: '2021-11-7',
-  //     invitationsNumber: 5,
-  //     interviewsNumber: 4,
-  //   },
-  //   {
-  //     positionName: 'Digital Design',
-  //     expiryDate: '2021-11-7',
-  //     invitationsNumber: 5,
-  //     interviewsNumber: 4,
-  //   },
-  // ];
   return (
     <>
       {authUser.emailConfirmed ? (
