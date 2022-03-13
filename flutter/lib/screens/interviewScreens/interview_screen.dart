@@ -347,8 +347,10 @@
 //   }
 // }
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:dart_amqp/dart_amqp.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import '../../local/sharedpreferences.dart';
@@ -421,7 +423,10 @@ class _IntrviewScreenState extends State<IntrviewScreen> {
     }
   }
 
-  void _saveVideo() {
+  void _saveVideo(String interviewId, String questionId, bool lastVideo) {
+    print(interviewId);
+    print(questionId);
+    print(lastVideo);
     stopVideoRecording().then((file) async {
       if (mounted) setState(() {});
       if (file != null) {
@@ -429,16 +434,34 @@ class _IntrviewScreenState extends State<IntrviewScreen> {
         print('Video recorded to ${videoFile?.path}');
         Uint8List? video = await videoFile!.readAsBytes();
         print(video);
-        // returns url pointing to S3 file
+        ///////////////////////////////////////////////////////////////////////////
 
-        // SimpleS3 _simpleS3 = SimpleS3();
-        // //Upload function
-        // String result = await _simpleS3.uploadFile(
-        //   File(videoFile!.path), //<--------------- Selected File
-        //   "sris", //<--------- Your Bucket Name
-        //   "", //<------------- Your POOL ID
-        //   AWSRegions.usEast2, //<- S3 server region
+        // ConnectionSettings settings = ConnectionSettings(
+        //     host:
+        //         "amqps://eruaznuc:5M0l6vzd4hZqSbcXPnokAeOtC4Uzk78u@woodpecker.rmq.cloudamqp.com/eruaznuc",
+        //     virtualHost: "eruaznuc",
+        //     authProvider: PlainAuthenticator(
+        //         "eruaznuc", "5M0l6vzd4hZqSbcXPnokAeOtC4Uzk78u"));
+        // Client client = Client(
+        //   settings: settings,
         // );
+        // Channel channel = await client.channel();
+
+        // print(client.connect());
+
+        // Channel channel = await client.channel();
+        // Queue queue = await channel.queue("Videos");
+        // queue.publish(
+        //   jsonEncode(<String, dynamic>{
+        //     'interviewId': interviewId,
+        //     'questionId': questionId,
+        //     'video': video,
+        //     'lastVideo': lastVideo,
+        //   }),
+        // );
+        // print(" [x] Sent 'Hello World!'");
+        // await client.close();
+        //////////////////////////////////////////////////////////////////////////
 
         if (videoFile == null) {
           return;
@@ -467,6 +490,7 @@ class _IntrviewScreenState extends State<IntrviewScreen> {
 
   @override
   void dispose() {
+    print("interview disposed");
     // TODO: implement dispose
     _answerCounterController.dispose();
     _chewieController.dispose();
@@ -570,7 +594,13 @@ class _IntrviewScreenState extends State<IntrviewScreen> {
                             Center(
                               child: CustomTimer(
                                 controller: _answerCounterController,
-                                onFinish: _isSaved ? null : _saveVideo,
+                                onFinish: _isSaved
+                                    ? null
+                                    : () => _saveVideo(
+                                        sessionData.interviewId,
+                                        sessionData.questions[index].questionId,
+                                        index ==
+                                            sessionData.questions.length - 1),
                                 from: Duration(
                                     seconds:
                                         index < sessionData.questions.length
@@ -596,7 +626,12 @@ class _IntrviewScreenState extends State<IntrviewScreen> {
                                 Icons.stop,
                                 color: Colors.red,
                               ),
-                              onPressed: _endThinkingTimer ? _saveVideo : null,
+                              onPressed: _endThinkingTimer
+                                  ? () => _saveVideo(
+                                      sessionData.interviewId,
+                                      sessionData.questions[index].questionId,
+                                      index == sessionData.questions.length - 1)
+                                  : null,
                             ),
                             // if (!_endThinkingTimer)
                             Container(

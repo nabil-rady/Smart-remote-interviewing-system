@@ -48,20 +48,20 @@ class Notifications with ChangeNotifier {
 
   Future<void> notificationRead(String notificationId) async {
     final response = await http.post(
-      Uri.parse('http://10.0.2.2:8000/user/read-notification/$notificationId'),
+      Uri.parse('http://10.0.2.2:8001/user/read-notification/$notificationId'),
       headers: <String, String>{
         'Content-Type': 'application/json',
         'Authorization': getUserToken().toString(),
       },
     );
-    print("done");
-    print(response);
-
-    // if (response.statusCode == 200) {
-    //   print(responseData);
-    // } else {
-    //   throw HttpException(responseData['message']);
-    // }
+    // print("done");
+    print(response.body);
+    final responseData = json.decode(response.body);
+    if (response.statusCode == 200) {
+      print(responseData);
+    } else {
+      throw HttpException(responseData['message']);
+    }
 
     notifyListeners();
   }
