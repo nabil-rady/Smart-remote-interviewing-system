@@ -100,7 +100,8 @@ class _BodyState extends State<Body> {
                       press: () {
                         // Navigator.of(context).pushNamed('/interview-screen',
                         //     arguments: controller);
-                        Navigator.of(context).pushNamed('/IntroCamScreen',
+                        Navigator.of(context).pushReplacementNamed(
+                            '/IntroCamScreen',
                             arguments: controller);
                         // Navigator.of(context)
                         //     .pushReplacementNamed(IntroCamScreen.routeName);
