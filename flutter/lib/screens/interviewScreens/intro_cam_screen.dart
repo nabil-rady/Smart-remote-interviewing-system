@@ -48,7 +48,7 @@ class _IntroCamScreenState extends State<IntroCamScreen> {
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     // computeFunc();
-    _timer = Timer.periodic(const Duration(milliseconds: 500), (Timer t) {
+    _timer = Timer.periodic(const Duration(microseconds: 500), (Timer t) {
       //computeFunc();
       takeScreen();
       // print('yesssssssss');
