@@ -8,6 +8,10 @@ const { PutObjectCommand } = require('@aws-sdk/client-s3');
 const S3Client = require('../utils/s3');
 const Interview = require('../models/interview');
 
+const fs = require('fs');
+const readFile = require('util').promisify(fs.readFile);
+const unlink = require('util').promisify(fs.unlink);
+
 const publish = require('./publish-videos-queue').publish;
 
 module.exports.consume = async () => {
@@ -21,21 +25,35 @@ module.exports.consume = async () => {
       async (message) => {
         const data = JSON.parse(message.content.toString());
         console.log(
-          `###############\n${data.params.Key}\n###############\n TO UPLOAD`
+          `###############\n${data.name}\n###############\n TO UPLOAD`
         );
+
+        const fileBuffer = await readFile(`./${data.name}.mp4`);
+        console.log(fileBuffer);
+
+        const params = {
+          Bucket: 'sris',
+          Key: data.interviewId + '/' + data.name + '.mp4',
+          Body: fileBuffer,
+        };
+        console.log(params);
 
         // UPLOAD TO AWS
-        const results = await S3Client.send(new PutObjectCommand(data.params));
+        const results = await S3Client.send(new PutObjectCommand(params));
         console.log(
           'Successfully created ' +
-            data.params.Key +
+            params.Key +
             ' and uploaded it to ' +
-            data.params.Bucket +
+            params.Bucket +
             '/' +
-            data.params.Key
+            params.Key
         );
 
-        const link = `https://sris.s3.us-east-2.amazonaws.com/${params.key}`;
+        // delete the video
+        await unlink(`./${data.name}.mp4`);
+
+        // video link
+        const link = `https://sris.s3.us-east-2.amazonaws.com/${params.Key}`;
 
         // save the video
         await Video.create({

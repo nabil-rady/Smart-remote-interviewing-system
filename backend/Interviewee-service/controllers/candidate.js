@@ -102,19 +102,14 @@ module.exports.postSubmitVideo = async (req, res, next) => {
     const fileBuffer = new Buffer.from(video, 'base64');
     const name = `${interviewId}-${new Date().getTime()}`;
     await writeFile('./' + name + '.mp4', fileBuffer);
-
-    const params = {
-      Bucket: 'sris',
-      Key: interviewId + '/' + name + '.mp4',
-      Body: fileBuffer,
-    };
+    console.log(fileBuffer);
 
     // publish to upload queue
     const videoToUpload = {
-      params,
       interviewId,
       questionId,
       lastVideo,
+      name,
     };
     await publish(videoToUpload);
 
