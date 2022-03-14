@@ -175,7 +175,6 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
       if (data.size > 0) {
         const imageSrc = webcamRef.current.getScreenshot();
         const blob = await fetch(imageSrc).then((res) => res.blob());
-        setVideo(blob);
 
         console.log(blob, i);
         // webSocket.current.send(blob);
@@ -212,6 +211,7 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
         type: 'video/webm',
       });
       console.log(recordedChunks);
+
       console.log(btoa(blob));
       const url = URL.createObjectURL(blob);
       console.log(url);
@@ -236,39 +236,59 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
     setVisibility('hidden');
     setStop(false);
   };
-  const handleUpload = () => {
+  const handleUpload = async () => {
     setUpload(false);
-    let statusCode;
-    fetch(`${ApplicantURL}/candidate/upload-video`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: authUser.token,
-      },
-      body: JSON.stringify({
-        interviewId: questionsResponse.interviewId,
-        questionId: questions[counter].questionId,
-        video: video,
-        lastVideo: lastVideo,
-      }),
-    })
-      .then((response) => {
-        statusCode = response.status;
-        console.log(response);
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data);
-        if (statusCode === 200) {
-          console.log(data);
-          setUploadingVideo(false);
-        } else {
-          handleAPIError(statusCode, data, setError);
-        }
-      })
-      .catch((error) => {
-        console.error('Error:', error);
+    console.log(questionsResponse.interviewId);
+    console.log(questions[counter].questionId);
+    if (recordedChunks.length) {
+      console.log(recordedChunks);
+      const blob = new Blob(recordedChunks, {
+        type: 'video/mp4',
       });
+      // console.log(blob);
+      // const newBlob = await new Response(blob).arrayBuffer();
+      // const newBlob = await new Uint8Array(blob);
+      // console.log(newBlob);
+      let arrayBufferNew = null;
+      let fileReader = new FileReader();
+      fileReader.onload = function (event) {
+        arrayBufferNew = event.target.result;
+        const uint8ArrayNew = new Uint8Array(arrayBufferNew);
+        console.log(uint8ArrayNew);
+        // setVideo(uint8ArrayNew);
+        let statusCode;
+        fetch(`${ApplicantURL}/candidate/upload-video`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            interviewId: questionsResponse.interviewId,
+            questionId: questions[counter].questionId,
+            video: Array.from(uint8ArrayNew),
+            lastVideo: lastVideo,
+          }),
+        })
+          .then((response) => {
+            statusCode = response.status;
+            console.log(response);
+            return response.json();
+          })
+          .then((data) => {
+            if (statusCode === 200) {
+              console.log(data);
+              setUploadingVideo(false);
+            } else {
+              handleAPIError(statusCode, data, setError);
+            }
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+      };
+      fileReader.readAsArrayBuffer(blob);
+      console.log(fileReader.result);
+    }
   };
   return (
     <div className="questionspart">
@@ -320,9 +340,9 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
               <Link to="/">Finish</Link>
             </button>
           )}
-          {/* {recordedChunks.length > 0 && (
+          {recordedChunks.length > 0 && (
             <button onClick={handleDownload}>Download</button>
-          )} */}
+          )}
         </>
       ) : (
         <div

@@ -21,6 +21,7 @@ const InterviewPage = () => {
 
   const sendFrames = async () => {
     const imageSrc = webcamRef.current.getScreenshot();
+    console.log(imageSrc);
     if (imageSrc === null) return;
     const blobData = await fetch(imageSrc);
     const blob = await blobData.blob();
