@@ -10,8 +10,10 @@ import './scss/dashboard-navbar.scss';
 import notification from './SVGs/notification.png';
 import SideMenu from './SideMenu';
 import { HRURL } from '../API/APIConstants';
+import handleAPIError from '../utils/APIErrorHandling';
 const NavBar = (props) => {
-  const authUser = useContext(UserContext).authUser; // Object or null
+  const authUser = useContext(UserContext).authUser;
+  const setAuthUser = useContext(UserContext).setAuthUser; // Object or null
   const isLoggedIn = !!authUser;
   const [notifications, setNotifications] = useState();
   const sideMenu = useRef();

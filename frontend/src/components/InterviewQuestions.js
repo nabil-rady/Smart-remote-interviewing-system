@@ -12,7 +12,7 @@ import { Link, useParams } from 'react-router-dom';
 import { TailSpin } from 'react-loader-spinner';
 import handleAPIError from '../utils/APIErrorHandling';
 import { UserContext } from '../App';
-
+import ErrorModal from './ErrorModal';
 const InterviewQuestions = React.forwardRef((props, webcamRef) => {
   let i = 0;
   const [upload, setUpload] = useState(false);
@@ -34,6 +34,7 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
   const [readTimerVisibility, setReadTimer] = useState('visible');
   const setAuthUser = useContext(UserContext).setAuthUser;
   const authUser = useContext(UserContext).authUser;
+  const [error, setError] = useState();
   let secAnswerTime, minAnswerTime;
 
   const fetchQuestions = () => {
@@ -291,71 +292,82 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
     }
   };
   return (
-    <div className="questionspart">
-      {questions.length !== 0 ? (
-        <>
-          <div style={{ visibility: visible }}>
-            <Card className="questions">
-              <p className="answertimer">{renderAnswerTime(timeLeftAnswer)}</p>
-              <p className="questionTitle">{questions[counter]?.statement}</p>
-            </Card>
-          </div>
-
-          <br />
-          <div style={{ visibility: readTimerVisibility }}>
-            <Card className="readCard">
-              <p className="readtimer">{renderReadTime(timeLeftRead)}</p>
-            </Card>
-          </div>
-
-          {start && (
-            <button onClick={startInterview} className="buttons">
-              Start Capture
-            </button>
-          )}
-          {stop && (
-            <button
-              onClick={(e) => handleStopCaptureClick(e, false)}
-              className="buttons"
-            >
-              Stop Capture
-            </button>
-          )}
-          {upload && (
-            <button onClick={handleUpload} className="buttons">
-              Upload
-            </button>
-          )}
-          {next && (
-            <button
-              onClick={handleNext}
-              className="buttons"
-              disabled={uploadingVideo}
-            >
-              Next Qusetion
-            </button>
-          )}
-          {lastVideo && (
-            <button className="buttons">
-              <Link to="/">Finish</Link>
-            </button>
-          )}
-          {recordedChunks.length > 0 && (
-            <button onClick={handleDownload}>Download</button>
-          )}
-        </>
-      ) : (
-        <div
-          style={{
-            position: 'absolute',
-            top: 'calc(30vh - 50px)',
-            left: 'calc(70vw - 40px)',
-          }}
-        >
-          <TailSpin color="hsl(215deg, 79%, 42%)" height={80} width={80} />
-        </div>
+    <>
+      {error && (
+        <ErrorModal
+          title={error.title}
+          message={error.message}
+          onConfirm={errorHandler}
+        />
       )}
-    </div>
+      <div className="questionspart">
+        {questions.length !== 0 ? (
+          <>
+            <div style={{ visibility: visible }}>
+              <Card className="questions">
+                <p className="answertimer">
+                  {renderAnswerTime(timeLeftAnswer)}
+                </p>
+                <p className="questionTitle">{questions[counter]?.statement}</p>
+              </Card>
+            </div>
+
+            <br />
+            <div style={{ visibility: readTimerVisibility }}>
+              <Card className="readCard">
+                <p className="readtimer">{renderReadTime(timeLeftRead)}</p>
+              </Card>
+            </div>
+
+            {start && (
+              <button onClick={startInterview} className="buttons">
+                Start Capture
+              </button>
+            )}
+            {stop && (
+              <button
+                onClick={(e) => handleStopCaptureClick(e, false)}
+                className="buttons"
+              >
+                Stop Capture
+              </button>
+            )}
+            {upload && (
+              <button onClick={handleUpload} className="buttons">
+                Upload
+              </button>
+            )}
+            {next && (
+              <button
+                onClick={handleNext}
+                className="buttons"
+                disabled={uploadingVideo}
+              >
+                Next Qusetion
+              </button>
+            )}
+            {lastVideo && (
+              <button className="buttons">
+                <Link to="/">Finish</Link>
+              </button>
+            )}
+            {recordedChunks.length > 0 && (
+              <button onClick={handleDownload}>Download</button>
+            )}
+          </>
+        ) : (
+          <div
+            style={{
+              position: 'absolute',
+              top: 'calc(30vh - 50px)',
+              left: 'calc(70vw - 40px)',
+            }}
+          >
+            <TailSpin color="hsl(215deg, 79%, 42%)" height={80} width={80} />
+          </div>
+        )}
+      </div>
+    </>
   );
 });
 

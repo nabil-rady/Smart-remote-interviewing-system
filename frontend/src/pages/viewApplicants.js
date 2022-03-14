@@ -52,9 +52,6 @@ function ViewApplicants() {
   }, []);
   return (
     <>
-      {verificationCard && (
-        <EmailVerification verificationHandler={cardClickHandler} />
-      )}
       <div className="blue-gradient">
         <NavBar visible={true} />
       </div>

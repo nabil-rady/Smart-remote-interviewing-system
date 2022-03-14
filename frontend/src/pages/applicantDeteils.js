@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect, useContext } from 'react';
 import NavBar from '../components/NavBar';
-import EmailVerification from '../components/EmailVerification';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../App';
 import Card from '../components/Card';
@@ -24,13 +23,6 @@ function ApplicantDetails() {
   const [positionName, applicantId] = positionNameAndapplicantId.split('$');
   const setAuthUser = useContext(UserContext).setAuthUser;
   const [applicant, setApplicant] = useState();
-  const navClickHandler = () => {
-    setVerificationCard(true);
-  };
-  const cardClickHandler = () => {
-    setVerified(true);
-    setVerificationCard(false);
-  };
 
   const fetchApplicant = () => {
     return fetch(`${HRURL}/job-listing/answers/${applicantId}`, {
@@ -71,9 +63,6 @@ function ApplicantDetails() {
   };
   return (
     <>
-      {verificationCard && (
-        <EmailVerification verificationHandler={cardClickHandler} />
-      )}
       <div className="blue-gradient">
         <NavBar visible={true} />
       </div>
