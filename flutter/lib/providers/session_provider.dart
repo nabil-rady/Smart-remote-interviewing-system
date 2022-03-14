@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import '../models/session_model.dart';
 import 'package:camera/camera.dart';
@@ -68,6 +69,31 @@ class SessionDetails with ChangeNotifier {
     } else {
       print("errrrrrrrrrrrrrror");
       throw HttpException(responseData['message']);
+    }
+  }
+
+  Future<void> setVideo(String interviewId, String questionId, Uint8List video,
+      bool lastVideo) async {
+    print("before");
+    final response = await http.post(
+      // Uri.parse('https://vividly-api.herokuapp.com/user/verify'),
+      Uri.parse('http://dc13-197-133-174-207.ngrok.io/candidate/upload-video'),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'interviewId': interviewId,
+        'questionId': questionId,
+        'video': video,
+        'lastVideo': lastVideo
+      }),
+    );
+    print("after");
+    final responseConfirmData = json.decode(response.body);
+    if (response.statusCode == 200) {
+      print(responseConfirmData);
+    } else {
+      throw HttpException(responseConfirmData['message']);
     }
   }
 }

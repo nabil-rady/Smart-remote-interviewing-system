@@ -18,7 +18,7 @@ const candidateRoutes = require('./routes/candidate');
 const app = express();
 
 // middlewres
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '1024mb' }));
 
 // CORS => allow others to request our apis
 app.use((req, res, next) => {

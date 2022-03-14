@@ -434,34 +434,8 @@ class _IntrviewScreenState extends State<IntrviewScreen> {
         print('Video recorded to ${videoFile?.path}');
         Uint8List? video = await videoFile!.readAsBytes();
         print(video);
-        ///////////////////////////////////////////////////////////////////////////
-
-        // ConnectionSettings settings = ConnectionSettings(
-        //     host:
-        //         "amqps://eruaznuc:5M0l6vzd4hZqSbcXPnokAeOtC4Uzk78u@woodpecker.rmq.cloudamqp.com/eruaznuc",
-        //     virtualHost: "eruaznuc",
-        //     authProvider: PlainAuthenticator(
-        //         "eruaznuc", "5M0l6vzd4hZqSbcXPnokAeOtC4Uzk78u"));
-        // Client client = Client(
-        //   settings: settings,
-        // );
-        // Channel channel = await client.channel();
-
-        // print(client.connect());
-
-        // Channel channel = await client.channel();
-        // Queue queue = await channel.queue("Videos");
-        // queue.publish(
-        //   jsonEncode(<String, dynamic>{
-        //     'interviewId': interviewId,
-        //     'questionId': questionId,
-        //     'video': video,
-        //     'lastVideo': lastVideo,
-        //   }),
-        // );
-        // print(" [x] Sent 'Hello World!'");
-        // await client.close();
-        //////////////////////////////////////////////////////////////////////////
+        Provider.of<SessionDetails>(context, listen: false)
+            .setVideo(interviewId, questionId, video, lastVideo);
 
         if (videoFile == null) {
           return;
