@@ -154,24 +154,30 @@ Content-Type: application/json
 
 ###
 
-POST {{host}}:8002/candidate/finish-interview
+POST {{host}}:8002/candidate/upload-video
 Content-Type: application/json
 
 {
     "interviewId": "74b74292-3642-486a-8319-255bb7e7da5a",
-    "videos": [
-        {
-            "questionId": "c0cb024f-609e-439e-85b8-6cb4f8172b99",
-            "videoLink": "https://www.youtube.com/watch?v=0g1Q4fBDp2U"
-        },
-        {
-            "questionId": "db8c8b04-4bea-44d7-b378-070ad040b3f5",
-            "videoLink": "https://www.youtube.com/watch?v=0g1Q4fBDp2U"
-        }
-    ]
+    "questionId": "c0cb024f-609e-439e-85b8-6cb4f8172b99",
+    "video": "https://www.youtube.com/watch?v=0g1Q4fBDp2U",
+    "lastVideo": false
 }
 
-### 
+###
+
+POST {{host}}:8002/candidate/upload-video
+Content-Type: application/json
+
+{
+    "interviewId": "74b74292-3642-486a-8319-255bb7e7da5a",
+    "questionId": "db8c8b04-4bea-44d7-b378-070ad040b3f5",
+    "video": "https://www.youtube.com/watch?v=0g1Q4fBDp2U",
+    "lastVideo": true
+}
+
+###
+
 GET {{host}}:8001/job-listing/answers/74b74292-3642-486a-8319-255bb7e7da5a
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYWQ1NzIwYi00YzNmLTQ2NTctOTA2MC1kN2ZjNTk0MTQ5OGYiLCJpYXQiOjE2NDcxMTA3OTIsImV4cCI6MTY0NzE0Njc5Mn0.DD7oXezpu3wHgiCI2I4eL02JftYzIYL7Po3zcG50C_w
 Content-Type: application/json

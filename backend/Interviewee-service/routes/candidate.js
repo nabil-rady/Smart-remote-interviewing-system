@@ -5,5 +5,6 @@ const candidateControllers = require('../controllers/candidate');
 const router = express.Router();
 
 router.get('/join/:invitation_code', candidateControllers.getJoinInterview);
+router.post('/upload-video', candidateControllers.postSubmitVideo);
 
 module.exports = router;

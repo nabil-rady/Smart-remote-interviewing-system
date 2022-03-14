@@ -9,50 +9,48 @@ from emotion import emotionDetect
 from openpose import openPose
 
 
-def processing(interview):
-    print(interview['interviewId'])
-    # for question in interview['questions']:
-    #     # path = question['videoLink']
-    #     path = os.path.join(
-    #         os.getcwd(), 'videos/A Short Interview with Sharan Shah.mp4')
-    #     keywords = question['keywords']
-    #     print(path, keywords)
+def processing(video):
+    print(video['interviewId'], video['questionId'])
 
-        # r = recomm(path, keywords)
-        # resText = r.res()  # return double value containing the score
-        # print(
-        #     f'###############################\nThe recommendation output: r=> {r}, resText=> {resText}\n##################################\n')
-        # # send result
+    path = video['link']
+    # path = os.path.join(
+    #     os.getcwd(), 'videos/A Short Interview with Sharan Shah.mp4')
+    keywords = video['keywords']
+    print(path, keywords)
 
-        # e = emotionDetect(path)
-        # status = e.user_status()
-        # print(
-        #     f'##################\nThe emotion output: e=> {e}, status=> {status}\n#############################\n')
-        # # send result
+    # r = recomm(path, keywords)
+    # resText = r.res()  # return double value containing the score
+    # print(
+    #     f'###############################\nThe recommendation output: r=> {r}, resText=> {resText}\n##################################\n')
+    # # send result
 
-        # o = openPose(path)
-        # res = o.res()
-        # print(
-        #     f'#################\nThe openPose output: o=> {o}, res=> {res}\n#################\n')
+    # e = emotionDetect(path)
+    # status = e.user_status()
+    # print(
+    #     f'##################\nThe emotion output: e=> {e}, status=> {status}\n#############################\n')
+    # # send result
+
+    # o = openPose(path)
+    # res = o.res()
+    # print(
+    #     f'#################\nThe openPose output: o=> {o}, res=> {res}\n#################\n')
 
     # AFTER FINSHING THE INTERVIEW PROCESSING PUBLISH TO THE QUEUE
-    result = json.dumps(interview)
-
+    result = json.dumps(video)
+    print(result)
+    
     params = pika.URLParameters(os.getenv('rabbitMQ_url'))
-    # params.socket_timeout = 5
+    params.socket_timeout = 5
     connection = pika.BlockingConnection(params)
     channel = connection.channel()
 
     # send a message
     channel.basic_publish(exchange='', routing_key='Results', body=result)
-    print (f"{interview['interviewId']} result sent to consumer")
+    print (f"Question {video['questionId']} at interview {video['interviewId']} result sent to consumer")
     connection.close()
 
 
 def main():
-    # engine = sqlalchemy.create_engine('mysql+pymysql://admin:nfy3WiNRHeKfMU@sevi.cisbfdavufvq.us-east-2.rds.amazonaws.com:5878/sevi')
-    # conn = engine.connect()
-
     load_dotenv()
 
     params = pika.URLParameters(os.getenv('rabbitMQ_url'))
@@ -64,7 +62,7 @@ def main():
         processing(json.loads(body))
 
     # set up subscription on the queue
-    interviews_channel.basic_consume('Interviews', callback, auto_ack=True)
+    interviews_channel.basic_consume('Videos', callback, auto_ack=True)
 
     # start consuming (blocks)
     interviews_channel.start_consuming()
