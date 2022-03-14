@@ -38,60 +38,61 @@ module.exports.consume = async () => {
         };
         console.log(params);
 
-        // UPLOAD TO AWS
-        const results = await S3Client.send(new PutObjectCommand(params));
-        console.log(
-          'Successfully created ' +
-            params.Key +
-            ' and uploaded it to ' +
-            params.Bucket +
-            '/' +
-            params.Key
-        );
+        // ********** UPLOAD TO AWS ************* //
 
-        // delete the video
-        await unlink(`./${data.name}.mp4`);
+        // const results = await S3Client.send(new PutObjectCommand(params));
+        // console.log(
+        //   'Successfully created ' +
+        //     params.Key +
+        //     ' and uploaded it to ' +
+        //     params.Bucket +
+        //     '/' +
+        //     params.Key
+        // );
 
-        // video link
-        const link = `https://sris.s3.us-east-2.amazonaws.com/${params.Key}`;
+        // // delete the video
+        // await unlink(`./${data.name}.mp4`);
 
-        // save the video
-        await Video.create({
-          link,
-          questionId: data.questionId,
-          interviewId: data.interviewId,
-        });
-        // get the question's keywords
-        const keywords = await Keywords.findAll({
-          where: {
-            questionId: data.questionId,
-          },
-        });
+        // // video link
+        // const link = `https://sris.s3.us-east-2.amazonaws.com/${params.Key}`;
 
-        // put the video on the queue for AI
-        const videoToSend = {
-          interviewId: data.interviewId,
-          questionId: data.questionId,
-          link,
-          keywords: keywords.map((keyword) => keyword.dataValues.value),
-          lastVideo: data.lastVideo,
-        };
+        // // save the video
+        // await Video.create({
+        //   link,
+        //   questionId: data.questionId,
+        //   interviewId: data.interviewId,
+        // });
+        // // get the question's keywords
+        // const keywords = await Keywords.findAll({
+        //   where: {
+        //     questionId: data.questionId,
+        //   },
+        // });
 
-        // publish the video to the message queue
-        await publish(videoToSend);
-        if (data.lastVideo) {
-          // set the submission date
-          await Interview.update(
-            {
-              submitedAt: Date.now(),
-            },
-            {
-              where: {
-                interviewId: data.interviewId,
-              },
-            }
-          );
-        }
+        // // put the video on the queue for AI
+        // const videoToSend = {
+        //   interviewId: data.interviewId,
+        //   questionId: data.questionId,
+        //   link,
+        //   keywords: keywords.map((keyword) => keyword.dataValues.value),
+        //   lastVideo: data.lastVideo,
+        // };
+
+        // // publish the video to the message queue
+        // await publish(videoToSend);
+        // if (data.lastVideo) {
+        //   // set the submission date
+        //   await Interview.update(
+        //     {
+        //       submitedAt: Date.now(),
+        //     },
+        //     {
+        //       where: {
+        //         interviewId: data.interviewId,
+        //       },
+        //     }
+        //   );
+        // }
       },
       {
         noAck: true,
