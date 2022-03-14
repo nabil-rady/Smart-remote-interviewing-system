@@ -22,6 +22,7 @@ solidBG/
 videos/
 test/
 *.wav
+*.mp4
 config/
 backend/*/models/index.js
 migrations

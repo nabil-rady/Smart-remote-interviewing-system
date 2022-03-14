@@ -106,7 +106,8 @@ module.exports.postSubmitVideo = async (req, res, next) => {
 
     // write the video
     const fileBuffer = new Buffer(video, 'base64');
-    fs.writeFileSync('./' + new Date() + '.mp4', fileBuffer);
+    const name = new Date();
+    fs.writeFileSync('./' + name + '.mp4', fileBuffer);
 
     // UPLOAD TO AWS AND GET THE LINK
 
