@@ -4,7 +4,11 @@ const Question = require('../models/question');
 const Video = require('../models/video');
 const Keywords = require('../models/keyword');
 
+const { PutObjectCommand } = require('@aws-sdk/client-s3');
+const S3Client = require('../utils/s3');
+
 const fs = require('fs');
+const writeFile = require('util').promisify(fs.writeFile);
 
 const publish = require('../utils/publish').publish;
 
@@ -98,16 +102,36 @@ module.exports.postSubmitVideo = async (req, res, next) => {
     //   throw err;
     // }
 
+    // ********** UPLOAD TO AWS ************* //
+
+    // const fileBuffer = new Buffer.from(video, 'base64');
+    // const name = `${interviewId}-${new Date().getTime()}`;
+    // await writeFile('./' + name + '.mp4', fileBuffer);
+
+    // const params = {
+    //   Bucket: 'sris',
+    //   Key: name + '.mp4',
+    //   Body: fileBuffer,
+    // };
+
+    // const results = await S3Client.send(new PutObjectCommand(params));
+    // console.log(
+    //   'Successfully created ' +
+    //     params.Key +
+    //     ' and uploaded it to ' +
+    //     params.Bucket +
+    //     '/' +
+    //     params.Key
+    // );
+    //
+    // ********************* //
+
     res.status(200).json({
       interviewId,
       questionId,
       lastVideo,
     });
-
-    // write the video
-    const fileBuffer = new Buffer(video, 'base64');
-    const name = new Date();
-    fs.writeFileSync('./' + name + '.mp4', fileBuffer);
+    // return results;
 
     // UPLOAD TO AWS AND GET THE LINK
 
