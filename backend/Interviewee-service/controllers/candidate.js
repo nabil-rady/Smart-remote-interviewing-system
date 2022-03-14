@@ -77,7 +77,7 @@ module.exports.getJoinInterview = async (req, res, next) => {
 module.exports.postSubmitVideo = async (req, res, next) => {
   try {
     const { interviewId, questionId, video, lastVideo } = req.body;
-
+    console.log(interviewId, video);
     // get the interview
     const interview = await Interview.findOne({
       where: {
@@ -105,8 +105,8 @@ module.exports.postSubmitVideo = async (req, res, next) => {
     });
 
     // write the video
-    // const fileBuffer = new Buffer(video, 'base64');
-    // fs.writeFileSync('./' + new Date.now() + '.mp4', fileBuffer);
+    const fileBuffer = new Buffer(video, 'base64');
+    fs.writeFileSync('./' + new Date() + '.mp4', fileBuffer);
 
     // UPLOAD TO AWS AND GET THE LINK
 
