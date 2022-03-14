@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect, useContext } from 'react';
 import NavBar from '../components/NavBar';
-import SideMenu from '../components/SideMenu';
 import EmailVerification from '../components/EmailVerification';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../App';
@@ -23,26 +22,7 @@ function ApplicantDetails() {
   console.log(params);
   const positionNameAndapplicantId = params.positionNameAndapplicantId;
   const [positionName, applicantId] = positionNameAndapplicantId.split('$');
-  const [show, setShow] = useState(false);
-  const [notification, setNotification] = useState({ title: '', body: '' });
   const setAuthUser = useContext(UserContext).setAuthUser;
-  // useEffect(() => {
-  //   setFirebaseMessageListenerEvent(messaging)
-  //     .then((message) => {
-  //       console.log(message);
-  //       setNotification(message.notification);
-  //       setShow(true);
-  //     })
-  //     .catch((err) => console.log(err));
-  //   getFirebaseToken(messaging)
-  //     .then((token) => console.log(token))
-  //     .catch((err) => console.log(err));
-  // }, []);
-  const sideMenu = useRef();
-  const handleToggleButtonClick = () =>
-    sideMenu.current.classList.toggle('change');
-  const [verificationCard, setVerificationCard] = useState(false);
-  const [verified, setVerified] = useState(false);
   const [applicant, setApplicant] = useState();
   const navClickHandler = () => {
     setVerificationCard(true);
@@ -95,34 +75,8 @@ function ApplicantDetails() {
         <EmailVerification verificationHandler={cardClickHandler} />
       )}
       <div className="blue-gradient">
-        <NavBar
-          handleToggleButtonClick={handleToggleButtonClick}
-          burgerButton={true}
-          clickHandler={navClickHandler}
-          verified={verified}
-        />
-        <SideMenu ref={sideMenu} />
+        <NavBar visible={true} />
       </div>
-      <Toast
-        onClose={() => setShow(false)}
-        show={show}
-        delay={6000}
-        autohide
-        animation
-        style={{
-          position: 'absolute',
-          bottom: 20,
-          right: 20,
-          minWidth: 200,
-        }}
-      >
-        <Toast.Header>
-          <img src="holder.js/20x20?text=%20" className="rounded mr-2" alt="" />
-          <strong className="mr-auto">{notification.title}</strong>
-          <small>just now</small>
-        </Toast.Header>
-        <Toast.Body>{notification.body}</Toast.Body>
-      </Toast>
       {applicant ? (
         <>
           <p className="evaluate_label">Applicant Details</p>

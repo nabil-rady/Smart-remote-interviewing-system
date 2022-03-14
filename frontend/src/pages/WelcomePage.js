@@ -50,7 +50,7 @@ function WelcomePage() {
           onConfirm={errorHandler}
         />
       )}
-      <NavBar />
+      <NavBar visible={false} />
       {appInfo ? (
         <div className="welcome_container">
           <div className="welcome_animation">

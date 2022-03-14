@@ -5,12 +5,15 @@ import MobileBurgerButtons from './MobileBurgerButtons';
 import NavBarSideMenu from './NavBarSideMenu';
 import NavBarUserInfoMenu from './NavBarUserInfoMenu';
 import './scss/dashboard-navbar.scss';
+import { APIURL } from '../API/APIConstants';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/messaging';
-import notification from './SVGs/notification.png';
+import handleError from '../utils/APIErrorHandling';
 const DashboardNavBar = (props) => {
   const authUser = useContext(UserContext).authUser;
+  const setAuthUser = useContext(UserContext).setAuthUser; // Object or null
   const isLoggedIn = !!authUser;
+
   const handleClick = () => {
     const menu = document.querySelector('.navbar-sidemenu');
     const mobileBurgerButton = document.querySelector('.mobile-burger-button');
@@ -43,7 +46,6 @@ const DashboardNavBar = (props) => {
             Edit Profile
           </li>
         </ul>
-        <img src={notification} className="notificationImg" />
         <ul
           tabIndex="-1"
           className={`header__navbar__ul user-info ${

@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect, useContext } from 'react';
 import NavBar from '../components/NavBar';
-import SideMenu from '../components/SideMenu';
 import QuestionCard from '../components/QuestionCard';
 import './scss/Add.scss';
 import PositionForm from '../components/position';
@@ -19,7 +18,7 @@ import {
 function AddQues() {
   const authUser = useContext(UserContext).authUser;
   const [show, setShow] = useState(false);
-  const [notification, setNotification] = useState({ title: '', body: '' });
+  const [notifications, setNotifications] = useState();
   const setAuthUser = useContext(UserContext).setAuthUser;
   // useEffect(() => {
   //   setFirebaseMessageListenerEvent(messaging)
@@ -100,10 +99,6 @@ function AddQues() {
       })
     );
   };
-  const sideMenu = useRef();
-  const handleToggleButtonClick = () =>
-    sideMenu.current.classList.toggle('change');
-
   const addHandler = () => {
     setQuestions((oldQuestions) => [
       ...oldQuestions,
@@ -184,11 +179,7 @@ function AddQues() {
         />
       )}
       <div className="blue-gradient">
-        <NavBar
-          handleToggleButtonClick={handleToggleButtonClick}
-          burgerButton={true}
-        />
-        <SideMenu ref={sideMenu} />
+        <NavBar />
       </div>
       <Toast
         onClose={() => setShow(false)}

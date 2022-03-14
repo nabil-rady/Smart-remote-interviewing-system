@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/alt-text */
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import '../components/scss/utility.scss';
 import NavBar from '../components/NavBar';
 import './scss/profile.scss';
@@ -8,11 +8,11 @@ import search from './SVGs/research.png';
 import invite from './SVGs/invitation.png';
 import check from './SVGs/check.png';
 import { Link, useParams } from 'react-router-dom';
-import SideMenu from '../components/SideMenu';
 import './scss/positionpage.scss';
 import { Toast } from 'react-bootstrap';
-
+import { HRURL } from '../API/APIConstants';
 import messaging from '../utils/firebase';
+import { UserContext } from '../App';
 import {
   setFirebaseMessageListenerEvent,
   getFirebaseToken,
@@ -23,57 +23,14 @@ function PositionPage(props) {
   console.log(params);
   const positionNameAndId = params.positionNameAndId;
   const [positionName, positionId] = positionNameAndId.split('$');
-  console.log(positionName, positionId);
 
-  // useEffect(() => {
-  //   setFirebaseMessageListenerEvent(messaging)
-  //     .then((message) => {
-  //       console.log(message);
-  //       setNotification(message.notification);
-  //       setShow(true);
-  //     })
-  //     .catch((err) => console.log(err));
-  //   getFirebaseToken(messaging)
-  //     .then((token) => console.log(token))
-  //     .catch((err) => console.log(err));
-  // }, []);
-
-  const [show, setShow] = useState(false);
-  const [notification, setNotification] = useState({ title: '', body: '' });
-
-  const sideMenu = useRef();
-  const handleToggleButtonClick = () =>
-    sideMenu.current.classList.toggle('change');
-
+  const authUser = useContext(UserContext).authUser;
+  const setAuthUser = useContext(UserContext).setAuthUser;
   return (
     <>
       <div className="blue-gradient">
-        <NavBar
-          handleToggleButtonClick={handleToggleButtonClick}
-          burgerButton={true}
-        />
-        <SideMenu ref={sideMenu} />
+        <NavBar visible={true} />
       </div>
-      <Toast
-        onClose={() => setShow(false)}
-        show={show}
-        delay={6000}
-        autohide
-        animation
-        style={{
-          position: 'absolute',
-          bottom: 20,
-          right: 20,
-          minWidth: 200,
-        }}
-      >
-        <Toast.Header>
-          <img src="holder.js/20x20?text=%20" className="rounded mr-2" alt="" />
-          <strong className="mr-auto">{notification.title}</strong>
-          <small>just now</small>
-        </Toast.Header>
-        <Toast.Body>{notification.body}</Toast.Body>
-      </Toast>
       <p className="pName">{positionName}</p>
       <Card className="detailsCard">
         <img src={search} className="images" />

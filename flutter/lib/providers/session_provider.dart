@@ -55,8 +55,8 @@ class SessionDetails with ChangeNotifier {
           .map((quesionvalue) => _finalList.add(InterViewQuestions(
                 questionId: quesionvalue['questionId'],
                 statement: quesionvalue['statement'],
-                timeToAnswer: quesionvalue['timeToAnswer'] * 60,
-                timeToThink: quesionvalue['timeToThink'] * 60,
+                timeToAnswer: quesionvalue['timeToAnswer'],
+                timeToThink: quesionvalue['timeToThink'],
               )))
           .toList();
       _items = _finalList.reversed.toList();
