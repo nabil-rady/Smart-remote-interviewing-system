@@ -388,6 +388,7 @@ class _IntrviewScreenState extends State<IntrviewScreen> {
   late String vidPath;
   File? _storedVideo;
   bool _isSaved = false;
+  var _isLoading = false;
 
   Future<XFile?> stopVideoRecording() async {
     setState(() {
@@ -424,39 +425,60 @@ class _IntrviewScreenState extends State<IntrviewScreen> {
   }
 
   void _saveVideo(String interviewId, String questionId, bool lastVideo) {
-    print(interviewId);
-    print(questionId);
-    print(lastVideo);
     stopVideoRecording().then((file) async {
       if (mounted) setState(() {});
       if (file != null) {
-        videoFile = file;
-        print('Video recorded to ${videoFile?.path}');
-        Uint8List? video = await videoFile!.readAsBytes();
-        print(video);
-        Provider.of<SessionDetails>(context, listen: false)
-            .setVideo(interviewId, questionId, video, lastVideo);
+        setState(() {
+          _isLoading = true;
+        });
+        try {
+          videoFile = file;
+          // print('Video recorded to ${videoFile?.path}');
+          Uint8List? video = await videoFile!.readAsBytes();
+          // print(video);
+          await Provider.of<SessionDetails>(context, listen: false)
+              .setVideo(interviewId, questionId, video, lastVideo);
 
-        if (videoFile == null) {
-          return;
+          if (videoFile == null) {
+            return;
+          }
+        } on HttpException catch (error) {
+          var errorMessage = 'Serse Error';
+          showErrorDialog(context, errorMessage, true);
+
+          setState(() {
+            _isLoading = false;
+          });
+        } catch (error) {
+          print(error);
+          const errorMessage = 'Serse Error. Please try again later.';
+          showErrorDialog(context, errorMessage, true);
+
+          setState(() {
+            _isLoading = false;
+          });
         }
         setState(() {
-          _storedVideo = File(videoFile!.path);
+          _isLoading = false;
         });
-        _chewieController = ChewieController(
-          videoPlayerController: VideoPlayerController.file(_storedVideo!),
-          aspectRatio:
-              VideoPlayerController.file(_storedVideo!).value.aspectRatio,
-          autoInitialize: true,
-          errorBuilder: (context, errorMessage) {
-            return Center(
-              child: Text(
-                errorMessage,
-                style: const TextStyle(color: Colors.white),
-              ),
-            );
-          },
-        );
+
+        // setState(() {
+        //   _storedVideo = File(videoFile!.path);
+        // });
+        // _chewieController = ChewieController(
+        //   videoPlayerController: VideoPlayerController.file(_storedVideo!),
+        //   aspectRatio:
+        //       VideoPlayerController.file(_storedVideo!).value.aspectRatio,
+        //   autoInitialize: true,
+        //   errorBuilder: (context, errorMessage) {
+        //     return Center(
+        //       child: Text(
+        //         errorMessage,
+        //         style: const TextStyle(color: Colors.white),
+        //       ),
+        //     );
+        //   },
+        // );
       }
     });
     print('Timer is done!');
@@ -656,19 +678,26 @@ class _IntrviewScreenState extends State<IntrviewScreen> {
                       padding: EdgeInsets.symmetric(
                           horizontal: getProportionateScreenWidth(20)),
                       child: DefaultButton(
-                        text: "Next question",
-                        press: () {
-                          setState(
-                            () {
-                              _storedVideo = null;
-                              _endThinkingTimer = false;
-                              _isSaved = false;
-                              _startThinkingTimer = false;
-                              index = index + 1;
-                              print(index);
-                            },
-                          );
-                        },
+                        color: _isLoading
+                            ? Colors.grey
+                            : Theme.of(context).primaryColor,
+                        text: _isLoading
+                            ? "Uploading Video.... "
+                            : "Next question",
+                        press: _isLoading
+                            ? null
+                            : () {
+                                setState(
+                                  () {
+                                    _storedVideo = null;
+                                    _endThinkingTimer = false;
+                                    _isSaved = false;
+                                    _startThinkingTimer = false;
+                                    index = index + 1;
+                                    print(index);
+                                  },
+                                );
+                              },
                       ),
                     ))
                 : Positioned(
@@ -679,11 +708,16 @@ class _IntrviewScreenState extends State<IntrviewScreen> {
                       padding: EdgeInsets.symmetric(
                           horizontal: getProportionateScreenWidth(20)),
                       child: DefaultButton(
-                        text: "Finish",
-                        press: () {
-                          Navigator.of(context)
-                              .pushReplacementNamed('/finish_screen');
-                        },
+                        color: _isLoading
+                            ? Colors.grey
+                            : Theme.of(context).primaryColor,
+                        text: _isLoading ? "Uploading Video.... " : "Finish",
+                        press: _isLoading
+                            ? null
+                            : () {
+                                Navigator.of(context)
+                                    .pushReplacementNamed('/finish_screen');
+                              },
                       ),
                     )),
         ],

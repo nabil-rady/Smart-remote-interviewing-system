@@ -56,7 +56,7 @@ class SessionDetails with ChangeNotifier {
           .map((quesionvalue) => _finalList.add(InterViewQuestions(
                 questionId: quesionvalue['questionId'],
                 statement: quesionvalue['statement'],
-                timeToAnswer: quesionvalue['timeToAnswer'],
+                timeToAnswer: quesionvalue['timeToAnswer'] * 60,
                 timeToThink: quesionvalue['timeToThink'],
               )))
           .toList();
@@ -76,8 +76,8 @@ class SessionDetails with ChangeNotifier {
       bool lastVideo) async {
     print("before");
     final response = await http.post(
-      // Uri.parse('https://vividly-api.herokuapp.com/user/verify'),
-      Uri.parse('http://dc13-197-133-174-207.ngrok.io/candidate/upload-video'),
+      Uri.parse('http://a2c7-197-133-174-207.ngrok.io/candidate/upload-video'),
+      // Uri.parse('http://10.0.2.2:8002/candidate/upload-video'),
       headers: <String, String>{
         'Content-Type': 'application/json',
       },
