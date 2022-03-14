@@ -291,6 +291,9 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
       console.log(fileReader.result);
     }
   };
+  const errorHandler = () => {
+    setError(null);
+  };
   return (
     <>
       {error && (
