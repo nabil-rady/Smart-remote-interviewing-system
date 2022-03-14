@@ -8,18 +8,23 @@ import React, {
 import useCountDown from 'react-countdown-hook';
 import Card from './Card';
 import { ApplicantURL } from '../API/APIConstants';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { TailSpin } from 'react-loader-spinner';
 import handleAPIError from '../utils/APIErrorHandling';
 import { UserContext } from '../App';
 
 const InterviewQuestions = React.forwardRef((props, webcamRef) => {
   let i = 0;
+  const [upload, setUpload] = useState(false);
+  const [lastVideo, setLastVideo] = useState(false);
+  const [uploadingVideo, setUploadingVideo] = useState(false);
+  const [video, setVideo] = useState();
   const params = useParams();
   const interviewId = params.interviewId;
   const mediaRecorderRef = useRef();
   const recordTimeout = useRef();
   const [questions, setQuestions] = useState([]);
+  const [questionsResponse, setQuestionsResponse] = useState();
   const [recordedChunks, setRecordedChunks] = useState([]);
   const [start, setStart] = useState(true);
   const [next, setNext] = useState(false);
@@ -28,8 +33,7 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
   const [counter, setCounter] = useState(0);
   const [readTimerVisibility, setReadTimer] = useState('visible');
   const setAuthUser = useContext(UserContext).setAuthUser;
-  // const [secAnswerTime, setAnswerSecTime] = useState();
-  // const [minAnswerTime, setAnswerMinTime] = useState();
+  const authUser = useContext(UserContext).authUser;
   let secAnswerTime, minAnswerTime;
 
   const fetchQuestions = () => {
@@ -42,6 +46,7 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
       const data = await response.json();
       if (response.status === 200) {
         setQuestions(data.questions);
+        setQuestionsResponse(data);
       } else {
         handleAPIError(
           response.status,
@@ -76,23 +81,23 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
   const interval = 1000;
 
   const [timeLeftRead, { start: startRead }] = useCountDown(
-    questions ? questions[counter]?.timeToThink * 60 * 1000 : 0,
+    questions ? questions[counter]?.timeToThink * 1000 : 0,
     interval
-  );
+  ); //60
 
   const [
     timeLeftAnswer,
     { start: startAnswer, pause: pauseAnswer, reset: resetAnswer },
   ] = useCountDown(
-    questions ? questions[counter]?.timeToAnswer * 60 * 1000 : 0,
+    questions ? questions[counter]?.timeToAnswer * 1000 : 0,
     interval
-  );
+  ); //60
 
   const renderReadTime = (time) => {
     if (!questions || !questions[counter]) return '0:00';
     let secTime, minTime;
-    minTime = parseInt(time / 1000 / 60);
-    secTime = parseInt((time / 1000) % 60);
+    minTime = parseInt(time / 1000); // /60
+    secTime = parseInt(time / 1000); // %60
 
     if (time === 0) {
       if (questions[counter].timeToThink < 10)
@@ -110,11 +115,8 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
 
   const renderAnswerTime = (time) => {
     if (!questions || !questions[counter]) return '0:00';
-    // setAnswerMinTime(parseInt(time / 1000 / 60));
-    // setAnswerSecTime(parseInt((time / 1000) % 60));
-
-    minAnswerTime = parseInt(time / 1000 / 60);
-    secAnswerTime = parseInt((time / 1000) % 60);
+    minAnswerTime = parseInt(time / 1000); // /60
+    secAnswerTime = parseInt(time / 1000); // %60
     if ((start || !next) && time === 0) {
       if (questions[counter].timeToAnswer < 10)
         return '0' + questions[counter].timeToAnswer.toString() + ':00';
@@ -131,14 +133,14 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
 
   const startInterview = () => {
     setRecordedChunks([]);
-    startRead(questions[counter].timeToThink * 60 * 1000);
+    startRead(questions[counter].timeToThink * 1000); //60
     if (visible === 'hidden') setVisibility('visible');
     if (start) setStart(false);
 
     setTimeout(() => {
       handleStartCaptureClick();
       console.log('Start recording (setTimeout)');
-    }, questions[counter].timeToThink * 60 * 1000);
+    }, questions[counter].timeToThink * 1000); //60
 
     recordTimeout.current = setTimeout(() => {
       console.log('Stop recording (setTimeout)');
@@ -150,7 +152,7 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
         }
         return false;
       });
-    }, questions[counter].timeToThink * 60 * 1000 + questions[counter].timeToAnswer * 60 * 1000);
+    }, questions[counter].timeToThink * 1000 + questions[counter].timeToAnswer * 1000); //60 //60
   };
 
   const handleStartCaptureClick = useCallback(() => {
@@ -162,7 +164,7 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
       handleDataAvailable
     );
     mediaRecorderRef.current.start();
-    startAnswer(questions[counter].timeToAnswer * 60 * 1000);
+    startAnswer(questions[counter].timeToAnswer * 1000); //60
     console.log('Created MediaRecorder');
     if (!stop) setStop(true);
     if (readTimerVisibility === 'visible') setReadTimer('hidden');
@@ -173,6 +175,7 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
       if (data.size > 0) {
         const imageSrc = webcamRef.current.getScreenshot();
         const blob = await fetch(imageSrc).then((res) => res.blob());
+        setVideo(blob);
 
         console.log(blob, i);
         // webSocket.current.send(blob);
@@ -185,6 +188,12 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
   const handleStopCaptureClick = useCallback(
     (e, isNonManualStop) => {
       console.log('Handle Stop Capture Click');
+      setUpload(true);
+      setUploadingVideo(true);
+      if (counter > questions.length - 2) {
+        setLastVideo(true);
+        setNext(false);
+      }
       console.log(`stop = ${stop}`);
       clearTimeout(recordTimeout.current);
       if (!next) setNext(true);
@@ -221,12 +230,46 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
     setCounter((counter) => counter + 1);
     setReadTimer('visible');
     setNext(false);
+
     setStart(true);
-    resetAnswer(questions[counter].timeToAnswer * 60 * 1000);
+    resetAnswer(questions[counter].timeToAnswer * 1000); //60
     setVisibility('hidden');
     setStop(false);
   };
-
+  const handleUpload = () => {
+    setUpload(false);
+    let statusCode;
+    fetch(`${ApplicantURL}/candidate/upload-video`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: authUser.token,
+      },
+      body: JSON.stringify({
+        interviewId: questionsResponse.interviewId,
+        questionId: questions[counter].questionId,
+        video: video,
+        lastVideo: lastVideo,
+      }),
+    })
+      .then((response) => {
+        statusCode = response.status;
+        console.log(response);
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        if (statusCode === 200) {
+          console.log(data);
+          setUploadingVideo(false);
+        } else {
+          handleAPIError(statusCode, data, setError);
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  };
   return (
     <div className="questionspart">
       {questions.length !== 0 ? (
@@ -258,14 +301,28 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
               Stop Capture
             </button>
           )}
+          {upload && (
+            <button onClick={handleUpload} className="buttons">
+              Upload
+            </button>
+          )}
           {next && (
-            <button onClick={handleNext} className="buttons">
+            <button
+              onClick={handleNext}
+              className="buttons"
+              disabled={uploadingVideo}
+            >
               Next Qusetion
             </button>
           )}
-          {recordedChunks.length > 0 && (
-            <button onClick={handleDownload}>Download</button>
+          {lastVideo && (
+            <button className="buttons">
+              <Link to="/">Finish</Link>
+            </button>
           )}
+          {/* {recordedChunks.length > 0 && (
+            <button onClick={handleDownload}>Download</button>
+          )} */}
         </>
       ) : (
         <div
