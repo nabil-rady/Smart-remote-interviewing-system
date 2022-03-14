@@ -1,16 +1,11 @@
 const Interview = require('../models/interview');
 const JobListing = require('../models/jobListing');
 const Question = require('../models/question');
-const Video = require('../models/video');
-const Keywords = require('../models/keyword');
-
-const { PutObjectCommand } = require('@aws-sdk/client-s3');
-const S3Client = require('../utils/s3');
 
 const fs = require('fs');
 const writeFile = require('util').promisify(fs.writeFile);
 
-const publish = require('../utils/publish').publish;
+const publish = require('../utils/publish-upload-queue').publish;
 
 module.exports.getJoinInterview = async (req, res, next) => {
   try {
@@ -104,67 +99,28 @@ module.exports.postSubmitVideo = async (req, res, next) => {
 
     // ********** UPLOAD TO AWS ************* //
 
-    // const fileBuffer = new Buffer.from(video, 'base64');
-    // const name = `${interviewId}-${new Date().getTime()}`;
-    // await writeFile('./' + name + '.mp4', fileBuffer);
+    const fileBuffer = new Buffer.from(video, 'base64');
+    const name = `${interviewId}-${new Date().getTime()}`;
+    await writeFile('./' + name + '.mp4', fileBuffer);
 
-    // const params = {
-    //   Bucket: 'sris',
-    //   Key: name + '.mp4',
-    //   Body: fileBuffer,
-    // };
+    const params = {
+      Bucket: 'sris',
+      Key: interviewId + '/' + name + '.mp4',
+      Body: fileBuffer,
+    };
 
-    // const results = await S3Client.send(new PutObjectCommand(params));
-    // console.log(
-    //   'Successfully created ' +
-    //     params.Key +
-    //     ' and uploaded it to ' +
-    //     params.Bucket +
-    //     '/' +
-    //     params.Key
-    // );
-    //
-    // ********************* //
-
-    res.status(200).json({
+    // publish to upload queue
+    const videoToUpload = {
+      params,
       interviewId,
       questionId,
       lastVideo,
+    };
+    await publish(videoToUpload);
+
+    res.status(200).json({
+      message: 'Video received.',
     });
-    // return results;
-
-    // UPLOAD TO AWS AND GET THE LINK
-
-    // save the video
-    // await Video.create({
-    //   link: video,
-    //   questionId,
-    //   interviewId,
-    // });
-    // // get the question's keywords
-    // const keywords = await Keywords.findAll({
-    //   where:{
-    //     questionId
-    //   }
-    // });
-
-    // // but the video on the queue for AI
-    // const videoToSend = {
-    //   interviewId,
-    //   questionId,
-    //   link: video,
-    //   keywords: keywords.map(keyword => keyword.dataValues.value),
-    //   lastVideo
-    // }
-
-    // // publish the video to the message queue
-    // await publish(videoToSend);
-    // if (lastVideo) {
-    //   // set the submission date
-    //   interview.submitedAt = Date.now();
-    //   await interview.save();
-    // }
-    return;
   } catch (err) {
     if (!err.statusCode) {
       err.statusCode = 500; // serverSide error

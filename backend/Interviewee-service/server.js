@@ -12,6 +12,8 @@ const Video = require('./models/video');
 const Keyword = require('./models/keyword');
 const RegistartionToken = require('./models/registrationToken');
 
+// import rabbitMQ
+const consumeUploadQueue = require('./utils/consume-upload-queue').consume;
 // import routes
 const candidateRoutes = require('./routes/candidate');
 
@@ -63,5 +65,7 @@ sequelize
     // Setup the server.
     const port = process.env.PORT || 8080;
     app.listen(port, () => console.log(`Server is runing on port ${port}`));
+    consumeUploadQueue();
+    console.log('Listen for Upload queue....');
   })
   .catch((err) => console.log(err));

@@ -3,20 +3,30 @@ import sys
 import os
 import json
 from dotenv import load_dotenv
+import requests
 
 from recommendation import recomm
 from emotion import emotionDetect
 from openpose import openPose
 
+def download(url):
+    path = url.split('/')[-1]
+    with requests.get(url, stream=True) as r:
+        r.raise_for_status()
+        with open(path, 'wb') as f:
+            for chunk in r.iter_content(chunk_size=8192):
+                f.write(chunk)
+    return path
 
 def processing(video):
     print(video['interviewId'], video['questionId'])
-
-    path = video['link']
-    # path = os.path.join(
-    #     os.getcwd(), 'videos/A Short Interview with Sharan Shah.mp4')
+    link = video['link']
     keywords = video['keywords']
-    print(path, keywords)
+    print(link, keywords)
+
+    # Download the video
+    path = download(link)
+    print(path)
 
     # r = recomm(path, keywords)
     # resText = r.res()  # return double value containing the score
@@ -34,6 +44,9 @@ def processing(video):
     # res = o.res()
     # print(
     #     f'#################\nThe openPose output: o=> {o}, res=> {res}\n#################\n')
+
+    # delete the video
+    os.remove(path)
 
     # AFTER FINSHING THE INTERVIEW PROCESSING PUBLISH TO THE QUEUE
     result = json.dumps(video)
