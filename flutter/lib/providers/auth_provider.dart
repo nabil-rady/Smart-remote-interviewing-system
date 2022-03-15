@@ -37,8 +37,8 @@ class Auth with ChangeNotifier {
       String phone,
       String countryCode) async {
     final response = await http.post(
-      // Uri.parse('https://vividly-api.herokuapp.com/user/signup'),
-      Uri.parse('http://10.0.2.2:8000/user/signup'),
+      Uri.parse('https://vividly-api.herokuapp.com/user/signup'),
+      // Uri.parse('http://10.0.2.2:8000/user/signup'),
       headers: <String, String>{
         'Content-Type': 'application/json',
       },
@@ -71,8 +71,8 @@ class Auth with ChangeNotifier {
       String email, String password, String webNotificationToken) async {
     print("in login");
     final response = await http.post(
-      // Uri.parse('https://vividly-api.herokuapp.com/user/login'),
-      Uri.parse('http://10.0.2.2:8000/user/login'),
+      Uri.parse('https://vividly-api.herokuapp.com/user/login'),
+      //Uri.parse('http://10.0.2.2:8000/user/login'),
       headers: <String, String>{
         'Content-Type': 'application/json',
       },
@@ -112,8 +112,8 @@ class Auth with ChangeNotifier {
 
   Future<void> confirmEmail(String code) async {
     final response = await http.post(
-      // Uri.parse('https://vividly-api.herokuapp.com/user/verify'),
-      Uri.parse('http://10.0.2.2:8000/user/verify'),
+      Uri.parse('https://vividly-api.herokuapp.com/user/verify'),
+      //Uri.parse('http://10.0.2.2:8000/user/verify'),
       headers: <String, String>{
         'Content-Type': 'application/json',
         'Authorization': getUserToken().toString(),
@@ -132,8 +132,8 @@ class Auth with ChangeNotifier {
 
   Future<void> sendEmail() async {
     final validationResponse = await http.post(
-      // Uri.parse('https://vividly-api.herokuapp.com/user/confirm-email'),
-      Uri.parse('http://10.0.2.2:8000/user/confirm-email'),
+      Uri.parse('https://vividly-api.herokuapp.com/user/confirm-email'),
+      //Uri.parse('http://10.0.2.2:8000/user/confirm-email'),
       headers: <String, String>{
         'Content-Type': 'application/json',
         'Authorization': getUserToken().toString(),
@@ -146,8 +146,8 @@ class Auth with ChangeNotifier {
     String? token = await FirebaseMessaging.instance.getToken();
 
     final response = await http.post(
-      // Uri.parse('https://vividly-api.herokuapp.com/user/logout'),
-      Uri.parse('http://10.0.2.2:8000/user/logout'),
+      Uri.parse('https://vividly-api.herokuapp.com/user/logout'),
+      //Uri.parse('http://10.0.2.2:8000/user/logout'),
 
       headers: <String, String>{
         'Content-Type': 'application/json',
@@ -188,8 +188,8 @@ class Auth with ChangeNotifier {
     try {
       final id = getUserId().toString();
       final response = await http.get(
-        // Uri.parse('https://vividly-api.herokuapp.com/user/$id'),
-        Uri.parse('http://10.0.2.2:8001/user/$id'),
+        Uri.parse('https://vividly-api.herokuapp.com/user/$id'),
+        //Uri.parse('http://10.0.2.2:8001/user/$id'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': getUserToken().toString(),
@@ -223,8 +223,8 @@ class Auth with ChangeNotifier {
       String oldPassword, String newPassword, String confirmPassword) async {
     final usertoken = getUserToken().toString();
     final response = await http.put(
-      // Uri.parse('https://vividly-api.herokuapp.com/user/changepassword'),
-      Uri.parse('http://10.0.2.2:8001/user/changepassword'),
+      Uri.parse('https://vividly-api.herokuapp.com/user/changepassword'),
+      //Uri.parse('http://10.0.2.2:8001/user/changepassword'),
       headers: <String, String>{
         'Content-Type': 'application/json',
         'Authorization': usertoken,
@@ -246,8 +246,8 @@ class Auth with ChangeNotifier {
   Future<void> editPhoneNumber(String phoneCode, String phoneNumber) async {
     final usertoken = getUserToken().toString();
     final response = await http.put(
-      // Uri.parse('https://vividly-api.herokuapp.com/user/edit'),
-      Uri.parse('http://10.0.2.2:8001/user/edit'),
+      Uri.parse('https://vividly-api.herokuapp.com/user/edit'),
+      //Uri.parse('http://10.0.2.2:8001/user/edit'),
       headers: <String, String>{
         'Content-Type': 'application/json',
         'Authorization': usertoken,

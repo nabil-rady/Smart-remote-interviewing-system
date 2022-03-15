@@ -143,152 +143,159 @@ class _InvitationFormState extends State<InvitationForm> {
       }
       _form.currentState!.save();
 
-      try {
-        posCandidate = PositionCandidiate(
-            positionId: posCandidate.positionId, candidatesMapList: candidate);
-        await Provider.of<Candidates>(context, listen: false)
-            .addAplicant(posCandidate, context);
-        setState(() {
-          isLoading1 = false;
-        });
-        // .then((value) {}
-        //showErrorDialog(
-        //  context, "Invitaion has been successfully sent .", false
-        //)
-        //    );
-      } on HttpException catch (error) {
-        print(error);
-        if (error.toString().contains('Validation failed')) {
-          showErrorDialog(context,
-              'Please check the phone number of your candidate !', true);
-        }
-      } catch (error) {
-        print(error);
-        showErrorDialog(context, "Coundn't invite this candidite.", true);
-      }
+      // try {
+      posCandidate = PositionCandidiate(
+          positionId: posCandidate.positionId, candidatesMapList: candidate);
+      await Provider.of<Candidates>(context, listen: false)
+          .addAplicant(posCandidate, context);
+      setState(() {
+        isLoading1 = false;
+      });
+      // .then((value) {}
+      //showErrorDialog(
+      //  context, "Invitaion has been successfully sent .", false
+      //)
+      //    );
+      // } on HttpException catch (error) {
+      //   print('HTTP ERRORRRR');
+      //   print('${error} JGJFFHFGHGHHH');
+      //   if (error.toString().contains('Validation failed')) {
+      //     showErrorDialog(context,
+      //         'Please check the phone number of your candidate !', true);
+      //   }
+      // } catch (error) {
+      //   print('CATCH ERRORRRR');
+      //   print('${error} JGJFFHFGHGHHH');
+      //   showErrorDialog(context, "Coundn't invite this candidite.", true);
+      // }
     } else {
-      try {
-        // if (!valid) {
-        //   return;
-        // }
+      // try {
+      // if (!valid) {
+      //   return;
+      // }
 
-        // var candidate = Candidate(
-        //   name: '',
-        //   email: '',
-        //   phoneNumber: '',
-        //   phoneCode: '',
-        //   id: DateTime.now().toString(),
+      // var candidate = Candidate(
+      //   name: '',
+      //   email: '',
+      //   phoneNumber: '',
+      //   phoneCode: '',
+      //   id: DateTime.now().toString(),
 
-        // date: DateTime.now(),
-        // rate: 0,
-        // videoAnswers: [],
-        // isRated: false,
-        // positionName: ''
-        //);
+      // date: DateTime.now(),
+      // rate: 0,
+      // videoAnswers: [],
+      // isRated: false,
+      // positionName: ''
+      //);
+      // setState(() {
+      //   csvFlag = true;
+      // });
 
-        print('2222222222222');
-        // Provider.of<Candidates>(context, listen: false).csvCandidateList =
-        //     employeeData;
-        var posCandidate = PositionCandidiate(
-            positionId: widget.positionId, candidatesMapList: candidate);
-        await Provider.of<Candidates>(context, listen: false)
-            .addAplicantList(employeeData, posCandidate, context);
-        setState(() {
-          isLoading2 = false;
-        });
-        // if (response) {
-        //   showErrorDialog(
-        //       context, "Invitaions have been sent successfully.", false);
-        // }
+      print('2222222222222');
+      // Provider.of<Candidates>(context, listen: false).csvCandidateList =
+      //     employeeData;
+      var posCandidate = PositionCandidiate(
+          positionId: widget.positionId, candidatesMapList: candidate);
+      await Provider.of<Candidates>(context, listen: false)
+          .addAplicantList(employeeData, posCandidate, context);
+      setState(() {
+        isLoading2 = false;
+        csvFlag = false;
+      });
+      // if (response) {
+      //   showErrorDialog(
+      //       context, "Invitaions have been sent successfully.", false);
+      // }
 
-        // for (int i = 0; i < employeeData.length; i++) {
-        //   employeeData.forEach((element) {
-        //     //list2 = filter(' ', element);
-        //     element.removeWhere((element) => element == ' ');
-        //   });
-        // }
+      // for (int i = 0; i < employeeData.length; i++) {
+      //   employeeData.forEach((element) {
+      //     //list2 = filter(' ', element);
+      //     element.removeWhere((element) => element == ' ');
+      //   });
+      // }
 
-        // print(employeeData);
-        // employeeData.forEach((element) {
-        //   // candidate = Candidate(
-        //   //   name: element[0].toString(),
-        //   //   email: element[1].toString(),
-        //   //   phoneNumber: element[3].toString(),
-        //   //   //  date: candidate.date,
-        //   //   phoneCode: element[2].toString(),
-        //   //   id: candidate.id,
-        //   // );
-        //   // element.forEach((element2) {
-        //   //   //list2 = filter(' ', element);
-        //   //   print(element2);
-        //   // });
+      // print(employeeData);
+      // employeeData.forEach((element) {
+      //   // candidate = Candidate(
+      //   //   name: element[0].toString(),
+      //   //   email: element[1].toString(),
+      //   //   phoneNumber: element[3].toString(),
+      //   //   //  date: candidate.date,
+      //   //   phoneCode: element[2].toString(),
+      //   //   id: candidate.id,
+      //   // );
+      //   // element.forEach((element2) {
+      //   //   //list2 = filter(' ', element);
+      //   //   print(element2);
+      //   // });
 
-        //   // element.removeWhere((element) => element == ' ');
-        //   // name for name in starring if name.strip()
-        //   candidate = {
-        //     'name': element[0].toString(),
-        //     'email': element[1].toString(),
-        //     'phoneCode': '+ ${element[2].toString()}',
-        //     'phoneNumber': element[3].toString(),
-        //   };
+      //   // element.removeWhere((element) => element == ' ');
+      //   // name for name in starring if name.strip()
+      //   candidate = {
+      //     'name': element[0].toString(),
+      //     'email': element[1].toString(),
+      //     'phoneCode': '+ ${element[2].toString()}',
+      //     'phoneNumber': element[3].toString(),
+      //   };
 
-        //   // rate: candidate.rate,
-        //   // videoAnswers: candidate.videoAnswers,
-        //   // isRated: candidate.isRated,
-        //   // positionName: candidate.positionName
+      //   // rate: candidate.rate,
+      //   // videoAnswers: candidate.videoAnswers,
+      //   // isRated: candidate.isRated,
+      //   // positionName: candidate.positionName
 
-        //   // candidate = Interview(
-        //   //     name: candidate.name,
-        //   //     email: element[1].toString(),
-        //   //     phone: candidate.phone,
-        //   //     phoneCode: candidate.phoneCode,
-        //   //     date: candidate.date,
-        //   //     id: candidate.id,
-        //   //     rate: candidate.rate,
-        //   //     videoAnswers: candidate.videoAnswers,
-        //   //     isRated: candidate.isRated,
-        //   //     positionName: candidate.positionName);
-        //   // candidate = Interview(
-        //   //     name: candidate.name,
-        //   //     email: candidate.email,
-        //   //     phone: candidate.phone,
-        //   //     phoneCode: element[2].toString(),
-        //   //     date: candidate.date,
-        //   //     id: candidate.id,
-        //   //     rate: candidate.rate,
-        //   //     videoAnswers: candidate.videoAnswers,
-        //   //     isRated: candidate.isRated,
-        //   //     positionName: candidate.positionName);
-        //   // candidate = Interview(
-        //   //     name: candidate.name,
-        //   //     email: candidate.email,
-        //   //     phone: element[3].toString(),
-        //   //     phoneCode: candidate.phoneCode,
-        //   //     date: candidate.date,
-        //   //     id: candidate.id,
-        //   //     rate: candidate.rate,
-        //   //     videoAnswers: candidate.videoAnswers,
-        //   //     isRated: candidate.isRated,
-        //   //     positionName: candidate.positionName);
-        //   var posCandidate = PositionCandidiate(
-        //       positionId: widget.positionId, candidatesMapList: candidate);
-        //   Provider.of<Candidates>(context, listen: false)
-        //       .addAplicant(posCandidate, true);
-        //   // print(candidate.name);
-        // });
-        //   Navigator.of(context).pop();
-        // _form.currentState!.save();
-        // Provider.of<Interviews>(context, listen: false).addAplicant(candidate);
+      //   // candidate = Interview(
+      //   //     name: candidate.name,
+      //   //     email: element[1].toString(),
+      //   //     phone: candidate.phone,
+      //   //     phoneCode: candidate.phoneCode,
+      //   //     date: candidate.date,
+      //   //     id: candidate.id,
+      //   //     rate: candidate.rate,
+      //   //     videoAnswers: candidate.videoAnswers,
+      //   //     isRated: candidate.isRated,
+      //   //     positionName: candidate.positionName);
+      //   // candidate = Interview(
+      //   //     name: candidate.name,
+      //   //     email: candidate.email,
+      //   //     phone: candidate.phone,
+      //   //     phoneCode: element[2].toString(),
+      //   //     date: candidate.date,
+      //   //     id: candidate.id,
+      //   //     rate: candidate.rate,
+      //   //     videoAnswers: candidate.videoAnswers,
+      //   //     isRated: candidate.isRated,
+      //   //     positionName: candidate.positionName);
+      //   // candidate = Interview(
+      //   //     name: candidate.name,
+      //   //     email: candidate.email,
+      //   //     phone: element[3].toString(),
+      //   //     phoneCode: candidate.phoneCode,
+      //   //     date: candidate.date,
+      //   //     id: candidate.id,
+      //   //     rate: candidate.rate,
+      //   //     videoAnswers: candidate.videoAnswers,
+      //   //     isRated: candidate.isRated,
+      //   //     positionName: candidate.positionName);
+      //   var posCandidate = PositionCandidiate(
+      //       positionId: widget.positionId, candidatesMapList: candidate);
+      //   Provider.of<Candidates>(context, listen: false)
+      //       .addAplicant(posCandidate, true);
+      //   // print(candidate.name);
+      // });
+      //   Navigator.of(context).pop();
+      // _form.currentState!.save();
+      // Provider.of<Interviews>(context, listen: false).addAplicant(candidate);
 
-      } on HttpException catch (error) {
-        print(error);
-        if (error.toString().contains('Validation failed.')) {
-          showErrorDialog(context,
-              'Please check the phone number of your candidates !', true);
-        }
-      } catch (e) {
-        showErrorDialog(context, "Coundn't invite these candidites.", true);
-      }
+      // } on HttpException catch (error) {
+      //   print(error.toString());
+      //   // if (error.toString() == ('Validation failed.')) {
+      //   print('hiiiiiiiiiii');
+      //   showErrorDialog(context,
+      //       'Please check the phone number of your candidates !', true);
+      //   //  }
+      // } catch (e) {
+      //   showErrorDialog(context, "Coundn't invite these candidites.", true);
+      // }
     }
     //print(employeeData);
     // print(ques.titleQuestion);
@@ -331,9 +338,18 @@ class _InvitationFormState extends State<InvitationForm> {
                     validator: (value) {
                       if (value!.isEmpty) {
                         if (csvFlag) {
+                          // setState(() {
+                          //   csvFlag = false;
+                          //   print(csvFlag);
+                          // });
+                          print('monica1');
                           return null;
                         }
-                        return 'Please write the full-name';
+                        setState(() {
+                          isLoading1 = false;
+                        });
+                        print('Zikoo1');
+                        return 'Please write the name';
                       }
                       return null;
                     },
@@ -364,8 +380,15 @@ class _InvitationFormState extends State<InvitationForm> {
                     validator: (value) {
                       if (value!.isEmpty) {
                         if (csvFlag) {
+                          // setState(() {
+                          //   csvFlag = false;
+                          // });
+                          print('monica2');
                           return null;
                         }
+                        setState(() {
+                          isLoading1 = false;
+                        });
                         return 'Please write the email';
                       }
                       return null;
@@ -445,8 +468,15 @@ class _InvitationFormState extends State<InvitationForm> {
                             validator: (value) {
                               if (value!.isEmpty) {
                                 if (csvFlag) {
+                                  // setState(() {
+                                  //   csvFlag = false;
+                                  // });
+                                  print('monica3');
                                   return null;
                                 }
+                                setState(() {
+                                  isLoading1 = false;
+                                });
                                 return 'Please write the phone number';
                               }
                               return null;

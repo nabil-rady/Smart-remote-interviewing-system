@@ -45,8 +45,8 @@ class Candidates with ChangeNotifier {
   Future<void> addAplicant(
       PositionCandidiate member, BuildContext context) async {
     // bool errorFlag = false;
-    // const url = 'https://vividly-api.herokuapp.com/job-listing/invite';
-    const url = 'http://10.0.2.2:8001/job-listing/invite';
+    const url = 'https://vividly-api.herokuapp.com/job-listing/invite';
+    //const url = 'http://10.0.2.2:8001/job-listing/invite';
     try {
       // if (flag) {
       final response = await http.post(Uri.parse(url),
@@ -83,7 +83,10 @@ class Candidates with ChangeNotifier {
         notifyListeners();
         // return true;
       } else {
-        throw HttpException(responseData['message']);
+        showErrorDialog(
+            context, 'Please check the phone number of your candidate !', true);
+        //print('${responseData['message']}kjnkjbkjhv');
+        //throw HttpException(responseData['message']);
         // return false;
       }
       //}
@@ -104,14 +107,15 @@ class Candidates with ChangeNotifier {
       //   print(_candidates);
       // }
     } catch (error) {
+      showErrorDialog(context, "Coundn't invite this candidite.", true);
       print(error);
     }
   }
 
   Future<void> addAplicantList(List<List<dynamic>> myList,
       PositionCandidiate member, BuildContext context) async {
-    // const url = 'https://vividly-api.herokuapp.com/job-listing/invite';
-    const url = 'http://10.0.2.2:8001/job-listing/invite';
+    const url = 'https://vividly-api.herokuapp.com/job-listing/invite';
+    //const url = 'http://10.0.2.2:8001/job-listing/invite';
     try {
       _csvCandidateList = myList;
       _csvCandidateList.forEach((element) {
@@ -146,8 +150,8 @@ class Candidates with ChangeNotifier {
             // ]
           }));
 
-      print(response.body);
-      print(response.statusCode);
+      // print(response.body);
+      // print(response.statusCode);
 
       final responseData = json.decode(response.body);
       // if (response.statusCode == 422) {
@@ -173,7 +177,9 @@ class Candidates with ChangeNotifier {
         notifyListeners();
         // return true;
       } else {
-        throw HttpException(responseData['message']);
+        // throw HttpException(responseData['message']);
+        showErrorDialog(context,
+            'Please check the phone number of your candidates !', true);
       }
 
       //  else if (response.statusCode == 422 && !errorFlag) {
@@ -182,6 +188,7 @@ class Candidates with ChangeNotifier {
       //}
 
     } catch (error) {
+      showErrorDialog(context, "Coundn't invite these candidites.", true);
       print(error);
     }
   }
