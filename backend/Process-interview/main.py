@@ -9,6 +9,7 @@ from recommendation import recomm
 from emotion import emotionDetect
 from openpose import openPose
 
+
 def download(url):
     path = url.split('/')[-1]
     with requests.get(url, stream=True) as r:
@@ -18,6 +19,7 @@ def download(url):
                 f.write(chunk)
     return path
 
+
 def processing(video):
     print(video['interviewId'], video['questionId'])
     link = video['link']
@@ -25,14 +27,15 @@ def processing(video):
     print(link, keywords)
 
     # Download the video
-    path = download(link)
+    # path = download(link)
+    path = './test.webm'
     print(path)
 
-    # r = recomm(path, keywords)
-    # resText = r.res()  # return double value containing the score
-    # print(
-    #     f'###############################\nThe recommendation output: r=> {r}, resText=> {resText}\n##################################\n')
-    # # send result
+    r = recomm(path, keywords)
+    resText = r.res()  # return double value containing the score
+    print(
+        f'###############################\nThe recommendation output: r=> {r}, resText=> {resText}\n##################################\n')
+    # send result
 
     # e = emotionDetect(path)
     # status = e.user_status()
@@ -46,12 +49,12 @@ def processing(video):
     #     f'#################\nThe openPose output: o=> {o}, res=> {res}\n#################\n')
 
     # delete the video
-    os.remove(path)
+    # os.remove(path)
 
     # AFTER FINSHING THE INTERVIEW PROCESSING PUBLISH TO THE QUEUE
     result = json.dumps(video)
     print(result)
-    
+
     params = pika.URLParameters(os.getenv('rabbitMQ_url'))
     params.socket_timeout = 5
     connection = pika.BlockingConnection(params)
@@ -59,7 +62,8 @@ def processing(video):
 
     # send a message
     channel.basic_publish(exchange='', routing_key='Results', body=result)
-    print (f"Question {video['questionId']} at interview {video['interviewId']} result sent to consumer")
+    print(
+        f"Question {video['questionId']} at interview {video['interviewId']} result sent to consumer")
     connection.close()
 
 

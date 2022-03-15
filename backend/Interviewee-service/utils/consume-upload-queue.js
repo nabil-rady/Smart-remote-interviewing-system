@@ -35,6 +35,7 @@ module.exports.consume = async () => {
           Bucket: 'sris',
           Key: data.interviewId + '/' + data.name + '.mp4',
           Body: fileBuffer,
+          ContentType: 'video/mp4',
         };
         console.log(params);
 
@@ -53,10 +54,10 @@ module.exports.consume = async () => {
         // delete the video
         await unlink(`./${data.name}.mp4`);
 
-        // // video link
+        // video link
         // const link = `https://sris.s3.us-east-2.amazonaws.com/${params.Key}`;
 
-        // // save the video
+        // save the video
         // await Video.create({
         //   link,
         //   questionId: data.questionId,
@@ -74,7 +75,7 @@ module.exports.consume = async () => {
         const videoToSend = {
           interviewId: data.interviewId,
           questionId: data.questionId,
-          link: 'https://sris.s3.us-east-2.amazonaws.com/74b74292-3642-486a-8319-255bb7e7da5a/74b74292-3642-486a-8319-255bb7e7da5a-1647297731310.mp4',
+          link: 'https://sris.s3.us-east-2.amazonaws.com/74b74292-3642-486a-8319-255bb7e7da5a/74b74292-3642-486a-8319-255bb7e7da5a-1647365919058.mp4',
           keywords: keywords.map((keyword) => keyword.dataValues.value),
           lastVideo: data.lastVideo,
         };
