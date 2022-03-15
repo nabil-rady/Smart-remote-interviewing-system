@@ -50,8 +50,8 @@ module.exports.consume = async () => {
         //     params.Key
         // );
 
-        // // delete the video
-        // await unlink(`./${data.name}.mp4`);
+        // delete the video
+        await unlink(`./${data.name}.mp4`);
 
         // // video link
         // const link = `https://sris.s3.us-east-2.amazonaws.com/${params.Key}`;
@@ -62,14 +62,23 @@ module.exports.consume = async () => {
         //   questionId: data.questionId,
         //   interviewId: data.interviewId,
         // });
-        // // get the question's keywords
-        // const keywords = await Keywords.findAll({
-        //   where: {
-        //     questionId: data.questionId,
-        //   },
-        // });
 
-        // // put the video on the queue for AI
+        // get the question's keywords
+        const keywords = await Keywords.findAll({
+          where: {
+            questionId: data.questionId,
+          },
+        });
+
+        // put the video on the queue for AI
+        const videoToSend = {
+          interviewId: data.interviewId,
+          questionId: data.questionId,
+          link: 'https://sris.s3.us-east-2.amazonaws.com/74b74292-3642-486a-8319-255bb7e7da5a/74b74292-3642-486a-8319-255bb7e7da5a-1647297731310.mp4',
+          keywords: keywords.map((keyword) => keyword.dataValues.value),
+          lastVideo: data.lastVideo,
+        };
+
         // const videoToSend = {
         //   interviewId: data.interviewId,
         //   questionId: data.questionId,
@@ -78,8 +87,9 @@ module.exports.consume = async () => {
         //   lastVideo: data.lastVideo,
         // };
 
-        // // publish the video to the message queue
-        // await publish(videoToSend);
+        // publish the video to the message queue
+        await publish(videoToSend);
+
         // if (data.lastVideo) {
         //   // set the submission date
         //   await Interview.update(
