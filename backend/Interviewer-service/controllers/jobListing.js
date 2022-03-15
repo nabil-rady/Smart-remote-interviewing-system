@@ -483,6 +483,7 @@ module.exports.getInterviewAnswers = async (req, res, next) => {
       const video = await Video.findOne({
         where: {
           questionId: question.questionId,
+          interviewId
         },
       });
 
