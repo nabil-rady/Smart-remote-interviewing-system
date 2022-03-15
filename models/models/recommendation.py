@@ -1,7 +1,7 @@
 import speech_recognition as sr
 import moviepy.editor as me
 from denoise2 import denoise
-from pydub import AudioSegment
+#from pydub import AudioSegment
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 import math
