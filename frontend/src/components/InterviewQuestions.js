@@ -158,7 +158,7 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
 
   const handleStartCaptureClick = useCallback(() => {
     mediaRecorderRef.current = new MediaRecorder(webcamRef.current.stream, {
-      mimeType: 'video/webm',
+      mimeType: 'video/webm;codecs="vp8,opus"',
     });
     mediaRecorderRef.current.addEventListener(
       'dataavailable',
