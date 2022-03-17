@@ -28,14 +28,16 @@ module.exports.consume = async () => {
           `###############\n${data.name}\n###############\n TO UPLOAD`
         );
 
-        const fileBuffer = await readFile(`./${data.name}.mp4`);
+        const fileBuffer = await readFile(
+          `./${data.name}.${data.videoExtension}`
+        );
         console.log(fileBuffer);
 
         const params = {
           Bucket: 'sris',
-          Key: data.interviewId + '/' + data.name + '.mp4',
+          Key: data.interviewId + '/' + data.name + '.' + data.videoExtension,
           Body: fileBuffer,
-          ContentType: 'video/mp4',
+          ContentType: `video/${data.videoExtension}`,
         };
         console.log(params);
 
@@ -52,7 +54,7 @@ module.exports.consume = async () => {
         );
 
         // delete the video
-        await unlink(`./${data.name}.mp4`);
+        await unlink(`./${data.name}.${data.videoExtension}`);
 
         // video link
         const link = `https://sris.s3.us-east-2.amazonaws.com/${params.Key}`;

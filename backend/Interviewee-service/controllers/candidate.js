@@ -75,7 +75,8 @@ module.exports.getJoinInterview = async (req, res, next) => {
 
 module.exports.postSubmitVideo = async (req, res, next) => {
   try {
-    const { interviewId, questionId, video, lastVideo } = req.body;
+    const { interviewId, questionId, video, videoExtension, lastVideo } =
+      req.body;
 
     // get the interview
     const interview = await Interview.findOne({
@@ -99,9 +100,14 @@ module.exports.postSubmitVideo = async (req, res, next) => {
 
     // ********** Save video ************* //
 
+    if (videoExtension !== 'webm' || videoExtension !== 'mp4') {
+      const err = new Error('Video extension must be either mp4 or webm');
+      throw err;
+    }
+
     const fileBuffer = new Buffer.from(video, 'base64');
     const name = `${interviewId}-${new Date().getTime()}`;
-    await writeFile('./' + name + '.mp4', fileBuffer);
+    await writeFile('./' + name + '.' + videoExtension, fileBuffer);
     console.log(fileBuffer);
 
     // publish to upload queue
@@ -110,6 +116,7 @@ module.exports.postSubmitVideo = async (req, res, next) => {
       questionId,
       lastVideo,
       name,
+      videoExtension,
     };
     await publish(videoToUpload);
 
