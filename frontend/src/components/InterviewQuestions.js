@@ -121,7 +121,7 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
     if ((start || !next) && time === 0) {
       if (questions[counter].timeToAnswer < 10)
         return '0' + questions[counter].timeToAnswer.toString() + ':00';
-      return questions[counter].timeToThink.toString() + ':00';
+      return questions[counter].timeToAnswer.toString() + ':00';
     } else if (time > 0) {
       if (minAnswerTime < 10 && secAnswerTime < 10) {
         return '0' + minAnswerTime.toString() + ':0' + secAnswerTime.toString();
@@ -158,7 +158,7 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
 
   const handleStartCaptureClick = useCallback(() => {
     mediaRecorderRef.current = new MediaRecorder(webcamRef.current.stream, {
-      mimeType: 'video/webm',
+      mimeType: 'video/webm;codecs="vp8,opus"',
     });
     mediaRecorderRef.current.addEventListener(
       'dataavailable',
@@ -239,6 +239,9 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
   };
   const handleUpload = async () => {
     setUpload(false);
+    if (counter === questions.length - 2) {
+      setNext(false);
+    }
     console.log(questionsResponse.interviewId);
     console.log(questions[counter].questionId);
     if (recordedChunks.length) {
