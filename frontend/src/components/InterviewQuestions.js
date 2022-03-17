@@ -220,7 +220,7 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
       document.body.appendChild(a);
       a.style = 'display: none';
       a.href = url;
-      a.download = 'react-webcam-stream-capture.mp4';
+      a.download = 'react-webcam-stream-capture.webm';
       a.click();
       window.URL.revokeObjectURL(url);
       setRecordedChunks([]);
@@ -244,7 +244,7 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
     if (recordedChunks.length) {
       console.log(recordedChunks);
       const blob = new Blob(recordedChunks, {
-        type: 'video/mp4',
+        type: 'video/webm',
       });
       // console.log(blob);
       // const newBlob = await new Response(blob).arrayBuffer();
@@ -267,6 +267,7 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
             interviewId: questionsResponse.interviewId,
             questionId: questions[counter].questionId,
             video: Array.from(uint8ArrayNew),
+            videoExtension: 'webm',
             lastVideo: lastVideo,
           }),
         })
