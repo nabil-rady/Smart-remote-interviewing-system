@@ -99,8 +99,7 @@ module.exports.postSubmitVideo = async (req, res, next) => {
     // }
 
     // ********** Save video ************* //
-
-    if (videoExtension !== 'webm' || videoExtension !== 'mp4') {
+    if (videoExtension !== 'webm' && videoExtension !== 'mp4') {
       const err = new Error('Video extension must be either mp4 or webm');
       throw err;
     }
