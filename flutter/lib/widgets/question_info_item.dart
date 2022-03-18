@@ -54,13 +54,14 @@ class QuestionInfoItem extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.only(left: 85),
+                          Expanded(
+                            // padding: EdgeInsets.only(left: 85),
                             child: Text(
                               ' ${questionTitle}',
                               textAlign: TextAlign.center,
+                              overflow: TextOverflow.fade,
                               style: const TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold),
@@ -106,6 +107,7 @@ class QuestionInfoItem extends StatelessWidget {
                         ),
                         Text(
                           'Keywords: ${keywords}',
+                          textAlign: TextAlign.center,
                           style: const TextStyle(
                             fontSize: 19.0,
                           ),
