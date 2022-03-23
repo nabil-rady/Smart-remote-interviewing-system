@@ -1,3 +1,7 @@
+if (process.env.MODE === 'production') {
+  require('dotenv').config();
+}
+
 // import packages
 const sequelize = require('./utils/db');
 
@@ -14,6 +18,7 @@ const Result = require('./models/result');
 
 // import rabbitMQ function
 const rabbitMQ = require('./utils/rabbitMQ');
+
 
 // connect to database, then listen for Results queue
 sequelize

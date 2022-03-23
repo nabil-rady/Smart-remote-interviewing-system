@@ -1,3 +1,7 @@
+if (process.env.MODE === 'production') {
+  require('dotenv').config();
+}
+
 // import packages
 const express = require('express');
 const bodyParser = require('body-parser');

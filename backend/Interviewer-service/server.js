@@ -1,3 +1,7 @@
+if (process.env.MODE === 'production') {
+  require('dotenv').config();
+}
+
 // import packages
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -12,6 +16,7 @@ const Video = require('./models/video');
 const Keyword = require('./models/keyword');
 const RegistartionToken = require('./models/registrationToken');
 const Result = require('./models/result');
+
 
 // import routes
 const userRoutes = require('./routes/user');
