@@ -143,7 +143,7 @@ module.exports.getUserListings = async (req, res, next) => {
           model: Interview,
         },
       ],
-      order: [['createdAt', 'DESC']],
+      order: [['expiryDate', 'DESC']],
     });
 
     const returnedListings = jobListings.map((listing) => {
