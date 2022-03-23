@@ -93,7 +93,7 @@ scipy>=1.7.1
 numpy>=1.20.3
 sklearn>=0.0
 scikit-learn>=0.24.2
-moviepy>=1.0.3
+moviepy==1.0.3
 SpeechRecognition
 sentence-transformers
 tensorflow-gpu

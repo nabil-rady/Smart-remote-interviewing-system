@@ -23,6 +23,7 @@ videos/
 test/
 *.wav
 *.mp4
+*.webm
 config/
 backend/*/models/index.js
 migrations

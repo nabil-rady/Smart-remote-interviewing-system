@@ -161,7 +161,8 @@ Content-Type: application/json
     "interviewId": "74b74292-3642-486a-8319-255bb7e7da5a",
     "questionId": "c0cb024f-609e-439e-85b8-6cb4f8172b99",
     "video": [0,0,0,0,0,0],
-    "lastVideo": false
+    "lastVideo": false,
+    "videoExtension": "webm"
 }
 
 ###

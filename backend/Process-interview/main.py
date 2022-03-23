@@ -27,32 +27,42 @@ def processing(video):
     print(link, keywords)
 
     # Download the video
-    # path = download(link)
-    path = './test.webm'
+    path = download(link)
     print(path)
 
+    results = {}
+    results['interviewId'] = video['interviewId']
+    results['questionId'] = video['questionId']
+    results['lastVideo'] = video['lastVideo']
+
+    # Apply the ML models
     r = recomm(path, keywords)
-    resText = r.res()  # return double value containing the score
+    resText = r.res()
     print(
-        f'###############################\nThe recommendation output: r=> {r}, resText=> {resText}\n##################################\n')
-    # send result
+        f'###############################\nThe recommendation output: {resText}\n##################################\n')
+    results['recommendation'] = resText
 
-    # e = emotionDetect(path)
-    # status = e.user_status()
-    # print(
-    #     f'##################\nThe emotion output: e=> {e}, status=> {status}\n#############################\n')
-    # # send result
+    e = emotionDetect(path)
+    status = e.user_status()
+    print(
+        f'##################\nThe emotion output: {status}\n#############################\n')
+    emotions = {}
+    for emotion in status:
+        emotions[emotion[0]] = emotion[1]
+    results['emotions'] = emotions
+    
+    o = openPose(path)
+    res = o.res()
+    print(
+        f'#################\nThe openPose output: {res}\n#################\n')
+    results['openPose'] = res
 
-    # o = openPose(path)
-    # res = o.res()
-    # print(
-    #     f'#################\nThe openPose output: o=> {o}, res=> {res}\n#################\n')
-
-    # delete the video
-    # os.remove(path)
+    # delete the video, and audio
+    os.remove(path)
+    os.remove("audio.wav")
 
     # AFTER FINSHING THE INTERVIEW PROCESSING PUBLISH TO THE QUEUE
-    result = json.dumps(video)
+    result = json.dumps(results)
     print(result)
 
     params = pika.URLParameters(os.getenv('rabbitMQ_url'))
@@ -63,7 +73,7 @@ def processing(video):
     # send a message
     channel.basic_publish(exchange='', routing_key='Results', body=result)
     print(
-        f"Question {video['questionId']} at interview {video['interviewId']} result sent to consumer")
+        f"Question {results['questionId']} at interview {results['interviewId']} result sent to consumer")
     connection.close()
 
 

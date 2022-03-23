@@ -1,7 +1,7 @@
 import speech_recognition as sr
 import moviepy.editor as me
 from denoise2 import denoise
-#from pydub import AudioSegment
+from pydub import AudioSegment
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 import math
@@ -14,18 +14,14 @@ class recomm:
     y = 0.0
 
     def __init__(self, path, keywords):
-        video_clip = me.VideoFileClip(r"{}".format(path))
-        #path2 = path.replace("mp4", "wav")
-        path2 = "y2.wav"
-        video_clip.audio.write_audiofile(r"{}".format(path2), nbytes=2)
+        path2 = "audio.wav"
+        audio = AudioSegment.from_file(path)
+        audio.export(path2, format="wav")
         recognizer = sr.Recognizer()
         # d = denoise(path2)
-        """a = AudioSegment.from_wav(path2)
-        a = a + 5
-        a.export(path2, "wav")"""
         audio_clip = sr.AudioFile("{}".format(path2))
         with audio_clip as source:
-            # recognizer.adjust_for_ambient_noise(source)
+            recognizer.adjust_for_ambient_noise(source)
             audio_file = recognizer.record(source)
         sent = []
         result = ""
