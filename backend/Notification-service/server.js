@@ -10,6 +10,7 @@ const Video = require('./models/video');
 const Keyword = require('./models/keyword');
 const RegistartionToken = require('./models/registrationToken');
 const Notification = require('./models/notification');
+const Result = require('./models/result');
 
 // import rabbitMQ function
 const rabbitMQ = require('./utils/rabbitMQ');

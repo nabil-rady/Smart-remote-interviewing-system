@@ -13,6 +13,7 @@ const Keyword = require('../models/keyword');
 const Interview = require('../models/interview');
 const Video = require('../models/video');
 const Notification = require('../models/notification');
+const Result = require('../models/result');
 
 module.exports.postCreateListing = async (req, res, next) => {
   // Check for validation errors
@@ -208,11 +209,10 @@ module.exports.getListing = async (req, res, next) => {
         {
           model: Interview,
           where: {
-            submitedAt: {
-              [Op.not]: null,
-            },
+            processed: true,
           },
           required: false,
+          order: [['avgRecommendation', 'DESC']],
         },
         {
           model: Question,
@@ -433,6 +433,15 @@ module.exports.getInterviewAnswers = async (req, res, next) => {
       throw err;
     }
 
+    // check if the interview has been processed
+    if (!interview.dataValues.processed || !interview.dataValues.submitedAt) {
+      const err = new Error(
+        'interview has not submitted before, or answers has not processed yet'
+      );
+      err.statusCode = 403;
+      throw err;
+    }
+
     const notification = await Notification.findOne({
       where: {
         userId,
@@ -464,6 +473,8 @@ module.exports.getInterviewAnswers = async (req, res, next) => {
       email: interview.dataValues.email,
       phoneCode: interview.dataValues.phoneCode,
       phoneNumber: interview.dataValues.phoneNumber,
+      avgScore: interview.dataValues.avgRecommendation,
+      avgManualEvaluation: interview.dataValues.avgManualEvaluation,
       submitedAt: interview.dataValues.submitedAt,
       questions: [],
     };
@@ -472,24 +483,41 @@ module.exports.getInterviewAnswers = async (req, res, next) => {
       where: {
         jobListingId: interview.dataValues.jobListingId,
       },
+      include: [
+        {
+          model: Result,
+          where: {
+            interviewId: interview.dataValues.interviewId,
+          },
+        },
+        {
+          model: Video,
+          where: {
+            interviewId: interview.dataValues.interviewId,
+          },
+        },
+      ],
     });
-    console.log(questionObjects);
 
     let questions = questionObjects.map((questionObject) => ({
       ...questionObject.dataValues,
     }));
 
     for (let question of questions) {
-      const video = await Video.findOne({
-        where: {
-          questionId: question.questionId,
-          interviewId,
-        },
-      });
-
+      console.log(question.Results[0].dataValues);
       returnedObject.questions.push({
         statement: question.statement,
-        link: video.dataValues.link,
+        link: question.Video.dataValues.link,
+        score: question.Results[0].dataValues.recommendation,
+        manualEvaluation: question.Results[0].dataValues.manualEvaluation,
+        openPose: question.Results[0].dataValues.openPose,
+        emotions: {
+          happy: question.Results[0].dataValues.happy,
+          sad: question.Results[0].dataValues.sad,
+          angry: question.Results[0].dataValues.angry,
+          surprise: question.Results[0].dataValues.surprise,
+          neutral: question.Results[0].dataValues.neutral,
+        },
       });
     }
 

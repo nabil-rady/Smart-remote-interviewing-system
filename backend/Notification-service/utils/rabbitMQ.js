@@ -8,6 +8,7 @@ const User = require('../models/user');
 const JobListing = require('../models/jobListing');
 const RegistartionToken = require('../models/registrationToken');
 const Notification = require('../models/notification');
+const Result = require('../models/result');
 
 module.exports.consume = async () => {
   try {
@@ -22,21 +23,75 @@ module.exports.consume = async () => {
     channel.consume(
       'Results',
       async (message) => {
-        const result = JSON.parse(message.content.toString());
+        const data = JSON.parse(message.content.toString());
         console.log(
-          `###############\n${result.interviewId}\n###############\n arrived`
+          `###############\n${data.interviewId}\n###############\n arrived`
         );
 
         // SAVE THE RESULT
 
-        // Send notification when receive the result of last video of the interview
-        if (result.lastVideo) {
+        const result = await Result.create({
+          interviewId: data.interviewId,
+          questionId: data.questionId,
+          recommendation: data.recommendation,
+          openPose: data.openPose,
+          happy: data.emotions.Happy,
+          sad: data.emotions.Sad,
+          neutral: data.emotions.Neutral,
+          angry: data.emotions.Angry,
+          surprise: data.emotions.Surprise,
+        });
+
+        // When receive the result of last video of the interview => add avg. for ML results, send notification
+        if (data.lastVideo) {
           const interview = await Interview.findOne({
             where: {
-              interviewId: result.interviewId,
+              interviewId: data.interviewId,
             },
           });
 
+          // set avg. results
+          const results = await Result.findAll({
+            where: {
+              interviewId: data.interviewId,
+            },
+          });
+          let avgRecommendation = 0,
+            avgOpenPose = 0,
+            avgHappy = 0,
+            avgSad = 0,
+            avgSurprise = 0,
+            avgAngry = 0,
+            avgNeutral = 0;
+          for (const r of results) {
+            avgRecommendation += r.dataValues.recommendation;
+            avgOpenPose += r.dataValues.openPose;
+            avgHappy += r.dataValues.happy;
+            avgSad += r.dataValues.sad;
+            avgSurprise += r.dataValues.surprise;
+            avgNeutral += r.dataValues.neutral;
+            avgAngry += r.dataValues.angry;
+          }
+          const numOfResults = results.length;
+          avgRecommendation /= numOfResults;
+          avgOpenPose /= numOfResults;
+          avgHappy /= numOfResults;
+          avgSad /= numOfResults;
+          avgSurprise /= numOfResults;
+          avgNeutral /= numOfResults;
+          avgAngry /= numOfResults;
+
+          interview.avgRecommendation = avgRecommendation;
+          interview.avgOpenPose = avgOpenPose;
+          interview.avgHappy = avgHappy;
+          interview.avgSad = avgSad;
+          interview.avgSurprise = avgSurprise;
+          interview.avgNeutral = avgNeutral;
+          interview.avgAngry = avgAngry;
+          interview.processed = true;
+          await interview.save();
+
+          // send notification
           const jobListing = await JobListing.findOne({
             where: {
               jobListingId: interview.dataValues.jobListingId,
