@@ -19,7 +19,6 @@ const Result = require('./models/result');
 // import rabbitMQ function
 const rabbitMQ = require('./utils/rabbitMQ');
 
-
 // connect to database, then listen for Results queue
 sequelize
   .sync({

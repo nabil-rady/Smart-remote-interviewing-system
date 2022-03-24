@@ -17,7 +17,6 @@ const Keyword = require('./models/keyword');
 const RegistartionToken = require('./models/registrationToken');
 const Result = require('./models/result');
 
-
 // import routes
 const userRoutes = require('./routes/user');
 const jobListingRoutes = require('./routes/jobListing');
