@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const createToken = require('../utils/create-token');
 const nodemailer = require('nodemailer');
 const sendgridTransport = require('nodemailer-sendgrid-transport');
-const customId = require('custom-id');
+const customId = require('custom-id-new');
 const uuid = require('uuid');
 
 const User = require('../models/user');

@@ -26,7 +26,3 @@ services:
     build: ./Notification-service
     environment:
       - MODE=production
-  # process-interview:
-  #   build: ./Process-interview
-  #   volumes:
-  #     - ./Process-interview:/app

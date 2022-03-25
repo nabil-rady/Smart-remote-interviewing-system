@@ -657,6 +657,10 @@ paths:
                           type: string
                         phoneNumber:
                           type: string
+                        avgRecommendation:
+                          type: boolean
+                        avgManualEvaluation:
+                          type: boolean
                         submitedAt:
                           format: date-time
 
@@ -725,6 +729,12 @@ paths:
     get:
       summary: Allow HR to see interview answers.
       parameters:
+        - name: Authorization
+          in: header
+          required: true
+          description: jwt of the loggedin user.
+          schema:
+            type: string
         - name: interview_id
           in: path
           required: true
@@ -747,6 +757,10 @@ paths:
                     type: string
                   phoneNumber:
                     type: string
+                  avgScore:
+                    type: number
+                  avgManualEvaluation:
+                    type: number
                   submitedAt:
                     format: date-time
                   questions:
@@ -758,6 +772,118 @@ paths:
                           type: string
                         link:
                           type: string
+                        score:
+                          type: number
+                        manualEvaluation:
+                          type: number
+                        openPose:
+                          type: number
+                        emotions:
+                          type: object
+                          properties:
+                            happy:
+                              type: number
+                            sad:
+                              type: number
+                            angry:
+                              type: number
+                            surprise:
+                              type: number
+                            neutral:
+                              type: number
+        '401':
+          description: Authentication faild, or email not confirmed.
+        '403':
+          description: You do not own the listing this interview belongs to.
+        '404':
+          description: Interview not found.
+        '500':
+          description: Server side error.
+
+  /job-listing/evaluate/{interview_id}:
+    post:
+      summary: Allow HR to manual evaluate candidates.
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          description: jwt of the loggedin user.
+          schema:
+            type: string
+        - name: interview_id
+          in: path
+          required: true
+          description: The interview id of a selected candidate.
+          schema:
+            type: string
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                evaluations:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      questionId:
+                        type: string
+                      evaluation:
+                        type: integer
+      responses:
+        '200':
+          description: Interview evaluated.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  interviewId:
+                    type: string
+                  avgManualEvaluation:
+                    type: integer
+
+        '401':
+          description: Authentication faild, or email not confirmed.
+        '403':
+          description: You do not own the listing this interview belongs to.
+        '404':
+          description: Interview not found.
+        '422':
+          description: Validation failed.
+        '500':
+          description: Server side error.
+
+  /job-listing//{listing_id}:
+    delete:
+      summary: Allow HR to delete listing.
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          description: jwt of the loggedin user.
+          schema:
+            type: string
+        - name: listing_id
+          in: path
+          required: true
+          description: The listing id of the position to delete.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Listing deleted.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
         '401':
           description: Authentication faild, or email not confirmed.
         '403':
@@ -817,9 +943,9 @@ paths:
         '500':
           description: Server side error.
 
-  /candidate/finish-interview:
+  /candidate/upload-video:
     post:
-      summary: Close the interview, and save the videos.
+      summary: Upload video answer.
       requestBody:
         required: true
         content:
@@ -829,16 +955,12 @@ paths:
               properties:
                 interviewId:
                   type: string
-                videos:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      questionId:
-                        type: string
-                      videoLink:
-                        type: string
-
+                questionId:
+                  type: string
+                video:
+                  type: string
+                lastVideo:
+                  type: boolean
       responses:
         '200':
           description: The answers are saved successfully.
@@ -847,34 +969,8 @@ paths:
               schema:
                 type: object
                 properties:
-                  interview:
-                    type: object
-                    properties:
-                      interviewId:
-                        type: string
-                      jobListingId:
-                        type: string
-                      name:
-                        type: string
-                      email:
-                        type: string
-                      phoneCode:
-                        type: string
-                      phoneNumber:
-                        type: string
-                      submitedAt:
-                        format: date-time
-                  answers:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        videoId:
-                          type: string
-                        link:
-                          type: string
-                        questionId:
-                          type: string
+                  message:
+                    type: string
         '403':
           description: The interview has been submited before.
         '500':

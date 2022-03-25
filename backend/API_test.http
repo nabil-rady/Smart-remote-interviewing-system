@@ -91,12 +91,12 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYWQ1NzIwYi00
 ###
 
 POST {{host}}:8001/job-listing/create
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYWQ1NzIwYi00YzNmLTQ2NTctOTA2MC1kN2ZjNTk0MTQ5OGYiLCJpYXQiOjE2NDcxMTA3OTIsImV4cCI6MTY0NzE0Njc5Mn0.DD7oXezpu3wHgiCI2I4eL02JftYzIYL7Po3zcG50C_w
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYWQ1NzIwYi00YzNmLTQ2NTctOTA2MC1kN2ZjNTk0MTQ5OGYiLCJpYXQiOjE2NDgyMDQzODgsImV4cCI6MTY0ODI0MDM4OH0.RtRsb2HrFUZN3H4MOLC8gJk4YzRHdDWIrkIh0gKne4c
 Content-Type: application/json
 
 {
-    "positionName": "Job E",
-    "expiryDate": "2022-03-28",
+    "positionName": "Job AAA",
+    "expiryDate": "2022-04-28",
     "questions":[
         {
             "statement": "Question 1.1",
@@ -116,21 +116,26 @@ Content-Type: application/json
 ###
 
 GET {{host}}:8001/job-listing/get-listings
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYWQ1NzIwYi00YzNmLTQ2NTctOTA2MC1kN2ZjNTk0MTQ5OGYiLCJpYXQiOjE2NDgwNDUxODcsImV4cCI6MTY0ODA4MTE4N30.lmXov5MijXT5Z-5oTgRnfb63BpgcXCDxl0vW5SpEhUU
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYWQ1NzIwYi00YzNmLTQ2NTctOTA2MC1kN2ZjNTk0MTQ5OGYiLCJpYXQiOjE2NDgyMDQzODgsImV4cCI6MTY0ODI0MDM4OH0.RtRsb2HrFUZN3H4MOLC8gJk4YzRHdDWIrkIh0gKne4c
 
 ###
 
-GET {{host}}:8001/job-listing/2f27f620-bce3-48f3-b143-2a3769e075a6
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYWQ1NzIwYi00YzNmLTQ2NTctOTA2MC1kN2ZjNTk0MTQ5OGYiLCJpYXQiOjE2NDgwNjAzOTgsImV4cCI6MTY0ODA5NjM5OH0._EPNqfmYhDHmwNZ6L4dWwjXGWxcPihb9bJn5Q44JTA0
+GET {{host}}:8001/job-listing/ce2abdd9-f73f-4a3e-a09a-06cddce82cce
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYWQ1NzIwYi00YzNmLTQ2NTctOTA2MC1kN2ZjNTk0MTQ5OGYiLCJpYXQiOjE2NDgyMDQzODgsImV4cCI6MTY0ODI0MDM4OH0.RtRsb2HrFUZN3H4MOLC8gJk4YzRHdDWIrkIh0gKne4c
+
+###
+
+DELETE  {{host}}:8001/job-listing/3b04e37e-c28d-4862-a042-f362739c9ca1
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYWQ1NzIwYi00YzNmLTQ2NTctOTA2MC1kN2ZjNTk0MTQ5OGYiLCJpYXQiOjE2NDgyMDQzODgsImV4cCI6MTY0ODI0MDM4OH0.RtRsb2HrFUZN3H4MOLC8gJk4YzRHdDWIrkIh0gKne4c
 
 ###
 
 POST {{host}}:8001/job-listing/invite
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYWQ1NzIwYi00YzNmLTQ2NTctOTA2MC1kN2ZjNTk0MTQ5OGYiLCJpYXQiOjE2NDcxMTA3OTIsImV4cCI6MTY0NzE0Njc5Mn0.DD7oXezpu3wHgiCI2I4eL02JftYzIYL7Po3zcG50C_w
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYWQ1NzIwYi00YzNmLTQ2NTctOTA2MC1kN2ZjNTk0MTQ5OGYiLCJpYXQiOjE2NDgyMDQzODgsImV4cCI6MTY0ODI0MDM4OH0.RtRsb2HrFUZN3H4MOLC8gJk4YzRHdDWIrkIh0gKne4c
 Content-Type: application/json
 
 {
-    "listingId": "15dd2277-edfb-4492-ae0b-d279e0e294db",
+    "listingId": "ce2abdd9-f73f-4a3e-a09a-06cddce82cce",
     "candidates": [
         {
             "name": "Mohamed Medhat",
@@ -178,7 +183,21 @@ Content-Type: application/json
 }
 
 ###
-
 GET {{host}}:8001/job-listing/answers/94f88c0a-fb67-48d7-9787-859ba0413e89
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYWQ1NzIwYi00YzNmLTQ2NTctOTA2MC1kN2ZjNTk0MTQ5OGYiLCJpYXQiOjE2NDgwNjAzOTgsImV4cCI6MTY0ODA5NjM5OH0._EPNqfmYhDHmwNZ6L4dWwjXGWxcPihb9bJn5Q44JTA0
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYWQ1NzIwYi00YzNmLTQ2NTctOTA2MC1kN2ZjNTk0MTQ5OGYiLCJpYXQiOjE2NDgyMDQzODgsImV4cCI6MTY0ODI0MDM4OH0.RtRsb2HrFUZN3H4MOLC8gJk4YzRHdDWIrkIh0gKne4c
 Content-Type: application/json
+
+###
+
+POST {{host}}:8001/job-listing/evaluate/94f88c0a-fb67-48d7-9787-859ba0413e89
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYWQ1NzIwYi00YzNmLTQ2NTctOTA2MC1kN2ZjNTk0MTQ5OGYiLCJpYXQiOjE2NDgyMDQzODgsImV4cCI6MTY0ODI0MDM4OH0.RtRsb2HrFUZN3H4MOLC8gJk4YzRHdDWIrkIh0gKne4c
+Content-Type: application/json
+
+{
+    "evaluations": [
+        {
+            "questionId": "bc361b7b-f240-428a-99c4-6842c170b0bf",
+            "evaluation": 100
+        }
+    ]
+}
