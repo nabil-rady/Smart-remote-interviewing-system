@@ -123,8 +123,7 @@ Widget QuestionCard(String questionTitle, String answerTime,
                 ),
                 width: double.infinity,
                 color: const Color(0xFF165DC0),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                child: Expanded(
                   child: Center(
                     child: Text(
                       ' $questionTitle',

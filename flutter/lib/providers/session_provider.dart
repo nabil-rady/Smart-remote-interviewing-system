@@ -32,9 +32,7 @@ class SessionDetails with ChangeNotifier {
 
   Future<void> getSessionDetails(String id) async {
     final response = await http.get(
-      //Uri.parse('http://10.0.2.2:8002/candidate/join/$id'),
-      Uri.parse('$candidate/join/$id'),
-      //  Uri.parse('https://vividly-api.herokuapp.com/candidate/join/$id'),
+      Uri.parse('$interviewURL/candidate/join/$id'),
       headers: <String, String>{
         'Content-Type': 'application/json',
       },
@@ -78,8 +76,7 @@ class SessionDetails with ChangeNotifier {
       bool lastVideo) async {
     print("before");
     final response = await http.post(
-      Uri.parse('http://a2c7-197-133-174-207.ngrok.io/candidate/upload-video'),
-      // Uri.parse('http://10.0.2.2:8002/candidate/upload-video'),
+      Uri.parse('$interviewURL/candidate/upload-video'),
       headers: <String, String>{
         'Content-Type': 'application/json',
       },
@@ -87,7 +84,8 @@ class SessionDetails with ChangeNotifier {
         'interviewId': interviewId,
         'questionId': questionId,
         'video': video,
-        'lastVideo': lastVideo
+        'lastVideo': lastVideo,
+        'videoExtension': 'mp4'
       }),
     );
     print("after");

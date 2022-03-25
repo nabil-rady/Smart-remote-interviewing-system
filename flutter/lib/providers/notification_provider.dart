@@ -14,7 +14,7 @@ class Notifications with ChangeNotifier {
 
   Future<void> getNotidfications() async {
     final response = await http.get(
-      Uri.parse('$notif/notifications'),
+      Uri.parse('$hrURL/user/notifications'),
       headers: <String, String>{
         'Content-Type': 'application/json',
         'Authorization': getUserToken().toString(),
@@ -49,8 +49,7 @@ class Notifications with ChangeNotifier {
 
   Future<void> notificationRead(String notificationId) async {
     final response = await http.post(
-      //  Uri.parse('http://10.0.2.2:8001/user/read-notification/$notificationId'),
-      Uri.parse('$notif/read-notification/$notificationId'),
+      Uri.parse('$hrURL/user/read-notification/$notificationId'),
       headers: <String, String>{
         'Content-Type': 'application/json',
         'Authorization': getUserToken().toString(),

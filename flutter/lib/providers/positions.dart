@@ -80,9 +80,7 @@ class Positions with ChangeNotifier {
   }
 
   Future<void> addPosition(Position singlePosition) async {
-    // const url = 'https://vividly-api.herokuapp.com/job-listing/create';
-    //const url = 'http://10.0.2.2:8001/job-listing/create';
-    const url = '$jobListing/create';
+    const url = '$hrURL/job-listing/create';
     try {
       final response = await http.post(Uri.parse(url),
           headers: <String, String>{

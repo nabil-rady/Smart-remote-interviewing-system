@@ -46,9 +46,7 @@ class Candidates with ChangeNotifier {
   Future<void> addAplicant(
       PositionCandidiate member, BuildContext context) async {
     // bool errorFlag = false;
-    // const url = 'https://vividly-api.herokuapp.com/job-listing/invite';
-    //const url = 'http://10.0.2.2:8001/job-listing/invite';
-    const url = '$jobListing/invite';
+    const url = '$hrURL/job-listing/invite';
     try {
       // if (flag) {
       final response = await http.post(Uri.parse(url),
@@ -116,9 +114,7 @@ class Candidates with ChangeNotifier {
 
   Future<void> addAplicantList(List<List<dynamic>> myList,
       PositionCandidiate member, BuildContext context) async {
-    //const url = 'https://vividly-api.herokuapp.com/job-listing/invite';
-    //const url = 'http://10.0.2.2:8001/job-listing/invite';
-    const url = '$jobListing/invite';
+    const url = '$hrURL/job-listing/invite';
     try {
       _csvCandidateList = myList;
       _csvCandidateList.forEach((element) {
