@@ -1,7 +1,7 @@
 const { validationResult } = require('express-validator');
 const nodemailer = require('nodemailer');
 const sendgridTransport = require('nodemailer-sendgrid-transport');
-const customId = require('custom-id');
+const customId = require('custom-id-new');
 const { json } = require('body-parser');
 const sequelize = require('../utils/db');
 const Op = require('sequelize').Op;
