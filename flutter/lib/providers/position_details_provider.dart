@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:test/local/urls.dart';
 import 'package:test/widgets/candidate_info_item.dart';
 
 import '../local/http_exception.dart';
@@ -49,7 +50,8 @@ class PostionDetails with ChangeNotifier {
 
   Future<void> getDetails(String id) async {
     final response = await http.get(
-      Uri.parse('http://10.0.2.2:8001/job-listing/$id'),
+      //Uri.parse('http://10.0.2.2:8001/job-listing/$id'),
+      Uri.parse('$jobListing/$id'),
       headers: <String, String>{
         'Content-Type': 'application/json',
         'Authorization': _authToken.toString(),
@@ -94,7 +96,8 @@ class PostionDetails with ChangeNotifier {
 
   Future<void> getEvaluationDetails(String interviewid) async {
     final response = await http.get(
-      Uri.parse('http://10.0.2.2:8001/job-listing/answers/$interviewid'),
+      // Uri.parse('http://10.0.2.2:8001/job-listing/answers/$interviewid'),
+      Uri.parse('$jobListing/answers/$interviewid'),
       headers: <String, String>{
         'Content-Type': 'application/json',
         'Authorization': _authToken.toString(),

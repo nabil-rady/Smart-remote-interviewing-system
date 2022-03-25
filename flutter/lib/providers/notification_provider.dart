@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:test/local/urls.dart';
 import 'package:test/models/notification_model.dart';
 import '../local/sharedpreferences.dart';
 import '../local/http_exception.dart';
@@ -13,7 +14,7 @@ class Notifications with ChangeNotifier {
 
   Future<void> getNotidfications() async {
     final response = await http.get(
-      Uri.parse('http://10.0.2.2:8001/user/notifications'),
+      Uri.parse('$notif/notifications'),
       headers: <String, String>{
         'Content-Type': 'application/json',
         'Authorization': getUserToken().toString(),
@@ -48,7 +49,8 @@ class Notifications with ChangeNotifier {
 
   Future<void> notificationRead(String notificationId) async {
     final response = await http.post(
-      Uri.parse('http://10.0.2.2:8001/user/read-notification/$notificationId'),
+      //  Uri.parse('http://10.0.2.2:8001/user/read-notification/$notificationId'),
+      Uri.parse('$notif/read-notification/$notificationId'),
       headers: <String, String>{
         'Content-Type': 'application/json',
         'Authorization': getUserToken().toString(),

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
+import 'package:test/local/urls.dart';
 import '../local/http_exception.dart';
 import 'package:provider/provider.dart';
 import '../local/http_exception.dart';
@@ -79,8 +80,9 @@ class Positions with ChangeNotifier {
   }
 
   Future<void> addPosition(Position singlePosition) async {
-    const url = 'https://vividly-api.herokuapp.com/job-listing/create';
+    // const url = 'https://vividly-api.herokuapp.com/job-listing/create';
     //const url = 'http://10.0.2.2:8001/job-listing/create';
+    const url = '$jobListing/create';
     try {
       final response = await http.post(Uri.parse(url),
           headers: <String, String>{

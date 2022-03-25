@@ -3,6 +3,7 @@ import 'package:test/local/sharedpreferences.dart';
 
 import '../local/http_exception.dart';
 import 'package:flutter/material.dart';
+import '../local/urls.dart';
 import '../models/positionCandidate.dart';
 import '../models/candidate.dart';
 import 'package:http/http.dart' as http;
@@ -45,8 +46,9 @@ class Candidates with ChangeNotifier {
   Future<void> addAplicant(
       PositionCandidiate member, BuildContext context) async {
     // bool errorFlag = false;
-    const url = 'https://vividly-api.herokuapp.com/job-listing/invite';
+    // const url = 'https://vividly-api.herokuapp.com/job-listing/invite';
     //const url = 'http://10.0.2.2:8001/job-listing/invite';
+    const url = '$jobListing/invite';
     try {
       // if (flag) {
       final response = await http.post(Uri.parse(url),
@@ -114,8 +116,9 @@ class Candidates with ChangeNotifier {
 
   Future<void> addAplicantList(List<List<dynamic>> myList,
       PositionCandidiate member, BuildContext context) async {
-    const url = 'https://vividly-api.herokuapp.com/job-listing/invite';
+    //const url = 'https://vividly-api.herokuapp.com/job-listing/invite';
     //const url = 'http://10.0.2.2:8001/job-listing/invite';
+    const url = '$jobListing/invite';
     try {
       _csvCandidateList = myList;
       _csvCandidateList.forEach((element) {

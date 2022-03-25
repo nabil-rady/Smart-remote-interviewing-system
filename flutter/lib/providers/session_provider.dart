@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:test/local/urls.dart';
 import '../models/session_model.dart';
 import 'package:camera/camera.dart';
 import '../local/http_exception.dart';
@@ -32,7 +33,8 @@ class SessionDetails with ChangeNotifier {
   Future<void> getSessionDetails(String id) async {
     final response = await http.get(
       //Uri.parse('http://10.0.2.2:8002/candidate/join/$id'),
-      Uri.parse('https://vividly-api.herokuapp.com/candidate/join/$id'),
+      Uri.parse('$candidate/join/$id'),
+      //  Uri.parse('https://vividly-api.herokuapp.com/candidate/join/$id'),
       headers: <String, String>{
         'Content-Type': 'application/json',
       },
