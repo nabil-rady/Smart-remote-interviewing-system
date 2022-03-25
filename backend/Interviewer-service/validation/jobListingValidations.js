@@ -107,7 +107,28 @@ const postInvite = [
   }),
 ];
 
+const postEvaluate = [
+  body('evaluations').custom((value) => {
+    for (const e of value) {
+      // check for valid Id
+      if (e.questionId.length !== 36) {
+        const err = new Error('Incorrect questionId');
+        throw err;
+      }
+      // Check for a repetition of quetionId
+      for (const eSecond of value) {
+        if (e !== eSecond && e.questionId === eSecond.questionId) {
+          const err = new Error('Repeated questionId');
+          throw err;
+        }
+      }
+    }
+    return true;
+  }),
+];
+
 module.exports = {
   postCreateListing,
   postInvite,
+  postEvaluate,
 };

@@ -50,15 +50,13 @@ module.exports.postCreateListing = async (req, res, next) => {
       positionName,
       expiryDate,
     });
-    // if (!Array.isArray(questions)) {
-    //   questions = [questions];
-    // }
 
     // craete the questions of the listing
     const questionObjects = await Promise.all(
-      questions.map(async (question) => {
+      questions.map(async (question, index) => {
         try {
           const createdQuestion = await createdJob.createQuestion({
+            order: index,
             ...question,
           });
           if (question.keywords) {
@@ -103,6 +101,66 @@ module.exports.postCreateListing = async (req, res, next) => {
     res.status(201).json({
       ...createdJob.dataValues,
       questions: returnedQuestions,
+    });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500; // serverSide error
+    }
+    next(err);
+  }
+};
+
+module.exports.deleteListing = async (req, res, next) => {
+  try {
+    const userId = req.userId;
+    const listingId = req.params.listing_id;
+
+    const user = await User.findOne({
+      where: {
+        userId,
+      },
+    });
+
+    // check if the user is logged in
+    if (!user.dataValues.loggedIn) {
+      const err = new Error('Please log in');
+      err.statusCode = 401;
+      throw err;
+    }
+    // check if the user's email is confirmed
+    if (!user.dataValues.emailConfirmed) {
+      const err = new Error('Please confirm your email');
+      err.statusCode = 401;
+      throw err;
+    }
+
+    const jobListing = await JobListing.findOne({
+      where: {
+        jobListingId: listingId,
+      },
+    });
+
+    // check if the listing exists
+    if (!jobListing) {
+      const err = new Error('Listing does not exist.');
+      err.statusCode = 404;
+      throw err;
+    }
+    // check if the user own the listing
+    if (jobListing.dataValues.userId != userId) {
+      const err = new Error('You cannot access a listing you do not own.');
+      err.statusCode = 403;
+      throw err;
+    }
+
+    await JobListing.destroy({
+      where: {
+        jobListingId: listingId,
+      },
+    });
+
+    res.status(200).json({
+      message: 'Joblisting deleted.',
     });
   } catch (err) {
     if (!err.statusCode) {
@@ -205,19 +263,22 @@ module.exports.getListing = async (req, res, next) => {
       where: {
         jobListingId: listingId,
       },
-      include: [
-        {
-          model: Interview,
-          where: {
-            processed: true,
-          },
-          required: false,
-          order: [['avgRecommendation', 'DESC']],
-        },
-        {
-          model: Question,
-        },
-      ],
+    });
+
+    // get the interviews
+    const interviews = await Interview.findAll({
+      where: {
+        jobListingId: listingId,
+      },
+      order: [['avgRecommendation', 'DESC']],
+    });
+
+    // get the questions
+    const questions = await Question.findAll({
+      where: {
+        jobListingId: listingId,
+      },
+      order: [['order', 'ASC']],
     });
 
     // check if the listing exists
@@ -235,11 +296,11 @@ module.exports.getListing = async (req, res, next) => {
     }
 
     // construct the object
-    const { Interviews, Questions, ...returnedObject } = jobListing.dataValues;
+    const { ...returnedObject } = jobListing.dataValues;
 
     // attach questions with its keywords
     returnedObject.questions = [];
-    for (let question of Questions) {
+    for (let question of questions) {
       const keywords = await Keyword.findAll({
         where: {
           questionId: question.dataValues.questionId,
@@ -255,18 +316,18 @@ module.exports.getListing = async (req, res, next) => {
 
     // attach interviews
     returnedObject.interviews = [];
-    if (Interviews.length === 0) {
+    if (interviews.length === 0) {
       returnedObject.invitationsNumber = 0;
       returnedObject.interviewsNumber = 0;
     } else {
       let finishedInterviews = 0;
-      for (let interview of Interviews) {
-        if (interview.dataValues.submitedAt) {
+      for (let interview of interviews) {
+        if (interview.dataValues.processed) {
           finishedInterviews++;
           returnedObject.interviews.push({ ...interview.dataValues });
         }
       }
-      returnedObject.invitationsNumber = Interviews.length;
+      returnedObject.invitationsNumber = interviews.length;
       returnedObject.interviewsNumber = finishedInterviews;
     }
 
@@ -483,6 +544,7 @@ module.exports.getInterviewAnswers = async (req, res, next) => {
       where: {
         jobListingId: interview.dataValues.jobListingId,
       },
+      order: [['order', 'ASC']],
       include: [
         {
           model: Result,
@@ -523,6 +585,106 @@ module.exports.getInterviewAnswers = async (req, res, next) => {
 
     res.status(200).json({
       ...returnedObject,
+    });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500; // serverSide error
+    }
+    next(err);
+  }
+};
+
+module.exports.postEvaluate = async (req, res, next) => {
+  // Check for validation errors
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const error = new Error(`Validation failed.`);
+    error.statusCode = 422; // Validation error
+    error.data = errors.array();
+    return next(error);
+  }
+  try {
+    const { interviewId } = req.params;
+    const { evaluations } = req.body;
+    const userId = req.userId;
+
+    const user = await User.findOne({
+      where: {
+        userId,
+      },
+    });
+
+    // check if the user is logged in
+    if (!user.dataValues.loggedIn) {
+      const err = new Error('Please log in');
+      err.statusCode = 401;
+      throw err;
+    }
+    // check if the user's email is confirmed
+    if (!user.dataValues.emailConfirmed) {
+      const err = new Error('Please confirm your email');
+      err.statusCode = 401;
+      throw err;
+    }
+
+    const interview = await Interview.findOne({
+      where: {
+        interviewId: interviewId,
+      },
+    });
+
+    // check if the interview exists
+    if (!interview) {
+      const err = new Error('interview is not found.');
+      err.statusCode = 404;
+      throw err;
+    }
+
+    // check if the user own the listing
+    const jobListing = await JobListing.findOne({
+      where: {
+        jobListingId: interview.dataValues.jobListingId,
+      },
+    });
+    if (jobListing.dataValues.userId != userId) {
+      const err = new Error('You cannot access a listing you do not own.');
+      err.statusCode = 403;
+      throw err;
+    }
+
+    // Make sure that the results is created in DB
+    const results = [];
+    for (const e of evaluations) {
+      const result = await Result.findOne({
+        where: {
+          interviewId,
+          questionId: e.questionId,
+        },
+      });
+      if (!result) {
+        const error = new Error('A result is not found');
+        error.statusCode = 404;
+        throw error;
+      }
+      results.push({
+        result,
+        evaluation: e.evaluation,
+      });
+    }
+
+    // Save the reults
+    let scores = 0;
+    for (const r of results) {
+      scores += r.evaluation;
+      r.result.manualEvaluation = r.evaluation;
+      await r.result.save();
+    }
+    interview.avgManualEvaluation = scores / results.length;
+    await interview.save();
+
+    res.status(200).json({
+      interviewId,
+      avgManualEvaluation: interview.avgManualEvaluation,
     });
   } catch (err) {
     if (!err.statusCode) {

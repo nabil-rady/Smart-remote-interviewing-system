@@ -21,8 +21,6 @@ router.post(
 
 router.get('/get-listings', isAuth, jobListingControllers.getUserListings);
 
-router.get('/:listing_id', isAuth, jobListingControllers.getListing);
-
 router.post(
   '/invite',
   isAuth,
@@ -35,5 +33,16 @@ router.get(
   isAuth,
   jobListingControllers.getInterviewAnswers
 );
+
+router.post(
+  '/evaluate/:interviewId',
+  isAuth,
+  jobListingValidations.postEvaluate,
+  jobListingControllers.postEvaluate
+);
+
+router.get('/:listing_id', isAuth, jobListingControllers.getListing);
+
+router.delete('/:listing_id', isAuth, jobListingControllers.deleteListing);
 
 module.exports = router;

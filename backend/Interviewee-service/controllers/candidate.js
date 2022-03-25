@@ -48,6 +48,7 @@ module.exports.getJoinInterview = async (req, res, next) => {
       where: {
         jobListingId: interview.dataValues.jobListingId,
       },
+      order: [['order', 'ASC']],
     });
 
     let questions = questionObjects.map((questionObject) => ({
