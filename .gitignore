@@ -30,3 +30,4 @@ backend/*/models/index.js
 migrations
 seeders
 
+*.properties
