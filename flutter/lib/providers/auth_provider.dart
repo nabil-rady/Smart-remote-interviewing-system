@@ -100,7 +100,7 @@ class Auth with ChangeNotifier {
       saveUserId('${responseData['user']['userId']}');
       saveUserExpiryDate('${DateTime.parse(responseData['tokenExpireDate'])}');
 
-      _autoLogout();
+      autoLogout();
       notifyListeners();
     } else {
       throw HttpException(responseData['message']);
@@ -153,7 +153,6 @@ class Auth with ChangeNotifier {
     );
     final responseData = json.decode(response.body);
     if (response.statusCode == 200) {
-      final responseData = json.decode(response.body);
       _employer.loggedIn = false;
     } else {
       throw HttpException(responseData['message']);
@@ -162,6 +161,7 @@ class Auth with ChangeNotifier {
     removeUserId();
     removeUserToken();
     removeUserExpiryDate();
+    print("all removed");
     if (_authTimer != null) {
       _authTimer!.cancel();
       _authTimer = null;
@@ -169,7 +169,8 @@ class Auth with ChangeNotifier {
     notifyListeners();
   }
 
-  void _autoLogout() {
+  void autoLogout() {
+    print("auto log out");
     if (_authTimer != null) {
       _authTimer!.cancel();
     }
@@ -179,35 +180,40 @@ class Auth with ChangeNotifier {
   }
 
   Future<bool> autoLogin() async {
-    try {
-      final id = getUserId().toString();
-      final response = await http.get(
-        Uri.parse('$hrURL/user/$id'),
-        headers: <String, String>{
-          'Content-Type': 'application/json',
-          'Authorization': getUserToken().toString(),
-        },
-      );
-      final responseData = json.decode(response.body);
-      if (response.statusCode == 200) {
-        _employer.firstName = responseData['user']['firstName'];
-        _employer.lastName = responseData['user']['lastName'];
-        _employer.companyName = responseData['user']['companyName'];
-        _employer.email = responseData['user']['email'];
-        _employer.createdAt = responseData['user']['createdAt'];
-        _employer.updatedAt = responseData['user']['updatedAt'];
-        _employer.countryCode = responseData['user']['phoneCode'];
-        _employer.phone = responseData['user']['phoneNumber'];
-        _employer.loggedIn = true;
-        _employer.emailConfirmed = responseData['user']['emailConfirmed'];
-        _employer.userId = id;
-      } else {
+    autoLogout();
+    if (getUserId() != null) {
+      try {
+        final id = getUserId().toString();
+        final response = await http.get(
+          Uri.parse('$hrURL/user/$id'),
+          headers: <String, String>{
+            'Content-Type': 'application/json',
+            'Authorization': getUserToken().toString(),
+          },
+        );
+        final responseData = json.decode(response.body);
+        if (response.statusCode == 200) {
+          _employer.firstName = responseData['user']['firstName'];
+          _employer.lastName = responseData['user']['lastName'];
+          _employer.companyName = responseData['user']['companyName'];
+          _employer.email = responseData['user']['email'];
+          _employer.createdAt = responseData['user']['createdAt'];
+          _employer.updatedAt = responseData['user']['updatedAt'];
+          _employer.countryCode = responseData['user']['phoneCode'];
+          _employer.phone = responseData['user']['phoneNumber'];
+          _employer.loggedIn = true;
+          _employer.emailConfirmed = responseData['user']['emailConfirmed'];
+          _employer.userId = id;
+        } else {
+          return false;
+        }
+        notifyListeners();
+        // autoLogout();
+        return true;
+      } catch (error) {
         return false;
       }
-      notifyListeners();
-      _autoLogout();
-      return true;
-    } catch (error) {
+    } else {
       return false;
     }
   }

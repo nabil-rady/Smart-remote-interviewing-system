@@ -39,14 +39,24 @@ class _SplashScreenState extends State<SplashScreen> {
 
   navigator() async {
     if (getUserToken() != null) {
+      // print(getUserToken().toString());
+      // print("able to get user token from shared pre");
+      // Provider.of<Auth>(context, listen: false).autoLogout();
       Timer(const Duration(seconds: 3), () {
         Provider.of<Auth>(context, listen: false).autoLogin().then((value) =>
-            Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => HomeScreen()),
-                (Route<dynamic> route) => false));
+            value
+                ? Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => HomeScreen()),
+                    (Route<dynamic> route) => false)
+                : Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => CompanySignupScreen()),
+                    (Route<dynamic> route) => false));
       });
     } else {
+      print("nooooooooooooooooooo shared pre");
       Timer(const Duration(seconds: 3), () {
         Navigator.push(
           context,
