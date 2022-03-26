@@ -105,6 +105,8 @@ class _PositionDetailScreenState extends State<PositionDetailScreen> {
 
 Widget QuestionCard(String questionTitle, String answerTime,
     String thinkingTime, String keywords, int i) {
+  print(keywords);
+  keywords = keywords.substring(1, keywords.length - 1);
   return Padding(
     padding: const EdgeInsets.only(bottom: 10),
     child: Center(
@@ -123,10 +125,12 @@ Widget QuestionCard(String questionTitle, String answerTime,
                 ),
                 width: double.infinity,
                 color: const Color(0xFF165DC0),
-                child: Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
                   child: Center(
                     child: Text(
                       ' $questionTitle',
+                      textAlign: TextAlign.center,
                       style: const TextStyle(
                           color: Colors.white, fontWeight: FontWeight.bold),
                     ),
@@ -153,6 +157,7 @@ Widget QuestionCard(String questionTitle, String answerTime,
                       ),
                       Text(
                         'Keywords: $keywords',
+                        textAlign: TextAlign.center,
                         style: const TextStyle(
                           fontSize: 19.0,
                         ),
