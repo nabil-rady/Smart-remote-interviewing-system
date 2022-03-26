@@ -3,14 +3,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Card from './Card';
 import './scss/listing.scss';
-
+import delIcon from '../components/SVGs/delete.svg';
 const PositionCard = (props) => {
   const renderExpired = (pos) => {
     const second = pos.expiryDate;
     if (new Date().getTime() > new Date(second).getTime()) {
-      return <p className="expired">expired</p>;
+      return <p className="expired">Expired</p>;
     } else {
-      return null;
+      return <p className="available">Available</p>;
     }
   };
 
@@ -41,6 +41,12 @@ const PositionCard = (props) => {
             >
               {position.positionName}
             </Link>
+            <img
+              className="delete"
+              id="1"
+              src={delIcon}
+              onClick={() => props.deletePosition(position)}
+            />
             {renderExpired(position)} <br />
             <p htmlFor="expirydate" className="labels">
               Expiry Date:

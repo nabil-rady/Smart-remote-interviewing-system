@@ -66,7 +66,42 @@ function ListingPage() {
     im25,
     im26,
   ];
+  const deletePosition = (position) => {
+    getPositions((oldPositions) =>
+      oldPositions.filter(
+        (newPosition, index) =>
+          position.jobListingId !== newPosition.jobListingId
+      )
+    );
+    let statusCode;
+    fetch(`${HRURL}/job-listing/${position.jobListingId}`, {
+      method: 'DELETE',
 
+      headers: {
+        Authorization: authUser.token,
+      },
+    })
+      .then((response) => {
+        statusCode = response.status;
+        console.log(response);
+        return response.json();
+      })
+      .then((data) => {
+        if (statusCode === 200) {
+          console.log(data);
+        } else {
+          handleAPIError(
+            statusCode,
+            data,
+            () => {},
+            () => setAuthUser(null)
+          );
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  };
   const fetchPositions = () => {
     return fetch(`${HRURL}/job-listing/get-listings`, {
       method: 'GET',
@@ -100,7 +135,11 @@ function ListingPage() {
           positions.length > 0 ? (
             <>
               <div className="positions">
-                <PositionCard positions={positions} backgrounds={backgrounds} />
+                <PositionCard
+                  positions={positions}
+                  backgrounds={backgrounds}
+                  deletePosition={deletePosition}
+                />
               </div>
               <button className="addposition">
                 <Link to="/add">Add Position</Link>

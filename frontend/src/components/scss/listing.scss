@@ -20,7 +20,6 @@
   width: 28%;
   margin-bottom: 2rem;
   box-shadow: none;
-  cursor: pointer;
   margin: 2rem 2.6%;
 }
 
@@ -64,12 +63,21 @@
 }
 
 .expired {
-  //display: inline-block;
   width: auto;
   margin-right: 7%;
   margin-top: 1%;
   color: white;
   background-color: red;
+  float: right;
+  padding: 5px;
+  border-radius: 10px;
+}
+.available {
+  width: auto;
+  margin-right: 7%;
+  margin-top: 1%;
+  color: white;
+  background-color: green;
   float: right;
   padding: 5px;
   border-radius: 10px;

@@ -26,8 +26,8 @@ const Dashboard = () => {
   //     .catch((err) => console.log(err));
   // }, []);
 
-  const [listing, setListing] = useState(false);
-  const [notifications, setNotifications] = useState(true);
+  const [listing, setListing] = useState(true);
+  const [notifications, setNotifications] = useState(false);
   const [profile, setProfile] = useState(false);
   const listingHandler = () => {
     setListing(true);
