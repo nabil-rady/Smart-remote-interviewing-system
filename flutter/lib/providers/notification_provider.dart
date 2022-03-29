@@ -39,7 +39,7 @@ class Notifications with ChangeNotifier {
                 ),
               ))
           .toList();
-      _items = _finalList.reversed.toList();
+      _items = _finalList.toList();
 
       notifyListeners();
     } else {

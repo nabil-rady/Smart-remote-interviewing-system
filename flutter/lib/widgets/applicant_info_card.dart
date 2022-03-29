@@ -15,7 +15,7 @@ class ApplicanInfornationCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(15),
-      height: 240,
+      height: 300,
       width: double.infinity,
       child: Card(
         elevation: 5,
@@ -64,6 +64,20 @@ class ApplicanInfornationCard extends StatelessWidget {
               ),
               Text(
                 'Date: ${DateFormat.yMd().add_jm().format(DateTime.parse(loadedApplicant.submitedAt))}',
+                style: Theme.of(context).textTheme.bodyText1,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Text(
+                'average Manual Evaluation: ${loadedApplicant.avgManualEvaluation}',
+                style: Theme.of(context).textTheme.bodyText1,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Text(
+                'average Recommendation: ${loadedApplicant.avgRecommendation}',
                 style: Theme.of(context).textTheme.bodyText1,
               ),
             ],
