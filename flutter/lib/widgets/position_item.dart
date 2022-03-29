@@ -15,8 +15,6 @@ class PositionItem extends StatelessWidget {
       padding: const EdgeInsets.all(8),
       child: InkWell(
         onTap: () {
-          // Navigator.of(context)
-          //     .pushNamed(InvitationScreen.routeName, arguments: position);
           detailsFuture = getPositionDetails(context, positionId);
           Navigator.of(context).pushNamed('/after_positions_screen',
               arguments: [positionName, positionId, detailsFuture]);
@@ -37,8 +35,9 @@ class PositionItem extends StatelessWidget {
               ),
               IconButton(
                 onPressed: () {
-                  Provider.of<Positions>(context, listen: false)
-                      .removePosition(positionId);
+                  deleteListingFuture(context, positionId);
+                  // Provider.of<Positions>(context, listen: false)
+                  //     .removePosition(positionId);
                 },
                 icon: const Icon(Icons.delete),
                 color: Colors.red,

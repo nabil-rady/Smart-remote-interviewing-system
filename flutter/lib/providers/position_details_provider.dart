@@ -71,7 +71,7 @@ class PostionDetails with ChangeNotifier {
                 id: positionvalue['questionId'],
               )))
           .toList();
-      _items = _finalList.reversed.toList();
+      _items = _finalList.toList();
       print(responseData['interviews']);
       final candidateData = responseData['interviews'] as List<dynamic>;
       final List<Candidate> _finalcandidateList = [];
@@ -85,7 +85,7 @@ class PostionDetails with ChangeNotifier {
                 submitedAt: candidatevalue['submitedAt'],
               )))
           .toList();
-      _candidates = _finalcandidateList.reversed.toList();
+      _candidates = _finalcandidateList.toList();
 
       notifyListeners();
     } else {
@@ -122,7 +122,7 @@ class PostionDetails with ChangeNotifier {
             ),
           )
           .toList();
-      _videoEvaluation = _finalVideoList.reversed.toList();
+      _videoEvaluation = _finalVideoList.toList();
       notifyListeners();
     } else {
       throw HttpException(responseData['message']);
