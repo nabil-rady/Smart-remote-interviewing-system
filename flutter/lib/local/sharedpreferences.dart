@@ -71,6 +71,11 @@ Future getPositionsFuture(BuildContext context) {
   return Provider.of<DashboardPositions>(context, listen: false).getListings();
 }
 
+Future deleteListingFuture(BuildContext context, String listingId) {
+  return Provider.of<DashboardPositions>(context, listen: false)
+      .deleteListings(listingId);
+}
+
 Future getNotificationssFuture(BuildContext context) {
   return Provider.of<Notifications>(context, listen: false).getNotidfications();
 }

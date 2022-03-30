@@ -60,7 +60,7 @@ class SessionDetails with ChangeNotifier {
                 timeToThink: quesionvalue['timeToThink'],
               )))
           .toList();
-      _items = _finalList.reversed.toList();
+      _items = _finalList.toList();
       _session.questions = _items;
       notifyListeners();
       // print(_session.email);

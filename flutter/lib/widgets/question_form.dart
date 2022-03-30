@@ -66,8 +66,8 @@ class _QuestionFormState extends State<QuestionForm> {
                   ),
                   TextFormField(
                     keyboardType: TextInputType.number,
-                    decoration:
-                        const InputDecoration(labelText: 'Thinking Time'),
+                    decoration: const InputDecoration(
+                        labelText: 'Thinking Time', hintText: 'In Minutes'),
                     textInputAction: TextInputAction.next,
                     onSaved: (value) {
                       newquestion = Question(
@@ -86,7 +86,8 @@ class _QuestionFormState extends State<QuestionForm> {
                   ),
                   TextFormField(
                     keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(labelText: 'Answer Time'),
+                    decoration: const InputDecoration(
+                        labelText: 'Answer Time', hintText: 'In Minutes'),
                     textInputAction: TextInputAction.done,
                     onSaved: (value) {
                       newquestion = Question(
@@ -106,8 +107,7 @@ class _QuestionFormState extends State<QuestionForm> {
                   TextFormField(
                     decoration: const InputDecoration(
                         labelText: 'Keywords',
-                        hintText:
-                            'Please write in this form : flutter,django,angular,..etc'),
+                        hintText: 'example : flutter,django,angular,..etc'),
                     textInputAction: TextInputAction.next,
                     onSaved: (value) {
                       newquestion = Question(

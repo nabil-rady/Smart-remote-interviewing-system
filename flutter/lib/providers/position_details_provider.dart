@@ -20,7 +20,9 @@ class PostionDetails with ChangeNotifier {
       phoneCode: "",
       phoneNumber: '',
       id: '',
-      submitedAt: '');
+      submitedAt: '',
+      avgManualEvaluation: 0,
+      avgRecommendation: 0);
 
   PostionDetails(
     this._authToken,
@@ -57,6 +59,7 @@ class PostionDetails with ChangeNotifier {
       },
     );
     final responseData = json.decode(response.body);
+    print(responseData);
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
       final extractedData = responseData['questions'] as List<dynamic>;
@@ -71,21 +74,30 @@ class PostionDetails with ChangeNotifier {
                 id: positionvalue['questionId'],
               )))
           .toList();
-      _items = _finalList.reversed.toList();
-      print(responseData['interviews']);
+      _items = _finalList.toList();
+      // print(responseData['interviews']);
       final candidateData = responseData['interviews'] as List<dynamic>;
       final List<Candidate> _finalcandidateList = [];
+      //print(candidateData[0]['avgRecommendation'].toDouble().runtimeType);
       candidateData
-          .map((candidatevalue) => _finalcandidateList.add(Candidate(
+          .map(
+            (candidatevalue) => _finalcandidateList.add(
+              Candidate(
                 email: candidatevalue['email'],
                 id: candidatevalue['interviewId'],
                 name: candidatevalue['name'],
                 phoneCode: candidatevalue['phoneCode'],
                 phoneNumber: candidatevalue['phoneNumber'],
                 submitedAt: candidatevalue['submitedAt'],
-              )))
+                avgManualEvaluation:
+                    candidatevalue['avgManualEvaluation'].toDouble(),
+                avgRecommendation:
+                    candidatevalue['avgRecommendation'].toDouble(),
+              ),
+            ),
+          )
           .toList();
-      _candidates = _finalcandidateList.reversed.toList();
+      _candidates = _finalcandidateList.toList();
 
       notifyListeners();
     } else {
@@ -102,6 +114,7 @@ class PostionDetails with ChangeNotifier {
       },
     );
     final responseData = json.decode(response.body);
+    print(responseData);
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
       final extractedData = responseData['questions'] as List<dynamic>;
@@ -118,11 +131,20 @@ class PostionDetails with ChangeNotifier {
               VideoEvaluation(
                 question: vedioev['statement'],
                 videoUrl: vedioev['link'],
+                manualEvaluation: vedioev['manualEvaluation'].toDouble(),
+                openPose: vedioev['openPose'].toDouble(),
+                score: vedioev['score'].toDouble(),
+                angry: vedioev['emotions']['angry'].toDouble(),
+                happy: vedioev['emotions']['happy'].toDouble(),
+                neutral: vedioev['emotions']['neutral'].toDouble(),
+                sad: vedioev['emotions']['sad'].toDouble(),
+                surprise: vedioev['emotions']['surprise'].toDouble(),
               ),
             ),
           )
           .toList();
-      _videoEvaluation = _finalVideoList.reversed.toList();
+      _videoEvaluation = _finalVideoList.toList();
+      print(_videoEvaluation);
       notifyListeners();
     } else {
       throw HttpException(responseData['message']);

@@ -47,4 +47,22 @@ class DashboardPositions with ChangeNotifier {
       throw HttpException(responseData['message']);
     }
   }
+
+  Future<void> deleteListings(String listingId) async {
+    final response = await http.delete(
+      Uri.parse('$hrURL/job-listing/$listingId'),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': _authToken.toString(),
+      },
+    );
+    final responseData = json.decode(response.body);
+    print(responseData);
+    if (response.statusCode == 200) {
+      _positionsItems.removeWhere((element) => element.id == listingId);
+      notifyListeners();
+    } else {
+      throw HttpException(responseData['message']);
+    }
+  }
 }

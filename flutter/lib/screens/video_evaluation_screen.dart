@@ -23,11 +23,15 @@ class _VedioEvaluationScreenState extends State<VedioEvaluationScreen> {
   }
 
   List<String> rate = [];
+  late int number_of_questions;
   var totalScore = 0;
   List<TextEditingController> _controllers = [];
   @override
   void dispose() {
-    for (TextEditingController c in _controllers) c.dispose();
+    for (TextEditingController controler in _controllers) {
+      print('dispose ${controler.text}');
+      controler.dispose();
+    }
     super.dispose();
   }
 
@@ -39,18 +43,18 @@ class _VedioEvaluationScreenState extends State<VedioEvaluationScreen> {
         actions: [
           IconButton(
               onPressed: () {
-                // setState(() {
-                //   for (var i = 0; i < _questions.questions.length; i++) {
-                //     if (_controllers[i].text.isNotEmpty) {
-                //       rate.add(_controllers[i].text);
-                //       totalScore = totalScore + int.parse(_controllers[i].text);
-                //     }
-                //   }
-                //   print(totalScore);
-                //   //Provider.of<Interviews>(context)
-                //   print(rate);
-                //   Navigator.pop(context, totalScore);
-                // });
+                setState(() {
+                  for (var i = 0; i < number_of_questions; i++) {
+                    if (_controllers[i].text.isNotEmpty) {
+                      rate.add(_controllers[i].text);
+                      // totalScore = totalScore + int.parse(_controllers[i].text);
+                    }
+                  }
+                  //print(totalScore);
+                  //Provider.of<Interviews>(context)
+                  print(rate);
+                  Navigator.pop(context);
+                });
               },
               icon: const Icon(Icons.save))
         ],
@@ -79,7 +83,9 @@ class _VedioEvaluationScreenState extends State<VedioEvaluationScreen> {
                 builder: (ctx, position, child) => ListView.builder(
                     itemCount: position.videoEvaluation.length,
                     itemBuilder: (ctx, index) {
+                      number_of_questions = position.videoEvaluation.length;
                       print(position.videoEvaluation[index].videoUrl);
+
                       _controllers.add(TextEditingController());
                       return Card(
                         margin: const EdgeInsets.all(15),
@@ -88,11 +94,12 @@ class _VedioEvaluationScreenState extends State<VedioEvaluationScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Padding(
-                                padding: const EdgeInsets.all(10),
-                                child: Text(
-                                  'Question${(index + 1).toString()}: ${position.videoEvaluation[index].question}',
-                                  style: Theme.of(context).textTheme.bodyText1,
-                                )),
+                              padding: const EdgeInsets.all(10),
+                              child: Text(
+                                'Question${(index + 1).toString()}: ${position.videoEvaluation[index].question}',
+                                style: Theme.of(context).textTheme.bodyText1,
+                              ),
+                            ),
                             VideoPlayerwidget(
                               videoPlayerController:
                                   VideoPlayerController.network(
@@ -129,8 +136,7 @@ class _VedioEvaluationScreenState extends State<VedioEvaluationScreen> {
                                       child: TextField(
                                         controller: _controllers[index],
                                         decoration: const InputDecoration(
-                                            hintText: 'Rate from 0% to 100%',
-                                            //hintStyle: ,
+                                            hintText: 'From 0 to 100',
                                             contentPadding: EdgeInsets.all(15),
                                             border: InputBorder.none),
                                       ),
