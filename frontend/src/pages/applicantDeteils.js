@@ -79,14 +79,6 @@ function ApplicantDetails() {
               </p>
             </div>
             <div className="dataContainer">
-              <p htmlFor="pname" className="detailsLabel">
-                Position name:
-              </p>
-              <p name="pname" className="info">
-                {positionName}
-              </p>
-            </div>
-            <div className="dataContainer">
               <p htmlFor="email" className="detailsLabel">
                 Email:
               </p>
@@ -108,6 +100,22 @@ function ApplicantDetails() {
               </p>
               <p name="interviewdate" className="info">
                 {Dates(applicant)}
+              </p>
+            </div>
+            <div className="dataContainer">
+              <p htmlFor="interviewdate" className="detailsLabel">
+                Manual Evaluation Score:
+              </p>
+              <p name="interviewdate" className="info">
+                {applicant.avgManualEvaluation}
+              </p>
+            </div>
+            <div className="dataContainer">
+              <p htmlFor="interviewdate" className="detailsLabel">
+                Evaluation Results:
+              </p>
+              <p name="interviewdate" className="info">
+                {applicant.avgScore}
               </p>
             </div>
           </Card>
