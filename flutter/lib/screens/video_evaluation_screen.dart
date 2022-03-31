@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:test/models/video_evaluation_model.dart';
 import 'package:video_player/video_player.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
 
 import '../widgets/video_player.dart';
 import '../local/sharedpreferences.dart';
@@ -15,6 +17,7 @@ class VedioEvaluationScreen extends StatefulWidget {
 }
 
 class _VedioEvaluationScreenState extends State<VedioEvaluationScreen> {
+  late List<Emotion> emotion;
   late Future _videoEvaluation;
   @override
   void initState() {
@@ -83,11 +86,51 @@ class _VedioEvaluationScreenState extends State<VedioEvaluationScreen> {
                 builder: (ctx, position, child) => ListView.builder(
                     itemCount: position.videoEvaluation.length,
                     itemBuilder: (ctx, index) {
+                      //////////////////////////////////////////////////////////////////////////
+                      emotion = [
+                        Emotion(
+                            emotionType: "Happy",
+                            emotionPr: position.videoEvaluation[index].happy),
+                        Emotion(
+                            emotionType: "Sad",
+                            emotionPr: position.videoEvaluation[index].sad),
+                        Emotion(
+                            emotionType: "Angry",
+                            emotionPr: position.videoEvaluation[index].angry),
+                        Emotion(
+                            emotionType: "Surprise",
+                            emotionPr:
+                                position.videoEvaluation[index].surprise),
+                        Emotion(
+                            emotionType: "Neutral",
+                            emotionPr: position.videoEvaluation[index].neutral)
+                      ];
+
+                      List<charts.Series<Emotion, String>> series = [
+                        charts.Series(
+                          id: "developers",
+                          data: emotion,
+                          domainFn: (Emotion emotion1, _) =>
+                              emotion1.emotionType,
+                          measureFn: (Emotion emotion1, _) =>
+                              emotion1.emotionPr * 100,
+                          // colorFn: (Emotion emotion1, _) => emotion1.barColor
+                        )
+                      ];
+
+                      //////////////////////////////////////////////////////////////////////////
                       number_of_questions = position.videoEvaluation.length;
                       print(position.videoEvaluation[index].videoUrl);
 
                       _controllers.add(TextEditingController());
-                      return Card(
+                      return
+                          // Container(
+                          //   height: 200,
+                          //   width: 200,
+                          //   child: Center(
+                          //       child: charts.BarChart(series, animate: true)),
+                          // );
+                          Card(
                         margin: const EdgeInsets.all(15),
                         elevation: 10,
                         child: Column(
@@ -97,6 +140,27 @@ class _VedioEvaluationScreenState extends State<VedioEvaluationScreen> {
                               padding: const EdgeInsets.all(10),
                               child: Text(
                                 'Question${(index + 1).toString()}: ${position.videoEvaluation[index].question}',
+                                style: Theme.of(context).textTheme.bodyText1,
+                              ),
+                            ),
+                            Container(
+                              height: 200,
+                              child: Center(
+                                  child:
+                                      charts.BarChart(series, animate: true)),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 10, right: 10, top: 10),
+                              child: Text(
+                                'Open Pose: ${position.videoEvaluation[index].openPose}',
+                                style: Theme.of(context).textTheme.bodyText1,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: Text(
+                                'score: ${position.videoEvaluation[index].score}',
                                 style: Theme.of(context).textTheme.bodyText1,
                               ),
                             ),

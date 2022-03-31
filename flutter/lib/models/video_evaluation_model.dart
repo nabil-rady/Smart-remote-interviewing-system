@@ -25,18 +25,12 @@ class VideoEvaluation {
   });
 }
 
-class Emotions {
-  final double happy;
-  final double sad;
-  final double angry;
-  final double surprise;
-  final double neutral;
+class Emotion {
+  final String emotionType;
+  final double emotionPr;
 
-  Emotions({
-    required this.happy,
-    required this.sad,
-    required this.angry,
-    required this.surprise,
-    required this.neutral,
+  Emotion({
+    required this.emotionType,
+    required this.emotionPr,
   });
 }
