@@ -568,6 +568,7 @@ module.exports.getInterviewAnswers = async (req, res, next) => {
     for (let question of questions) {
       console.log(question.Results[0].dataValues);
       returnedObject.questions.push({
+        questionId: question.questionId,
         statement: question.statement,
         link: question.Video.dataValues.link,
         score: question.Results[0].dataValues.recommendation,

@@ -46,10 +46,7 @@ function PositionPage(props) {
       <Card className="detailsCard">
         <img src={check} className="images" />
         <div className="labelContainer">
-          <Link
-            to={`/view_applicants/${positionName}$${positionId}`}
-            className="cardLabel"
-          >
+          <Link to={`/view_applicants/${positionId}`} className="cardLabel">
             Evalute Applicants
           </Link>
         </div>

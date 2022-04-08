@@ -112,6 +112,13 @@ const postVerifyEmail = [
 ];
 
 const postLogin = [
+  body('email', 'Please enter a valid email.')
+    .exists()
+    .trim()
+    .isLength({
+      max: 255,
+    })
+    .isEmail(),
   body('registrationToken', 'Invalid registration token').isLength({
     min: 100,
     max: 4096,
