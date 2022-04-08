@@ -11,6 +11,7 @@ import ErrorModal from './ErrorModal';
 import { UserContext } from '../App';
 import ReactFileReader from 'react-file-reader';
 import { useParams } from 'react-router-dom';
+import { TailSpin } from 'react-loader-spinner';
 const InviteUser = (props) => {
   const params = useParams();
   const listingId = params.listingId;
@@ -23,6 +24,7 @@ const InviteUser = (props) => {
   const [enteredPhoneCode, setEnteredPhoneCode] = useState('');
   const setAuthUser = useContext(UserContext).setAuthUser;
   const [error, setError] = useState();
+  const [loading, setLoading] = useState(false);
   const save = (file) => {
     let names = [];
     let emails = [];
@@ -86,7 +88,7 @@ const InviteUser = (props) => {
   const addUserHandler = (event) => {
     event.preventDefault();
     let statusCode;
-
+    setLoading(true);
     props.onInviteUser(
       enteredName,
       enteredEmail,
@@ -120,6 +122,7 @@ const InviteUser = (props) => {
         console.log(data);
         if (statusCode === 200) {
           console.log('successful');
+          setLoading(false);
           usersLate.length = 0;
         } else {
           handleAPIError(statusCode, data, setError, () => setAuthUser(null));
@@ -228,9 +231,26 @@ const InviteUser = (props) => {
             enableSearch={true}
           />
           <div className="flex">
-            <button className="invite-button" type="submit">
-              Invite User
-            </button>
+            {!loading && (
+              <button className="invite-button" type="submit">
+                Invite User
+              </button>
+            )}
+            {loading && (
+              <div
+                style={{
+                  top: 'calc(40vh - 40px)',
+                  left: 'calc(10vw - 40px)',
+                  marginRight: '2rem',
+                }}
+              >
+                <TailSpin
+                  color="hsl(215deg, 79%, 42%)"
+                  height={60}
+                  width={60}
+                />
+              </div>
+            )}
             <ReactFileReader
               multipleFiles={false}
               fileTypes={['.csv']}

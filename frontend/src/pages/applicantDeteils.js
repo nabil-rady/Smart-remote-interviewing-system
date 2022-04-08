@@ -19,8 +19,7 @@ function ApplicantDetails() {
   const authUser = useContext(UserContext).authUser;
   const params = useParams();
   console.log(params);
-  const positionNameAndapplicantId = params.positionNameAndapplicantId;
-  const [positionName, applicantId] = positionNameAndapplicantId.split('$');
+  const applicantId = params.positionNameAndapplicantId;
   const setAuthUser = useContext(UserContext).setAuthUser;
   const [applicant, setApplicant] = useState();
 

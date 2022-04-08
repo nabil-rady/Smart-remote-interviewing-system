@@ -54,8 +54,8 @@ function App() {
     JSON.parse(localStorage.getItem('user')) || null
   );
   const [notification, setNotification] = useState({
-    title: 'hi',
-    body: 'toz fyk',
+    title: '',
+    body: '',
   });
   const [show, setShow] = useState(false);
   useEffect(() => {

@@ -1,6 +1,5 @@
 import React, { useState, useRef, useContext, useEffect } from 'react';
 import NavBar from '../components/NavBar';
-import EmailVerification from '../components/EmailVerification';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../App';
 import Card from '../components/Card';
@@ -21,8 +20,7 @@ function ViewApplicants() {
   const authUser = useContext(UserContext).authUser;
   const setAuthUser = useContext(UserContext).setAuthUser;
   const params = useParams();
-  const positionNameAndId = params.positionNameAndId;
-  const [positionName, positionId] = positionNameAndId.split('$');
+  const positionId = params.positionNameAndId;
   const [interviews, setInterviews] = useState();
   const fetchInterviews = () => {
     return fetch(`${HRURL}/job-listing/${positionId}`, {
@@ -63,7 +61,7 @@ function ViewApplicants() {
               {interviews.map((applicant, index) => (
                 <Card key={index} className="applicantcard">
                   <Link
-                    to={`/applicant_details/${positionName}$${applicant.interviewId}`}
+                    to={`/applicant_details/${applicant.interviewId}`}
                     className="app_name"
                     title={applicant.name}
                   >

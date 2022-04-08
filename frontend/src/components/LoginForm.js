@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/messaging';
-
+import { TailSpin } from 'react-loader-spinner';
 const LoginForm = () => {
   const [registrationToken, setToken] = useState();
   const firebaseConfig = {
@@ -37,12 +37,14 @@ const LoginForm = () => {
   const [error, setError] = useState();
   const setAuthUser = useContext(UserContext).setAuthUser;
   const history = useHistory();
-  const redirect = () => {
-    history.push('/dashboard');
-  };
+  const [loading, setLoading] = useState(false);
+  // const redirect = () => {
+  //   history.push('/dashboard');
+  // };
   const submitHandler = (e) => {
     e.preventDefault();
     // Send data to backend
+    setLoading(true);
     let statusCode;
     fetch(`${APIURL}/user/login`, {
       method: 'POST',
@@ -68,7 +70,8 @@ const LoginForm = () => {
             ...data.user,
             token: data.token,
           });
-          redirect();
+          setLoading(false);
+          // redirect();
         } else {
           handleAPIError(statusCode, data, setError, () => setAuthUser(null));
         }
@@ -115,7 +118,18 @@ const LoginForm = () => {
             onChange={passwordHandler}
             required
           />
-          <button className="login_btn">Login</button>
+          {!loading && <button className="login_btn">Login</button>}
+          {loading && (
+            <div
+              style={{
+                top: 'calc(50vh - 40px)',
+                left: 'calc(50vw - 40px)',
+                marginLeft: '2rem',
+              }}
+            >
+              <TailSpin color="hsl(215deg, 79%, 42%)" height={50} width={50} />
+            </div>
+          )}
           <p className="toSignup">
             Don't have an account?{' '}
             <Link to="/signup" className="signupLink">

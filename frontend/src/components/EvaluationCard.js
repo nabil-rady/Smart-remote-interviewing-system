@@ -8,24 +8,26 @@ Chart.register(...registerables);
 
 const EvaluationCard = React.forwardRef((props, ratings) => {
   let emotionLabels = ['happy', 'sad', 'angry', 'surprise', 'neutral'];
+  let chartData = [];
+  let emotionScores = [];
   const getEmotions = (emotions, index) => {
-    let emotion = [
+    emotionScores.push([
       emotions.happy * 100,
       emotions.sad * 100,
       emotions.angry * 100,
       emotions.surprise * 100,
       emotions.neutral * 100,
-    ];
-    let chartData = [];
+    ]);
     chartData.push({
       labels: emotionLabels.map((label) => label),
       datasets: [
         {
-          data: emotion.map((emotion) => emotion),
+          data: emotionScores[index].map((emotion) => emotion),
           backgroundColor: ['red', 'grey', 'green', 'yellow', 'purple'],
         },
       ],
     });
+    console.log(chartData);
     return (
       <div>
         <Bar

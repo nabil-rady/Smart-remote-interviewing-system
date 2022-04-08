@@ -11,7 +11,7 @@ import EmailVerification from './EmailVerification';
 import { Link } from 'react-router-dom';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/messaging';
-
+import { TailSpin } from 'react-loader-spinner';
 let userId;
 const SignUpForm = () => {
   const [registrationToken, setToken] = useState();
@@ -47,11 +47,12 @@ const SignUpForm = () => {
   const [verificationCard, setVerificationCard] = useState(false);
   let formattedvalue = '';
   const setAuthUser = useContext(UserContext).setAuthUser;
+  const [loading, setLoading] = useState(false);
   const submitHandler = (e) => {
     e.preventDefault();
     // Send data to backend
     let statusCode;
-
+    setLoading(true);
     fetch(`${APIURL}/user/signup`, {
       method: 'POST',
       headers: {
@@ -76,6 +77,7 @@ const SignUpForm = () => {
         console.log(data);
         if (statusCode === 201) {
           console.log('Success');
+          setLoading(false);
         } else {
           handleAPIError(statusCode, data, setError, () => setAuthUser(null));
         }
@@ -256,7 +258,18 @@ const SignUpForm = () => {
               marginTop: '8%',
             }}
           />
-          <button className="signup">Sign Up</button>
+          {!loading && <button className="signup">Sign Up</button>}
+          {loading && (
+            <div
+              style={{
+                top: 'calc(50vh - 40px)',
+                left: 'calc(50vw - 40px)',
+                marginLeft: '2rem',
+              }}
+            >
+              <TailSpin color="hsl(215deg, 79%, 42%)" height={50} width={50} />
+            </div>
+          )}
         </form>
         <p className="toLogin">
           Have an account?{' '}
