@@ -41,6 +41,12 @@ router.post(
   jobListingControllers.postEvaluate
 );
 
+router.get(
+  '/candidates/:listing_id',
+  isAuth,
+  jobListingControllers.getCandidates
+);
+
 router.get('/:listing_id', isAuth, jobListingControllers.getListing);
 
 router.delete('/:listing_id', isAuth, jobListingControllers.deleteListing);
