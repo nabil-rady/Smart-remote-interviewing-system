@@ -17,7 +17,6 @@ const InviteUser = (props) => {
   const listingId = params.listingId;
   let usersLate = props.users;
   const authUser = useContext(UserContext).authUser;
-  const globalId = useContext(UserContext).globalId;
   const [enteredName, setEnteredName] = useState('');
   const [enteredEmail, setEnteredEmail] = useState('');
   const [enteredPhoneNo, setEnteredPhoneNo] = useState('');
@@ -25,6 +24,39 @@ const InviteUser = (props) => {
   const setAuthUser = useContext(UserContext).setAuthUser;
   const [error, setError] = useState();
   const [loading, setLoading] = useState(false);
+  const fetchInvitations = () => {
+    return fetch(`${HRURL}/job-listing/candidates/${listingId}`, {
+      method: 'GET',
+      headers: {
+        Authorization: authUser.token,
+      },
+    });
+  };
+
+  useEffect(() => {
+    const setFetchedInvitations = async () => {
+      const response = await fetchInvitations();
+      const data = await response.json();
+      if (response.status === 200) {
+        data.candidates.map((candidate) => {
+          props.onInviteUser(
+            candidate.name,
+            candidate.email,
+            candidate.phoneCode,
+            candidate.phoneNumber
+          );
+        });
+      } else {
+        handleAPIError(
+          response.status,
+          data,
+          () => {},
+          () => setAuthUser(null)
+        );
+      }
+    };
+    setFetchedInvitations();
+  }, []);
   const save = (file) => {
     let names = [];
     let emails = [];
