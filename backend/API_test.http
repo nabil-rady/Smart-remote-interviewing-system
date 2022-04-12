@@ -116,7 +116,7 @@ Content-Type: application/json
 ###
 
 GET {{host}}:8001/job-listing/get-listings
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYWQ1NzIwYi00YzNmLTQ2NTctOTA2MC1kN2ZjNTk0MTQ5OGYiLCJpYXQiOjE2NDgyMDQzODgsImV4cCI6MTY0ODI0MDM4OH0.RtRsb2HrFUZN3H4MOLC8gJk4YzRHdDWIrkIh0gKne4c
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYWQ1NzIwYi00YzNmLTQ2NTctOTA2MC1kN2ZjNTk0MTQ5OGYiLCJpYXQiOjE2NDk1OTQyMzUsImV4cCI6MTY0OTYzMDIzNX0.iOQv_ELEkrQaDYbeySoTejckOBjHz0wwIhAiWtQNRZY
 
 ###
 
@@ -188,7 +188,6 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYWQ1NzIwYi00
 Content-Type: application/json
 
 ###
-
 POST {{host}}:8001/job-listing/evaluate/94f88c0a-fb67-48d7-9787-859ba0413e89
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYWQ1NzIwYi00YzNmLTQ2NTctOTA2MC1kN2ZjNTk0MTQ5OGYiLCJpYXQiOjE2NDgyMDQzODgsImV4cCI6MTY0ODI0MDM4OH0.RtRsb2HrFUZN3H4MOLC8gJk4YzRHdDWIrkIh0gKne4c
 Content-Type: application/json
@@ -201,3 +200,7 @@ Content-Type: application/json
         }
     ]
 }
+
+###
+GET {{host}}:8001/job-listing/candidates/ce2abdd9-f73f-4a3e-a09a-06cddce82cce
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYWQ1NzIwYi00YzNmLTQ2NTctOTA2MC1kN2ZjNTk0MTQ5OGYiLCJpYXQiOjE2NDk1OTQyMzUsImV4cCI6MTY0OTYzMDIzNX0.iOQv_ELEkrQaDYbeySoTejckOBjHz0wwIhAiWtQNRZY

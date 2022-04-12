@@ -694,3 +694,93 @@ module.exports.postEvaluate = async (req, res, next) => {
     next(err);
   }
 };
+
+module.exports.getCandidates = async (req, res, next) => {
+  try {
+    const listingId = req.params.listing_id;
+    const userId = req.userId;
+
+    const user = await User.findOne({
+      where: {
+        userId,
+      },
+    });
+
+    // check if the user is logged in
+    if (!user.dataValues.loggedIn) {
+      const err = new Error('Please log in');
+      err.statusCode = 401;
+      throw err;
+    }
+    // check if the user's email is confirmed
+    if (!user.dataValues.emailConfirmed) {
+      const err = new Error('Please confirm your email');
+      err.statusCode = 401;
+      throw err;
+    }
+
+    const jobListing = await JobListing.findOne({
+      where: {
+        jobListingId: listingId,
+      },
+    });
+
+    // check if the listing exists
+    if (!jobListing) {
+      const err = new Error('JobListing is not found.');
+      err.statusCode = 404;
+      throw err;
+    }
+
+    // check if the user own the listing
+    if (jobListing.dataValues.userId != userId) {
+      const err = new Error('You cannot access a listing you do not own.');
+      err.statusCode = 403;
+      throw err;
+    }
+
+    const candidates = await Interview.findAll({
+      where: {
+        jobListingId: listingId,
+      },
+      attributes: [
+        'interviewId',
+        'name',
+        'email',
+        'phoneCode',
+        'phoneNumber',
+        'submitedAt',
+        'processed',
+      ],
+      order: [['processed', 'DESC']],
+    });
+
+    const returnedCandidates = [];
+    for (const candidate of candidates) {
+      const { processed, submitedAt, ...candidateDetails } =
+        candidate.dataValues;
+      if (processed) {
+        returnedCandidates.push({
+          ...candidateDetails,
+          finished: true,
+          submitedAt,
+        });
+      } else {
+        returnedCandidates.push({
+          ...candidateDetails,
+          finished: false,
+          submitedAt: '',
+        });
+      }
+    }
+
+    res.status(200).json({
+      candidates: returnedCandidates,
+    });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500; // serverSide error
+    }
+    next(err);
+  }
+};

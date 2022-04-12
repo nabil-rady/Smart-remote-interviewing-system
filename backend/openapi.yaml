@@ -658,9 +658,9 @@ paths:
                         phoneNumber:
                           type: string
                         avgRecommendation:
-                          type: boolean
+                          type: number
                         avgManualEvaluation:
-                          type: boolean
+                          type: number
                         submitedAt:
                           format: date-time
 
@@ -854,6 +854,58 @@ paths:
           description: Interview not found.
         '422':
           description: Validation failed.
+        '500':
+          description: Server side error.
+
+  /job-listing/candidates/{listing_id}:
+    get:
+      summary: Allow HR to see invited candidates.
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          description: jwt of the loggedin user.
+          schema:
+            type: string
+        - name: listing_id
+          in: path
+          required: true
+          description: The listing id.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Get the invited candidates.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  candidates:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        interviewId:
+                          type: string
+                        name:
+                          type: string
+                        email:
+                          type: string
+                        phoneCode:
+                          type: string
+                        phoneNumber:
+                          type: string
+                        finished:
+                          type: boolean
+                        submitedAt:
+                          type: string
+        '401':
+          description: Authentication faild, or email not confirmed.
+        '403':
+          description: You do not own the listing this interview belongs to.
+        '404':
+          description: Interview not found.
         '500':
           description: Server side error.
 
