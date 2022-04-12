@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import Card from './Card';
 //import ErrorModal from './ErrorModal'
 import './scss/invite.scss';
@@ -133,7 +133,6 @@ const InviteUser = (props) => {
       phoneCode: enteredPhoneCode,
       phoneNumber: enteredPhoneNo,
     });
-    console.log(globalId, usersLate);
     fetch(`${HRURL}/job-listing/invite`, {
       method: 'POST',
       headers: {
