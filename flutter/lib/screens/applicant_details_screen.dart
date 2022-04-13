@@ -22,8 +22,11 @@ class _ApplicantDetailScreenState extends State<ApplicantDetailScreen> {
       _isLoading = true;
     });
     try {
+      print('*********************************************');
+      print(candidate.id);
       await getAnswerDetails(context, candidate.id).then((value) {
-        Navigator.of(context).pushReplacementNamed("/video_evaluation");
+        Navigator.of(context)
+            .pushReplacementNamed("/video_evaluation", arguments: candidate.id);
       });
     } on HttpException catch (error) {
       showErrorDialog(

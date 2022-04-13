@@ -7,7 +7,8 @@ class ApplicantCard extends StatelessWidget {
   // final String applicantName;
   // final DateTime date;
   Candidate candidate;
-  ApplicantCard(this.candidate);
+  String positionId;
+  ApplicantCard(this.candidate, this.positionId);
 
   @override
   Widget build(BuildContext context) {

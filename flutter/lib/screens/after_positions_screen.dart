@@ -67,6 +67,7 @@ class AfterPositionsScreen extends StatelessWidget {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => (ToEvaluateScreen(
+                      positionId: _positionId,
                       detailsFuture: _positionDetails,
                     )),
                   ),

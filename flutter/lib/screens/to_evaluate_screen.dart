@@ -7,7 +7,9 @@ import '../widgets/helper_widget.dart';
 
 class ToEvaluateScreen extends StatefulWidget {
   final Future detailsFuture;
-  const ToEvaluateScreen({Key? key, required this.detailsFuture})
+  final String positionId;
+  const ToEvaluateScreen(
+      {Key? key, required this.detailsFuture, required this.positionId})
       : super(key: key);
 
   static const routeName = '/to_evaluate_screen';
@@ -56,7 +58,8 @@ class _ToEvaluateScreenState extends State<ToEvaluateScreen> {
                     ? ListView.builder(
                         itemCount: position.cacandidates.length,
                         itemBuilder: (ctx, index) {
-                          return ApplicantCard(position.cacandidates[index]);
+                          return ApplicantCard(
+                              position.cacandidates[index], widget.positionId);
                         },
                       )
                     : const Center(
