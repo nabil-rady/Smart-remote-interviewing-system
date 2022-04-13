@@ -180,7 +180,8 @@ class PostionDetails with ChangeNotifier {
       List<String> questionsIds, List<String> rate, String interviewid) async {
     print(questionsIds.length);
     for (var i = 0; i < questionsIds.length; i++) {
-      evaluates.add({'questionId': questionsIds[i], 'evaluation': rate[i]});
+      evaluates.add(
+          {'questionId': questionsIds[i], 'evaluation': double.parse(rate[i])});
     }
     final response = await http.post(
       Uri.parse('$hrURL/job-listing/evaluate/$interviewid'),
