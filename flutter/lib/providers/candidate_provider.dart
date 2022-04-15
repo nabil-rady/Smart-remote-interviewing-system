@@ -43,6 +43,42 @@ class Candidates with ChangeNotifier {
     _csvCandidateList = mylist;
   }
 
+  Future<void> fetchAndSetCandidates(String listing_id) async {
+    var url = '$hrURL/job-listing/candidates/$listing_id';
+
+    //try {
+    final response = await http.get(
+      Uri.parse(url),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': authToken.toString(),
+      },
+    );
+    final responseData = json.decode(response.body);
+    final List extractedData = json.decode(response.body)['candidates'];
+    if (response.statusCode == 200) {
+      //print(extractedData);
+      final List<Map<String, dynamic>> loadedData = [];
+      extractedData.forEach((element) {
+        loadedData.add({
+          'name': element['name'],
+          'email': element['email'],
+          'phoneCode': element['phoneCode'],
+          'phoneNumber': element['phoneNumber']
+        });
+      });
+
+      candidatesUI = loadedData;
+      notifyListeners();
+    } else {
+      throw HttpException(responseData['message']);
+    }
+    //  print(response.body);
+    // } catch (e) {
+    //   print(e);
+    // }
+  }
+
   Future<void> addAplicant(
       PositionCandidiate member, BuildContext context) async {
     // bool errorFlag = false;

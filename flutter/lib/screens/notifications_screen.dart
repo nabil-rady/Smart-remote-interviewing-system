@@ -31,11 +31,12 @@ class _NotificationScreenState extends State<NotificationScreen> {
     print(_isLoading);
     try {
       ///////////////////////////////////////////////////////////////////////////////
-      Provider.of<PostionDetails>(context, listen: false)
+      await Provider.of<PostionDetails>(context, listen: false)
           .getEvaluationDetails(interviewId)
           .then((value) {
         candidate =
             Provider.of<PostionDetails>(context, listen: false).candidateInfo;
+        inspect(candidate);
         manualRead
             ? Navigator.of(context)
                 .pushNamed('/applicant_details', arguments: candidate)
@@ -83,7 +84,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
-        title: const Text('Natifications'),
+        title: const Text('Notifications'),
       ),
       // drawer: AppDrawer(),
       body: FutureBuilder(

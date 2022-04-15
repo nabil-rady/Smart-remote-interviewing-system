@@ -66,7 +66,7 @@ class _PositionScreenState extends State<PositionScreen> {
                                   )
                                 : const Center(
                                     child: Text(
-                                      "welcome to Vividly please add some positions",
+                                      "Welcome to Vividly, please add some positions",
                                       textAlign: TextAlign.center,
                                     ),
                                   ))),

@@ -22,15 +22,17 @@ class CandidateInfoItem extends StatelessWidget {
         child: ListTile(
           title: Text(
             name,
-            style: TextStyle(fontSize: 20),
+            style:
+                TextStyle(fontSize: 20, color: Theme.of(context).primaryColor),
+            // style: TextStyle(fontSize: 20),
           ),
           // trailing: Text(
           //   'email : ' + email,
           //   style: const TextStyle(fontSize: 16, color: Colors.grey),
           // ),
           subtitle: Column(children: <Widget>[
-            SizedBox(
-              height: 15,
+            const SizedBox(
+              height: 10,
             ),
             Row(
               children: <Widget>[
@@ -41,7 +43,7 @@ class CandidateInfoItem extends StatelessWidget {
               ],
               mainAxisAlignment: MainAxisAlignment.start,
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Row(

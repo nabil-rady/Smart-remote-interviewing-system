@@ -311,7 +311,7 @@ class MyApp extends StatelessWidget {
           ApplicantDetailScreen.routeName: (ctx) => ApplicantDetailScreen(),
           VedioEvaluationScreen.routeName: (ctx) => VedioEvaluationScreen(),
           NotificationScreen.routeName: (ctx) => NotificationScreen(),
-          InvitationScreen.routeName: (ctx) => InvitationScreen(),
+          // InvitationScreen.routeName: (ctx) => InvitationScreen(  ),
           LastQuestionScreen.routeName: (ctx) => LastQuestionScreen(),
           PositionForm.routeName: (ctx) => PositionForm(),
           PositionScreen.routeName: (ctx) => PositionScreen(),

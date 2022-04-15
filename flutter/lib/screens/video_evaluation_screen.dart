@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:test/local/http_exception.dart';
 import 'package:test/models/video_evaluation_model.dart';
 import 'package:video_player/video_player.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
@@ -17,7 +20,12 @@ class VedioEvaluationScreen extends StatefulWidget {
 }
 
 class _VedioEvaluationScreenState extends State<VedioEvaluationScreen> {
+  String interviewId = '';
   late List<Emotion> emotion;
+  final _formKey = GlobalKey<FormState>();
+  List<String> questionsIds = [];
+  List<String> rate = [];
+
   late Future _videoEvaluation;
   @override
   void initState() {
@@ -25,7 +33,6 @@ class _VedioEvaluationScreenState extends State<VedioEvaluationScreen> {
     super.initState();
   }
 
-  List<String> rate = [];
   late int number_of_questions;
   var totalScore = 0;
   List<TextEditingController> _controllers = [];
@@ -45,19 +52,39 @@ class _VedioEvaluationScreenState extends State<VedioEvaluationScreen> {
         title: const Text('evaluation screen'),
         actions: [
           IconButton(
-              onPressed: () {
+              onPressed: () async {
                 setState(() {
                   for (var i = 0; i < number_of_questions; i++) {
                     if (_controllers[i].text.isNotEmpty) {
                       rate.add(_controllers[i].text);
-                      // totalScore = totalScore + int.parse(_controllers[i].text);
+                    } else {
+                      showErrorDialog(context, 'Please Fill All Fields', true);
+                      break;
                     }
                   }
-                  //print(totalScore);
-                  //Provider.of<Interviews>(context)
-                  print(rate);
-                  Navigator.pop(context);
                 });
+                print(questionsIds);
+                print(rate);
+                if (questionsIds.length == rate.length) {
+                  try {
+                    await Provider.of<PostionDetails>(context, listen: false)
+                        .manualEvalation(questionsIds, rate, interviewId);
+                    showErrorDialog(context,
+                        'Your Evaluation has been added sucessfully.', false);
+                  } on HttpException catch (error) {
+                    showErrorDialog(context,
+                        "An error occurred, please try again later", true);
+                  } catch (e) {
+                    showErrorDialog(context,
+                        "An error occurred, please try again later", true);
+                  }
+                } else {
+                  print('erooor');
+                }
+                questionsIds = [];
+                rate = [];
+
+                // Navigator.pop(context);
               },
               icon: const Icon(Icons.save))
         ],
@@ -117,11 +144,16 @@ class _VedioEvaluationScreenState extends State<VedioEvaluationScreen> {
                           // colorFn: (Emotion emotion1, _) => emotion1.barColor
                         )
                       ];
+                      interviewId =
+                          ModalRoute.of(context)!.settings.arguments as String;
 
                       //////////////////////////////////////////////////////////////////////////
                       number_of_questions = position.videoEvaluation.length;
-                      print(position.videoEvaluation[index].videoUrl);
-
+                      if (questionsIds.length < number_of_questions) {
+                        print(position.videoEvaluation[index].questionId);
+                        questionsIds
+                            .add(position.videoEvaluation[index].questionId);
+                      }
                       _controllers.add(TextEditingController());
                       return
                           // Container(
@@ -197,9 +229,23 @@ class _VedioEvaluationScreenState extends State<VedioEvaluationScreen> {
                                             color:
                                                 Theme.of(context).primaryColor,
                                           )),
-                                      child: TextField(
+                                      child:
+                                          // Form(
+                                          //   key: _formKey,
+                                          //   child: TextFormField(
+                                          //     decoration: const InputDecoration(
+                                          //         border: InputBorder.none,
+                                          //         contentPadding:
+                                          //             EdgeInsets.all(15),
+                                          //         labelText: 'From 0 to 100'),
+                                          //     obscureText: true,
+                                          //     controller: _controllers[index],
+                                          //   ),
+                                          // ),
+                                          TextField(
                                         controller: _controllers[index],
                                         decoration: const InputDecoration(
+                                            // errorText:  _controllers[index].text.isEmpty?'no':'',
                                             hintText: 'From 0 to 100',
                                             contentPadding: EdgeInsets.all(15),
                                             border: InputBorder.none),

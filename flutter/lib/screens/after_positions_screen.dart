@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../screens/to_evaluate_screen.dart';
 import '../screens/position_details_screen.dart';
+import 'invitation_screen.dart';
 
 class AfterPositionsScreen extends StatelessWidget {
   static const routeName = '/after_positions_screen';
@@ -67,6 +68,7 @@ class AfterPositionsScreen extends StatelessWidget {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => (ToEvaluateScreen(
+                      positionId: _positionId,
                       detailsFuture: _positionDetails,
                     )),
                   ),
@@ -103,8 +105,43 @@ class AfterPositionsScreen extends StatelessWidget {
             const SizedBox(
               height: 9,
             ),
-            eachCard2('Invite Applicant', 'assets/images/invitation.png',
-                context, '/invitation_screen', _positionId, _positioName),
+            InkWell(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => (InvitationScreen(
+                        positionId: _positionId, positionName: _positioName)),
+                  ),
+                );
+              },
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
+                elevation: 9,
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        width: 60,
+                        height: 60,
+                        child: Image.asset('assets/images/invitation.png'),
+                      ),
+                      const Expanded(
+                        child: Text(
+                          'Invite Applicant',
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            // eachCard2('Invite Applicant', 'assets/images/invitation.png',
+            //     context, '/invitation_screen', _positionId, _positioName),
           ],
         ),
       ),

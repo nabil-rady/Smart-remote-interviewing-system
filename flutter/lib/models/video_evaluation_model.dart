@@ -1,4 +1,5 @@
 class VideoEvaluation {
+  final String questionId;
   final String question;
   final String videoUrl;
   final double score;
@@ -11,6 +12,7 @@ class VideoEvaluation {
   final double neutral;
   //Emotions emotions;
   VideoEvaluation({
+    required this.questionId,
     required this.question,
     required this.videoUrl,
     required this.manualEvaluation,
