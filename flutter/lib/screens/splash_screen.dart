@@ -29,7 +29,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   noticication() {
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
-      print("onMessageOpenedApp: $message");
       Navigator.pushNamed(
         context,
         NotificationScreen.routeName,
@@ -39,9 +38,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   navigator() async {
     if (getUserToken() != null) {
-      // print(getUserToken().toString());
-      // print("able to get user token from shared pre");
-      // Provider.of<Auth>(context, listen: false).autoLogout();
       Timer(const Duration(seconds: 3), () {
         Provider.of<Auth>(context, listen: false).autoLogin().then((value) =>
             value
@@ -56,7 +52,6 @@ class _SplashScreenState extends State<SplashScreen> {
                     (Route<dynamic> route) => false));
       });
     } else {
-      print("nooooooooooooooooooo shared pre");
       Timer(const Duration(seconds: 3), () {
         Navigator.push(
           context,

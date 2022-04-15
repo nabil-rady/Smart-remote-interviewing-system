@@ -39,7 +39,6 @@ class _VedioEvaluationScreenState extends State<VedioEvaluationScreen> {
   @override
   void dispose() {
     for (TextEditingController controler in _controllers) {
-      print('dispose ${controler.text}');
       controler.dispose();
     }
     super.dispose();
@@ -63,8 +62,6 @@ class _VedioEvaluationScreenState extends State<VedioEvaluationScreen> {
                     }
                   }
                 });
-                print(questionsIds);
-                print(rate);
                 if (questionsIds.length == rate.length) {
                   try {
                     await Provider.of<PostionDetails>(context, listen: false)
@@ -101,7 +98,6 @@ class _VedioEvaluationScreenState extends State<VedioEvaluationScreen> {
               // ...
               // Do error handling stuff
               String error = dataSnapshot.error.toString();
-              print(error);
               if (error.contains('The json web token has expired')) {
                 return TokenExpiry();
               }
@@ -150,19 +146,11 @@ class _VedioEvaluationScreenState extends State<VedioEvaluationScreen> {
                       //////////////////////////////////////////////////////////////////////////
                       number_of_questions = position.videoEvaluation.length;
                       if (questionsIds.length < number_of_questions) {
-                        print(position.videoEvaluation[index].questionId);
                         questionsIds
                             .add(position.videoEvaluation[index].questionId);
                       }
                       _controllers.add(TextEditingController());
-                      return
-                          // Container(
-                          //   height: 200,
-                          //   width: 200,
-                          //   child: Center(
-                          //       child: charts.BarChart(series, animate: true)),
-                          // );
-                          Card(
+                      return Card(
                         margin: const EdgeInsets.all(15),
                         elevation: 10,
                         child: Column(
@@ -229,23 +217,9 @@ class _VedioEvaluationScreenState extends State<VedioEvaluationScreen> {
                                             color:
                                                 Theme.of(context).primaryColor,
                                           )),
-                                      child:
-                                          // Form(
-                                          //   key: _formKey,
-                                          //   child: TextFormField(
-                                          //     decoration: const InputDecoration(
-                                          //         border: InputBorder.none,
-                                          //         contentPadding:
-                                          //             EdgeInsets.all(15),
-                                          //         labelText: 'From 0 to 100'),
-                                          //     obscureText: true,
-                                          //     controller: _controllers[index],
-                                          //   ),
-                                          // ),
-                                          TextField(
+                                      child: TextField(
                                         controller: _controllers[index],
                                         decoration: const InputDecoration(
-                                            // errorText:  _controllers[index].text.isEmpty?'no':'',
                                             hintText: 'From 0 to 100',
                                             contentPadding: EdgeInsets.all(15),
                                             border: InputBorder.none),

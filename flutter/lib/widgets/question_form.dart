@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../models/question.dart';
 import '../providers/questions.dart';
 
@@ -18,11 +19,7 @@ class _QuestionFormState extends State<QuestionForm> {
     _form.currentState!.save();
     Provider.of<Questions>(context, listen: false).addForm(newquestion);
     Navigator.of(context).pop();
-    // print(ques.titleQuestion);
-    // print(ques.answerTime);
   }
-
-  //List<Question> questions = [];
 
   var newquestion = Question(
       titleQuestion: '',
@@ -135,7 +132,6 @@ class _QuestionFormState extends State<QuestionForm> {
             color: Theme.of(context).primaryColor,
             onPressed: () {
               _saveForms();
-              print(newquestion.keywordsList);
             },
             child: const Text(
               'Add Question',

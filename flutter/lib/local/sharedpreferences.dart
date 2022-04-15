@@ -98,7 +98,6 @@ Future fetchSessionQuestion() {
 Future getAnswerDetails(BuildContext context, String applicantId) {
   answerDetails = Provider.of<PostionDetails>(context, listen: false)
       .getEvaluationDetails(applicantId);
-  // print(answerDetails);
   return answerDetails;
 }
 

@@ -24,7 +24,6 @@ class Notifications with ChangeNotifier {
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
       final extractedData = responseData['notifications'] as List<dynamic>;
-      print(extractedData);
       final List<NotificationModel> _finalList = [];
       extractedData
           .map((notificationvalue) => _finalList.add(
@@ -55,11 +54,8 @@ class Notifications with ChangeNotifier {
         'Authorization': getUserToken().toString(),
       },
     );
-    // print("done");
-    print(response.body);
     final responseData = json.decode(response.body);
     if (response.statusCode == 200) {
-      print(responseData);
     } else {
       throw HttpException(responseData['message']);
     }

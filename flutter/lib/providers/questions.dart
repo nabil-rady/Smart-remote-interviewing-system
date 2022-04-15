@@ -33,9 +33,6 @@ class Questions with ChangeNotifier {
   void deleteForm(String id) {
     _items.removeWhere((element) => element.id == id);
     _itemsMap.removeWhere((element) => element['questionId'] == id);
-    // _items.forEach((element) {
-    //   print('yaraaaaab ' + element.titleQuestion);
-    // });
     notifyListeners();
   }
 

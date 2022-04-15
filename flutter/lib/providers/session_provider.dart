@@ -31,15 +31,16 @@ class SessionDetails with ChangeNotifier {
   late List<CameraDescription> cameras;
 
   Future<void> getSessionDetails(String id) async {
+    print('************************************* $id');
     final response = await http.get(
       Uri.parse('$interviewURL/candidate/join/$id'),
       headers: <String, String>{
         'Content-Type': 'application/json',
       },
     );
-
+    // inspect(response);
     final responseData = json.decode(response.body);
-    print(responseData);
+    inspect(responseData);
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
       _session.email = responseData['email'];

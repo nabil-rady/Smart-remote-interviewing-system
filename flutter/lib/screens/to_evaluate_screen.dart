@@ -44,7 +44,6 @@ class _ToEvaluateScreenState extends State<ToEvaluateScreen> {
               // ...
               // Do error handling stuff
               String error = dataSnapshot.error.toString();
-              print(error);
               if (error.contains('The json web token has expired')) {
                 return TokenExpiry();
               }
@@ -98,14 +97,7 @@ class _ToEvaluateScreenState extends State<ToEvaluateScreen> {
                                   ],
                                 ),
                               ),
-                            )
-                  // const Center(
-                  //     child: Text(
-                  //       "No Applicants To Evaluate Yet, Please Invite More People ",
-                  //       textAlign: TextAlign.center,
-                  //     ),
-                  //   ),
-                  );
+                            ));
             }
           }
         },

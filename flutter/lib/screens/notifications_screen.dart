@@ -24,11 +24,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
   late Candidate candidate;
   Future<void> _submit(
       String interviewId, String notificationId, bool manualRead) async {
-    print(_isLoading);
     setState(() {
       _isLoading = true;
     });
-    print(_isLoading);
     try {
       ///////////////////////////////////////////////////////////////////////////////
       await Provider.of<PostionDetails>(context, listen: false)
@@ -58,7 +56,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
         _isLoading = false;
       });
     } catch (error) {
-      print(error);
       const errorMessage = 'Could not loead results, Please try again later';
       showErrorDialog(context, errorMessage, true);
 
@@ -69,7 +66,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
     setState(() {
       _isLoading = false;
     });
-    print(_isLoading);
   }
 
   @override

@@ -18,12 +18,8 @@ class _PositionFormState extends State<PositionForm> {
       id: DateTime.now().toString(),
       position: '',
       questions: [],
-      /////new //////
       qustionsMapList: [],
-      /////////////////////
       expireyDate: DateTime.now());
-//  Position(DateTime.now().toString(), '', []);
-
   bool posFlag = false;
 
   bool validateTextField(String userInput) {
@@ -52,10 +48,7 @@ class _PositionFormState extends State<PositionForm> {
       }
       setState(() {
         _dateFlag = true;
-        //  print(pickedDate);
-
         _chosenDate = pickedDate;
-        //   print(_chosenDate);
       });
     });
   }
@@ -122,7 +115,6 @@ class _PositionFormState extends State<PositionForm> {
                       position: position.position,
                       questions: position.questions,
                       expireyDate: _chosenDate);
-                  print(_chosenDate);
                   if (validateTextField(_positionController.text) &&
                       _dateFlag) {
                     position = Position(

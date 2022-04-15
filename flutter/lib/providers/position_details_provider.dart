@@ -32,7 +32,6 @@ class PostionDetails with ChangeNotifier {
   );
 
   Candidate get candidateInfo {
-    print('from pronider');
     inspect(_candidate);
     return _candidate;
   }
@@ -63,7 +62,6 @@ class PostionDetails with ChangeNotifier {
       },
     );
     final responseData = json.decode(response.body);
-    print(responseData);
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
       final extractedData = responseData['questions'] as List<dynamic>;
@@ -79,10 +77,8 @@ class PostionDetails with ChangeNotifier {
               )))
           .toList();
       _items = _finalList.toList();
-      // print(responseData['interviews']);
       final candidateData = responseData['interviews'] as List<dynamic>;
       final List<Candidate> _finalcandidateList = [];
-      //print(candidateData[0]['avgRecommendation'].toDouble().runtimeType);
       candidateData
           .map(
             (candidatevalue) => _finalcandidateList.add(
@@ -118,8 +114,6 @@ class PostionDetails with ChangeNotifier {
       },
     );
     final responseData = json.decode(response.body);
-    print('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&7');
-    print(responseData);
 
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
@@ -144,7 +138,6 @@ class PostionDetails with ChangeNotifier {
       _candidate.phoneNumber = responseData['phoneNumber'];
       _candidate.submitedAt = responseData['submitedAt'];
       _candidate.id = interviewid;
-      // print(responseData['avgManualEvaluation']);
       _candidate.avgManualEvaluation =
           responseData['avgManualEvaluation'].toDouble();
       _candidate.avgRecommendation = responseData['avgScore'].toDouble();
@@ -178,7 +171,6 @@ class PostionDetails with ChangeNotifier {
 
   Future<void> manualEvalation(
       List<String> questionsIds, List<String> rate, String interviewid) async {
-    print(questionsIds.length);
     for (var i = 0; i < questionsIds.length; i++) {
       evaluates.add(
           {'questionId': questionsIds[i], 'evaluation': double.parse(rate[i])});
@@ -194,12 +186,11 @@ class PostionDetails with ChangeNotifier {
       }),
     );
     final responseData = json.decode(response.body);
-    print(responseData);
+
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
       notifyListeners();
     } else {
-      print(responseData['message']);
       throw HttpException(responseData['message']);
     }
     evaluates = [];

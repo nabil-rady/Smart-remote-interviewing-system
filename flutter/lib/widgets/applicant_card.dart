@@ -33,7 +33,6 @@ class ApplicantCard extends StatelessWidget {
           showErrorDialog(context,
               "Could not loead results, Please try again later.", true);
         } catch (error) {
-          print(error);
           const errorMessage =
               'Could not loead results, Please try again later';
           showErrorDialog(context, errorMessage, true);

@@ -5,7 +5,6 @@ import '../local/http_exception.dart';
 import 'package:flutter/material.dart';
 import '../local/urls.dart';
 import '../models/positionCandidate.dart';
-import '../models/candidate.dart';
 import 'package:http/http.dart' as http;
 
 class Candidates with ChangeNotifier {
@@ -57,7 +56,6 @@ class Candidates with ChangeNotifier {
     final responseData = json.decode(response.body);
     final List extractedData = json.decode(response.body)['candidates'];
     if (response.statusCode == 200) {
-      //print(extractedData);
       final List<Map<String, dynamic>> loadedData = [];
       extractedData.forEach((element) {
         loadedData.add({
@@ -73,18 +71,12 @@ class Candidates with ChangeNotifier {
     } else {
       throw HttpException(responseData['message']);
     }
-    //  print(response.body);
-    // } catch (e) {
-    //   print(e);
-    // }
   }
 
   Future<void> addAplicant(
       PositionCandidiate member, BuildContext context) async {
-    // bool errorFlag = false;
     const url = '$hrURL/job-listing/invite';
     try {
-      // if (flag) {
       final response = await http.post(Uri.parse(url),
           headers: <String, String>{
             'Content-Type': 'application/json',
@@ -92,11 +84,7 @@ class Candidates with ChangeNotifier {
           },
           body: json.encode({
             'listingId': member.positionId,
-            'candidates':
-                //  flag
-                //     ? _candidates
-                //     :
-                [
+            'candidates': [
               {
                 'name': member.candidatesMapList['name'],
                 'email': member.candidatesMapList['email'],
@@ -105,46 +93,20 @@ class Candidates with ChangeNotifier {
               }
             ]
           }));
-
-      print(response.statusCode);
-
       final responseData = json.decode(response.body);
       if (response.statusCode == 200) {
         final responseData = json.decode(response.body);
         candidatesUI.add(member.candidatesMapList);
-        //  errorFlag = true;
         _candidates.add(member.candidatesMapList);
         showErrorDialog(
             context, "Invitaion has been successfully sent .", false);
         notifyListeners();
-        // return true;
       } else {
         showErrorDialog(
             context, 'Please check the phone number of your candidate !', true);
-        //print('${responseData['message']}kjnkjbkjhv');
-        //throw HttpException(responseData['message']);
-        // return false;
       }
-      //}
-
-      //  else if (response.statusCode == 422 && !errorFlag) {
-      //   _candidates.add(member.candidatesMapList);
-      //   notifyListeners();
-      //}
-      // else {
-      //   csvCandidateList.forEach((element) {
-      //     _candidates.add({
-      //       'name': element[0].toString(),
-      //       'email': element[1].toString(),
-      //       'phoneCode': '+ ${element[2].toString()}',
-      //       'phoneNumber': element[3].toString(),
-      //     });
-      //   });
-      //   print(_candidates);
-      // }
     } catch (error) {
       showErrorDialog(context, "Coundn't invite this candidite.", true);
-      print(error);
     }
   }
 
@@ -162,47 +124,21 @@ class Candidates with ChangeNotifier {
         });
       });
 
-      // print(_candidates);
-
       final response = await http.post(Uri.parse(url),
           headers: <String, String>{
             'Content-Type': 'application/json',
             'Authorization': authToken.toString(),
           },
-          body: json.encode({
-            'listingId': member.positionId,
-            'candidates':
-                //  flag
-                _candidates
-            //     :
-            //     [
-            //   {
-            //     'name': member.candidatesMapList['name'],
-            //     'email': member.candidatesMapList['email'],
-            //     'phoneCode': member.candidatesMapList['phoneCode'],
-            //     'phoneNumber': member.candidatesMapList['phoneNumber']
-            //   }
-            // ]
-          }));
-
-      // print(response.body);
-      // print(response.statusCode);
+          body: json.encode(
+              {'listingId': member.positionId, 'candidates': _candidates}));
 
       final responseData = json.decode(response.body);
-      // if (response.statusCode == 422) {
 
-      //   // _candidates.add();
-      //   notifyListeners();
-      // } else
       if (response.statusCode == 422) {
-        // _candidates.add();
-        // _csvCandidateList.clear();
         _candidates.clear();
         notifyListeners();
       }
-      // if (response.statusCode == 422) {
-      //   return false;
-      // }
+
       if (response.statusCode == 200) {
         _candidates.forEach((element) {
           candidatesUI.add(element);
@@ -210,21 +146,13 @@ class Candidates with ChangeNotifier {
         showErrorDialog(
             context, "Invitaion has been successfully sent .", false);
         notifyListeners();
-        // return true;
       } else {
         // throw HttpException(responseData['message']);
         showErrorDialog(context,
             'Please check the phone number of your candidates !', true);
       }
-
-      //  else if (response.statusCode == 422 && !errorFlag) {
-      //   _candidates.add(member.candidatesMapList);
-      //   notifyListeners();
-      //}
-
     } catch (error) {
       showErrorDialog(context, "Coundn't invite these candidites.", true);
-      print(error);
     }
   }
 }
