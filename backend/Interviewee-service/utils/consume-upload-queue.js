@@ -43,28 +43,28 @@ module.exports.consume = async () => {
 
         // ********** UPLOAD TO AWS ************* //
 
-        // const results = await S3Client.send(new PutObjectCommand(params));
-        // console.log(
-        //   'Successfully created ' +
-        //     params.Key +
-        //     ' and uploaded it to ' +
-        //     params.Bucket +
-        //     '/' +
-        //     params.Key
-        // );
+        const results = await S3Client.send(new PutObjectCommand(params));
+        console.log(
+          'Successfully created ' +
+            params.Key +
+            ' and uploaded it to ' +
+            params.Bucket +
+            '/' +
+            params.Key
+        );
 
         // delete the video
         await unlink(`./${data.name}.${data.videoExtension}`);
 
         // video link
-        // const link = `https://sris.s3.us-east-2.amazonaws.com/${params.Key}`;
+        const link = `https://sris.s3.us-east-2.amazonaws.com/${params.Key}`;
 
         // save the video
-        // await Video.create({
-        //   link,
-        //   questionId: data.questionId,
-        //   interviewId: data.interviewId,
-        // });
+        await Video.create({
+          link,
+          questionId: data.questionId,
+          interviewId: data.interviewId,
+        });
 
         // get the question's keywords
         const keywords = await Keywords.findAll({
@@ -74,38 +74,38 @@ module.exports.consume = async () => {
         });
 
         // put the video on the queue for AI
-        const videoToSend = {
-          interviewId: data.interviewId,
-          questionId: data.questionId,
-          link: 'https://sris.s3.us-east-2.amazonaws.com/94f88c0a-fb67-48d7-9787-859ba0413e89/94f88c0a-fb67-48d7-9787-859ba0413e89-1647548317612.webm',
-          keywords: keywords.map((keyword) => keyword.dataValues.value),
-          lastVideo: data.lastVideo,
-        };
-
         // const videoToSend = {
         //   interviewId: data.interviewId,
         //   questionId: data.questionId,
-        //   link,
+        //   link: 'https://sris.s3.us-east-2.amazonaws.com/94f88c0a-fb67-48d7-9787-859ba0413e89/94f88c0a-fb67-48d7-9787-859ba0413e89-1647548317612.webm',
         //   keywords: keywords.map((keyword) => keyword.dataValues.value),
         //   lastVideo: data.lastVideo,
         // };
 
+        const videoToSend = {
+          interviewId: data.interviewId,
+          questionId: data.questionId,
+          link,
+          keywords: keywords.map((keyword) => keyword.dataValues.value),
+          lastVideo: data.lastVideo,
+        };
+
         // publish the video to the message queue
         await publish(videoToSend);
 
-        // if (data.lastVideo) {
-        //   // set the submission date
-        //   await Interview.update(
-        //     {
-        //       submitedAt: Date.now(),
-        //     },
-        //     {
-        //       where: {
-        //         interviewId: data.interviewId,
-        //       },
-        //     }
-        //   );
-        // }
+        if (data.lastVideo) {
+          // set the submission date
+          await Interview.update(
+            {
+              submitedAt: Date.now(),
+            },
+            {
+              where: {
+                interviewId: data.interviewId,
+              },
+            }
+          );
+        }
       },
       {
         noAck: true,
