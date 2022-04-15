@@ -53,21 +53,59 @@ class _ToEvaluateScreenState extends State<ToEvaluateScreen> {
               );
             } else {
               return Consumer<PostionDetails>(
-                builder: (ctx, position, child) => position
-                        .cacandidates.isNotEmpty
-                    ? ListView.builder(
-                        itemCount: position.cacandidates.length,
-                        itemBuilder: (ctx, index) {
-                          return ApplicantCard(
-                              position.cacandidates[index], widget.positionId);
-                        },
-                      )
-                    : const Center(
-                        child: Text(
-                        "No Applicants To Evaluate Yet, Please Invite More People ",
-                        textAlign: TextAlign.center,
-                      )),
-              );
+                  builder: (ctx, position, child) =>
+                      position.cacandidates.isNotEmpty
+                          ? ListView.builder(
+                              itemCount: position.cacandidates.length,
+                              itemBuilder: (ctx, index) {
+                                return ApplicantCard(
+                                    position.cacandidates[index],
+                                    widget.positionId);
+                              },
+                            )
+                          : Padding(
+                              padding: const EdgeInsets.all(20),
+                              child: Center(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset(
+                                      'assets/images/wait1.png',
+                                      height: 120,
+                                      width: 120,
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    const Text(
+                                      'Welcome to Vividly',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.grey),
+                                    ),
+                                    const Text(
+                                      'No Applicants To Evaluate Yet, Please Wait For Applicants To Finish Interviews',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.grey,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    )
+                                  ],
+                                ),
+                              ),
+                            )
+                  // const Center(
+                  //     child: Text(
+                  //       "No Applicants To Evaluate Yet, Please Invite More People ",
+                  //       textAlign: TextAlign.center,
+                  //     ),
+                  //   ),
+                  );
             }
           }
         },

@@ -56,14 +56,50 @@ class _InvitationScreenState extends State<InvitationScreen> {
         title: const Text('Invite Applicant'),
         backgroundColor: Theme.of(context).primaryColor,
       ),
-      body: ListView.builder(
-        itemBuilder: (ctx, i) => CandidateInfoItem(
-            email: candidates[i]['email'],
-            name: candidates[i]['name'],
-            phoneCode: candidates[i]['phoneCode'],
-            phoneNumber: candidates[i]['phoneNumber']),
-        itemCount: candidates.length,
-      ),
+      body: candidates.isEmpty
+          ? Padding(
+              padding: const EdgeInsets.all(20),
+              child: Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      'assets/images/invite2.png',
+                      height: 120,
+                      width: 120,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    const Text(
+                      'Welcome to Vividly',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.grey),
+                    ),
+                    const Text(
+                      'No Applicants Yet, Please Invite More People',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.grey,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    )
+                  ],
+                ),
+              ),
+            )
+          : ListView.builder(
+              itemBuilder: (ctx, i) => CandidateInfoItem(
+                  email: candidates[i]['email'],
+                  name: candidates[i]['name'],
+                  phoneCode: candidates[i]['phoneCode'],
+                  phoneNumber: candidates[i]['phoneNumber']),
+              itemCount: candidates.length,
+            ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).primaryColor,
