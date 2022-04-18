@@ -82,7 +82,7 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
   const interval = 1000;
 
   const [timeLeftRead, { start: startRead }] = useCountDown(
-    questions ? questions[counter]?.timeToThink * 1000 : 0,
+    questions ? questions[counter]?.timeToThink * 1000 * 60 : 0,
     interval
   ); //60
 
@@ -90,15 +90,15 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
     timeLeftAnswer,
     { start: startAnswer, pause: pauseAnswer, reset: resetAnswer },
   ] = useCountDown(
-    questions ? questions[counter]?.timeToAnswer * 1000 : 0,
+    questions ? questions[counter]?.timeToAnswer * 1000 * 60 : 0,
     interval
   ); //60
 
   const renderReadTime = (time) => {
     if (!questions || !questions[counter]) return '0:00';
     let secTime, minTime;
-    minTime = parseInt(time / 1000); // /60
-    secTime = parseInt(time / 1000); // %60
+    minTime = parseInt(time / 1000 / 60); // /60
+    secTime = parseInt((time / 1000) % 60); // %60
 
     if (time === 0) {
       if (questions[counter].timeToThink < 10)
@@ -116,8 +116,8 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
 
   const renderAnswerTime = (time) => {
     if (!questions || !questions[counter]) return '0:00';
-    minAnswerTime = parseInt(time / 1000); // /60
-    secAnswerTime = parseInt(time / 1000); // %60
+    minAnswerTime = parseInt(time / 1000 / 60); // /60
+    secAnswerTime = parseInt((time / 1000) % 60); // %60
     if ((start || !next) && time === 0) {
       if (questions[counter].timeToAnswer < 10)
         return '0' + questions[counter].timeToAnswer.toString() + ':00';
@@ -134,14 +134,14 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
 
   const startInterview = () => {
     setRecordedChunks([]);
-    startRead(questions[counter].timeToThink * 1000); //60
+    startRead(questions[counter].timeToThink * 1000 * 60); //60
     if (visible === 'hidden') setVisibility('visible');
     if (start) setStart(false);
 
     setTimeout(() => {
       handleStartCaptureClick();
       console.log('Start recording (setTimeout)');
-    }, questions[counter].timeToThink * 1000); //60
+    }, questions[counter].timeToThink * 1000 * 60); //60
 
     recordTimeout.current = setTimeout(() => {
       console.log('Stop recording (setTimeout)');
@@ -153,7 +153,7 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
         }
         return false;
       });
-    }, questions[counter].timeToThink * 1000 + questions[counter].timeToAnswer * 1000); //60 //60
+    }, questions[counter].timeToThink * 1000 * 60 + questions[counter].timeToAnswer * 1000 * 60); //60 //60
   };
 
   const handleStartCaptureClick = useCallback(() => {
@@ -165,7 +165,7 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
       handleDataAvailable
     );
     mediaRecorderRef.current.start();
-    startAnswer(questions[counter].timeToAnswer * 1000); //60
+    startAnswer(questions[counter].timeToAnswer * 1000 * 60); //60
     console.log('Created MediaRecorder');
     if (!stop) setStop(true);
     if (readTimerVisibility === 'visible') setReadTimer('hidden');
@@ -233,7 +233,7 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
     setNext(false);
 
     setStart(true);
-    resetAnswer(questions[counter].timeToAnswer * 1000); //60
+    resetAnswer(questions[counter].timeToAnswer * 1000 * 60); //60
     setVisibility('hidden');
     setStop(false);
   };
@@ -344,7 +344,7 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
                 Upload
               </button>
             )}
-            {next && (
+            {next && !lastVideo && (
               <button
                 onClick={handleNext}
                 className="buttons"
@@ -353,14 +353,14 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
                 Next Qusetion
               </button>
             )}
-            {lastVideo && (
+            {lastVideo && !uploadingVideo && (
               <button className="buttons">
                 <Link to="/">Finish</Link>
               </button>
             )}
-            {recordedChunks.length > 0 && (
+            {/* {recordedChunks.length > 0 && (
               <button onClick={handleDownload}>Download</button>
-            )}
+            )} */}
           </>
         ) : (
           <div
