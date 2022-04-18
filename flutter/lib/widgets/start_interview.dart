@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../local/http_exception.dart';
@@ -11,30 +13,15 @@ class StartIntrview extends StatefulWidget {
 }
 
 class _StartIntrviewState extends State<StartIntrview> {
-  // late List<CameraDescription> cameras;
-  // Future<void> myFunc() async {
-  //   WidgetsFlutterBinding.ensureInitialized();
-
-  //   cameras = await availableCameras();
-  // }
-
   var _isLoading = false;
   final myController = TextEditingController();
   Future<void> _submit() async {
-    // myController.dispose();
-    // print("mycontroller from here");
     setState(() {
       _isLoading = true;
     });
     try {
-      print(myController.text);
       await getSessionQuestions(context, myController.text).then((value) {
         Navigator.of(context).pushNamed("/welcome_screen");
-        // myFunc();
-        // Navigator.pushNamed(
-        //   context,
-        //   myIntroCamScreen.routeName,
-        // );
       });
     } on HttpException catch (error) {
       var errorMessage = 'Entering interview failed';

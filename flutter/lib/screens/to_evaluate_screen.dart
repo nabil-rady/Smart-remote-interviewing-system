@@ -7,7 +7,9 @@ import '../widgets/helper_widget.dart';
 
 class ToEvaluateScreen extends StatefulWidget {
   final Future detailsFuture;
-  const ToEvaluateScreen({Key? key, required this.detailsFuture})
+  final String positionId;
+  const ToEvaluateScreen(
+      {Key? key, required this.detailsFuture, required this.positionId})
       : super(key: key);
 
   static const routeName = '/to_evaluate_screen';
@@ -42,7 +44,6 @@ class _ToEvaluateScreenState extends State<ToEvaluateScreen> {
               // ...
               // Do error handling stuff
               String error = dataSnapshot.error.toString();
-              print(error);
               if (error.contains('The json web token has expired')) {
                 return TokenExpiry();
               }
@@ -51,20 +52,52 @@ class _ToEvaluateScreenState extends State<ToEvaluateScreen> {
               );
             } else {
               return Consumer<PostionDetails>(
-                builder: (ctx, position, child) => position
-                        .cacandidates.isNotEmpty
-                    ? ListView.builder(
-                        itemCount: position.cacandidates.length,
-                        itemBuilder: (ctx, index) {
-                          return ApplicantCard(position.cacandidates[index]);
-                        },
-                      )
-                    : const Center(
-                        child: Text(
-                        "No Applicants To Evaluate Yet, Please Invite More People ",
-                        textAlign: TextAlign.center,
-                      )),
-              );
+                  builder: (ctx, position, child) =>
+                      position.cacandidates.isNotEmpty
+                          ? ListView.builder(
+                              itemCount: position.cacandidates.length,
+                              itemBuilder: (ctx, index) {
+                                return ApplicantCard(
+                                    position.cacandidates[index],
+                                    widget.positionId);
+                              },
+                            )
+                          : Padding(
+                              padding: const EdgeInsets.all(20),
+                              child: Center(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset(
+                                      'assets/images/wait1.png',
+                                      height: 120,
+                                      width: 120,
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    const Text(
+                                      'Welcome to Vividly',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.grey),
+                                    ),
+                                    const Text(
+                                      'No Applicants To Evaluate Yet, Please Wait For Applicants To Finish Interviews',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.grey,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ));
             }
           }
         },

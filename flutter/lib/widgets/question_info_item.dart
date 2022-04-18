@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../providers/questions.dart';
 
 class QuestionInfoItem extends StatelessWidget {
@@ -20,22 +21,6 @@ class QuestionInfoItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: Center(
-        // child: Dismissible(
-        //   onDismissed: (direction) {
-        //     Provider.of<Questions>(context, listen: false).deleteForm(id);
-        //   },
-        //   direction: DismissDirection.endToStart,
-        //   key: UniqueKey(),
-        //   background: Container(
-        //       color: Theme.of(context).errorColor,
-        //       child: const Icon(
-        //         Icons.delete,
-        //         color: Colors.white,
-        //         size: 40,
-        //       ),
-        //       alignment: Alignment.centerRight,
-        //       padding: EdgeInsets.only(right: 20),
-        //       margin: EdgeInsets.all(8)),
         child: Card(
           elevation: 5,
           shape: RoundedRectangleBorder(
@@ -57,7 +42,6 @@ class QuestionInfoItem extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
                           Expanded(
-                            // padding: EdgeInsets.only(left: 85),
                             child: Text(
                               ' ${questionTitle}',
                               textAlign: TextAlign.center,
@@ -66,22 +50,13 @@ class QuestionInfoItem extends StatelessWidget {
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold),
                             ),
-                            // trailing: IconButton(
-                            //   onPressed: () {
-                            //     Provider.of<Questions>(context).deleteForm(id);
-                            //     print(id);
-                            //   },
-                            //   icon: Icon(Icons.delete),
-                            //   color: Theme.of(context).errorColor,
-                            // ),
                           ),
                           IconButton(
                             onPressed: () {
                               Provider.of<Questions>(context, listen: false)
                                   .deleteForm(id);
-                              print(id);
                             },
-                            icon: Icon(Icons.delete),
+                            icon: const Icon(Icons.delete),
                             color: Theme.of(context).errorColor,
                           ),
                         ]),
@@ -120,7 +95,6 @@ class QuestionInfoItem extends StatelessWidget {
             ),
           ),
         ),
-        // ),
       ),
     );
   }

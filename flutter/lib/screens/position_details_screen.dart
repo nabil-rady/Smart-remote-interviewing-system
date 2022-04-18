@@ -1,9 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import '../local/sharedpreferences.dart';
 import '../providers/position_details_provider.dart';
 import '../widgets/helper_widget.dart';
 
@@ -39,16 +37,13 @@ class _PositionDetailScreenState extends State<PositionDetailScreen> {
             future: _detailsFuture,
             builder: (ctx, dataSnapshot) {
               if (dataSnapshot.connectionState == ConnectionState.waiting) {
-                print(dataSnapshot.error.toString());
                 return const Center(
                     child: CircularProgressIndicator(color: Color(0xFF165DC0)));
               } else {
-                print(dataSnapshot.data.toString());
                 if (dataSnapshot.error != null) {
                   // ...
                   // Do error handling stuff
                   String error = dataSnapshot.error.toString();
-                  print(error);
                   if (error.contains('The json web token has expired')) {
                     return TokenExpiry();
                   }
@@ -105,7 +100,6 @@ class _PositionDetailScreenState extends State<PositionDetailScreen> {
 
 Widget QuestionCard(String questionTitle, String answerTime,
     String thinkingTime, String keywords, int i) {
-  print(keywords);
   keywords = keywords.substring(1, keywords.length - 1);
   return Padding(
     padding: const EdgeInsets.only(bottom: 10),

@@ -196,29 +196,70 @@ class _HomeScreenState extends State<HomeScreen> {
                       padding: const EdgeInsets
                           .only(), ///////////////////// shelt al padding
                       child: Consumer<DashboardPositions>(
-                        builder: (ctx, positionData, child) => positionData
-                                .positionsItems.isNotEmpty
-                            ? ListView.builder(
-                                itemBuilder: (ctx, i) => DashboardItem(
-                                  positionName:
-                                      positionData.positionsItems[i].position,
-                                  expieryDate: positionData
-                                      .positionsItems[i].expireyDate,
-                                  candidates:
-                                      positionData.positionsItems[i].candidates,
-                                  interviews:
-                                      positionData.positionsItems[i].interwievs,
-                                  positionId: positionData.positionsItems[i].id,
-                                ),
-                                itemCount: positionData.positionsItems.length,
-                              )
-                            : const Center(
-                                child: Text(
-                                  "welcome to Vividly please add some positions",
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                      ),
+                          builder: (ctx, positionData, child) => positionData
+                                  .positionsItems.isNotEmpty
+                              ? ListView.builder(
+                                  itemBuilder: (ctx, i) => DashboardItem(
+                                    positionName:
+                                        positionData.positionsItems[i].position,
+                                    expieryDate: positionData
+                                        .positionsItems[i].expireyDate,
+                                    candidates: positionData
+                                        .positionsItems[i].candidates,
+                                    interviews: positionData
+                                        .positionsItems[i].interwievs,
+                                    positionId:
+                                        positionData.positionsItems[i].id,
+                                  ),
+                                  itemCount: positionData.positionsItems.length,
+                                )
+                              : Padding(
+                                  padding: const EdgeInsets.all(20),
+                                  child: Center(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Image.asset(
+                                          'assets/images/welcome.png',
+                                          height: 120,
+                                          width: 120,
+                                        ),
+                                        const SizedBox(
+                                          height: 20,
+                                        ),
+                                        const Text(
+                                          'Welcome to Vividly',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.grey),
+                                        ),
+                                        const Text(
+                                          'No Positions yet, please add some positions',
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            color: Colors.grey,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        const SizedBox(
+                                          height: 20,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                )
+                          // const Center(
+                          //     child:
+
+                          //     // Text(
+                          //     //   "welcome to Vividly please add some positions",
+                          //     //   textAlign: TextAlign.center,
+                          //     // ),
+                          //   ),
+                          ),
                     );
                   }
                 }

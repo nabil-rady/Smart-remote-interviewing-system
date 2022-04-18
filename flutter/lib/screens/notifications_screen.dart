@@ -24,18 +24,17 @@ class _NotificationScreenState extends State<NotificationScreen> {
   late Candidate candidate;
   Future<void> _submit(
       String interviewId, String notificationId, bool manualRead) async {
-    print(_isLoading);
     setState(() {
       _isLoading = true;
     });
-    print(_isLoading);
     try {
       ///////////////////////////////////////////////////////////////////////////////
-      Provider.of<PostionDetails>(context, listen: false)
+      await Provider.of<PostionDetails>(context, listen: false)
           .getEvaluationDetails(interviewId)
           .then((value) {
         candidate =
             Provider.of<PostionDetails>(context, listen: false).candidateInfo;
+        inspect(candidate);
         manualRead
             ? Navigator.of(context)
                 .pushNamed('/applicant_details', arguments: candidate)
@@ -57,7 +56,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
         _isLoading = false;
       });
     } catch (error) {
-      print(error);
       const errorMessage = 'Could not loead results, Please try again later';
       showErrorDialog(context, errorMessage, true);
 
@@ -68,7 +66,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
     setState(() {
       _isLoading = false;
     });
-    print(_isLoading);
   }
 
   @override
@@ -83,7 +80,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
-        title: const Text('Natifications'),
+        title: const Text('Notifications'),
       ),
       // drawer: AppDrawer(),
       body: FutureBuilder(

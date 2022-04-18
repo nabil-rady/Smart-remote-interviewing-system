@@ -21,7 +21,7 @@ const BurgerMenu = React.forwardRef((props, sideMenu) => {
                 {props.notifications.map((notification) => (
                   <li className="nav_item">
                     <Link
-                      to={`/applicant_details`}
+                      to={`/applicant_details/${notification.interviewId}`}
                       className="notification_nav_link"
                     >
                       {notification.body}

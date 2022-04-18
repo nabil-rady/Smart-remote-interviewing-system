@@ -23,7 +23,8 @@ class _ApplicantDetailScreenState extends State<ApplicantDetailScreen> {
     });
     try {
       await getAnswerDetails(context, candidate.id).then((value) {
-        Navigator.of(context).pushReplacementNamed("/video_evaluation");
+        Navigator.of(context)
+            .pushReplacementNamed("/video_evaluation", arguments: candidate.id);
       });
     } on HttpException catch (error) {
       showErrorDialog(
@@ -33,7 +34,6 @@ class _ApplicantDetailScreenState extends State<ApplicantDetailScreen> {
         _isLoading = false;
       });
     } catch (error) {
-      print(error);
       const errorMessage = 'Could not loead answers, Please try again later';
       showErrorDialog(context, errorMessage, true);
 
@@ -66,11 +66,6 @@ class _ApplicantDetailScreenState extends State<ApplicantDetailScreen> {
                   child: const Text('See Answers',
                       style: TextStyle(color: Colors.white)),
                   onPressed: _submit,
-                  //() {
-                  //   // getAnswerDetails(context, applicantId)
-                  //   // Navigator.of(context)
-                  //   //     .pushNamed('/video_evaluation', arguments: interviewId);
-                  // },
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                   ),

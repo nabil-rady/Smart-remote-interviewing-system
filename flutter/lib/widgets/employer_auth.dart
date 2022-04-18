@@ -144,8 +144,6 @@ class _EmployerAuthState extends State<EmployerAuth> {
         final fbm = FirebaseMessaging.instance;
         final token = await fbm.getToken();
         saveFirebaseToken(token.toString());
-        print(token);
-        print("start auth");
         await Provider.of<Auth>(context, listen: false)
             .login(
           authData['email'].toString(),
@@ -183,7 +181,6 @@ class _EmployerAuthState extends State<EmployerAuth> {
         });
       }
     } on HttpException catch (error) {
-      print(error);
       var errorMessage = 'Authentication failed';
       if (error.toString().contains('Email not found')) {
         errorMessage = 'This email address is not found.';
@@ -196,7 +193,6 @@ class _EmployerAuthState extends State<EmployerAuth> {
         _isLoading = false;
       });
     } catch (error) {
-      print(error);
       const errorMessage =
           'Could not authenticate you. Please try again later.';
       showErrorDialog(context, errorMessage, true);

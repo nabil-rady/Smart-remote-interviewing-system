@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:country_pickers/country.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -9,20 +8,10 @@ import 'dart:async';
 import 'package:csv/csv.dart';
 import 'package:flutter/services.dart';
 
-import '../local/sharedpreferences.dart';
-import '../local/http_exception.dart';
 import '../models/positionCandidate.dart';
 import '../providers/candidate_provider.dart';
 
-//import 'package:universal_io/io.dart';
-
-//import 'dart:html';
-
 class InvitationForm extends StatefulWidget {
-  // final String fullName;
-  // final String email;
-  // final String phoneNumber;
-  // final String positionName;
   final String positionId;
 
   InvitationForm(this.positionId);
@@ -58,19 +47,7 @@ class _InvitationFormState extends State<InvitationForm> {
     'phoneCode': '+20',
     'phoneNumber': ''
   };
-  // var candidate = Candidate(
-  //   name: '',
-  //   email: '',
-  //   phoneNumber: '',
-  //   phoneCode: '',
-  //   id: DateTime.now().toString(),
 
-  // date: DateTime.now(),
-  // rate: 0,
-  // videoAnswers: [],
-  // isRated: false,
-  // positionName: ''
-  // );
   var posCandidate = PositionCandidiate(positionId: '', candidatesMapList: {});
   @override
   void initState() {
@@ -83,18 +60,15 @@ class _InvitationFormState extends State<InvitationForm> {
 
   openFile(filepath, context, bool flag2) async {
     File f = new File(filepath);
-    print("CSV to List");
     final input = f.openRead();
     final fields = await input
         .transform(utf8.decoder)
         .transform(new CsvToListConverter())
         .toList();
-    // print(fields);
     setState(() {
       employeeData = fields;
       employeeData.forEach((element) {
         element.removeWhere((element2) => element2 == '');
-        //list2 = filter(' ', element);
       });
     });
     _saveForms(context, flag2);
@@ -445,33 +419,16 @@ class _InvitationFormState extends State<InvitationForm> {
                         ),
                         Expanded(
                           child: TextFormField(
-                            decoration:
-                                InputDecoration(labelText: 'Phone number '),
+                            decoration: const InputDecoration(
+                                labelText: 'Phone number '),
                             textInputAction: TextInputAction.done,
                             controller: mynumberController,
                             onSaved: (value) {
-                              // candidate = Candidate(
-                              //   name: candidate.name,
-                              //   email: candidate.email,
-                              //   phoneNumber: value.toString(),
-                              //   phoneCode: candidate.phoneCode,
-                              //   // date: candidate.date,
-                              //   id: candidate.id,
-                              //   // rate: candidate.rate,
-                              //   // videoAnswers: candidate.videoAnswers,
-                              //   // isRated: candidate.isRated,
-                              //   // positionName: candidate.positionName
-                              // );
                               candidate['phoneNumber'] = value.toString();
-                              print(candidate['phoneNumber']);
                             },
                             validator: (value) {
                               if (value!.isEmpty) {
                                 if (csvFlag) {
-                                  // setState(() {
-                                  //   csvFlag = false;
-                                  // });
-                                  print('monica3');
                                   return null;
                                 }
                                 setState(() {
@@ -484,9 +441,6 @@ class _InvitationFormState extends State<InvitationForm> {
                           ),
                         ),
                       ]),
-
-                  //r    ],
-                  // ),
                 ],
               )),
           const SizedBox(
@@ -507,9 +461,6 @@ class _InvitationFormState extends State<InvitationForm> {
                   });
                   _saveForms(context, flag);
                   clearTextInput();
-                  print(posCandidate.positionId);
-                  print(posCandidate.candidatesMapList);
-                  // print("my flag : ${flag}");
                 },
                 child: isLoading1
                     ? Row(
@@ -548,10 +499,7 @@ class _InvitationFormState extends State<InvitationForm> {
                     csvFlag = true;
                     isLoading2 = true;
                   });
-                  print("my flag : ${flag}");
                   _openFileExplorer(context, flag);
-                  // Navigator.of(context).pop();
-                  //  pickFiles();
                 },
                 child: isLoading2
                     ? Row(
@@ -575,7 +523,7 @@ class _InvitationFormState extends State<InvitationForm> {
                       )
                     : const Text(
                         'Import from file',
-                        style: const TextStyle(color: Colors.white),
+                        style: TextStyle(color: Colors.white),
                       ),
               )
             ],

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -41,9 +39,7 @@ class DashboardPositions with ChangeNotifier {
           .toList();
       _positionsItems = _finalList.toList();
       notifyListeners();
-      //inspect(_positionsItems);
     } else {
-      // print(responseData['message']);
       throw HttpException(responseData['message']);
     }
   }
@@ -57,7 +53,6 @@ class DashboardPositions with ChangeNotifier {
       },
     );
     final responseData = json.decode(response.body);
-    print(responseData);
     if (response.statusCode == 200) {
       _positionsItems.removeWhere((element) => element.id == listingId);
       notifyListeners();

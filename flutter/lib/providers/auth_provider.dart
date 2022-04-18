@@ -53,7 +53,6 @@ class Auth with ChangeNotifier {
       }),
     );
     final responseData = json.decode(response.body);
-    print(responseData);
     if (response.statusCode == 201) {
       _employer.userId = responseData['user']['userId'];
       saveUserId('${responseData['user']['userId']}');
@@ -67,7 +66,6 @@ class Auth with ChangeNotifier {
 
   Future<void> login(
       String email, String password, String webNotificationToken) async {
-    print("in login");
     final response = await http.post(
       Uri.parse('$authURL/user/login'),
       headers: <String, String>{
@@ -80,7 +78,6 @@ class Auth with ChangeNotifier {
       }),
     );
     final responseData = json.decode(response.body);
-    print(responseData);
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
       _employer.userId = responseData['user']['userId'];
@@ -93,9 +90,7 @@ class Auth with ChangeNotifier {
       _employer.countryCode = responseData['user']['phoneCode'];
       _employer.phone = responseData['user']['phoneNumber'];
       _employer.loggedIn = true;
-      //responseData['user']['loggedIn'];
       _employer.emailConfirmed = responseData['user']['emailConfirmed'];
-      print(_employer.email);
       saveUserToken('${responseData['token']}');
       saveUserId('${responseData['user']['userId']}');
       saveUserExpiryDate('${DateTime.parse(responseData['tokenExpireDate'])}');
@@ -127,7 +122,6 @@ class Auth with ChangeNotifier {
   }
 
   Future<void> sendEmail() async {
-    print(getUserToken().toString());
     final validationResponse = await http.post(
       Uri.parse('$authURL/user/confirm-email'),
       headers: <String, String>{
@@ -161,7 +155,6 @@ class Auth with ChangeNotifier {
     removeUserId();
     removeUserToken();
     removeUserExpiryDate();
-    print("all removed");
     if (_authTimer != null) {
       _authTimer!.cancel();
       _authTimer = null;
@@ -170,7 +163,6 @@ class Auth with ChangeNotifier {
   }
 
   void autoLogout() {
-    print("auto log out");
     if (_authTimer != null) {
       _authTimer!.cancel();
     }

@@ -111,7 +111,7 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
         return '0' + minTime.toString() + ':' + secTime.toString();
       }
     }
-    return minTime.toString() + secTime.toString();
+    return minTime.toString() + ':' + secTime.toString();
   };
 
   const renderAnswerTime = (time) => {
@@ -129,7 +129,7 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
         return '0' + minAnswerTime.toString() + ':' + secAnswerTime.toString();
       }
     } else if (minAnswerTime === 0 && secAnswerTime === 0) return '00:00';
-    return minAnswerTime.toString() + secAnswerTime.toString();
+    return minAnswerTime.toString() + ':' + secAnswerTime.toString();
   };
 
   const startInterview = () => {

@@ -35,51 +35,20 @@ class Positions with ChangeNotifier {
             'questions': singlePosition.qustionsMapList
           }));
       final responseData = json.decode(response.body);
-      print(response.body);
-      print(response.statusCode);
       if (response.statusCode == 201) {
         final newposition = Position(
           id: singlePosition.id,
           position: singlePosition.position,
           questions: singlePosition.questions,
           expireyDate: singlePosition.expireyDate,
-          /////new //////
           qustionsMapList: singlePosition.qustionsMapList,
-          /////////////////////
         );
 
         _positionsItems.add(newposition);
         notifyListeners();
       }
-      // else if (response.statusCode == 422) {
-      //   // throw Exception
-      // }
     } catch (error) {
-      print(error);
       throw error;
     }
   }
-
-  // void removePosition(String id) {
-  //   _positionsItems.removeWhere((element) => element.id == id);
-  //   notifyListeners();
-  // }
-
-  // Position findById(String id) {
-  //   return _positionsItems.firstWhere((element) => element.id == id);
-  // }
-
-  // Position findBypositionName(String _positionName) {
-  //   return _positionsItems.firstWhere(
-  //       (element) => element.position == _positionName,
-  //       orElse: () => Position(
-  //           id: '',
-  //           position: '',
-  //           questions: [],
-  //           /////new //////
-  //           qustionsMapList: [],
-  //           /////////////////////
-  //           //Dummy Date
-  //           expireyDate: DateTime(0)));
-  // }
 }
