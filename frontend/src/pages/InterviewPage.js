@@ -38,25 +38,20 @@ const InterviewPage = () => {
   };
 
   const onSocketMessage = async (e) => {
-    if (typeof e.data === 'object') {
-      const buffer = await e.data.arrayBuffer();
-      const notOk = new Int8Array(buffer)[0];
+    if (e.data === 'True') {
+      if (trueCount < 3) trueCount++;
+      console.log(`true count is ${trueCount}`);
+      falseCount = 0;
+    } else {
+      if (falseCount < 3) falseCount++;
+      console.log(`false count is ${falseCount}`);
+      trueCount = 0;
+    }
 
-      if (notOk) {
-        if (trueCount < 3) trueCount++;
-        console.log(`true count is ${trueCount}`);
-        falseCount = 0;
-      } else {
-        if (falseCount < 3) falseCount++;
-        console.log(`false count is ${falseCount}`);
-        trueCount = 0;
-      }
-
-      if (trueCount >= 3) {
-        setReadyForInterview(true);
-      } else if (falseCount >= 3) {
-        setReadyForInterview(false);
-      }
+    if (trueCount >= 3) {
+      setReadyForInterview(true);
+    } else if (falseCount >= 3) {
+      setReadyForInterview(false);
     }
   };
 

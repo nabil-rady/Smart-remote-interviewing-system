@@ -6,14 +6,24 @@ import { HRURL } from '../API/APIConstants';
 import { TailSpin } from 'react-loader-spinner';
 import handleAPIError from '../utils/APIErrorHandling';
 import NoNotification from './NoNotification';
+import notification from './SVGs/notification.png';
 const BurgerMenu = React.forwardRef((props, sideMenu) => {
   const authUser = useContext(UserContext).authUser;
-  const setAuthUser = useContext(UserContext).setAuthUser;
+  const isLoggedIn = !!authUser;
   return (
     <div className="burger-wrapper">
       <div className="burger_container" ref={sideMenu}>
         <div className="navbar">
-          <div className="nav_header">Notifications</div>
+          <div className="nav_header">
+            <img
+              src={notification}
+              className={`notificationImgSidemenu ${
+                isLoggedIn ? '' : 'hidden'
+              }`}
+              onClick={props.handleToggleButtonClick}
+            />
+            <span className="notification_header">Notifications</span>
+          </div>
 
           {props.notifications ? (
             props.notifications.length > 0 ? (
@@ -52,49 +62,6 @@ const BurgerMenu = React.forwardRef((props, sideMenu) => {
               </div>
             </ul>
           )}
-          {/* {notifications ? (
-            <ul className="nav_list">
-              {notifications.map((notification) => {
-                <li className="nav_item">
-                  <a to="/" className="notification_nav_link">
-                    {notifications[0].body}
-                  </a>
-                </li>;
-              })}
-            </ul>
-          ) : (
-            <div
-              style={{
-                position: 'relative',
-                top: 'calc(30vh - 50px)',
-                left: 'calc(70vw - 40px)',
-              }}
-            >
-              <TailSpin color="hsl(215deg, 79%, 42%)" height={80} width={80} />
-            </div>
-          )} */}
-
-          {/* {notifications.length !== 0 ? (
-            <ul className="nav_list">
-              {notifications.forEach((notification) => {
-                <li className="nav_item">
-                  <a to="/" className="nav_link">
-                    {notification.body}
-                  </a>
-                </li>;
-              })}
-            </ul>
-          ) : (
-            <div
-              style={{
-                position: 'relative',
-                top: 'calc(30vh - 50px)',
-                left: 'calc(70vw - 40px)',
-              }}
-            >
-              <TailSpin color="hsl(215deg, 79%, 42%)" height={80} width={80} />
-            </div>
-          )} */}
         </div>
       </div>
     </div>

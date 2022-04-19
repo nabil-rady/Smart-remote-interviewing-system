@@ -118,7 +118,11 @@ const NavBar = (props) => {
           </ul>
         </nav>
       </header>
-      <SideMenu ref={sideMenu} notifications={notifications} />
+      <SideMenu
+        ref={sideMenu}
+        notifications={notifications}
+        handleToggleButtonClick={handleToggleButtonClick}
+      />
     </>
   );
 };

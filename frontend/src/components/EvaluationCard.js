@@ -23,7 +23,13 @@ const EvaluationCard = React.forwardRef((props, ratings) => {
       datasets: [
         {
           data: emotionScores[index].map((emotion) => emotion),
-          backgroundColor: ['red', 'grey', 'green', 'yellow', 'purple'],
+          backgroundColor: [
+            'hsl(215deg, 79%, 42%)',
+            'hsl(215deg, 79%, 42%)',
+            'hsl(215deg, 79%, 42%)',
+            'hsl(215deg, 79%, 42%)',
+            'hsl(215deg, 79%, 42%)',
+          ],
         },
       ],
     });
