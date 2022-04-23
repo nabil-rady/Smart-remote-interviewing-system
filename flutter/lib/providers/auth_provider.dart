@@ -94,7 +94,7 @@ class Auth with ChangeNotifier {
       saveUserToken('${responseData['token']}');
       saveUserId('${responseData['user']['userId']}');
       saveUserExpiryDate('${DateTime.parse(responseData['tokenExpireDate'])}');
-
+      print(responseData['token']);
       autoLogout();
       notifyListeners();
     } else {

@@ -143,6 +143,9 @@ class _EmployerAuthState extends State<EmployerAuth> {
       if (_authMode == AuthMode.login) {
         final fbm = FirebaseMessaging.instance;
         final token = await fbm.getToken();
+        print('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');
+        print(token);
+        print('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');
         saveFirebaseToken(token.toString());
         await Provider.of<Auth>(context, listen: false)
             .login(

@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.untitled">
+    package="com.vividly.mariam">
    <application
         android:label="Vividly"
         android:name="${applicationName}"

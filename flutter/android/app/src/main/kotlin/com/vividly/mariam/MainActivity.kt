@@ -1,4 +1,4 @@
-package com.example.untitled
+package com.vividly.mariam
 
 import io.flutter.embedding.android.FlutterActivity
 
