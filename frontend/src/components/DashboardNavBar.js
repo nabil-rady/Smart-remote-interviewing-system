@@ -8,7 +8,7 @@ import './scss/dashboard-navbar.scss';
 import { APIURL } from '../API/APIConstants';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/messaging';
-import handleError from '../utils/APIErrorHandling';
+import handleAPIError from '../utils/APIErrorHandling';
 import SideMenu from './SideMenu';
 import notification from './SVGs/notification.png';
 import { HRURL } from '../API/APIConstants';
