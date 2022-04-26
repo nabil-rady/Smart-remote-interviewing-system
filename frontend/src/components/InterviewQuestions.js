@@ -258,22 +258,22 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
       fileReader.onload = function (event) {
         arrayBufferNew = event.target.result;
         const uint8ArrayNew = new Uint8Array(arrayBufferNew);
-        console.log(uint8ArrayNew);
-        // setVideo(uint8ArrayNew);
-        let statusCode;
-        fetch(`${ApplicantURL}/candidate/upload-video`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            interviewId: questionsResponse.interviewId,
-            questionId: questions[counter].questionId,
-            video: Array.from(uint8ArrayNew),
-            videoExtension: 'webm',
-            lastVideo: lastVideo,
-          }),
-        })
+        for(let i = 0; i < uint8ArrayNew.size(); i+=5e6){
+          const chunk = uint8ArrayNew.slice(i, i+5e6);
+          let statusCode;
+          fetch(`${ApplicantURL}/candidate/upload-video`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              interviewId: questionsResponse.interviewId,
+              questionId: questions[counter].questionId,
+              video: Array.from(chunk),
+              videoExtension: 'webm',
+              lastVideo: lastVideo,
+            }),
+          })
           .then((response) => {
             statusCode = response.status;
             console.log(response);
@@ -290,6 +290,7 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
           .catch((error) => {
             console.error('Error:', error);
           });
+        }        
       };
       fileReader.readAsArrayBuffer(blob);
       console.log(fileReader.result);
