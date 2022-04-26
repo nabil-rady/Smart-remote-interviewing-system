@@ -30,8 +30,6 @@ app.use(bodyParser.json({ limit: '1024mb' }));
 app.use((req, res, next) => {
   // Allow all domains to accept response from this server.
   res.setHeader('Access-Control-allow-Origin', '*');
-  // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-  res.setHeader('Access-Control-allow-Credentials', 'true');
 
   // allow domains to use these HTTP methods.
   res.setHeader(
