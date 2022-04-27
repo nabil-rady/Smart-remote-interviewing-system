@@ -82,7 +82,7 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
   const interval = 1000;
 
   const [timeLeftRead, { start: startRead }] = useCountDown(
-    questions ? questions[counter]?.timeToThink * 1000 * 60 : 0,
+    questions ? questions[counter]?.timeToThink * 1000 : 0,
     interval
   ); //60
 
@@ -97,8 +97,8 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
   const renderReadTime = (time) => {
     if (!questions || !questions[counter]) return '0:00';
     let secTime, minTime;
-    minTime = parseInt(time / 1000 / 60); // /60
-    secTime = parseInt((time / 1000) % 60); // %60
+    minTime = parseInt(time / 1000); // /60
+    secTime = parseInt(time / 1000); // %60
 
     if (time === 0) {
       if (questions[counter].timeToThink < 10)
@@ -134,14 +134,14 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
 
   const startInterview = () => {
     setRecordedChunks([]);
-    startRead(questions[counter].timeToThink * 1000 * 60); //60
+    startRead(questions[counter].timeToThink * 1000); //60
     if (visible === 'hidden') setVisibility('visible');
     if (start) setStart(false);
 
     setTimeout(() => {
       handleStartCaptureClick();
       console.log('Start recording (setTimeout)');
-    }, questions[counter].timeToThink * 1000 * 60); //60
+    }, questions[counter].timeToThink * 1000); //60
 
     recordTimeout.current = setTimeout(() => {
       console.log('Stop recording (setTimeout)');
@@ -255,42 +255,47 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
       // console.log(newBlob);
       let arrayBufferNew = null;
       let fileReader = new FileReader();
-      fileReader.onload = function (event) {
+      fileReader.onload = async function (event) {
         arrayBufferNew = event.target.result;
         const uint8ArrayNew = new Uint8Array(arrayBufferNew);
-        for(let i = 0; i < uint8ArrayNew.size(); i+=5e6){
-          const chunk = uint8ArrayNew.slice(i, i+5e6);
+        const fileName = `${
+          questionsResponse.interviewId
+        }-${new Date().getTime()}`;
+        for (let i = 0; i < uint8ArrayNew.length; i += 5e6) {
+          const chunk = uint8ArrayNew.slice(i, i + 5e6);
           let statusCode;
-          fetch(`${ApplicantURL}/candidate/upload-video`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              interviewId: questionsResponse.interviewId,
-              questionId: questions[counter].questionId,
-              video: Array.from(chunk),
-              videoExtension: 'webm',
-              lastVideo: lastVideo,
-            }),
-          })
-          .then((response) => {
+          try {
+            const response = await fetch(
+              `${ApplicantURL}/candidate/upload-video`,
+              {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  interviewId: questionsResponse.interviewId,
+                  questionId: questions[counter].questionId,
+                  video: Array.from(chunk),
+                  videoExtension: 'webm',
+                  lastVideo: lastVideo,
+                  name: fileName,
+                  end: i + 5e6 >= uint8ArrayNew.length ? true : false,
+                }),
+              }
+            );
             statusCode = response.status;
             console.log(response);
-            return response.json();
-          })
-          .then((data) => {
+            const data = await response.json();
             if (statusCode === 200) {
               console.log(data);
               setUploadingVideo(false);
             } else {
               handleAPIError(statusCode, data, setError);
             }
-          })
-          .catch((error) => {
+          } catch (error) {
             console.error('Error:', error);
-          });
-        }        
+          }
+        }
       };
       fileReader.readAsArrayBuffer(blob);
       console.log(fileReader.result);

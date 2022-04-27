@@ -4,6 +4,7 @@ const Question = require('../models/question');
 
 const fs = require('fs');
 const writeFile = require('util').promisify(fs.writeFile);
+const appendFile = require('util').promisify(fs.appendFile);
 
 const publish = require('../utils/publish-upload-queue').publish;
 
@@ -76,8 +77,15 @@ module.exports.getJoinInterview = async (req, res, next) => {
 
 module.exports.postSubmitVideo = async (req, res, next) => {
   try {
-    const { interviewId, questionId, video, videoExtension, lastVideo } =
-      req.body;
+    const {
+      interviewId,
+      questionId,
+      video,
+      videoExtension,
+      lastVideo,
+      name,
+      end,
+    } = req.body;
 
     // get the interview
     const interview = await Interview.findOne({
@@ -106,19 +114,21 @@ module.exports.postSubmitVideo = async (req, res, next) => {
     }
 
     const fileBuffer = new Buffer.from(video, 'base64');
-    const name = `${interviewId}-${new Date().getTime()}`;
-    await writeFile('./' + name + '.' + videoExtension, fileBuffer);
+    // const name = `${interviewId}-${new Date().getTime()}`;
     console.log(fileBuffer);
+    await appendFile('./' + name + '.' + videoExtension, fileBuffer);
 
-    // publish to upload queue
-    const videoToUpload = {
-      interviewId,
-      questionId,
-      lastVideo,
-      name,
-      videoExtension,
-    };
-    await publish(videoToUpload);
+    if (end) {
+      // publish to upload queue
+      const videoToUpload = {
+        interviewId,
+        questionId,
+        lastVideo,
+        name,
+        videoExtension,
+      };
+      await publish(videoToUpload);
+    }
 
     res.status(200).json({
       message: 'Video received.',
