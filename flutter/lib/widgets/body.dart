@@ -98,12 +98,12 @@ class _BodyState extends State<Body> {
                     DefaultButton(
                       text: "Continue",
                       press: () {
-                        Navigator.of(context).pushReplacementNamed(
-                            '/IntroCamScreen',
-                            arguments: controller);
                         // Navigator.of(context).pushReplacementNamed(
-                        //     '/interview-screen',
+                        //     '/IntroCamScreen',
                         //     arguments: controller);
+                        Navigator.of(context).pushReplacementNamed(
+                            '/interview-screen',
+                            arguments: controller);
                       },
                     ),
                     const Spacer(),

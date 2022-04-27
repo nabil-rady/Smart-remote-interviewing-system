@@ -79,8 +79,18 @@ class _IntrviewScreenState extends State<IntrviewScreen> {
         try {
           videoFile = file;
           Uint8List? video = await videoFile!.readAsBytes();
-          await Provider.of<SessionDetails>(context, listen: false)
-              .setVideo(interviewId, questionId, video, lastVideo);
+          // Uint8List? chunck;
+          String name = interviewId + '-' + DateTime.now().toString();
+          for (int i = 0; i < video.length; i += 5e6.toInt()) {
+            bool end = i + 5e6.toInt() >= video.length ? true : false;
+            int index =
+                i + 5e6.toInt() > video.length ? video.length : i + 5e6.toInt();
+
+            Uint8List chunck = video.sublist(i, index);
+            await Provider.of<SessionDetails>(context, listen: false).setVideo(
+                interviewId, questionId, chunck, lastVideo, name, end);
+            print('chunck $i');
+          }
 
           if (videoFile == null) {
             return;
