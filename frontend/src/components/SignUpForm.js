@@ -12,19 +12,9 @@ import { Link } from 'react-router-dom';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/messaging';
 import { TailSpin } from 'react-loader-spinner';
-let userId;
+import firebaseConfig from '../utils/firebaseConfig';
 const SignUpForm = () => {
   const [registrationToken, setToken] = useState();
-  const firebaseConfig = {
-    apiKey: 'AIzaSyDuqj0k4SCgC-KQjHnZhV4dLxMDI8NaiS8',
-    authDomain: 'vividly-notification.firebaseapp.com',
-    projectId: 'vividly-notification',
-    storageBucket: 'vividly-notification.appspot.com',
-    messagingSenderId: '964487453958',
-    appId: '1:964487453958:web:93e6d088edf1bb5fe4d287',
-    measurementId: 'G-G29W0NWEVB',
-  };
-
   firebase.initializeApp(firebaseConfig);
   const messaging = firebase.messaging();
   messaging
@@ -282,4 +272,3 @@ const SignUpForm = () => {
   );
 };
 export default SignUpForm;
-export { userId };

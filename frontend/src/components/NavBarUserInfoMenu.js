@@ -6,21 +6,11 @@ import { UserContext } from '../App';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/messaging';
 import handleError from '../utils/APIErrorHandling';
-
+import firebaseConfig from '../utils/firebaseConfig';
 const NavBarUserInfoMenu = () => {
   const authUser = useContext(UserContext).authUser;
   const setAuthUser = useContext(UserContext).setAuthUser;
   const [registrationToken, setToken] = useState();
-  const firebaseConfig = {
-    apiKey: 'AIzaSyDuqj0k4SCgC-KQjHnZhV4dLxMDI8NaiS8',
-    authDomain: 'vividly-notification.firebaseapp.com',
-    projectId: 'vividly-notification',
-    storageBucket: 'vividly-notification.appspot.com',
-    messagingSenderId: '964487453958',
-    appId: '1:964487453958:web:93e6d088edf1bb5fe4d287',
-    measurementId: 'G-G29W0NWEVB',
-  };
-
   firebase.initializeApp(firebaseConfig);
   const messaging = firebase.messaging();
   messaging

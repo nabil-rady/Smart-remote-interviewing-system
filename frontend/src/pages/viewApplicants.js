@@ -15,6 +15,7 @@ import {
   setFirebaseMessageListenerEvent,
   getFirebaseToken,
 } from '../utils/firebaseUtils';
+import NoInfo from '../components/NoInfor';
 
 function ViewApplicants() {
   const authUser = useContext(UserContext).authUser;
@@ -78,7 +79,9 @@ function ViewApplicants() {
             </ul>
           </>
         ) : (
-          <h1>There's no applicants to evaluate</h1>
+          <>
+            <NoInfo page="evaluate" />
+          </>
         )
       ) : (
         <div

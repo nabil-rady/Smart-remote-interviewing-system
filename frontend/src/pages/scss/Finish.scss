@@ -1,0 +1,74 @@
+@import '../../sassConfig/colors';
+@import '../../sassConfig/transition';
+
+.done_animation {
+  width: 40%;
+}
+
+.done_container {
+  display: flex;
+  margin-top: 3rem;
+}
+
+.home_btn {
+  width: 200px;
+  margin-left: calc(50% - 100px);
+  height: 40px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  background-color: $primary-blue;
+  color: white;
+  font-weight: 500;
+  font-size: 1.1rem;
+  @include transition;
+  &:hover {
+    border: 2px solid $primary-blue;
+    background-color: white;
+    color: $primary-blue;
+  }
+  &:disabled,
+  &[disabled] {
+    background-color: gray;
+    color: black;
+  }
+}
+
+.done_logo {
+  font-weight: bolder;
+  color: $primary-blue;
+  font-family: 'Baskerville Old Face';
+  font-size: 2.5rem;
+}
+
+.finish_container {
+  height: 50%;
+  padding: 2rem;
+  padding-bottom: 2rem;
+  width: 45%;
+  margin-top: 12rem;
+  margin-left: 8%;
+}
+.done_text {
+  font-size: 2rem;
+  text-align: center;
+}
+@media screen and (max-width: 900px) {
+  .done_container {
+    display: block;
+    width: 100%;
+    margin-top: 1rem;
+  }
+  .finish_container {
+    width: 90%;
+    margin-left: 5%;
+    margin-top: 0rem;
+  }
+  .done_animation {
+    width: 80%;
+    margin-left: 8%;
+  }
+  .done_logo {
+    font-size: 1.8rem;
+  }
+}

@@ -6,7 +6,7 @@ import { HRURL } from '../API/APIConstants';
 import { TailSpin } from 'react-loader-spinner';
 import handleAPIError from '../utils/APIErrorHandling';
 import NoNotification from './NoNotification';
-import notification from './SVGs/notification.png';
+import closeImg from './SVGs/close.png';
 const BurgerMenu = React.forwardRef((props, sideMenu) => {
   const authUser = useContext(UserContext).authUser;
   const isLoggedIn = !!authUser;
@@ -16,7 +16,7 @@ const BurgerMenu = React.forwardRef((props, sideMenu) => {
         <div className="navbar">
           <div className="nav_header">
             <img
-              src={notification}
+              src={closeImg}
               className={`notificationImgSidemenu ${
                 isLoggedIn ? '' : 'hidden'
               }`}

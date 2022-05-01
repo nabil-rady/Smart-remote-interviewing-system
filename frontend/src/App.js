@@ -32,6 +32,7 @@ import ApplicantDetails from './pages/applicantDeteils';
 import NewLanding from './pages/newLandingpage';
 import WelcomePage from './pages/WelcomePage';
 import UploadImageToS3WithNativeSdk from './pages/uploadVideos';
+import FinishPage from './pages/FinishPage';
 
 // const mockUserObject = {
 //   userId: 'ABC123',
@@ -135,6 +136,14 @@ function App() {
               exact
             >
               <TakeInterviewPage />
+            </PublicRoute>
+            <PublicRoute
+              isAuthenticated={!!authUser}
+              isVerified={isVerified}
+              path="/finish"
+              exact
+            >
+              <FinishPage />
             </PublicRoute>
             {/* <PrivateRoute isAuthenticated={!!authUser} path="/selectposition" exact>
             <PositionForm />

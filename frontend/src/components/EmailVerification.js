@@ -2,7 +2,6 @@ import React, { useState, useContext } from 'react';
 import Card from './Card';
 import ErrorModal from './ErrorModal';
 import './scss/EmailVerification.scss';
-import { userId } from './SignUpForm';
 import { APIURL } from '../API/APIConstants';
 import handleAPIError from '../utils/APIErrorHandling';
 import { useHistory } from 'react-router-dom';
@@ -28,7 +27,6 @@ const EmailVerification = (props) => {
     e.preventDefault();
     let statusCode;
     console.log(verificationCode);
-    console.log(userId);
     fetch(`${APIURL}/user/verify`, {
       method: 'POST',
       headers: {

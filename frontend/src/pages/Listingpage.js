@@ -33,6 +33,7 @@ import im26 from '../solidBG/26.jpg';
 import { TailSpin } from 'react-loader-spinner';
 import NotVerified from '../components/NotVerifiedModel';
 import handleAPIError from '../utils/APIErrorHandling';
+import NoInfo from '../components/NoInfor';
 
 function ListingPage() {
   const [positions, getPositions] = useState();
@@ -147,7 +148,7 @@ function ListingPage() {
             </>
           ) : (
             <>
-              <h1 className="noPositions">No Positions created to view</h1>
+              <NoInfo page="dashboard" />
               <button className="addposition">
                 <Link to="/add">Add Position</Link>
               </button>
