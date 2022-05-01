@@ -74,7 +74,7 @@ class SessionDetails with ChangeNotifier {
   }
 
   Future<void> setVideo(String interviewId, String questionId, Uint8List video,
-      bool lastVideo) async {
+      bool lastVideo, String name, bool end) async {
     print("before");
     final response = await http.post(
       Uri.parse('$interviewURL/candidate/upload-video'),
@@ -86,7 +86,9 @@ class SessionDetails with ChangeNotifier {
         'questionId': questionId,
         'video': video,
         'lastVideo': lastVideo,
-        'videoExtension': 'mp4'
+        'videoExtension': 'mp4',
+        'name': name,
+        'end': end,
       }),
     );
     print("after");

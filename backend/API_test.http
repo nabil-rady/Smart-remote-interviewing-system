@@ -91,11 +91,11 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYWQ1NzIwYi00
 ###
 
 POST {{host}}:8001/job-listing/create
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYWQ1NzIwYi00YzNmLTQ2NTctOTA2MC1kN2ZjNTk0MTQ5OGYiLCJpYXQiOjE2NDgyMDQzODgsImV4cCI6MTY0ODI0MDM4OH0.RtRsb2HrFUZN3H4MOLC8gJk4YzRHdDWIrkIh0gKne4c
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYWQ1NzIwYi00YzNmLTQ2NTctOTA2MC1kN2ZjNTk0MTQ5OGYiLCJpYXQiOjE2NTAxNTM1ODQsImV4cCI6MTY1MDE4OTU4NH0.rDCDVqC2Hq8V_cPdfl2E-HVM8rHj4KAxRq0LBexk2-I
 Content-Type: application/json
 
 {
-    "positionName": "Job AAA",
+    "positionName": "Job FFFFFFFFFF",
     "expiryDate": "2022-04-28",
     "questions":[
         {
@@ -116,7 +116,7 @@ Content-Type: application/json
 ###
 
 GET {{host}}:8001/job-listing/get-listings
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYWQ1NzIwYi00YzNmLTQ2NTctOTA2MC1kN2ZjNTk0MTQ5OGYiLCJpYXQiOjE2NDk1OTQyMzUsImV4cCI6MTY0OTYzMDIzNX0.iOQv_ELEkrQaDYbeySoTejckOBjHz0wwIhAiWtQNRZY
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYWQ1NzIwYi00YzNmLTQ2NTctOTA2MC1kN2ZjNTk0MTQ5OGYiLCJpYXQiOjE2NTAxNTM1ODQsImV4cCI6MTY1MDE4OTU4NH0.rDCDVqC2Hq8V_cPdfl2E-HVM8rHj4KAxRq0LBexk2-I
 
 ###
 
@@ -131,11 +131,11 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYWQ1NzIwYi00
 ###
 
 POST {{host}}:8001/job-listing/invite
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYWQ1NzIwYi00YzNmLTQ2NTctOTA2MC1kN2ZjNTk0MTQ5OGYiLCJpYXQiOjE2NDgyMDQzODgsImV4cCI6MTY0ODI0MDM4OH0.RtRsb2HrFUZN3H4MOLC8gJk4YzRHdDWIrkIh0gKne4c
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYWQ1NzIwYi00YzNmLTQ2NTctOTA2MC1kN2ZjNTk0MTQ5OGYiLCJpYXQiOjE2NTAxNTM1ODQsImV4cCI6MTY1MDE4OTU4NH0.rDCDVqC2Hq8V_cPdfl2E-HVM8rHj4KAxRq0LBexk2-I
 Content-Type: application/json
 
 {
-    "listingId": "ce2abdd9-f73f-4a3e-a09a-06cddce82cce",
+    "listingId": "ef0d7b7c-bb86-4229-970a-32e85f05d0f3",
     "candidates": [
         {
             "name": "Mohamed Medhat",
@@ -154,7 +154,7 @@ Content-Type: application/json
 
 ###
 
-GET {{host}}:8002/candidate/join/09ED80H9
+GET {{host}}:8002/candidate/join/70TA07H2
 Content-Type: application/json
 
 ###
@@ -172,14 +172,15 @@ Content-Type: application/json
 
 ###
 
-POST {{host}}:8002/candidate/upload-video
+POST http://3.145.131.124/api/interviewee/candidate/upload-video
 Content-Type: application/json
 
 {
-    "interviewId": "74b74292-3642-486a-8319-255bb7e7da5a",
-    "questionId": "db8c8b04-4bea-44d7-b378-070ad040b3f5",
+    "interviewId": "e1833e77-f73f-49c6-9288-2b01082542a2",
+    "questionId": "2022-03-06 00:09:05.783902",
     "video": [0,0,0,0,0,0],
-    "lastVideo": true
+    "lastVideo": true,
+    "videoExtension": "webm"
 }
 
 ###

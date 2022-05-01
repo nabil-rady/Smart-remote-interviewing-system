@@ -66,10 +66,15 @@ dependencies:
   flutter_local_notifications: ^9.3.3
   dart_amqp: ^0.2.1
   charts_flutter: ^0.12.0
+  mockito: ^5.1.0
+  # test: ^1.21.1
 
 dev_dependencies:
+  #testing
+  # test: ^1.0.0  
   flutter_test:
     sdk: flutter
+   
   flutter_launcher_icons: ^0.9.2
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

@@ -15,10 +15,10 @@ enum AuthMode { signup, login }
 
 class EmployerAuth extends StatefulWidget {
   @override
-  _EmployerAuthState createState() => _EmployerAuthState();
+  EmployerAuthState createState() => EmployerAuthState();
 }
 
-class _EmployerAuthState extends State<EmployerAuth> {
+class EmployerAuthState extends State<EmployerAuth> {
   @override
   void initState() {
     super.initState();
@@ -143,6 +143,9 @@ class _EmployerAuthState extends State<EmployerAuth> {
       if (_authMode == AuthMode.login) {
         final fbm = FirebaseMessaging.instance;
         final token = await fbm.getToken();
+        print('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');
+        print(token);
+        print('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');
         saveFirebaseToken(token.toString());
         await Provider.of<Auth>(context, listen: false)
             .login(
@@ -208,6 +211,18 @@ class _EmployerAuthState extends State<EmployerAuth> {
     });
   }
 
+//////testing functions
+  validateEmailField(String value) {
+    return (value.isEmpty || !value.contains('@')) ? 'Invalid email!' : null;
+  }
+
+  validatePasswordField(String value) {
+    return (_authMode == AuthMode.signup && (value.isEmpty || value.length < 9))
+        ? 'Password is too short!'
+        : null;
+  }
+
+//////////
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -264,11 +279,16 @@ class _EmployerAuthState extends State<EmployerAuth> {
                 TextFormField(
                   decoration: const InputDecoration(labelText: 'E-Mail'),
                   keyboardType: TextInputType.emailAddress,
-                  validator: (value) {
-                    if (value!.isEmpty || !value.contains('@')) {
-                      return 'Invalid email!';
-                    }
-                  },
+                  validator: (value) => validateEmailField(value!)
+                  // (value!.isEmpty || !value.contains('@'))
+                  //     ? 'Invalid email!'
+                  //     : null
+                  // {
+                  //   if (value!.isEmpty || !value.contains('@')) {
+                  //     return 'Invalid email!';
+                  //   }
+                  // }
+                  ,
                   onSaved: (value) {
                     authData['email'] = value.toString();
                   },
@@ -277,12 +297,14 @@ class _EmployerAuthState extends State<EmployerAuth> {
                   decoration: const InputDecoration(labelText: 'Password'),
                   obscureText: true,
                   controller: _passwordController,
-                  validator: (value) {
-                    if (_authMode == AuthMode.signup &&
-                        (value!.isEmpty || value.length < 9)) {
-                      return 'Password is too short!';
-                    }
-                  },
+                  validator: (value) => validatePasswordField(value!)
+                  // {
+                  //   if (_authMode == AuthMode.signup &&
+                  //       (value!.isEmpty || value.length < 9)) {
+                  //     return 'Password is too short!';
+                  //   }
+                  // }
+                  ,
                   onSaved: (value) {
                     authData['password'] = value.toString();
                   },
