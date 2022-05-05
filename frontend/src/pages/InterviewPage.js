@@ -21,7 +21,7 @@ const InterviewPage = () => {
 
   const sendFrames = async () => {
     const imageSrc = webcamRef.current.getScreenshot();
-    console.log(imageSrc);
+    // console.log(imageSrc);
     if (imageSrc === null) return;
     const blobData = await fetch(imageSrc);
     const blob = await blobData.blob();
@@ -32,12 +32,13 @@ const InterviewPage = () => {
     setLoading(false);
     console.log('Connection Started');
     webSocket.current.send('Hello Server!');
-    timer.current = new Timer(sendFrames, 1000 / 3, () => {});
+    timer.current = new Timer(sendFrames, 1500 / 1, () => {});
     timer.current.start();
     console.log('Timer started');
   };
 
   const onSocketMessage = async (e) => {
+    console.log(e.data);
     if (e.data === 'True') {
       if (trueCount < 3) trueCount++;
       console.log(`true count is ${trueCount}`);
@@ -57,7 +58,7 @@ const InterviewPage = () => {
 
   const onSocketClose = () => {
     if (timer.current) timer.current.stop();
-    console.log(loading);
+    // console.log(loading);
     if (!loading) {
       // failre after connection has started already
       console.log('Failed! Please restart.');
@@ -65,7 +66,9 @@ const InterviewPage = () => {
     }
     console.log('websocket Closed');
     if (!interviewBegun) {
-      webSocket.current = new WebSocket('ws://localhost:8765');
+      webSocket.current = new WebSocket(
+        'wss://vividly-app.me/api/light-detection/'
+      );
       webSocket.current.addEventListener('open', onSocketOpen);
       webSocket.current.addEventListener('close', onSocketClose);
       webSocket.current.addEventListener('message', onSocketMessage);
@@ -73,7 +76,9 @@ const InterviewPage = () => {
   };
 
   useEffect(() => {
-    webSocket.current = new WebSocket('ws://localhost:8765');
+    webSocket.current = new WebSocket(
+      'wss://vividly-app.me/api/light-detection/'
+    );
     webSocket.current.addEventListener('open', onSocketOpen);
     webSocket.current.addEventListener('error', onSocketClose);
     webSocket.current.addEventListener('message', onSocketMessage);
