@@ -1,9 +1,9 @@
-// const APIURL = 'http://3.145.131.124/api/auth/';
-// const ApplicantURL = 'http://3.145.131.124/api/interviewee';
-// const HRURL = 'http://3.145.131.124/api/hr/';
-const APIURL = 'http://localhost:8000';
-const ApplicantURL = 'http://localhost:8002';
-const HRURL = 'http://localhost:8001';
+const APIURL = 'https://vividly-app.me/api/auth/';
+const ApplicantURL = 'https://vividly-app.me/api/interviewee';
+const HRURL = 'https://vividly-app.me/api/hr/';
+// const APIURL = 'https://vividly-app.me/localhost:8000';
+// const ApplicantURL = 'https://vividly-app.me/localhost:8002';
+// const HRURL = 'https://vividly-app.me/localhost:8001';
 export { APIURL };
 export { ApplicantURL };
 export { HRURL };
