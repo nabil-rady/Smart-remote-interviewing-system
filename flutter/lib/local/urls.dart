@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-const hrURL = 'http://3.145.131.124/api/hr';
+const hrURL = 'https://vividly-app.me/api/hr';
 
-const authURL = 'http://3.145.131.124/api/auth';
+const authURL = 'https://vividly-app.me/api/auth';
 
-const interviewURL = 'http://3.145.131.124/api/interviewee';
+const interviewURL = 'https://vividly-app.me/api/interviewee';

@@ -12,30 +12,15 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 
 class IntroCamScreen extends StatefulWidget {
   static const routeName = '/IntroCamScreen';
-  //List<CameraDescription>? cameras;
   IntroCamScreen({Key? key}) : super(key: key);
 
   @override
   _IntroCamScreenState createState() => _IntroCamScreenState();
 }
 
-//////////////////////////
-// late CameraController controller;
-// final _channel = WebSocketChannel.connect(
-//   Uri.parse('ws://a4e0-45-243-236-6.ngrok.io'),
-// );
-// Timer? _timer;
-// Timer? timer;
-// //late CameraController controller;
-// bool redFlag = true;
-// int _counter = 0;
-// Uint8List? _imageFile;
-// XFile? XFileImage;
-// late List imgbytes;
-////////////////////////////////////////////////
 class _IntroCamScreenState extends State<IntroCamScreen> {
   WebSocketChannel _channel = WebSocketChannel.connect(
-    Uri.parse('ws://b0c5-197-133-174-207.ngrok.io'),
+    Uri.parse('wss://vividly-app.me/api/light-detection/'),
   );
   Timer? _timer;
   late CameraController controller;
@@ -58,84 +43,7 @@ class _IntroCamScreenState extends State<IntroCamScreen> {
     controller = getCameraController();
 
     super.initState();
-    //  _timer = Timer.periodic(const Duration(milliseconds: 500), (Timer t) {
-    //  computeFunc();
-    //   takeScreen();
-    // print('yesssssssss');
-    // });
   }
-
-  // static List takeScreen(String str) {
-  //   final CameraController? cameraController = controller;
-  // if (cameraController == null || !cameraController.value.isInitialized) {
-  //   print('Error');
-  //   return [];
-  // }
-  // if (cameraController.value.isRecordingVideo) {
-  //   return [];
-  // }
-  // // try {
-  // XFileImage = cameraController.takePicture() as XFile?;
-  // // XFileImage!.readAsBytes();
-  // // File _storedVideo = File(XFileImage!.path);
-  // _imageFile = XFileImage!.readAsBytes() as Uint8List;
-  // // print(_imageFile);
-  // //  _channel.sink.add(_imageFile);
-  // return _imageFile;
-  // // } on CameraException catch (e) {
-  // //   print(e);
-  // //   return [];
-  // // }
-  // }
-/////////////////////////////////////////////////////////////////////////////////
-  // static void takeScreen(String str) {
-  //   //  final CameraController? cameraController = controller;
-  //   print('first');
-  //   // final CameraController? cameraController = controller;
-  //   // if (controller == null || !controller.value.isInitialized) {
-  //   //print('Error');
-  //   //   return [];
-  //   //}
-  //   // if (_controller.value.isRecordingVideo) {
-  //   //   return [];
-  //   // }
-  //   try {
-  //     //  _timer = Timer.periodic(
-  //     //    const Duration(seconds: 2),
-  //     //    (Timer t) => {
-  //     XFileImage = controller.takePicture() as XFile?;
-  //     // XFileImage!.readAsBytes();
-  //     // File _storedVideo = File(XFileImage!.path);
-  //     _imageFile = XFileImage?.readAsBytes() as Uint8List;
-  //     print(_imageFile);
-
-  //     //print(t.tick)
-
-  //     _channel.sink.add(_imageFile);
-  //     //});
-  //     print('hgjgjgjgjjghgj');
-  //     // return _imageFile;
-  //     // print(_imageFile);
-  //     //  _channel.sink.add(_imageFile);
-  //     // return _imageFile;
-  //   } catch (e) {
-  //     print(e);
-  //     //   return [];
-  //   }
-  //   //String mystr = '';
-
-  //   //  return mystr;
-  // }
-
-  // void computeFunc() async {
-  //   await compute(takeScreen, '');
-  //   //await asyncCall2();
-  //   // ....
-  // }
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-  // static Future<Uint8List?> readImageAsBytes(XFile image) {
-  //   return image.readAsBytes();
-  // }
 
   Future<void> takeScreen() async {
     final CameraController? cameraController = controller;
@@ -148,15 +56,7 @@ class _IntroCamScreenState extends State<IntroCamScreen> {
     }
     try {
       XFileImage = await cameraController.takePicture();
-      // XFileImage!.readAsBytes();
-      // File _storedVideo = File(XFileImage!.path);
       _imageFile = await XFileImage!.readAsBytes();
-      // _imageFile = await compute(readImageAsBytes, XFileImage!);
-      // print(_imageFile);
-      // _channel.sink.close();
-      // _channel = WebSocketChannel.connect(
-      //   Uri.parse('ws://6b05-197-133-174-207.ngrok.io'),
-      // );
       _channel.sink.add(_imageFile);
     } on Exception catch (e) {
       print(e);
@@ -166,7 +66,6 @@ class _IntroCamScreenState extends State<IntroCamScreen> {
 
   @override
   void dispose() {
-    print("dispose");
     _timer?.cancel();
     _channel.sink.close();
     super.dispose();
@@ -180,11 +79,7 @@ class _IntroCamScreenState extends State<IntroCamScreen> {
     double cameraScale = screenSize.aspectRatio * controller.value.aspectRatio;
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    //print(height);
-    //  print(width);
     var padding = MediaQuery.of(context).padding;
-    double newheight = height - padding.top - padding.bottom;
-    double margin = 50 / 100 * (height);
 
     return Scaffold(
       body: Stack(
@@ -229,7 +124,7 @@ class _IntroCamScreenState extends State<IntroCamScreen> {
                         color: !snapshot.hasData ||
                                 snapshot.data as String == 'True'
                             ? Colors.red
-                            : Color.fromRGBO(22, 93, 192, 1),
+                            : const Color.fromRGBO(22, 93, 192, 1),
                         text: "Continue",
                         press: () {
                           if (!snapshot.hasData ||
