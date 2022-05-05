@@ -3,6 +3,7 @@ import websockets
 import time
 from LightDetect3 import lightFaceDetect3
 
+
 async def echo(websocket):
     async for message in websocket:
         try:
@@ -17,12 +18,13 @@ async def echo(websocket):
             else:
                 print(message)
                 await websocket.send(message)
-            
+
         except websockets.ConnectionClosed as e:
-            print(f'Timeout', e)    
+            print(f'Timeout', e)
+
 
 async def main():
-    async with websockets.serve(echo, "0.0.0.0", 5000):
+    async with websockets.serve(echo, host="0.0.0.0", port=5000, ping_timeout=50, close_timeout=30):
         await asyncio.Future()  # run forever
 
 asyncio.run(main())
