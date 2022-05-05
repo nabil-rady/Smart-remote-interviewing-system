@@ -24,7 +24,7 @@ async def echo(websocket):
 
 
 async def main():
-    async with websockets.serve(echo, host="0.0.0.0", port=5000, ping_timeout=50, close_timeout=30):
+    async with websockets.serve(echo, "0.0.0.0", 5000):
         await asyncio.Future()  # run forever
 
 asyncio.run(main())
