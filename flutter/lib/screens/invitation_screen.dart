@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'package:http/http.dart' as http;
 import '../widgets/candidate_info_item.dart';
 import '../widgets/invitation_form.dart';
 import '../providers/candidate_provider.dart';
@@ -34,7 +34,8 @@ class _InvitationScreenState extends State<InvitationScreen> {
     if (myflag) {
       Provider.of<Candidates>(context).setItems = [];
       Provider.of<Candidates>(context).setCandidatesUI = [];
-      Provider.of<Candidates>(context).fetchAndSetCandidates(widget.positionId);
+      Provider.of<Candidates>(context)
+          .fetchAndSetCandidates(widget.positionId, http.Client());
     }
     // TODO: implement didChangeDependencies
     myflag = false;
