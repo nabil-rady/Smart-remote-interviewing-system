@@ -44,16 +44,19 @@ class _BodyState extends State<Body> {
   int currentPage = 0;
   List<Map<String, String>> splashData = [
     {
-      "text": "Welcome to Vividly, Let’s start interview!",
+      "text":
+          "Welcome to Vividly, Let’s start interview! \n We help people conect with companies \naround the world",
       "image": "assets/images/1.png"
     },
     {
-      "text": "We help people conect with companies \naround the world",
+      // "text": "We help people conect with companies \naround the world",
+      "text":
+          "Make sure your face is in the indicated square and the lighting in the room is bright enough.",
       "image": "assets/images/2.png"
     },
     {
       "text":
-          "The questions will appear to you one by one.\nyou will have a limited time to think about the question and then the video recording will start.\nthere is a limited time to answer each question.\n",
+          "The questions will appear to you one by one.\nyou will have a limited time to think about the question and then the video recording will start.there is a limited time to answer each question.\n",
       "image": "assets/images/3.png"
     },
   ];

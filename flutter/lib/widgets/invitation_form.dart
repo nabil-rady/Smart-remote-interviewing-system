@@ -17,10 +17,10 @@ class InvitationForm extends StatefulWidget {
   InvitationForm(this.positionId);
 
   @override
-  State<InvitationForm> createState() => _InvitationFormState();
+  State<InvitationForm> createState() => InvitationFormState();
 }
 
-class _InvitationFormState extends State<InvitationForm> {
+class InvitationFormState extends State<InvitationForm> {
   late List<List<dynamic>> employeeData;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -276,6 +276,57 @@ class _InvitationFormState extends State<InvitationForm> {
     // print(ques.answerTime);
   }
 
+  ////////// test
+  validateNameField(String value) {
+    if (value.isEmpty) {
+      if (csvFlag) {
+        // setState(() {
+        //   csvFlag = false;
+        //   print(csvFlag);
+        // });
+        print('monica1');
+        return null;
+      }
+      setState(() {
+        isLoading1 = false;
+      });
+      print('Zikoo1');
+      return 'Please write the name';
+    }
+    return null;
+  }
+
+  validateEmailField(String value) {
+    if (value.isEmpty) {
+      if (csvFlag) {
+        // setState(() {
+        //   csvFlag = false;
+        // });
+        print('monica2');
+        return null;
+      }
+      setState(() {
+        isLoading1 = false;
+      });
+      return 'Please write the email';
+    }
+    return null;
+  }
+
+  validatePhoneField(String value) {
+    if (value.isEmpty) {
+      if (csvFlag) {
+        return null;
+      }
+      setState(() {
+        isLoading1 = false;
+      });
+      return 'Please write the phone number';
+    }
+    return null;
+  }
+
+//////////////////
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -293,81 +344,83 @@ class _InvitationFormState extends State<InvitationForm> {
               child: Column(
                 children: <Widget>[
                   TextFormField(
-                    decoration: InputDecoration(labelText: 'Full-Name'),
-                    controller: mynameController,
-                    textInputAction: TextInputAction.next,
-                    onSaved: (value) {
-                      candidate['name'] = value.toString();
+                      decoration: InputDecoration(labelText: 'Full-Name'),
+                      controller: mynameController,
+                      textInputAction: TextInputAction.next,
+                      onSaved: (value) {
+                        candidate['name'] = value.toString();
 
-                      // date: candidate.date,
-                      //s  };
-                      print(candidate['name']);
-                      // id: candidate.id,
-                      // rate: candidate.rate,
-                      // videoAnswers: candidate.videoAnswers,
-                      // isRated: candidate.isRated,
-                      // positionName: candidate.positionName
-                      //);
-                    },
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        if (csvFlag) {
-                          // setState(() {
-                          //   csvFlag = false;
-                          //   print(csvFlag);
-                          // });
-                          print('monica1');
-                          return null;
-                        }
-                        setState(() {
-                          isLoading1 = false;
-                        });
-                        print('Zikoo1');
-                        return 'Please write the name';
-                      }
-                      return null;
-                    },
-                  ),
+                        // date: candidate.date,
+                        //s  };
+                        print(candidate['name']);
+                        // id: candidate.id,
+                        // rate: candidate.rate,
+                        // videoAnswers: candidate.videoAnswers,
+                        // isRated: candidate.isRated,
+                        // positionName: candidate.positionName
+                        //);
+                      },
+                      validator: (value) => validateNameField(value!)
+                      // {
+                      //   if (value!.isEmpty) {
+                      //     if (csvFlag) {
+                      //       // setState(() {
+                      //       //   csvFlag = false;
+                      //       //   print(csvFlag);
+                      //       // });
+                      //       print('monica1');
+                      //       return null;
+                      //     }
+                      //     setState(() {
+                      //       isLoading1 = false;
+                      //     });
+                      //     print('Zikoo1');
+                      //     return 'Please write the name';
+                      //   }
+                      //   return null;
+                      // },
+                      ),
                   TextFormField(
-                    controller: myemailController,
-                    decoration: InputDecoration(labelText: 'email'),
-                    textInputAction: TextInputAction.next,
-                    onSaved: (value) {
-                      // candidate = Candidate(
-                      //   name: candidate.name,
-                      //   email: value.toString(),
-                      //   phoneNumber: candidate.phoneNumber,
-                      //   phoneCode: candidate.phoneCode,
-                      //   // date: candidate.date,
-                      //   id: candidate.id,
-                      //   // rate: candidate.rate,
-                      //   // videoAnswers: candidate.videoAnswers,
-                      //   // isRated: candidate.isRated,
-                      //   // positionName: candidate.positionName
-                      // );
-                      candidate['email'] = value.toString();
+                      controller: myemailController,
+                      decoration: InputDecoration(labelText: 'email'),
+                      textInputAction: TextInputAction.next,
+                      onSaved: (value) {
+                        // candidate = Candidate(
+                        //   name: candidate.name,
+                        //   email: value.toString(),
+                        //   phoneNumber: candidate.phoneNumber,
+                        //   phoneCode: candidate.phoneCode,
+                        //   // date: candidate.date,
+                        //   id: candidate.id,
+                        //   // rate: candidate.rate,
+                        //   // videoAnswers: candidate.videoAnswers,
+                        //   // isRated: candidate.isRated,
+                        //   // positionName: candidate.positionName
+                        // );
+                        candidate['email'] = value.toString();
 
-                      // date: candidate.date,
-                      //   };
-                      print(candidate['email']);
-                    },
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        if (csvFlag) {
-                          // setState(() {
-                          //   csvFlag = false;
-                          // });
-                          print('monica2');
-                          return null;
-                        }
-                        setState(() {
-                          isLoading1 = false;
-                        });
-                        return 'Please write the email';
-                      }
-                      return null;
-                    },
-                  ),
+                        // date: candidate.date,
+                        //   };
+                        print(candidate['email']);
+                      },
+                      validator: (value) => validateNameField(value!)
+                      // {
+                      //   if (value!.isEmpty) {
+                      //     if (csvFlag) {
+                      //       // setState(() {
+                      //       //   csvFlag = false;
+                      //       // });
+                      //       print('monica2');
+                      //       return null;
+                      //     }
+                      //     setState(() {
+                      //       isLoading1 = false;
+                      //     });
+                      //     return 'Please write the email';
+                      //   }
+                      //   return null;
+                      // },
+                      ),
                   // Row(
                   // children: <Widget>[
                   SizedBox(
@@ -419,26 +472,27 @@ class _InvitationFormState extends State<InvitationForm> {
                         ),
                         Expanded(
                           child: TextFormField(
-                            decoration: const InputDecoration(
-                                labelText: 'Phone number '),
-                            textInputAction: TextInputAction.done,
-                            controller: mynumberController,
-                            onSaved: (value) {
-                              candidate['phoneNumber'] = value.toString();
-                            },
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                if (csvFlag) {
-                                  return null;
-                                }
-                                setState(() {
-                                  isLoading1 = false;
-                                });
-                                return 'Please write the phone number';
-                              }
-                              return null;
-                            },
-                          ),
+                              decoration: const InputDecoration(
+                                  labelText: 'Phone number '),
+                              textInputAction: TextInputAction.done,
+                              controller: mynumberController,
+                              onSaved: (value) {
+                                candidate['phoneNumber'] = value.toString();
+                              },
+                              validator: (value) => validatePhoneField(value!)
+                              //  {
+                              //   if (value!.isEmpty) {
+                              //     if (csvFlag) {
+                              //       return null;
+                              //     }
+                              //     setState(() {
+                              //       isLoading1 = false;
+                              //     });
+                              //     return 'Please write the phone number';
+                              //   }
+                              //   return null;
+                              // },
+                              ),
                         ),
                       ]),
                 ],

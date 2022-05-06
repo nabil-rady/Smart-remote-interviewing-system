@@ -32,7 +32,7 @@ const InterviewPage = () => {
     setLoading(false);
     console.log('Connection Started');
     webSocket.current.send('Hello Server!');
-    timer.current = new Timer(sendFrames, 1500 / 1, () => {});
+    timer.current = new Timer(sendFrames, 1000 / 60, () => {});
     timer.current.start();
     console.log('Timer started');
   };
