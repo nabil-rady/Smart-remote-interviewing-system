@@ -6,10 +6,10 @@ import '../providers/questions.dart';
 
 class QuestionForm extends StatefulWidget {
   @override
-  State<QuestionForm> createState() => _QuestionFormState();
+  State<QuestionForm> createState() => QuestionFormState();
 }
 
-class _QuestionFormState extends State<QuestionForm> {
+class QuestionFormState extends State<QuestionForm> {
   final _form = GlobalKey<FormState>();
   void _saveForms() {
     var valid = _form.currentState!.validate();
@@ -27,6 +27,37 @@ class _QuestionFormState extends State<QuestionForm> {
       thinkingTime: 0,
       keywords: '',
       id: DateTime.now().toString());
+
+  /////test
+  validateQuestionField(String value) {
+    if (value.isEmpty) {
+      return 'Please write the question title';
+    }
+    return null;
+  }
+
+  validateThinkingField(String value) {
+    if (value.isEmpty) {
+      return 'Please write the thinking time';
+    }
+    return null;
+  }
+
+  validateAnsweringField(String value) {
+    if (value.isEmpty) {
+      return 'Please write the answer time';
+    }
+    return null;
+  }
+
+  validateKeywordsField(String value) {
+    if (value.isEmpty) {
+      return 'Please write the keywords';
+    }
+    return null;
+  }
+
+  ///
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -43,86 +74,90 @@ class _QuestionFormState extends State<QuestionForm> {
               child: Column(
                 children: <Widget>[
                   TextFormField(
-                    decoration:
-                        const InputDecoration(labelText: 'Question Title'),
-                    textInputAction: TextInputAction.next,
-                    onSaved: (value) {
-                      newquestion = Question(
-                          titleQuestion: value.toString(),
-                          thinkingTime: newquestion.thinkingTime,
-                          answerTime: newquestion.answerTime,
-                          keywords: newquestion.keywords,
-                          id: newquestion.id);
-                    },
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Please write the question title';
-                      }
-                      return null;
-                    },
-                  ),
+                      decoration:
+                          const InputDecoration(labelText: 'Question Title'),
+                      textInputAction: TextInputAction.next,
+                      onSaved: (value) {
+                        newquestion = Question(
+                            titleQuestion: value.toString(),
+                            thinkingTime: newquestion.thinkingTime,
+                            answerTime: newquestion.answerTime,
+                            keywords: newquestion.keywords,
+                            id: newquestion.id);
+                      },
+                      validator: (value) => validateQuestionField(value!)
+                      //  {
+                      //   if (value!.isEmpty) {
+                      //     return 'Please write the question title';
+                      //   }
+                      //   return null;
+                      // },
+                      ),
                   TextFormField(
-                    keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(
-                        labelText: 'Thinking Time', hintText: 'In Minutes'),
-                    textInputAction: TextInputAction.next,
-                    onSaved: (value) {
-                      newquestion = Question(
-                          titleQuestion: newquestion.titleQuestion,
-                          thinkingTime: int.parse(value.toString()),
-                          answerTime: newquestion.answerTime,
-                          keywords: newquestion.keywords,
-                          id: newquestion.id);
-                    },
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Please write the thinking time';
-                      }
-                      return null;
-                    },
-                  ),
+                      keyboardType: TextInputType.number,
+                      decoration: const InputDecoration(
+                          labelText: 'Thinking Time', hintText: 'In Minutes'),
+                      textInputAction: TextInputAction.next,
+                      onSaved: (value) {
+                        newquestion = Question(
+                            titleQuestion: newquestion.titleQuestion,
+                            thinkingTime: int.parse(value.toString()),
+                            answerTime: newquestion.answerTime,
+                            keywords: newquestion.keywords,
+                            id: newquestion.id);
+                      },
+                      validator: (value) => validateThinkingField(value!)
+                      //  {
+                      //   if (value!.isEmpty) {
+                      //     return 'Please write the thinking time';
+                      //   }
+                      //   return null;
+                      // },
+                      ),
                   TextFormField(
-                    keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(
-                        labelText: 'Answer Time', hintText: 'In Minutes'),
-                    textInputAction: TextInputAction.done,
-                    onSaved: (value) {
-                      newquestion = Question(
-                          titleQuestion: newquestion.titleQuestion,
-                          thinkingTime: newquestion.thinkingTime,
-                          answerTime: int.parse(value.toString()),
-                          keywords: newquestion.keywords,
-                          id: newquestion.id);
-                    },
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Please write the answer time';
-                      }
-                      return null;
-                    },
-                  ),
+                      keyboardType: TextInputType.number,
+                      decoration: const InputDecoration(
+                          labelText: 'Answer Time', hintText: 'In Minutes'),
+                      textInputAction: TextInputAction.done,
+                      onSaved: (value) {
+                        newquestion = Question(
+                            titleQuestion: newquestion.titleQuestion,
+                            thinkingTime: newquestion.thinkingTime,
+                            answerTime: int.parse(value.toString()),
+                            keywords: newquestion.keywords,
+                            id: newquestion.id);
+                      },
+                      validator: (value) => validateAnsweringField(value!)
+                      //  {
+                      //   if (value!.isEmpty) {
+                      //     return 'Please write the answer time';
+                      //   }
+                      //   return null;
+                      // },
+                      ),
                   TextFormField(
-                    decoration: const InputDecoration(
-                        labelText: 'Keywords',
-                        hintText: 'example : flutter,django,angular,..etc'),
-                    textInputAction: TextInputAction.next,
-                    onSaved: (value) {
-                      newquestion = Question(
-                          titleQuestion: newquestion.titleQuestion,
-                          thinkingTime: newquestion.thinkingTime,
-                          answerTime: newquestion.answerTime,
-                          keywords: value.toString(),
-                          id: newquestion.id);
-                      newquestion.keywordsList =
-                          newquestion.keywords.split(',');
-                    },
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Please write the keywords';
-                      }
-                      return null;
-                    },
-                  ),
+                      decoration: const InputDecoration(
+                          labelText: 'Keywords',
+                          hintText: 'example : flutter,django,angular,..etc'),
+                      textInputAction: TextInputAction.next,
+                      onSaved: (value) {
+                        newquestion = Question(
+                            titleQuestion: newquestion.titleQuestion,
+                            thinkingTime: newquestion.thinkingTime,
+                            answerTime: newquestion.answerTime,
+                            keywords: value.toString(),
+                            id: newquestion.id);
+                        newquestion.keywordsList =
+                            newquestion.keywords.split(',');
+                      },
+                      validator: (value) => validateKeywordsField(value!)
+                      //  {
+                      //   if (value!.isEmpty) {
+                      //     return 'Please write the keywords';
+                      //   }
+                      //   return null;
+                      // },
+                      ),
                 ],
               )),
           RaisedButton(
