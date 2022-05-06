@@ -10,11 +10,6 @@ import { useParams } from 'react-router-dom';
 import handleAPIError from '../utils/APIErrorHandling';
 import { HRURL } from '../API/APIConstants';
 import { TailSpin } from 'react-loader-spinner';
-import messaging from '../utils/firebase';
-import {
-  setFirebaseMessageListenerEvent,
-  getFirebaseToken,
-} from '../utils/firebaseUtils';
 import NoInfo from '../components/NoInfor';
 
 function ViewApplicants() {

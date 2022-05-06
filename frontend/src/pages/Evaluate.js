@@ -9,11 +9,6 @@ import handleAPIError from '../utils/APIErrorHandling';
 import { UserContext } from '../App';
 import { HRURL } from '../API/APIConstants';
 import { TailSpin } from 'react-loader-spinner';
-import messaging from '../utils/firebase';
-import {
-  setFirebaseMessageListenerEvent,
-  getFirebaseToken,
-} from '../utils/firebaseUtils';
 
 function EvaluationPage() {
   const authUser = useContext(UserContext).authUser;

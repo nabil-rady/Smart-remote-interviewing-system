@@ -1,11 +1,5 @@
 import { Route } from 'react-router-dom';
-
-import firebase from './utils/firebase';
-import {
-  getFirebaseToken,
-  setFirebaseMessageListenerEvent,
-} from './utils/firebaseUtils';
-
+import { requestForToken, onMessageListener } from './utils/firebase';
 import PublicRoute from './Routes/PublicRoute';
 import PrivateRoute from './Routes/PrivateRoute';
 import LoginPage from './pages/LoginPage';
@@ -33,20 +27,6 @@ import NewLanding from './pages/newLandingpage';
 import WelcomePage from './pages/WelcomePage';
 import UploadImageToS3WithNativeSdk from './pages/uploadVideos';
 import FinishPage from './pages/FinishPage';
-
-// const mockUserObject = {
-//   userId: 'ABC123',
-//   token: 'aiwdjssqwijeoqiweoqu2398192381123',
-//   password: '123456789',
-//   firstName: 'Mohammed',
-//   lastName: 'Moussa',
-//   CompanyName: 'Mentor',
-//   email: 'mm9079381@gmail.com',
-//   PhoneCode: '02',
-//   PhoneNo: '01125894119',
-//   emailConfirmed: false,
-// };
-
 const UserContext = React.createContext();
 const LoadingContext = React.createContext();
 
@@ -59,17 +39,17 @@ function App() {
     body: '',
   });
   const [show, setShow] = useState(false);
-  useEffect(() => {
-    if (authUser?.emailConfirmed) {
-      setFirebaseMessageListenerEvent(firebase.messaging())
-        .then((message) => {
-          console.log(message);
-          setNotification(message.notification);
-          setShow(true);
-        })
-        .catch((err) => console.log(err));
-    }
-  }, [authUser]);
+  requestForToken();
+  onMessageListener()
+    .then((payload) => {
+      console.log('PPPPPPPPPPPPPPPPPPPPPPP', payload);
+      setShow(true);
+      setNotification({
+        title: payload.notification.title,
+        body: payload.notification.body,
+      });
+    })
+    .catch((err) => console.log('failed: ', err));
   useEffect(() => {
     localStorage.setItem('user', JSON.stringify(authUser));
   }, [authUser]);

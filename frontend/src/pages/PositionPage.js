@@ -11,12 +11,7 @@ import { Link, useParams } from 'react-router-dom';
 import './scss/positionpage.scss';
 import { Toast } from 'react-bootstrap';
 import { HRURL } from '../API/APIConstants';
-import messaging from '../utils/firebase';
 import { UserContext } from '../App';
-import {
-  setFirebaseMessageListenerEvent,
-  getFirebaseToken,
-} from '../utils/firebaseUtils';
 
 function PositionPage(props) {
   const params = useParams();

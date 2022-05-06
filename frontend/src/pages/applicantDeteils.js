@@ -9,11 +9,6 @@ import { useParams } from 'react-router-dom';
 import { HRURL } from '../API/APIConstants';
 import { TailSpin } from 'react-loader-spinner';
 import handleAPIError from '../utils/APIErrorHandling';
-import messaging from '../utils/firebase';
-import {
-  setFirebaseMessageListenerEvent,
-  getFirebaseToken,
-} from '../utils/firebaseUtils';
 
 function ApplicantDetails() {
   const authUser = useContext(UserContext).authUser;

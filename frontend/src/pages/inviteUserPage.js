@@ -2,12 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import NavBar from '../components/NavBar';
 import InviteUser from '../components/InviteApplicant';
 import UsersList from '../components/InviteList';
-import { Toast } from 'react-bootstrap';
-import messaging from '../utils/firebase';
-import {
-  setFirebaseMessageListenerEvent,
-  getFirebaseToken,
-} from '../utils/firebaseUtils';
 function InvitationPage() {
   const [usersList, setUsersList] = useState([]);
   let InviteUserHandler = (uName, uEmail, uCode, uPhone) => {

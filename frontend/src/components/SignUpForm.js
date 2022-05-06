@@ -9,22 +9,15 @@ import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import EmailVerification from './EmailVerification';
 import { Link } from 'react-router-dom';
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/messaging';
 import { TailSpin } from 'react-loader-spinner';
-import firebaseConfig from '../utils/firebaseConfig';
+import { requestForToken } from '../utils/firebase';
 const SignUpForm = () => {
   const [registrationToken, setToken] = useState();
-  firebase.initializeApp(firebaseConfig);
-  const messaging = firebase.messaging();
-  messaging
-    .getToken()
-    .then((token) => {
-      setToken(token);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  useEffect(async () => {
+    let token = await requestForToken();
+    setToken(token);
+    console.log(registrationToken);
+  });
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [companyName, setCompanyName] = useState();

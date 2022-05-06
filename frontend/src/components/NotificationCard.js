@@ -8,7 +8,6 @@ const NotificationCard = ({
   showNotification,
 }) => {
   if (!notification) return null;
-  const { title: notificationTitle, body: notificationBody } = notification;
   return (
     <Toast
       show={showNotification}
@@ -25,10 +24,9 @@ const NotificationCard = ({
     >
       <Toast.Header>
         <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
-        <strong className="mr-auto">{notificationTitle}</strong>
-        {/* <small>just now</small> */}
+        <strong className="mr-auto">{notification.title}</strong>
       </Toast.Header>
-      <Toast.Body>{notificationBody}</Toast.Body>
+      <Toast.Body>{notification.body}</Toast.Body>
     </Toast>
   );
 };

@@ -6,12 +6,6 @@ import { HRURL } from '../API/APIConstants';
 import './scss/changepass.scss';
 import handleAPIError from '../utils/APIErrorHandling';
 import ErrorModal from '../components/ErrorModal';
-import { Toast } from 'react-bootstrap';
-import messaging from '../utils/firebase';
-import {
-  setFirebaseMessageListenerEvent,
-  getFirebaseToken,
-} from '../utils/firebaseUtils';
 
 const ChangePassword = (props) => {
   const authUser = useContext(UserContext).authUser;

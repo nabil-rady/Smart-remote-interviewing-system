@@ -6,14 +6,7 @@ import PositionForm from '../components/position';
 import { HRURL } from '../API/APIConstants';
 import ErrorModal from '../components/ErrorModal';
 import handleAPIError from '../utils/APIErrorHandling';
-import { Toast } from 'react-bootstrap';
-import 'firebase/compat/messaging';
 import { UserContext } from '../App';
-import messaging from '../utils/firebase';
-import {
-  setFirebaseMessageListenerEvent,
-  getFirebaseToken,
-} from '../utils/firebaseUtils';
 
 function AddQues() {
   const authUser = useContext(UserContext).authUser;

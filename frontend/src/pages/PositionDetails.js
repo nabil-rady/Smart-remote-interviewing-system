@@ -6,11 +6,6 @@ import { Toast } from 'react-bootstrap';
 import { UserContext } from '../App';
 import { useParams } from 'react-router-dom';
 import handleAPIError from '../utils/APIErrorHandling';
-import messaging from '../utils/firebase';
-import {
-  setFirebaseMessageListenerEvent,
-  getFirebaseToken,
-} from '../utils/firebaseUtils';
 
 const PositionDetails = () => {
   const params = useParams();
