@@ -34,7 +34,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
           .then((value) {
         candidate =
             Provider.of<PostionDetails>(context, listen: false).candidateInfo;
-        inspect(candidate);
         manualRead
             ? Navigator.of(context)
                 .pushNamed('/applicant_details', arguments: candidate)
@@ -165,13 +164,11 @@ class _NotificationScreenState extends State<NotificationScreen> {
                           //     ? null
                           //     : Color.fromARGB(124, 110, 137, 204),
                           child: ListTile(
-                              leading: _isLoading
-                                  ? CircularProgressIndicator()
-                                  : const Icon(
-                                      Icons.notifications,
-                                      color: Color.fromARGB(255, 224, 222, 73),
-                                      size: 40.0,
-                                    ),
+                              leading: const Icon(
+                                Icons.notifications,
+                                color: Color.fromARGB(255, 224, 222, 73),
+                                size: 40.0,
+                              ),
                               title: Text(notificationData.notifications[i].body
                                   .capitalized()),
                               onTap: () => _submit(
