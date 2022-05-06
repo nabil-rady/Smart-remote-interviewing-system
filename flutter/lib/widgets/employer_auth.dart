@@ -5,7 +5,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:country_pickers/country_pickers.dart';
 import 'package:provider/provider.dart';
-
+import 'package:http/http.dart' as http;
 import '../providers/auth_provider.dart';
 import '../local/http_exception.dart';
 import '../local/sharedpreferences.dart';
@@ -160,6 +160,7 @@ class EmployerAuthState extends State<EmployerAuth> {
       } else {
         // Sign user up
         await Provider.of<Auth>(context, listen: false).signup(
+          http.Client(),
           authData['firstName'].toString(),
           authData['lastName'].toString(),
           authData['companyName'].toString(),

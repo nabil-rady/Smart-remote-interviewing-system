@@ -28,6 +28,7 @@ class Auth with ChangeNotifier {
   Timer? _authTimer;
 
   Future<void> signup(
+      http.Client http,
       String firstName,
       String lastName,
       String companyName,

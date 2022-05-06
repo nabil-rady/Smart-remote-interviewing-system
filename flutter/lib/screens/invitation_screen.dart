@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:test/local/sharedpreferences.dart';
 import 'package:test/widgets/helper_widget.dart';
 
+import 'package:http/http.dart' as http;
 import '../widgets/candidate_info_item.dart';
 import '../widgets/invitation_form.dart';
 import '../providers/candidate_provider.dart';

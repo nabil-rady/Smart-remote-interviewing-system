@@ -42,7 +42,8 @@ class Candidates with ChangeNotifier {
     _csvCandidateList = mylist;
   }
 
-  Future<void> fetchAndSetCandidates(String listing_id) async {
+  Future<void> fetchAndSetCandidates(
+      String listing_id, http.Client http) async {
     var url = '$hrURL/job-listing/candidates/$listing_id';
 
     //try {
