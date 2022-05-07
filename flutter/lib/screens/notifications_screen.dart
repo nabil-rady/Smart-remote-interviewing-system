@@ -43,10 +43,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 Navigator.of(context)
                     .pushNamed('/applicant_details', arguments: candidate);
               });
-        // Navigator.of(context)
-        //     .pushNamed('/applicant_details', arguments: candidate);
       });
-      /////////////////////////////////////////////////////////////////////////////('
     } on HttpException catch (error) {
       showErrorDialog(
           context, "Could not loead results, Please try again later.", true);
@@ -159,10 +156,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
                           color: notificationData.notifications[i].manualRead
                               ? null
                               : Color.fromARGB(121, 110, 159, 231),
-                          //   Container(
-                          // color: notificationData.notifications[i].manualRead
-                          //     ? null
-                          //     : Color.fromARGB(124, 110, 137, 204),
                           child: ListTile(
                               leading: const Icon(
                                 Icons.notifications,
