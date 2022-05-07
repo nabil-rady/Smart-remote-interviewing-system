@@ -97,7 +97,7 @@ moviepy==1.0.3
 SpeechRecognition
 sentence-transformers
 tensorflow-gpu
-opencv-python-headless
+opencv-python
 tensorflow-cpu
 pika==1.2.0
 python-dotenv==0.19.2
