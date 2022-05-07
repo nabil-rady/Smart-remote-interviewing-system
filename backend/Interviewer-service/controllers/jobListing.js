@@ -669,7 +669,7 @@ module.exports.postEvaluate = async (req, res, next) => {
       }
       results.push({
         result,
-        evaluation: e.evaluation,
+        evaluation: e.evaluation.toFixed(2),
       });
     }
 
@@ -680,7 +680,7 @@ module.exports.postEvaluate = async (req, res, next) => {
       r.result.manualEvaluation = r.evaluation;
       await r.result.save();
     }
-    interview.avgManualEvaluation = scores / results.length;
+    interview.avgManualEvaluation = (scores / results.length).toFixed(2);
     await interview.save();
 
     res.status(200).json({
