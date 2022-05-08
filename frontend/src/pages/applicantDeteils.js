@@ -45,7 +45,7 @@ function ApplicantDetails() {
     setFetchedApplicant();
   }, []);
 
-  const Dates = (applicant) => {
+  const renderDate = (applicant) => {
     let nowDate = new Date(applicant.submitedAt);
     let date =
       nowDate.getFullYear() +
@@ -55,6 +55,7 @@ function ApplicantDetails() {
       nowDate.getDate();
     return date;
   };
+
   return (
     <>
       <div className="blue-gradient">
@@ -68,7 +69,7 @@ function ApplicantDetails() {
               <p htmlFor="name" className="detailsLabel">
                 Name:
               </p>
-              <p name="name" className="info">
+              <p name="name" className="info" title={applicant.name}>
                 {applicant.name}
               </p>
             </div>
@@ -76,7 +77,7 @@ function ApplicantDetails() {
               <p htmlFor="email" className="detailsLabel">
                 Email:
               </p>
-              <p name="email" className="info">
+              <p name="email" className="info" title={applicant.email}>
                 {applicant.email}
               </p>
             </div>
@@ -84,7 +85,11 @@ function ApplicantDetails() {
               <p htmlFor="phone" className="detailsLabel">
                 Phone number:
               </p>
-              <p name="phone" className="info">
+              <p
+                name="phone"
+                className="info"
+                title={applicant.phoneCode + applicant.phoneNumber}
+              >
                 {applicant.phoneCode + applicant.phoneNumber}
               </p>
             </div>
@@ -92,15 +97,23 @@ function ApplicantDetails() {
               <p htmlFor="interviewdate" className="detailsLabel">
                 Interview Date:
               </p>
-              <p name="interviewdate" className="info">
-                {Dates(applicant)}
+              <p
+                name="interviewdate"
+                className="info"
+                title={renderDate(applicant)}
+              >
+                {renderDate(applicant)}
               </p>
             </div>
             <div className="dataContainer">
               <p htmlFor="interviewdate" className="detailsLabel">
                 Manual Evaluation Score:
               </p>
-              <p name="interviewdate" className="info">
+              <p
+                name="interviewdate"
+                className="info"
+                title={applicant.avgManualEvaluation}
+              >
                 {applicant.avgManualEvaluation}
               </p>
             </div>
@@ -108,7 +121,11 @@ function ApplicantDetails() {
               <p htmlFor="interviewdate" className="detailsLabel">
                 Evaluation Results:
               </p>
-              <p name="interviewdate" className="info">
+              <p
+                name="interviewdate"
+                className="info"
+                title={applicant.avgScore}
+              >
                 {applicant.avgScore}
               </p>
             </div>

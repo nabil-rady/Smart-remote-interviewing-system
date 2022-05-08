@@ -11,18 +11,21 @@ import notification from './SVGs/notification.png';
 import SideMenu from './SideMenu';
 import { HRURL } from '../API/APIConstants';
 import handleAPIError from '../utils/APIErrorHandling';
+
 const NavBar = (props) => {
   const authUser = useContext(UserContext).authUser;
   const setAuthUser = useContext(UserContext).setAuthUser; // Object or null
   const isLoggedIn = !!authUser;
   const [notifications, setNotifications] = useState();
   const sideMenu = useRef();
+
   const handleClick = () => {
     const menu = document.querySelector('.navbar-sidemenu');
     const mobileBurgerButton = document.querySelector('.mobile-burger-button');
     menu.classList.toggle('clicked');
     mobileBurgerButton.classList.toggle('black');
   };
+
   const fetchNotifications = () => {
     return fetch(`${HRURL}/user/notifications`, {
       method: 'GET',
@@ -31,6 +34,7 @@ const NavBar = (props) => {
       },
     });
   };
+
   const handleToggleButtonClick = () => {
     sideMenu.current.classList.toggle('change');
     if (sideMenu.current.classList[1] === 'change') {
@@ -52,6 +56,7 @@ const NavBar = (props) => {
       setFetchedAnswers();
     }
   };
+
   return (
     <>
       <header className="Navheader">
@@ -66,20 +71,24 @@ const NavBar = (props) => {
             Vividly
           </Link>
         </div>
-        {props.visible && (
-          <img
-            src={notification}
-            className={`notificationImg ${isLoggedIn ? '' : 'hidden'}`}
-            onClick={handleToggleButtonClick}
-          />
-        )}
 
         <nav className="header__navbar">
+          {props.visible && (
+            <img
+              src={notification}
+              className={`notificationImg ${isLoggedIn ? '' : 'hidden'}`}
+              onClick={handleToggleButtonClick}
+            />
+          )}
+
           <ul
             tabIndex="-1"
             className={`header__navbar__ul user-info ${
               isLoggedIn ? '' : 'hidden'
             }`}
+            style={{
+              'margin-left': props.visible ? '' : 'auto',
+            }}
           >
             <NavBarUserInfoMenu />
             <svg

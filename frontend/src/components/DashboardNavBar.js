@@ -12,6 +12,7 @@ import handleAPIError from '../utils/APIErrorHandling';
 import SideMenu from './SideMenu';
 import notification from './SVGs/notification.png';
 import { HRURL } from '../API/APIConstants';
+
 const DashboardNavBar = (props) => {
   const authUser = useContext(UserContext).authUser;
   const setAuthUser = useContext(UserContext).setAuthUser; // Object or null
