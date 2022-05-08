@@ -21,7 +21,7 @@ yarn-error.log*
 videos/
 solidBG/
 videos/
-test/
+
 *.wav
 *.mp4
 *.webm
