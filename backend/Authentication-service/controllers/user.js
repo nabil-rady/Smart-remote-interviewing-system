@@ -276,18 +276,20 @@ module.exports.postLogin = async (req, res, next) => {
     user.loggedIn = true;
     await user.save();
 
-    const registratinToken = await RegistrationToken.findOne({
-      where: {
-        token: registrationToken,
-        userId: user.dataValues.userId,
-      },
-    });
-
-    if (!registratinToken) {
-      await RegistrationToken.create({
-        token: registrationToken,
-        userId: user.dataValues.userId,
+    if (registrationToken.length > 0) {
+      const registratinToken = await RegistrationToken.findOne({
+        where: {
+          token: registrationToken,
+          userId: user.dataValues.userId,
+        },
       });
+
+      if (!registratinToken) {
+        await RegistrationToken.create({
+          token: registrationToken,
+          userId: user.dataValues.userId,
+        });
+      }
     }
 
     const { password, verificationCode, ...returnedUser } = user.dataValues;
@@ -305,25 +307,18 @@ module.exports.postLogin = async (req, res, next) => {
 };
 
 module.exports.postLogOut = async (req, res, next) => {
-  // Check for validation errors
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    const error = new Error(`Validation failed.`);
-    error.statusCode = 422; // Validation error
-    error.data = errors.array();
-    return next(error);
-  }
-
   try {
     const { userId } = req;
     const { registrationToken } = req.body;
 
-    await RegistrationToken.destroy({
-      where: {
-        userId,
-        token: registrationToken,
-      },
-    });
+    if (registrationToken.length > 0) {
+      await RegistrationToken.destroy({
+        where: {
+          userId,
+          token: registrationToken,
+        },
+      });
+    }
 
     const registratinTokens = await RegistrationToken.findAll({
       where: {

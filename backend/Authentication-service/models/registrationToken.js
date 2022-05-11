@@ -2,8 +2,8 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../utils/db');
 const User = require('./user');
 
-const RegistartionToken = sequelize.define('RegistartionToken', {
-  userId: {
+const RegistrationToken = sequelize.define('RegistrationToken', {
+  registrationId: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
     allowNull: false,
@@ -12,14 +12,12 @@ const RegistartionToken = sequelize.define('RegistartionToken', {
   token: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
-    primaryKey: true,
   },
 });
 
-User.hasMany(RegistartionToken, {
+User.hasMany(RegistrationToken, {
   foreignKey: 'userId',
   onDelete: 'CASCADE',
 });
 
-module.exports = RegistartionToken;
+module.exports = RegistrationToken;

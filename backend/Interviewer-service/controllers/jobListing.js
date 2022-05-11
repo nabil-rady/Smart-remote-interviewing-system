@@ -213,7 +213,7 @@ module.exports.getUserListings = async (req, res, next) => {
       } else {
         let finishedInterviews = 0;
         for (let interview of Interviews) {
-          if (interview.dataValues.submitedAt) {
+          if (interview.dataValues.processed) {
             finishedInterviews++;
           }
         }
@@ -495,7 +495,7 @@ module.exports.getInterviewAnswers = async (req, res, next) => {
     }
 
     // check if the interview has been processed
-    if (!interview.dataValues.processed || !interview.dataValues.submitedAt) {
+    if (!interview.dataValues.processed) {
       const err = new Error(
         'interview has not submitted before, or answers has not processed yet'
       );

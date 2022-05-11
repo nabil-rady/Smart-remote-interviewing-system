@@ -6,7 +6,7 @@ const serviceAccount = require('./vividly-notification-firebase-adminsdk-tjcu9-c
 const Interview = require('../models/interview');
 const User = require('../models/user');
 const JobListing = require('../models/jobListing');
-const RegistartionToken = require('../models/registrationToken');
+const RegistrationToken = require('../models/registrationToken');
 const Notification = require('../models/notification');
 const Result = require('../models/result');
 
@@ -104,7 +104,7 @@ module.exports.consume = async () => {
             },
           });
 
-          const fetchedRegistrationTokens = await RegistartionToken.findAll({
+          const fetchedRegistrationTokens = await RegistrationToken.findAll({
             where: {
               userId: user.dataValues.userId,
             },
