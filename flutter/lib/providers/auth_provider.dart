@@ -77,7 +77,12 @@ class Auth with ChangeNotifier {
         'registrationToken': webNotificationToken,
       }),
     );
+    print(email);
+    print(password);
+    print(webNotificationToken);
     final responseData = json.decode(response.body);
+    print(responseData);
+
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
       _employer.userId = responseData['user']['userId'];

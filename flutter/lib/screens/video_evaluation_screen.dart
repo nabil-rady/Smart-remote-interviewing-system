@@ -173,14 +173,14 @@ class _VedioEvaluationScreenState extends State<VedioEvaluationScreen> {
                               padding: const EdgeInsets.only(
                                   left: 10, right: 10, top: 10),
                               child: Text(
-                                'Open Pose: ${position.videoEvaluation[index].openPose}',
+                                'Hyperactive: ${position.videoEvaluation[index].openPose > 50 ? 'yes' : 'No'}',
                                 style: Theme.of(context).textTheme.bodyText1,
                               ),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(10),
                               child: Text(
-                                'score: ${position.videoEvaluation[index].score}',
+                                'Score: ${position.videoEvaluation[index].score}',
                                 style: Theme.of(context).textTheme.bodyText1,
                               ),
                             ),
