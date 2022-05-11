@@ -1,21 +1,29 @@
 //import 'dart:html';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
 import 'package:mockito/mockito.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import 'package:test/local/urls.dart';
+import 'package:test/providers/auth_provider.dart';
+import 'package:test/providers/candidate_provider.dart';
+import 'package:test/screens/invitation_screen.dart';
 import 'package:test/widgets/invitation_form.dart';
 import 'api.dart';
 
-// class MockitoCandidates extends Mock implements Candidates {}
+class MockitoCandidates extends Mock implements Candidates {}
 
 // class MockitoPosition extends Mock implements Positions {}
 
 class Mockitohttp extends Mock implements http.Client {}
+//class MockInvitationScreen extends Mock implements
 
 //@GenerateMocks([http.Client])
 void main() {
+  ////unit testing
+  ///
   late Mockitohttp mockHttpClient;
   late Api api;
 
@@ -24,22 +32,22 @@ void main() {
     api = Api(client: mockHttpClient);
   });
 
-  test('Getting Candidates List', () async {
-    String id = '4ff3f21c-c0cd-49be-9652-fd7fbee67597';
-    when(
-      mockHttpClient
-          .get(Uri.parse('$hrURL/job-listing/candidates/$id'), headers: {
-        'Authorization':
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYWQ1NzIwYi00YzNmLTQ2NTctOTA2MC1kN2ZjNTk0MTQ5OGYiLCJpYXQiOjE2NTE5NTA1NzgsImV4cCI6MTY1MTk4NjU3OH0.p2i0QZqAhu3bvl5m1V9ZjKDzpCDCqIlSkOPQzELNxvs"
-      }),
-    ).thenAnswer(
-      (_) => Future.value(Response('a', 200)),
-    );
+  // test('Getting Candidates List', () async {
+  //   String id = '4ff3f21c-c0cd-49be-9652-fd7fbee67597';
+  //   when(
+  //     mockHttpClient
+  //         .get(Uri.parse('$hrURL/job-listing/candidates/$id'), headers: {
+  //       'Authorization':
+  //           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYWQ1NzIwYi00YzNmLTQ2NTctOTA2MC1kN2ZjNTk0MTQ5OGYiLCJpYXQiOjE2NTE5NTA1NzgsImV4cCI6MTY1MTk4NjU3OH0.p2i0QZqAhu3bvl5m1V9ZjKDzpCDCqIlSkOPQzELNxvs"
+  //     }),
+  //   ).thenAnswer(
+  //     (_) => Future.value(Response('a', 200)),
+  //   );
 
-    final candidates = await api.getCandidatesList();
+  //   final candidates = await api.getCandidatesList();
 
-    expect(candidates, equals('ab'));
-  });
+  //   expect(candidates, equals('ab'));
+  // });
   group('validate form fieds', () {
     test('validate name field', () {
       var widget = InvitationForm('233');
@@ -123,7 +131,7 @@ void main() {
 
   //   mockitoPosition = MockitoPosition();
   // });
-  group('fetch and set candidates info', () {
+//  group('fetch and set candidates info', () {
 //     test('return null list if the http response is successful', () async {
 //       final position = Position(
 //           id: '4ff3f21c-c0cd-49be-9652-fd7fbee67597',
@@ -160,5 +168,43 @@ void main() {
 //       expect(() => candidate.fetchAndSetCandidates(position.id, mockitoClient),
 //           returnsNormally);
 //     });
+//  });
+
+/////////////////////////////////////////////////////////////////////////////
+  //.............................widget testing
+
+  Widget createWidgetUnderTest() {
+    return MaterialApp(
+      title: 'Invite Candidates',
+      home: ChangeNotifierProvider(
+        create: (ctx) => Candidates('', []),
+        child: InvitationScreen(
+            positionId: '454', positionName: 'My position Name'),
+      ),
+    );
+  }
+
+  testWidgets('test invite screen widget', (WidgetTester tester) async {
+    await tester.pumpWidget(ChangeNotifierProxyProvider<Auth, Candidates>(
+      create: (ctx) => MockitoCandidates(),
+      update: (ctx, auth, previosPositions) => Candidates(
+          ('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYWQ1NzIwYi00YzNmLTQ2NTctOTA2MC1kN2ZjNTk0MTQ5OGYiLCJpYXQiOjE2NTIwMDM5NjYsImV4cCI6MTY4MzU2MTU2Nn0.RkADVLWzlTW71EzutjjP1OwixaF72f81n0XbZJagGaQ'),
+          []),
+      child: const MaterialApp(
+        home: InvitationScreen(
+            positionId: 'dss', positionName: 'my position name'),
+      ),
+    )
+        // ChangeNotifierProvider.value(
+        //   value: MockitoCandidates(),
+        //   child: InvitationScreen(
+        //       positionId: 'dss', positionName: 'my position name'),
+        // ),
+        );
+    final titleFinder = find.text('Invite Applicant');
+    expect(titleFinder, findsOneWidget);
+    //final buttonFinder = find.byIcon(Icons.add);
+    //   expect(
+    //       find.widgetWithIcon(FloatingActionButton, Icons.add), findsOneWidget);
   });
 }
