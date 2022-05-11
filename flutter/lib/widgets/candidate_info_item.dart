@@ -36,9 +36,11 @@ class CandidateInfoItem extends StatelessWidget {
             ),
             Row(
               children: <Widget>[
-                Text(
-                  'email : ' + email,
-                  style: const TextStyle(fontSize: 16, color: Colors.grey),
+                Expanded(
+                  child: Text(
+                    'email : ' + email,
+                    style: const TextStyle(fontSize: 16, color: Colors.grey),
+                  ),
                 ),
               ],
               mainAxisAlignment: MainAxisAlignment.start,
