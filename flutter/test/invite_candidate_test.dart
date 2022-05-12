@@ -6,14 +6,13 @@ import 'package:http/http.dart';
 import 'package:mockito/mockito.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
+import 'package:test/local/sharedpreferences.dart';
 import 'package:test/local/urls.dart';
 import 'package:test/providers/auth_provider.dart';
 import 'package:test/providers/candidate_provider.dart';
 import 'package:test/screens/invitation_screen.dart';
 import 'package:test/widgets/invitation_form.dart';
 import 'api.dart';
-
-class MockitoCandidates extends Mock implements Candidates {}
 
 // class MockitoPosition extends Mock implements Positions {}
 
@@ -173,34 +172,47 @@ void main() {
 /////////////////////////////////////////////////////////////////////////////
   //.............................widget testing
 
-  Widget createWidgetUnderTest() {
-    return MaterialApp(
-      title: 'Invite Candidates',
-      home: ChangeNotifierProvider(
-        create: (ctx) => Candidates('', []),
-        child: InvitationScreen(
-            positionId: '454', positionName: 'My position Name'),
-      ),
-    );
-  }
+  // Widget createWidgetUnderTest() {
+  //   return MaterialApp(
+  //     title: 'Invite Candidates',
+  //     home: ChangeNotifierProvider(
+  //       create: (ctx) => Candidates('', []),
+  //       child: InvitationScreen(
+  //           positionId: '454', positionName: 'My position Name'),
+  //     ),
+  //   );
+  // }
 
   testWidgets('test invite screen widget', (WidgetTester tester) async {
-    await tester.pumpWidget(ChangeNotifierProxyProvider<Auth, Candidates>(
-      create: (ctx) => MockitoCandidates(),
-      update: (ctx, auth, previosPositions) => Candidates(
-          ('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYWQ1NzIwYi00YzNmLTQ2NTctOTA2MC1kN2ZjNTk0MTQ5OGYiLCJpYXQiOjE2NTIwMDM5NjYsImV4cCI6MTY4MzU2MTU2Nn0.RkADVLWzlTW71EzutjjP1OwixaF72f81n0XbZJagGaQ'),
-          []),
-      child: const MaterialApp(
-        home: InvitationScreen(
-            positionId: 'dss', positionName: 'my position name'),
-      ),
-    )
-        // ChangeNotifierProvider.value(
-        //   value: MockitoCandidates(),
-        //   child: InvitationScreen(
-        //       positionId: 'dss', positionName: 'my position name'),
-        // ),
-        );
+    Mockitohttp httpmockito = Mockitohttp();
+    await tester.pumpWidget(MultiProvider(
+      providers: [
+        ChangeNotifierProvider<Auth>(
+          create: (ctx) => MockitoAuth(),
+        ),
+        ChangeNotifierProxyProvider<Auth, Candidates>(
+          create: (ctx) => MockitoCandidates(),
+          update: (ctx, auth, previosPositions) => Candidates(
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYWQ1NzIwYi00YzNmLTQ2NTctOTA2MC1kN2ZjNTk0MTQ5OGYiLCJpYXQiOjE2NTIwMDM5NjYsImV4cCI6MTY4MzU2MTU2Nn0.RkADVLWzlTW71EzutjjP1OwixaF72f81n0XbZJagGaQ',
+            previosPositions == null ? [] : previosPositions.candidates,
+          ),
+        ),
+      ],
+      builder: (context, child) {
+        return MediaQuery(
+            data: new MediaQueryData(),
+            child: MaterialApp(
+                home: InvitationScreen(
+                    positionId: 'dss',
+                    positionName: 'my position name',
+                    httpc: Mockitohttp())));
+      },
+      // child: MediaQuery(
+      //     data: new MediaQueryData(),
+      //     child: new MaterialApp(
+      //         home: InvitationScreen(
+      //             positionId: 'dss', positionName: 'my position name')))
+    ));
     final titleFinder = find.text('Invite Applicant');
     expect(titleFinder, findsOneWidget);
     //final buttonFinder = find.byIcon(Icons.add);
@@ -208,3 +220,7 @@ void main() {
     //       find.widgetWithIcon(FloatingActionButton, Icons.add), findsOneWidget);
   });
 }
+
+class MockitoCandidates extends Mock implements Candidates {}
+
+class MockitoAuth extends Mock implements Auth {}

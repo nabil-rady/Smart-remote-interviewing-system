@@ -7,11 +7,14 @@ import '../providers/candidate_provider.dart';
 
 class InvitationScreen extends StatefulWidget {
   static const routeName = '/invitation_screen';
-
+  final httpc;
   final String positionId;
   final String positionName;
   const InvitationScreen(
-      {Key? key, required this.positionId, required this.positionName})
+      {Key? key,
+      required this.positionId,
+      required this.positionName,
+      required this.httpc})
       : super(key: key);
   @override
   State<InvitationScreen> createState() => _InvitationScreenState();
@@ -35,7 +38,7 @@ class _InvitationScreenState extends State<InvitationScreen> {
       Provider.of<Candidates>(context).setItems = [];
       Provider.of<Candidates>(context).setCandidatesUI = [];
       Provider.of<Candidates>(context)
-          .fetchAndSetCandidates(widget.positionId, http.Client());
+          .fetchAndSetCandidates(widget.positionId, widget.httpc);
     }
     // TODO: implement didChangeDependencies
     myflag = false;
