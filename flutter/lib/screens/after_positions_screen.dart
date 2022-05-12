@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../screens/to_evaluate_screen.dart';
 import '../screens/position_details_screen.dart';
 import 'invitation_screen.dart';
+import 'package:http/http.dart' as http;
 
 class AfterPositionsScreen extends StatelessWidget {
   static const routeName = '/after_positions_screen';
