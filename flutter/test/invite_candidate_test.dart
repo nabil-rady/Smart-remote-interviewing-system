@@ -1,5 +1,7 @@
 //import 'dart:html';
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
@@ -16,7 +18,6 @@ import 'api.dart';
 
 // class MockitoPosition extends Mock implements Positions {}
 
-class Mockitohttp extends Mock implements http.Client {}
 //class MockInvitationScreen extends Mock implements
 
 //@GenerateMocks([http.Client])
@@ -182,9 +183,35 @@ void main() {
   //     ),
   //   );
   // }
-
+  // setUpAll(() {
+  //   // ↓ required to avoid HTTP error 400 mocked returns
+  //   HttpOverrides.global = null;
+  // });
   testWidgets('test invite screen widget', (WidgetTester tester) async {
     Mockitohttp httpmockito = Mockitohttp();
+
+    when(httpmockito.get(
+        Uri.parse(
+            '$hrURL/job-listing/candidates/${'ced39477-9704-4138-936f-34d7ab83c610'}'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization':
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJmYjQ3NjY5NC0xZjVmLTQ3YmEtYjBmNy02YmVjZjg2MDBjODciLCJpYXQiOjE2NTI4MTgwNTYsImV4cCI6MTY4NDM3NTY1Nn0.TAgIpfcjM5YQJ2cfSrRfHtQsWULYfaDMARijz6ZCRew"
+        })).thenAnswer((_) async {
+      return http.Response('''{
+  "candidates": [
+    {
+      "interviewId": "string",
+      "name": "string",
+      "email": "string",
+      "phoneCode": "string",
+      "phoneNumber": "string",
+      "finished": true,
+      "submitedAt": "string"
+    }
+  ]
+}''', 200);
+    });
     await tester.pumpWidget(MultiProvider(
       providers: [
         ChangeNotifierProvider<Auth>(
@@ -193,7 +220,7 @@ void main() {
         ChangeNotifierProxyProvider<Auth, Candidates>(
           create: (ctx) => MockitoCandidates(),
           update: (ctx, auth, previosPositions) => Candidates(
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYWQ1NzIwYi00YzNmLTQ2NTctOTA2MC1kN2ZjNTk0MTQ5OGYiLCJpYXQiOjE2NTIwMDM5NjYsImV4cCI6MTY4MzU2MTU2Nn0.RkADVLWzlTW71EzutjjP1OwixaF72f81n0XbZJagGaQ',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJmYjQ3NjY5NC0xZjVmLTQ3YmEtYjBmNy02YmVjZjg2MDBjODciLCJpYXQiOjE2NTI4MTgwNTYsImV4cCI6MTY4NDM3NTY1Nn0.TAgIpfcjM5YQJ2cfSrRfHtQsWULYfaDMARijz6ZCRew',
             previosPositions == null ? [] : previosPositions.candidates,
           ),
         ),
@@ -203,24 +230,19 @@ void main() {
             data: new MediaQueryData(),
             child: MaterialApp(
                 home: InvitationScreen(
-                    positionId: 'dss',
-                    positionName: 'my position name',
-                    httpc: Mockitohttp())));
+              positionId: 'ced39477-9704-4138-936f-34d7ab83c610',
+              positionName: 'my position name',
+              httpc: httpmockito,
+            )));
       },
-      // child: MediaQuery(
-      //     data: new MediaQueryData(),
-      //     child: new MaterialApp(
-      //         home: InvitationScreen(
-      //             positionId: 'dss', positionName: 'my position name')))
     ));
     final titleFinder = find.text('Invite Applicant');
     expect(titleFinder, findsOneWidget);
-    //final buttonFinder = find.byIcon(Icons.add);
-    //   expect(
-    //       find.widgetWithIcon(FloatingActionButton, Icons.add), findsOneWidget);
   });
 }
 
 class MockitoCandidates extends Mock implements Candidates {}
 
 class MockitoAuth extends Mock implements Auth {}
+
+class Mockitohttp extends Mock implements http.Client {}
