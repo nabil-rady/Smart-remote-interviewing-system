@@ -10,7 +10,7 @@ import '../providers/candidate_provider.dart';
 
 class InvitationScreen extends StatefulWidget {
   static const routeName = '/invitation_screen';
-  final httpc;
+
   final String positionId;
   final String positionName;
   final DateTime expieryDate;
