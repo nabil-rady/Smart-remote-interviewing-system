@@ -5,9 +5,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
+import 'package:test/local/network_services.dart';
 import 'package:test/local/sharedpreferences.dart';
 import 'package:test/local/urls.dart';
 import 'package:test/providers/auth_provider.dart';
@@ -20,16 +22,18 @@ import 'api.dart';
 
 //class MockInvitationScreen extends Mock implements
 
-//@GenerateMocks([http.Client])
+// @GenerateMocks([NetworkService])
 void main() {
   ////unit testing
   ///
   late Mockitohttp mockHttpClient;
-  late Api api;
+  late final NetworkService networkservice;
+  //late Api api;
 
   setUp(() {
     mockHttpClient = Mockitohttp();
-    api = Api(client: mockHttpClient);
+    networkservice = MockNetworkService();
+    // api = Api(client: mockHttpClient);
   });
 
   // test('Getting Candidates List', () async {
@@ -190,9 +194,8 @@ void main() {
   testWidgets('test invite screen widget', (WidgetTester tester) async {
     Mockitohttp httpmockito = Mockitohttp();
 
-    when(httpmockito.get(
-        Uri.parse(
-            '$hrURL/job-listing/candidates/${'ced39477-9704-4138-936f-34d7ab83c610'}'),
+    when(networkservice.get(
+        '$hrURL/job-listing/candidates/${'ced39477-9704-4138-936f-34d7ab83c610'}',
         headers: {
           'Content-Type': 'application/json',
           'Authorization':
@@ -220,9 +223,9 @@ void main() {
         ChangeNotifierProxyProvider<Auth, Candidates>(
           create: (ctx) => MockitoCandidates(),
           update: (ctx, auth, previosPositions) => Candidates(
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJmYjQ3NjY5NC0xZjVmLTQ3YmEtYjBmNy02YmVjZjg2MDBjODciLCJpYXQiOjE2NTI4MTgwNTYsImV4cCI6MTY4NDM3NTY1Nn0.TAgIpfcjM5YQJ2cfSrRfHtQsWULYfaDMARijz6ZCRew',
-            previosPositions == null ? [] : previosPositions.candidates,
-          ),
+              'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJmYjQ3NjY5NC0xZjVmLTQ3YmEtYjBmNy02YmVjZjg2MDBjODciLCJpYXQiOjE2NTI4MTgwNTYsImV4cCI6MTY4NDM3NTY1Nn0.TAgIpfcjM5YQJ2cfSrRfHtQsWULYfaDMARijz6ZCRew',
+              previosPositions == null ? [] : previosPositions.candidates,
+              networkservice),
         ),
       ],
       builder: (context, child) {
@@ -246,3 +249,5 @@ class MockitoCandidates extends Mock implements Candidates {}
 class MockitoAuth extends Mock implements Auth {}
 
 class Mockitohttp extends Mock implements http.Client {}
+
+class MockNetworkService extends Mock implements NetworkService {}

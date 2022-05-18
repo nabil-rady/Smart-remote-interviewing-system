@@ -37,8 +37,7 @@ class _InvitationScreenState extends State<InvitationScreen> {
     if (myflag) {
       Provider.of<Candidates>(context).setItems = [];
       Provider.of<Candidates>(context).setCandidatesUI = [];
-      Provider.of<Candidates>(context)
-          .fetchAndSetCandidates(widget.positionId, widget.httpc);
+      Provider.of<Candidates>(context).fetchAndSetCandidates(widget.positionId);
     }
     // TODO: implement didChangeDependencies
     myflag = false;
