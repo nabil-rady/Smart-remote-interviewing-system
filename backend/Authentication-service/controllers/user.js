@@ -276,7 +276,7 @@ module.exports.postLogin = async (req, res, next) => {
     user.loggedIn = true;
     await user.save();
 
-    if (registrationToken.length > 0) {
+    if (registrationToken) {
       const registratinToken = await RegistrationToken.findOne({
         where: {
           token: registrationToken,
@@ -311,7 +311,7 @@ module.exports.postLogOut = async (req, res, next) => {
     const { userId } = req;
     const { registrationToken } = req.body;
 
-    if (registrationToken.length > 0) {
+    if (registrationToken) {
       await RegistrationToken.destroy({
         where: {
           userId,
