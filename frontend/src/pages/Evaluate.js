@@ -44,20 +44,8 @@ function EvaluationPage() {
     setFetchedAnswers();
   }, []);
   const ratings = useRef(null);
-  // const [ratings, setRatings] = useState([]);
-  //   const ratingHandler = (e) => {
-  //     setRatings([...ratings, e.target.value]
-  //     );
-  // };
-  const clickHandler = () => {
-    // for (const rating of ratings.current.children) {
-    console.log(ratings);
-    //}
-  };
   const changeHandler = (e) => {
-    // for (const rating of ratings.current.children) {
     ratings.current = e.target.value;
-    //}
   };
   return (
     <>
@@ -69,7 +57,6 @@ function EvaluationPage() {
           <EvaluationCard
             answers={answers}
             ref={ratings}
-            clickHandler={clickHandler}
             changeHandler={changeHandler}
           />
         </>

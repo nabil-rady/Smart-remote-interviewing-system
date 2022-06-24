@@ -12,6 +12,7 @@ import { UserContext } from '../App';
 import ReactFileReader from 'react-file-reader';
 import { useParams } from 'react-router-dom';
 import { TailSpin } from 'react-loader-spinner';
+import SuccessfullModal from './SuccessfullModal';
 const InviteUser = (props) => {
   const params = useParams();
   const listingId = params.listingId;
@@ -24,6 +25,7 @@ const InviteUser = (props) => {
   const setAuthUser = useContext(UserContext).setAuthUser;
   const [error, setError] = useState();
   const [loading, setLoading] = useState(false);
+  const [done, setDone] = useState(false);
   const fetchInvitations = () => {
     return fetch(`${HRURL}/job-listing/candidates/${listingId}`, {
       method: 'GET',
@@ -99,6 +101,7 @@ const InviteUser = (props) => {
           console.log(data);
           if (statusCode === 200) {
             console.log('successful');
+            setDone(true);
             usersLate.length = 0;
           } else {
             handleAPIError(
@@ -121,18 +124,6 @@ const InviteUser = (props) => {
     event.preventDefault();
     let statusCode;
     setLoading(true);
-    props.onInviteUser(
-      enteredName,
-      enteredEmail,
-      enteredPhoneCode,
-      enteredPhoneNo
-    );
-    usersLate.push({
-      name: enteredName,
-      email: enteredEmail,
-      phoneCode: enteredPhoneCode,
-      phoneNumber: enteredPhoneNo,
-    });
     fetch(`${HRURL}/job-listing/invite`, {
       method: 'POST',
       headers: {
@@ -141,7 +132,12 @@ const InviteUser = (props) => {
       },
       body: JSON.stringify({
         listingId: listingId,
-        candidates: usersLate,
+        candidates:[{
+          name: enteredName,
+          email: enteredEmail,
+          phoneCode: enteredPhoneCode,
+          phoneNumber: enteredPhoneNo,
+        }],
       }),
     })
       .then((response) => {
@@ -153,10 +149,18 @@ const InviteUser = (props) => {
         console.log(data);
         if (statusCode === 200) {
           console.log('successful');
+          props.onInviteUser(
+            enteredName,
+            enteredEmail,
+            enteredPhoneCode,
+            enteredPhoneNo
+          );
           setLoading(false);
+          setDone(true);
           usersLate.length = 0;
         } else {
           handleAPIError(statusCode, data, setError, () => setAuthUser(null));
+          setLoading(false);
         }
       })
       .catch((error) => {
@@ -167,10 +171,6 @@ const InviteUser = (props) => {
     setEnteredEmail('');
     setEnteredPhoneNo('');
   };
-  // const openAndShow = async () => {
-  //   await openFileSelector();
-  //   save();
-  // }
   const nameHandler = (event) => {
     setEnteredName(event.target.value);
   };
@@ -201,6 +201,9 @@ const InviteUser = (props) => {
     };
     reader.readAsText(files[0]);
   };
+  const closeWindow = () => {
+    setDone(false)
+  }
   return (
     <div>
       {error && (
@@ -208,6 +211,13 @@ const InviteUser = (props) => {
           title={error.title}
           message={error.message}
           onConfirm={errorHandler}
+        />
+      )}
+      
+      {done && (
+        <SuccessfullModal
+          title="Applicant Invited Successfully"
+          closeWindow={closeWindow}
         />
       )}
       <Card className="invite top-margin">

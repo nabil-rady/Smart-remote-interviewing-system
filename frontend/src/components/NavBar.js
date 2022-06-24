@@ -113,7 +113,7 @@ const NavBar = (props) => {
               <Link to="/login">Login</Link>
             </li>
             <li className="guest__ul__li__signup">
-              <Link to="/login">SignUp</Link>
+              <Link to="/signup">SignUp</Link>
             </li>
           </ul>
         </nav>

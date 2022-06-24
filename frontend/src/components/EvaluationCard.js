@@ -3,10 +3,11 @@ import Card from './Card';
 import './scss/evaluate.scss';
 import { Bar } from 'react-chartjs-2';
 import { Chart, registerables } from 'chart.js';
-
+import { useHistory } from 'react-router-dom';
 Chart.register(...registerables);
 
 const EvaluationCard = React.forwardRef((props, ratings) => {
+  const history = useHistory();
   let emotionLabels = ['happy', 'sad', 'angry', 'surprise', 'neutral'];
   let chartData = [];
   let emotionScores = [];
@@ -53,6 +54,9 @@ const EvaluationCard = React.forwardRef((props, ratings) => {
       </div>
     );
   };
+  const clickHandler = () =>{
+    console.log(ratings);
+  }
   return (
     <div>
       <ul>
@@ -89,14 +93,13 @@ const EvaluationCard = React.forwardRef((props, ratings) => {
                 type="text"
                 placeholder="Rate from 0% to 100%"
                 className="evaluation-rate"
-                ref={ratings}
                 onChange={props.changeHandler}
               />
             </Card>
           </li>
         ))}
       </ul>
-      <button onClick={props.clickHandler} className="save-rating">
+      <button onClick={clickHandler} className="save-rating">
         Save
       </button>
     </div>

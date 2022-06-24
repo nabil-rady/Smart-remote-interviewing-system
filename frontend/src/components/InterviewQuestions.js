@@ -13,6 +13,7 @@ import { TailSpin } from 'react-loader-spinner';
 import handleAPIError from '../utils/APIErrorHandling';
 import { UserContext } from '../App';
 import ErrorModal from './ErrorModal';
+import SuccessfullModal from './SuccessfullModal';
 const InterviewQuestions = React.forwardRef((props, webcamRef) => {
   let i = 0;
   const [upload, setUpload] = useState(false);
@@ -35,6 +36,7 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
   const setAuthUser = useContext(UserContext).setAuthUser;
   const authUser = useContext(UserContext).authUser;
   const [error, setError] = useState();
+  const [done, setDone] = useState(false);
   let secAnswerTime, minAnswerTime;
 
   const fetchQuestions = () => {
@@ -59,26 +61,6 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
     };
     setFetchedQuestions();
   }, []);
-
-  // let questions = [
-  //   {
-  //     statement:
-  //       'How are you nfslbknnfl snblkaj;ha; hgrhah;hg f;hljsjf;ls klhklskjfhl;rshj;l lkjrhjs;lrjljl;sb kljgrjs;ljbsj ljgs;j.bl;jg srgj;jsl;bb',
-  //     timeToThink: 0.5,
-  //     timeToAnswer: 0.5,
-  //   },
-  //   {
-  //     statement: 'State your skills',
-  //     timeToThink: 6,
-  //     timeToAnswer: 8,
-  //   },
-  //   {
-  //     statement: "What's your name",
-  //     timeToThink: 5,
-  //     timeToAnswer: 5,
-  //   },
-  // ];
-
   const interval = 1000;
 
   const [timeLeftRead, { start: startRead }] = useCountDown(
@@ -289,6 +271,7 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
             if (statusCode === 200) {
               console.log(data);
               setUploadingVideo(false);
+              setDone(true);
             } else {
               handleAPIError(statusCode, data, setError);
             }
@@ -304,6 +287,9 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
   const errorHandler = () => {
     setError(null);
   };
+  const closeWindow = () => {
+    setDone(false)
+  }
   return (
     <>
       {error && (
@@ -311,6 +297,12 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
           title={error.title}
           message={error.message}
           onConfirm={errorHandler}
+        />
+      )}
+      {done && (
+        <SuccessfullModal
+          title="Video Uploaded Successfully"
+          closeWindow={closeWindow}
         />
       )}
       <div className="questionspart">

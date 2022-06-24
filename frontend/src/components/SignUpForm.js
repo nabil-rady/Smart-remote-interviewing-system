@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext,useEffect } from 'react';
 import './scss/signup.scss';
 import Card from './Card';
 import ErrorModal from './ErrorModal';

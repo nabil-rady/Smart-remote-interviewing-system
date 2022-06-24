@@ -7,11 +7,16 @@ import { HRURL } from '../API/APIConstants';
 import ErrorModal from '../components/ErrorModal';
 import handleAPIError from '../utils/APIErrorHandling';
 import { UserContext } from '../App';
-
+import SuccessfullModal from '../components/SuccessfullModal';
+import { useHistory } from 'react-router-dom';
+import { TailSpin } from 'react-loader-spinner';
 function AddQues() {
   const authUser = useContext(UserContext).authUser;
   const setAuthUser = useContext(UserContext).setAuthUser;
   const [error, setError] = useState();
+  const [done, setDone] = useState(false);
+  const history = useHistory();
+  const [loading, setLoading] = useState(false);
   const [questions, setQuestions] = useState([
     {
       statement: '',
@@ -115,6 +120,7 @@ function AddQues() {
   };
   const saveHandler = () => {
     let statusCode;
+    setLoading(true);
     console.log(positionName, expiryDate, questions);
     fetch(`${HRURL}/job-listing/create`, {
       method: 'POST',
@@ -135,9 +141,12 @@ function AddQues() {
       })
       .then((data) => {
         console.log(data);
-        if (statusCode === 200) {
-          console.log('successful');
+        if (statusCode === 201) {
+          console.log('successful########################################');
+          // setLoading(false)
+          setDone(true);
         } else {
+          // setLoading(false);
           handleAPIError(statusCode, data, setError, () => setAuthUser(null));
         }
       })
@@ -148,6 +157,10 @@ function AddQues() {
   const errorHandler = () => {
     setError(null);
   };
+  const closeWindow = () => {
+    setDone(false);
+    history.push('/dashboard');
+  }
   return (
     <>
       {error && (
@@ -157,6 +170,12 @@ function AddQues() {
           onConfirm={errorHandler}
         />
       )}
+      {/* {done && (
+        <SuccessfullModal
+          title="Position Created Successfully"
+          closeWindow={closeWindow}
+        />
+      )} */}
       <div className="blue-gradient">
         <NavBar visible={true} />
       </div>
@@ -167,12 +186,34 @@ function AddQues() {
         expiryDateHandler={expiryDateHandler}
       />
       <div className="questions top-margin">{renderQuestions()}</div>
+      <div className="flex">
       <button className="add" onClick={addHandler}>
         Add Question
       </button>
-      <button className="save-position" onClick={saveHandler}>
-        Save
-      </button>
+      
+      {!loading && (
+              <button className="save-position" onClick={saveHandler}>
+              Save
+            </button>
+            )}
+            {loading && (
+              <div
+                style={{
+                  top: 'calc(40vh - 40px)',
+                  left: 'calc(10vw - 40px)',
+                  marginLeft: '20rem',
+                }}
+              >
+                <TailSpin
+                  color="hsl(215deg, 79%, 42%)"
+                  height={60}
+                  width={60}
+
+                />
+              </div>
+            )}
+      </div>
+      
     </>
   );
 }
