@@ -288,8 +288,8 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
     setError(null);
   };
   const closeWindow = () => {
-    setDone(false)
-  }
+    setDone(false);
+  };
   return (
     <>
       {error && (

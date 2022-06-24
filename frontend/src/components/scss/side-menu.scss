@@ -4,6 +4,8 @@
   background-color: whitesmoke;
   top: 0;
   display: flex;
+  overflow: auto;
+  height: 100vh;
   justify-content: center;
   align-items: center;
   transition: left 0.8s cubic-bezier(1, 0, 0, 1);
@@ -93,7 +95,7 @@
 .nav_header {
   list-style: none;
   background-color: $primary-blue;
-  height: 65px;
+  height: 67px;
   // padding: 2rem;
   // padding-top: 0.7rem;
   width: 100%;

@@ -132,12 +132,14 @@ const InviteUser = (props) => {
       },
       body: JSON.stringify({
         listingId: listingId,
-        candidates:[{
-          name: enteredName,
-          email: enteredEmail,
-          phoneCode: enteredPhoneCode,
-          phoneNumber: enteredPhoneNo,
-        }],
+        candidates: [
+          {
+            name: enteredName,
+            email: enteredEmail,
+            phoneCode: enteredPhoneCode,
+            phoneNumber: enteredPhoneNo,
+          },
+        ],
       }),
     })
       .then((response) => {
@@ -202,8 +204,8 @@ const InviteUser = (props) => {
     reader.readAsText(files[0]);
   };
   const closeWindow = () => {
-    setDone(false)
-  }
+    setDone(false);
+  };
   return (
     <div>
       {error && (
@@ -213,7 +215,7 @@ const InviteUser = (props) => {
           onConfirm={errorHandler}
         />
       )}
-      
+
       {done && (
         <SuccessfullModal
           title="Applicant Invited Successfully"

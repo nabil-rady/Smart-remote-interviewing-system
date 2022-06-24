@@ -55,9 +55,9 @@ const EvaluationCard = React.forwardRef((props, ratings) => {
       </div>
     );
   };
-  const clickHandler = () =>{
+  const clickHandler = () => {
     console.log(ratings);
-  }
+  };
   return (
     <div>
       <ul>

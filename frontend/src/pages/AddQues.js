@@ -160,7 +160,7 @@ function AddQues() {
   const closeWindow = () => {
     setDone(false);
     history.push('/dashboard');
-  }
+  };
   return (
     <>
       {error && (
@@ -187,33 +187,27 @@ function AddQues() {
       />
       <div className="questions top-margin">{renderQuestions()}</div>
       <div className="flex">
-      <button className="add" onClick={addHandler}>
-        Add Question
-      </button>
-      
-      {!loading && (
-              <button className="save-position" onClick={saveHandler}>
-              Save
-            </button>
-            )}
-            {loading && (
-              <div
-                style={{
-                  top: 'calc(40vh - 40px)',
-                  left: 'calc(10vw - 40px)',
-                  marginLeft: '20rem',
-                }}
-              >
-                <TailSpin
-                  color="hsl(215deg, 79%, 42%)"
-                  height={60}
-                  width={60}
+        <button className="add" onClick={addHandler}>
+          Add Question
+        </button>
 
-                />
-              </div>
-            )}
+        {!loading && (
+          <button className="save-position" onClick={saveHandler}>
+            Save
+          </button>
+        )}
+        {loading && (
+          <div
+            style={{
+              top: 'calc(40vh - 40px)',
+              left: 'calc(10vw - 40px)',
+              marginLeft: '20rem',
+            }}
+          >
+            <TailSpin color="hsl(215deg, 79%, 42%)" height={60} width={60} />
+          </div>
+        )}
       </div>
-      
     </>
   );
 }

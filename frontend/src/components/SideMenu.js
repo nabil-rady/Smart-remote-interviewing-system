@@ -13,18 +13,15 @@ const BurgerMenu = React.forwardRef((props, sideMenu) => {
   return (
     <div className="burger-wrapper">
       <div className="burger_container" ref={sideMenu}>
+        <div className="nav_header">
+          <img
+            src={closeImg}
+            className={`notificationImgSidemenu ${isLoggedIn ? '' : 'hidden'}`}
+            onClick={props.handleToggleButtonClick}
+          />
+          <span className="notification_header">Notifications</span>
+        </div>
         <div className="navbar">
-          <div className="nav_header">
-            <img
-              src={closeImg}
-              className={`notificationImgSidemenu ${
-                isLoggedIn ? '' : 'hidden'
-              }`}
-              onClick={props.handleToggleButtonClick}
-            />
-            <span className="notification_header">Notifications</span>
-          </div>
-
           {props.notifications ? (
             props.notifications.length > 0 ? (
               <ul className="nav_list">
