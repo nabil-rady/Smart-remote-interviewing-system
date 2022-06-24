@@ -6,7 +6,7 @@ const serviceAccount = require('./vividly-notification-firebase-adminsdk-tjcu9-c
 const Interview = require('../models/interview');
 const User = require('../models/user');
 const JobListing = require('../models/jobListing');
-const RegistartionToken = require('../models/registrationToken');
+const RegistrationToken = require('../models/registrationToken');
 const Notification = require('../models/notification');
 const Result = require('../models/result');
 
@@ -33,13 +33,13 @@ module.exports.consume = async () => {
         const result = await Result.create({
           interviewId: data.interviewId,
           questionId: data.questionId,
-          recommendation: data.recommendation,
-          openPose: data.openPose,
-          happy: data.emotions.Happy,
-          sad: data.emotions.Sad,
-          neutral: data.emotions.Neutral,
-          angry: data.emotions.Angry,
-          surprise: data.emotions.Surprise,
+          recommendation: data.recommendation.toFixed(2),
+          openPose: data.openPose.toFixed(2),
+          happy: data.emotions.Happy.toFixed(2),
+          sad: data.emotions.Sad.toFixed(2),
+          neutral: data.emotions.Neutral.toFixed(2),
+          angry: data.emotions.Angry.toFixed(2),
+          surprise: data.emotions.Surprise.toFixed(2),
         });
 
         // When receive the result of last video of the interview => add avg. for ML results, send notification
@@ -81,13 +81,13 @@ module.exports.consume = async () => {
           avgNeutral /= numOfResults;
           avgAngry /= numOfResults;
 
-          interview.avgRecommendation = avgRecommendation;
-          interview.avgOpenPose = avgOpenPose;
-          interview.avgHappy = avgHappy;
-          interview.avgSad = avgSad;
-          interview.avgSurprise = avgSurprise;
-          interview.avgNeutral = avgNeutral;
-          interview.avgAngry = avgAngry;
+          interview.avgRecommendation = avgRecommendation.toFixed(2);
+          interview.avgOpenPose = avgOpenPose.toFixed(2);
+          interview.avgHappy = avgHappy.toFixed(2);
+          interview.avgSad = avgSad.toFixed(2);
+          interview.avgSurprise = avgSurprise.toFixed(2);
+          interview.avgNeutral = avgNeutral.toFixed(2);
+          interview.avgAngry = avgAngry.toFixed(2);
           interview.processed = true;
           await interview.save();
 
@@ -104,7 +104,7 @@ module.exports.consume = async () => {
             },
           });
 
-          const fetchedRegistrationTokens = await RegistartionToken.findAll({
+          const fetchedRegistrationTokens = await RegistrationToken.findAll({
             where: {
               userId: user.dataValues.userId,
             },

@@ -4,13 +4,7 @@ const Question = require('./question');
 const Interview = require('./interview');
 
 const Result = sequelize.define('Result', {
-  interviewId: {
-    type: DataTypes.UUID,
-    defaultValue: DataTypes.UUIDV4,
-    allowNull: false,
-    primaryKey: true,
-  },
-  questionId: {
+  resultId: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
     allowNull: false,

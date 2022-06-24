@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:test/local/navigator.dart';
 import 'package:test/providers/notification_provider.dart';
 import 'package:test/widgets/position_form.dart';
+import 'package:wakelock/wakelock.dart';
 
 import './screens/after_positions_screen.dart';
 import './screens/change_pass.dart';
@@ -44,6 +45,7 @@ List<CameraDescription>? cameras;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Wakelock.enable();
   await sharedPreferences();
   await Firebase.initializeApp();
   runApp(MyApp());

@@ -103,12 +103,6 @@ const postVerifyEmail = [
     }
     return true;
   }),
-  // body('userId', 'User id is not correct.').custom((value) => {
-  //   if (value.length !== 36) {
-  //     return false;
-  //   }
-  //   return true;
-  // }),
 ];
 
 const postLogin = [
@@ -119,17 +113,6 @@ const postLogin = [
       max: 255,
     })
     .isEmail(),
-  body('registrationToken', 'Invalid registration token').isLength({
-    min: 100,
-    max: 4096,
-  }),
-];
-
-const postLogout = [
-  body('registrationToken', 'Invalid registration token').isLength({
-    min: 100,
-    max: 4096,
-  }),
 ];
 
 module.exports = {
@@ -137,5 +120,4 @@ module.exports = {
   postConfirmEmail,
   postVerifyEmail,
   postLogin,
-  postLogout,
 };

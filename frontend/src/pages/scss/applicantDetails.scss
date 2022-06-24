@@ -18,6 +18,8 @@
   box-shadow: none;
   height: auto;
   padding: 3rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .positioncard:hover {
@@ -61,6 +63,8 @@
 .info {
   font-size: 20px;
   text-overflow: ellipsis;
+  overflow-x: hidden;
+  min-width: 0;
 }
 
 .answers {
@@ -87,5 +91,12 @@
   &[disabled] {
     background-color: gray;
     color: black;
+  }
+}
+
+@media only screen and (max-width: 670px) {
+  .detailscard {
+    width: 60%;
+    margin: 0 auto;
   }
 }

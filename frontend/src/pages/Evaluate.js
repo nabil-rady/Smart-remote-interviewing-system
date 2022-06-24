@@ -16,6 +16,7 @@ function EvaluationPage() {
   const [answers, setAnswers] = useState([]);
   const params = useParams();
   const applicantId = params.applicantId;
+
   const fetchAnswers = () => {
     return fetch(`${HRURL}/job-listing/answers/${applicantId}`, {
       method: 'GET',
@@ -43,16 +44,21 @@ function EvaluationPage() {
     };
     setFetchedAnswers();
   }, []);
-  const ratings = useRef(null);
-  const changeHandler = (e) => {
-    ratings.current = e.target.value;
+  const ratings = useRef([]);
+  const clickHandler = () => {
+    console.log(ratings.current);
   };
+
+  const changeHandler = (index) => (e) => {
+    ratings.current[index] = e.target.value;
+  };
+
   return (
     <>
       <div className="blue-gradient">
         <NavBar visible={true} />
       </div>
-      {answers ? (
+      {answers?.length !== 0 ? (
         <>
           <EvaluationCard
             answers={answers}

@@ -42,6 +42,7 @@ class _BodyState extends State<Body> {
   }
 
   int currentPage = 0;
+  PageController _pageViewController = PageController(initialPage: 0);
   List<Map<String, String>> splashData = [
     {
       "text":
@@ -70,6 +71,7 @@ class _BodyState extends State<Body> {
             Expanded(
               flex: 5,
               child: PageView.builder(
+                controller: _pageViewController,
                 onPageChanged: (value) {
                   setState(() {
                     currentPage = value;
@@ -99,11 +101,18 @@ class _BodyState extends State<Body> {
                     ),
                     const Spacer(flex: 3),
                     DefaultButton(
-                      text: "Continue",
+                      text: currentPage == 2 ? "Start Interview" : "Continue",
                       press: () {
-                        Navigator.of(context).pushReplacementNamed(
-                            '/IntroCamScreen',
-                            arguments: controller);
+                        currentPage == 2
+                            ? Navigator.of(context).pushReplacementNamed(
+                                '/IntroCamScreen',
+                                arguments: controller)
+                            : _pageViewController.nextPage(
+                                duration: Duration(milliseconds: 1),
+                                curve: Curves.ease);
+                        // Navigator.of(context).pushReplacementNamed(
+                        //     '/IntroCamScreen',
+                        //     arguments: controller);
                         // Navigator.of(context).pushReplacementNamed(
                         //     '/interview-screen',
                         //     arguments: controller);

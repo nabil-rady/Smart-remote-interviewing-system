@@ -213,7 +213,7 @@ module.exports.getUserListings = async (req, res, next) => {
       } else {
         let finishedInterviews = 0;
         for (let interview of Interviews) {
-          if (interview.dataValues.submitedAt) {
+          if (interview.dataValues.processed) {
             finishedInterviews++;
           }
         }
@@ -495,7 +495,7 @@ module.exports.getInterviewAnswers = async (req, res, next) => {
     }
 
     // check if the interview has been processed
-    if (!interview.dataValues.processed || !interview.dataValues.submitedAt) {
+    if (!interview.dataValues.processed) {
       const err = new Error(
         'interview has not submitted before, or answers has not processed yet'
       );
@@ -669,7 +669,7 @@ module.exports.postEvaluate = async (req, res, next) => {
       }
       results.push({
         result,
-        evaluation: e.evaluation,
+        evaluation: e.evaluation.toFixed(2),
       });
     }
 
@@ -680,7 +680,7 @@ module.exports.postEvaluate = async (req, res, next) => {
       r.result.manualEvaluation = r.evaluation;
       await r.result.save();
     }
-    interview.avgManualEvaluation = scores / results.length;
+    interview.avgManualEvaluation = (scores / results.length).toFixed(2);
     await interview.save();
 
     res.status(200).json({

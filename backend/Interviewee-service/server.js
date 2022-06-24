@@ -14,7 +14,7 @@ const Question = require('./models/question');
 const User = require('./models/user');
 const Video = require('./models/video');
 const Keyword = require('./models/keyword');
-const RegistartionToken = require('./models/registrationToken');
+const RegistrationToken = require('./models/registrationToken');
 
 // import rabbitMQ
 const consumeUploadQueue = require('./utils/consume-upload-queue').consume;

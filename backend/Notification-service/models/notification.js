@@ -12,16 +12,6 @@ const Notification = sequelize.define('Notification', {
     primaryKey: true,
     unique: true,
   },
-  userId: {
-    type: DataTypes.UUID,
-    defaultValue: DataTypes.UUIDV4,
-    allowNull: false,
-  },
-  interviewId: {
-    type: DataTypes.UUID,
-    defaultValue: DataTypes.UUIDV4,
-    allowNull: false,
-  },
   title: {
     type: DataTypes.STRING,
     allowNull: false,

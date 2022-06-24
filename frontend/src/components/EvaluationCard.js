@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Card from './Card';
 import './scss/evaluate.scss';
 import { Bar } from 'react-chartjs-2';
@@ -11,6 +11,7 @@ const EvaluationCard = React.forwardRef((props, ratings) => {
   let emotionLabels = ['happy', 'sad', 'angry', 'surprise', 'neutral'];
   let chartData = [];
   let emotionScores = [];
+
   const getEmotions = (emotions, index) => {
     emotionScores.push([
       emotions.happy * 100,
@@ -34,7 +35,7 @@ const EvaluationCard = React.forwardRef((props, ratings) => {
         },
       ],
     });
-    console.log(chartData);
+
     return (
       <div>
         <Bar
@@ -93,7 +94,7 @@ const EvaluationCard = React.forwardRef((props, ratings) => {
                 type="text"
                 placeholder="Rate from 0% to 100%"
                 className="evaluation-rate"
-                onChange={props.changeHandler}
+                onChange={props.changeHandler(index)}
               />
             </Card>
           </li>
@@ -105,4 +106,5 @@ const EvaluationCard = React.forwardRef((props, ratings) => {
     </div>
   );
 });
+
 export default EvaluationCard;

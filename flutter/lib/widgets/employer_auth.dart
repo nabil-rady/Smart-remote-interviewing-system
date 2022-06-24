@@ -184,6 +184,7 @@ class EmployerAuthState extends State<EmployerAuth> {
         });
       }
     } on HttpException catch (error) {
+      print(error);
       var errorMessage = 'Authentication failed';
       if (error.toString().contains('Email not found')) {
         errorMessage = 'This email address is not found.';

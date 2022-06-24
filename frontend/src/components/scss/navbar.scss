@@ -18,21 +18,18 @@
     }
   }
   &__navbar {
-    width: 100%;
+    width: 80%;
     display: flex;
     &__ul {
       list-style: none;
-      margin-left: auto;
       display: flex;
       color: $hover-gray;
-      // padding: 1rem;
       font-size: 1.2rem;
-      //border: 2px white solid;
-      margin-right: 4rem;
+      margin-right: 2rem;
       border-radius: 5px;
       padding: 0;
       height: 35px;
-      margin-top: 0.8rem;
+      margin-top: 1rem;
       &__li {
         &:nth-child(2) {
           cursor: pointer;
