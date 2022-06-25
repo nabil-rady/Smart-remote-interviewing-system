@@ -14,7 +14,10 @@ import '../providers/candidate_provider.dart';
 class InvitationForm extends StatefulWidget {
   final String positionId;
 
-  InvitationForm(this.positionId);
+  InvitationForm({
+    required this.positionId,
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<InvitationForm> createState() => InvitationFormState();
