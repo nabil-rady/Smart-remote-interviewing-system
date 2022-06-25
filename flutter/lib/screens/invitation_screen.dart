@@ -33,7 +33,9 @@ class _InvitationScreenState extends State<InvitationScreen> {
         isScrollControlled: true,
         context: ctx,
         builder: (bctx) {
-          return InvitationForm(id);
+          return InvitationForm(
+            positionId: id,
+          );
         });
   }
 

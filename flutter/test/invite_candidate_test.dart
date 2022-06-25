@@ -26,12 +26,12 @@ import 'api.dart';
 void main() {
   ////unit testing
   ///
-  late Mockitohttp mockHttpClient;
+  // late Mockitohttp mockHttpClient;
   late final NetworkService networkservice;
   //late Api api;
 
   setUp(() {
-    mockHttpClient = Mockitohttp();
+    // mockHttpClient = Mockitohttp();
     networkservice = MockNetworkService();
     // api = Api(client: mockHttpClient);
   });
@@ -54,21 +54,23 @@ void main() {
   // });
   group('validate form fieds', () {
     test('validate name field', () {
-      var widget = InvitationForm('233');
+      var widget = InvitationForm(positionId: '233');
       final element = widget.createElement();
       final state = element.state as InvitationFormState;
       expect(state.validateNameField(''), 'Please write the name');
     });
 
     test('validate email field', () {
-      var widget = InvitationForm('233');
+      var widget = InvitationForm(positionId: '233');
       final element = widget.createElement();
       final state = element.state as InvitationFormState;
       expect(state.validateEmailField(''), 'Please write the email');
     });
 
     test('validate phone field', () {
-      var widget = InvitationForm('233');
+      var widget = InvitationForm(
+        positionId: '233',
+      );
       final element = widget.createElement();
       final state = element.state as InvitationFormState;
       expect(state.validatePhoneField(''), 'Please write the phone number');
@@ -191,7 +193,8 @@ void main() {
   //   // ↓ required to avoid HTTP error 400 mocked returns
   //   HttpOverrides.global = null;
   // });
-  testWidgets('test invite screen widget', (WidgetTester tester) async {
+  testWidgets('test invite screen widget.. find title ',
+      (WidgetTester tester) async {
     Mockitohttp httpmockito = Mockitohttp();
 
     when(networkservice.get(
@@ -241,6 +244,63 @@ void main() {
     ));
     final titleFinder = find.text('Invite Applicant');
     expect(titleFinder, findsOneWidget);
+  });
+
+  testWidgets(
+      'test invite screen widget.. find add button, and bottom modal sheet ',
+      (WidgetTester tester) async {
+    Mockitohttp httpmockito = Mockitohttp();
+    const testKey = Key('K');
+    when(networkservice.get(
+        '$hrURL/job-listing/candidates/${'ced39477-9704-4138-936f-34d7ab83c610'}',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization':
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJmYjQ3NjY5NC0xZjVmLTQ3YmEtYjBmNy02YmVjZjg2MDBjODciLCJpYXQiOjE2NTI4MTgwNTYsImV4cCI6MTY4NDM3NTY1Nn0.TAgIpfcjM5YQJ2cfSrRfHtQsWULYfaDMARijz6ZCRew"
+        })).thenAnswer((_) async {
+      return http.Response('''{
+  "candidates": [
+    {
+      "interviewId": "string",
+      "name": "string",
+      "email": "string",
+      "phoneCode": "string",
+      "phoneNumber": "string",
+      "finished": true,
+      "submitedAt": "string"
+    }
+  ]
+}''', 200);
+    });
+    await tester.pumpWidget(MultiProvider(
+      providers: [
+        ChangeNotifierProvider<Auth>(
+          create: (ctx) => MockitoAuth(),
+        ),
+        ChangeNotifierProxyProvider<Auth, Candidates>(
+          create: (ctx) => MockitoCandidates(),
+          update: (ctx, auth, previosPositions) => Candidates(
+              'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJmYjQ3NjY5NC0xZjVmLTQ3YmEtYjBmNy02YmVjZjg2MDBjODciLCJpYXQiOjE2NTI4MTgwNTYsImV4cCI6MTY4NDM3NTY1Nn0.TAgIpfcjM5YQJ2cfSrRfHtQsWULYfaDMARijz6ZCRew',
+              previosPositions == null ? [] : previosPositions.candidates,
+              networkservice),
+        ),
+      ],
+      builder: (context, child) {
+        return MediaQuery(
+            data: new MediaQueryData(),
+            child: MaterialApp(
+                home: InvitationScreen(
+              positionId: 'ced39477-9704-4138-936f-34d7ab83c610',
+              positionName: 'my position name',
+              httpc: httpmockito,
+              key: testKey,
+            )));
+      },
+    ));
+    await tester.tap(find.byType(FloatingActionButton));
+    await tester.pump();
+
+    expect(find.byKey(testKey), findsOneWidget);
   });
 }
 
