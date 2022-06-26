@@ -197,8 +197,11 @@ class EmployerAuthState extends State<EmployerAuth> {
         _isLoading = false;
       });
     } catch (error) {
-      const errorMessage =
-          'Could not authenticate you. Please try again later.';
+      var errorMessage = "";
+      error.toString().contains("This email is already exists")
+          ? errorMessage = "This email is already exists"
+          : errorMessage =
+              'Could not authenticate you. Please try again later.';
       showErrorDialog(context, errorMessage, true);
 
       setState(() {
