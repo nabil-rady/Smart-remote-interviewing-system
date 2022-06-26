@@ -42,7 +42,7 @@ module.exports.postCreateListing = async (req, res, next) => {
     // check if the creator's email is confirmed
     if (!creator.dataValues.emailConfirmed) {
       const err = new Error('Please confirm your email');
-      err.statusCode = 401;
+      err.statusCode = 402;
       throw err;
     }
     // create the job-listing
@@ -130,7 +130,7 @@ module.exports.deleteListing = async (req, res, next) => {
     // check if the user's email is confirmed
     if (!user.dataValues.emailConfirmed) {
       const err = new Error('Please confirm your email');
-      err.statusCode = 401;
+      err.statusCode = 402;
       throw err;
     }
 
@@ -188,7 +188,7 @@ module.exports.getUserListings = async (req, res, next) => {
     // check if the user's email is confirmed
     if (!user.dataValues.emailConfirmed) {
       const err = new Error('Please confirm your email');
-      err.statusCode = 401;
+      err.statusCode = 402;
       throw err;
     }
 
@@ -254,7 +254,7 @@ module.exports.getListing = async (req, res, next) => {
     // check if the creator's email is confirmed
     if (!user.dataValues.emailConfirmed) {
       const err = new Error('Please confirm your email');
-      err.statusCode = 401;
+      err.statusCode = 402;
       throw err;
     }
 
@@ -371,7 +371,7 @@ module.exports.postInvite = async (req, res, next) => {
     // check if the user's email is confirmed
     if (!user.dataValues.emailConfirmed) {
       const err = new Error('Please confirm your email');
-      err.statusCode = 401;
+      err.statusCode = 402;
       throw err;
     }
 
@@ -477,7 +477,7 @@ module.exports.getInterviewAnswers = async (req, res, next) => {
     // check if the user's email is confirmed
     if (!user.dataValues.emailConfirmed) {
       const err = new Error('Please confirm your email');
-      err.statusCode = 401;
+      err.statusCode = 402;
       throw err;
     }
 
@@ -624,7 +624,7 @@ module.exports.postEvaluate = async (req, res, next) => {
     // check if the user's email is confirmed
     if (!user.dataValues.emailConfirmed) {
       const err = new Error('Please confirm your email');
-      err.statusCode = 401;
+      err.statusCode = 402;
       throw err;
     }
 
@@ -715,7 +715,7 @@ module.exports.getCandidates = async (req, res, next) => {
     // check if the user's email is confirmed
     if (!user.dataValues.emailConfirmed) {
       const err = new Error('Please confirm your email');
-      err.statusCode = 401;
+      err.statusCode = 402;
       throw err;
     }
 

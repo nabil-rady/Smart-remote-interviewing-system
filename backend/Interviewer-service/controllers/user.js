@@ -70,7 +70,7 @@ module.exports.putEditProfile = (req, res, next) => {
     // check if the user's email is confirmed
     if (!returnedUser.dataValues.emailConfirmed) {
       const err = new Error('Please confirm your email');
-      err.statusCode = 401;
+      err.statusCode = 402;
       throw err;
     }
     const { phoneCode, phoneNumber } = req.body;
@@ -142,7 +142,7 @@ module.exports.putChangePassword = (req, res, next) => {
       // check if the user's email is confirmed
       if (!returnedUser.dataValues.emailConfirmed) {
         const err = new Error('Please confirm your email');
-        err.statusCode = 401;
+        err.statusCode = 402;
         throw err;
       }
       return bcrypt.compare(
@@ -198,7 +198,7 @@ module.exports.getNotifications = async (req, res, next) => {
     // check if the user's email is confirmed
     if (!user.dataValues.emailConfirmed) {
       const err = new Error('Please confirm your email');
-      err.statusCode = 401;
+      err.statusCode = 402;
       throw err;
     }
 
@@ -239,7 +239,7 @@ module.exports.setNotificationRead = async (req, res, next) => {
     // check if the user's email is confirmed
     if (!user.dataValues.emailConfirmed) {
       const err = new Error('Please confirm your email');
-      err.statusCode = 401;
+      err.statusCode = 402;
       throw err;
     }
 
