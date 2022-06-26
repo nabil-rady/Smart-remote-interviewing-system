@@ -1,5 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:test/providers/candidate_provider.dart';
 import 'package:test/providers/notification_provider.dart';
 import '../providers/dashboard_provider.dart';
 import '../providers/position_details_provider.dart';
@@ -116,4 +117,9 @@ String getFirebaseToken() {
 extension Capitalized on String {
   String capitalized() =>
       this.substring(0, 1).toUpperCase() + this.substring(1).toLowerCase();
+}
+
+Future getInvititionDetails(BuildContext context, positionId) {
+  return Provider.of<Candidates>(context, listen: false)
+      .fetchAndSetCandidates(positionId);
 }
