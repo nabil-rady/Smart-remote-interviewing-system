@@ -1,13 +1,11 @@
 import { useRef, useEffect, useState } from 'react';
+import { WSURL } from '../API/APIConstants';
 import Camera from '../components/Camera';
 import Card from '../components/Card';
 import InterviewQuestions from '../components/InterviewQuestions';
 import Timer from '../utils/timer';
-import imageCompression from 'browser-image-compression';
-const InterviewPage = () => {
-  let trueCount = 0,
-    falseCount = 0;
 
+const InterviewPage = () => {
   const timer = useRef();
   const webSocket = useRef();
   const webcamRef = useRef();
@@ -18,32 +16,23 @@ const InterviewPage = () => {
   const [userHasCamera, setUserHasCamera] = useState(false);
 
   const faceColor = readyForInterview ? 'red' : 'green';
-  const options = {
-    maxSizeMB: 0.05,
-    maxWidthOrHeight: 1920,
-    useWebWorker: true,
-  };
   const sendFrames = async () => {
-    const imageSrc = webcamRef.current.getScreenshot();
-    // console.log(imageSrc);
+    const imageSrc = webcamRef.current.getScreenshot({
+      width: 480,
+      height: 360,
+    });
     if (imageSrc === null) return;
     const blobData = await fetch(imageSrc);
     const blob = await blobData.blob();
-    const compressedFile = await imageCompression(blob, options);
-    console.log(
-      'compressedFile instanceof Blob',
-      compressedFile instanceof Blob
-    ); // true
     console.log(`blob size ${blob.size / 1024} KB`);
-    console.log(`compressedFile size ${compressedFile.size / 1024} KB`);
-    if (webSocket.current) webSocket.current.send(compressedFile);
+    if (webSocket.current) webSocket.current.send(blob);
   };
 
   const onSocketOpen = () => {
     setLoading(false);
     console.log('Connection Started');
     webSocket.current.send('Hello Server!');
-    timer.current = new Timer(sendFrames, 1500 / 1, () => {});
+    timer.current = new Timer(sendFrames, 1500 / 2);
     timer.current.start();
     console.log('Timer started');
   };
@@ -51,18 +40,8 @@ const InterviewPage = () => {
   const onSocketMessage = async (e) => {
     console.log(e.data);
     if (e.data === 'True') {
-      if (trueCount < 3) trueCount++;
-      console.log(`true count is ${trueCount}`);
-      falseCount = 0;
-    } else {
-      if (falseCount < 3) falseCount++;
-      console.log(`false count is ${falseCount}`);
-      trueCount = 0;
-    }
-
-    if (trueCount >= 3) {
       setReadyForInterview(true);
-    } else if (falseCount >= 3) {
+    } else {
       setReadyForInterview(false);
     }
   };
@@ -77,9 +56,7 @@ const InterviewPage = () => {
     }
     console.log('websocket Closed');
     if (!interviewBegun) {
-      webSocket.current = new WebSocket(
-        'wss://vividly-app.me/api/light-detection/'
-      );
+      webSocket.current = new WebSocket(WSURL);
       webSocket.current.addEventListener('open', onSocketOpen);
       webSocket.current.addEventListener('close', onSocketClose);
       webSocket.current.addEventListener('message', onSocketMessage);
@@ -87,9 +64,7 @@ const InterviewPage = () => {
   };
 
   useEffect(() => {
-    webSocket.current = new WebSocket(
-      'wss://vividly-app.me/api/light-detection/'
-    );
+    webSocket.current = new WebSocket(WSURL);
     webSocket.current.addEventListener('open', onSocketOpen);
     webSocket.current.addEventListener('error', onSocketClose);
     webSocket.current.addEventListener('message', onSocketMessage);

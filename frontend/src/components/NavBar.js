@@ -87,7 +87,7 @@ const NavBar = (props) => {
               isLoggedIn ? '' : 'hidden'
             }`}
             style={{
-              'margin-left': props.visible ? '' : 'auto',
+              marginLeft: props.visible ? '' : 'auto',
             }}
           >
             <NavBarUserInfoMenu />

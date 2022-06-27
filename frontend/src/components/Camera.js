@@ -64,10 +64,18 @@ const Camera = React.forwardRef((props, webcamRef) => {
               observe(el?.video);
             }}
             muted={true}
-            screenshotFormat="image/png"
+            width={480}
+            height={360}
+            screenshotFormat="image/webp"
             className="video"
             onUserMedia={props.onUserMedia}
             onUserMediaError={props.onUserMediaError}
+            videoConstraints={{
+              width: 480,
+              height: 360,
+              facingMode: 'user',
+            }}
+            screenshotQuality={0.5}
           />
           {props.children}
         </div>
