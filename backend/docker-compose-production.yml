@@ -31,10 +31,9 @@ services:
     build: ./Process-interview
     environment:
       - MODE=production
-
-  before_interview:
-    build: ./Before_interview
-    ports:
-      - 5000:5000
-    environment:
-      - MODE=production
+  # before_interview:
+  #   build: ./Before_interview
+  #   ports:
+  #     - 5000:5000
+  #   environment:
+  #     - MODE=production
