@@ -28,6 +28,7 @@ import WelcomePage from './pages/WelcomePage';
 import UploadImageToS3WithNativeSdk from './pages/uploadVideos';
 import FinishPage from './pages/FinishPage';
 import ProfilePage from './pages/Profile';
+import Interview from './pages/Interview';
 const UserContext = React.createContext();
 const LoadingContext = React.createContext();
 
@@ -113,7 +114,7 @@ function App() {
             <PublicRoute
               isAuthenticated={!!authUser}
               isVerified={isVerified}
-              path="/interview"
+              path="/takeinterview"
               exact
             >
               <TakeInterviewPage />
@@ -169,10 +170,10 @@ function App() {
             <PublicRoute
               isAuthenticated={!!authUser}
               isVerified={isVerified}
-              path="/video/:interviewId"
+              path="/interview/:interviewId"
               exact
             >
-              <InterviewPage />
+              <Interview />
             </PublicRoute>
             <PrivateRoute
               isAuthenticated={!!authUser}

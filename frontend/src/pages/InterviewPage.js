@@ -5,7 +5,7 @@ import Card from '../components/Card';
 import InterviewQuestions from '../components/InterviewQuestions';
 import Timer from '../utils/timer';
 
-const InterviewPage = () => {
+const InterviewPage = (props) => {
   const timer = useRef();
   const webSocket = useRef();
   const webcamRef = useRef();
@@ -136,7 +136,7 @@ const InterviewPage = () => {
         onUserMedia={() => setUserHasCamera(true)}
         onUserMediaError={() => setUserHasCamera(false)}
       >
-        <InterviewQuestions ref={webcamRef} />
+        <InterviewQuestions ref={webcamRef} response={props.response} />
       </Camera>
     );
   };

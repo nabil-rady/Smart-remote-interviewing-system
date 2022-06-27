@@ -49,7 +49,7 @@ const Interview = () => {
           </p>
           <br />
           <button className="goInterview" disabled={link.length < 8}>
-            <Link to={`/welcome/${link}`}>Go to Interview</Link>
+            <Link to={`/interview/${link}`}>Go to Interview</Link>
           </button>
         </form>
       </Card>

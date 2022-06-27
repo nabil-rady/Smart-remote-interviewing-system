@@ -11,47 +11,13 @@ import { useParams } from 'react-router-dom';
 import { TailSpin } from 'react-loader-spinner';
 import ErrorModal from '../components/ErrorModal';
 
-function WelcomePage() {
-  const params = useParams();
-  console.log(params);
-  const interviewId = params.interviewId;
-  const [appInfo, setAppInfo] = useState();
-  const [error, setError] = useState();
-
-  const fetchAppInfo = () => {
-    return fetch(`${ApplicantURL}/candidate/join/${interviewId}`, {
-      method: 'GET',
-    });
-  };
-
-  useEffect(() => {
-    const setFethedAppInfo = async () => {
-      const response = await fetchAppInfo();
-      const data = await response.json();
-      if (response.status === 200) {
-        console.log(data);
-        setAppInfo(data);
-      } else {
-        handleAPIError(response.status, data, setError);
-      }
-    };
-    setFethedAppInfo();
-  }, []);
-  const errorHandler = () => {
-    setError(null);
-  };
-
+function WelcomePage(props) {
   return (
     <>
-      {error && (
-        <ErrorModal
-          title={error.title}
-          message={error.message}
-          onConfirm={errorHandler}
-        />
-      )}
-      <NavBar visible={false} />
-      {appInfo ? (
+      <div className="blue-gradient">
+        <NavBar visible={false} />
+      </div>
+      {props.response ? (
         <div className="welcome_container">
           <div className="welcome_animation">
             <Lottie
@@ -65,14 +31,15 @@ function WelcomePage() {
           </div>
           <Card className="info_container">
             <p className="welcome_appName">
-              Welcome {appInfo.name} in{' '}
+              Welcome {props.response.name} in{' '}
               <span className="welcome_logo">Vividly</span>
             </p>
             <p className="start_interview">Let's start the interview!</p>
-            <button className="startInterview_btn">
-              <Link to={`/intro/${interviewId}`} className="toIntro">
-                Start Interview
-              </Link>
+            <button
+              className="startInterview_btn"
+              onClick={props.welcomeHandler}
+            >
+              Start Interview
             </button>
           </Card>
         </div>

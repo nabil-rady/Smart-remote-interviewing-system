@@ -4,7 +4,7 @@ import Interview from '../components/Interview';
 import '../components/scss/utility.scss';
 import './scss/Interview.scss';
 
-function InterviewPage() {
+function TakeInterviewPage() {
   return (
     <>
       <NavBar visible={false} />
@@ -13,4 +13,4 @@ function InterviewPage() {
   );
 }
 
-export default InterviewPage;
+export default TakeInterviewPage;

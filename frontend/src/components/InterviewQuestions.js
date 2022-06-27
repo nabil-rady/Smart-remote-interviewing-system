@@ -20,8 +20,7 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
   const [lastVideo, setLastVideo] = useState(false);
   const [uploadingVideo, setUploadingVideo] = useState(false);
   const [video, setVideo] = useState();
-  const params = useParams();
-  const interviewId = params.interviewId;
+
   const mediaRecorderRef = useRef();
   const recordTimeout = useRef();
   const [questions, setQuestions] = useState([]);
@@ -33,34 +32,15 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
   const [visible, setVisibility] = useState('hidden');
   const [counter, setCounter] = useState(0);
   const [readTimerVisibility, setReadTimer] = useState('visible');
-  const setAuthUser = useContext(UserContext).setAuthUser;
-  const authUser = useContext(UserContext).authUser;
   const [error, setError] = useState();
   const [done, setDone] = useState(false);
-  let secAnswerTime, minAnswerTime;
-
-  const fetchQuestions = () => {
-    return fetch(`${ApplicantURL}/candidate/join/${interviewId}`);
-  };
-
   useEffect(() => {
-    const setFetchedQuestions = async () => {
-      const response = await fetchQuestions();
-      const data = await response.json();
-      if (response.status === 200) {
-        setQuestions(data.questions);
-        setQuestionsResponse(data);
-      } else {
-        handleAPIError(
-          response.status,
-          data,
-          () => {},
-          () => setAuthUser(null)
-        );
-      }
-    };
-    setFetchedQuestions();
+    setQuestions(props.response.questions);
+    setQuestionsResponse(props.response);
+    console.log(questions);
+    console.log(questionsResponse);
   }, []);
+  let secAnswerTime, minAnswerTime;
   const interval = 1000;
 
   const [timeLeftRead, { start: startRead }] = useCountDown(
@@ -306,71 +286,54 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
         />
       )}
       <div className="questionspart">
-        {questions.length !== 0 ? (
-          <>
-            <div style={{ visibility: visible }}>
-              <Card className="questions">
-                <p className="answertimer">
-                  {renderAnswerTime(timeLeftAnswer)}
-                </p>
-                <p className="questionTitle">{questions[counter]?.statement}</p>
-              </Card>
-            </div>
-
-            <br />
-            <div style={{ visibility: readTimerVisibility }}>
-              <Card className="readCard">
-                <p className="readtimer">{renderReadTime(timeLeftRead)}</p>
-              </Card>
-            </div>
-
-            {start && (
-              <button onClick={startInterview} className="buttons">
-                Start Capture
-              </button>
-            )}
-            {stop && (
-              <button
-                onClick={(e) => handleStopCaptureClick(e, false)}
-                className="buttons"
-              >
-                Stop Capture
-              </button>
-            )}
-            {upload && (
-              <button onClick={handleUpload} className="buttons">
-                Upload
-              </button>
-            )}
-            {next && !lastVideo && (
-              <button
-                onClick={handleNext}
-                className="buttons"
-                disabled={uploadingVideo}
-              >
-                Next Qusetion
-              </button>
-            )}
-            {lastVideo && !uploadingVideo && (
-              <button className="buttons">
-                <Link to="/">Finish</Link>
-              </button>
-            )}
-            {/* {recordedChunks.length > 0 && (
-              <button onClick={handleDownload}>Download</button>
-            )} */}
-          </>
-        ) : (
-          <div
-            style={{
-              position: 'absolute',
-              top: 'calc(30vh - 50px)',
-              left: 'calc(70vw - 40px)',
-            }}
-          >
-            <TailSpin color="hsl(215deg, 79%, 42%)" height={80} width={80} />
+        <>
+          <div style={{ visibility: visible }}>
+            <Card className="questions">
+              <p className="answertimer">{renderAnswerTime(timeLeftAnswer)}</p>
+              <p className="questionTitle">{questions[counter]?.statement}</p>
+            </Card>
           </div>
-        )}
+
+          <br />
+          <div style={{ visibility: readTimerVisibility }}>
+            <Card className="readCard">
+              <p className="readtimer">{renderReadTime(timeLeftRead)}</p>
+            </Card>
+          </div>
+
+          {start && (
+            <button onClick={startInterview} className="buttons">
+              Start Capture
+            </button>
+          )}
+          {stop && (
+            <button
+              onClick={(e) => handleStopCaptureClick(e, false)}
+              className="buttons"
+            >
+              Stop Capture
+            </button>
+          )}
+          {upload && (
+            <button onClick={handleUpload} className="buttons">
+              Upload
+            </button>
+          )}
+          {next && !lastVideo && (
+            <button
+              onClick={handleNext}
+              className="buttons"
+              disabled={uploadingVideo}
+            >
+              Next Qusetion
+            </button>
+          )}
+          {lastVideo && !uploadingVideo && (
+            <button className="buttons">
+              <Link to="/finish">Finish</Link>
+            </button>
+          )}
+        </>
       </div>
     </>
   );
