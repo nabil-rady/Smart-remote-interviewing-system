@@ -7,7 +7,7 @@ import PhoneInput from 'react-phone-input-2';
 import { HRURL } from '../API/APIConstants';
 import ErrorModal from '../components/ErrorModal';
 import handleAPIError from '../utils/APIErrorHandling';
-
+import NavBar from '../components/NavBar';
 function ProfilePage() {
   let formattedValue = '';
   const authUser = useContext(UserContext).authUser;
@@ -78,6 +78,9 @@ function ProfilePage() {
           onConfirm={errorHandler}
         />
       )}
+      <div className="blue-gradient">
+        <NavBar visible={true} />
+      </div>
       <Card className="profilecard top-margin">
         <h1 className="profile-label">Profile Info</h1>
         <form onSubmit={submitHandler} className="profile-form">

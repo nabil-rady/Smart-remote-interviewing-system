@@ -3,7 +3,7 @@ import Camera from '../components/Camera';
 import Card from '../components/Card';
 import InterviewQuestions from '../components/InterviewQuestions';
 import Timer from '../utils/timer';
-
+import imageCompression from 'browser-image-compression';
 const InterviewPage = () => {
   let trueCount = 0,
     falseCount = 0;
@@ -18,21 +18,32 @@ const InterviewPage = () => {
   const [userHasCamera, setUserHasCamera] = useState(false);
 
   const faceColor = readyForInterview ? 'red' : 'green';
-
+  const options = {
+    maxSizeMB: 0.05,
+    maxWidthOrHeight: 1920,
+    useWebWorker: true,
+  };
   const sendFrames = async () => {
     const imageSrc = webcamRef.current.getScreenshot();
     // console.log(imageSrc);
     if (imageSrc === null) return;
     const blobData = await fetch(imageSrc);
     const blob = await blobData.blob();
-    if (webSocket.current) webSocket.current.send(blob);
+    const compressedFile = await imageCompression(blob, options);
+    console.log(
+      'compressedFile instanceof Blob',
+      compressedFile instanceof Blob
+    ); // true
+    console.log(`blob size ${blob.size / 1024} KB`);
+    console.log(`compressedFile size ${compressedFile.size / 1024} KB`);
+    if (webSocket.current) webSocket.current.send(compressedFile);
   };
 
   const onSocketOpen = () => {
     setLoading(false);
     console.log('Connection Started');
     webSocket.current.send('Hello Server!');
-    timer.current = new Timer(sendFrames, 1000 / 60, () => {});
+    timer.current = new Timer(sendFrames, 1500 / 1, () => {});
     timer.current.start();
     console.log('Timer started');
   };

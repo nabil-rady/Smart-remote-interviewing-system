@@ -15,7 +15,12 @@
   width: 95%;
   margin: 0 auto;
 }
-
+.dashboard-label {
+  color: $primary-blue;
+  margin-bottom: 1rem;
+  margin-top: 2rem;
+  text-align: center;
+}
 .positioncard {
   width: 28%;
   margin-bottom: 2rem;

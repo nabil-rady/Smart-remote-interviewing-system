@@ -27,6 +27,7 @@ import NewLanding from './pages/newLandingpage';
 import WelcomePage from './pages/WelcomePage';
 import UploadImageToS3WithNativeSdk from './pages/uploadVideos';
 import FinishPage from './pages/FinishPage';
+import ProfilePage from './pages/Profile';
 const UserContext = React.createContext();
 const LoadingContext = React.createContext();
 
@@ -125,15 +126,14 @@ function App() {
             >
               <FinishPage />
             </PublicRoute>
-            {/* <PrivateRoute isAuthenticated={!!authUser} path="/selectposition" exact>
-            <PositionForm />
-          </PrivateRoute> */}
-            {/* <Route path="/addquestions">
-            <QuestionsPage />
-          </Route> */}
-            {/* <PrivateRoute isAuthenticated={!!authUser} path="/profile" exact>
-            <Profile />
-          </PrivateRoute> */}
+            <PrivateRoute
+              isAuthenticated={!!authUser}
+              isVerified={isVerified}
+              path="/profile"
+              exact
+            >
+              <ProfilePage />
+            </PrivateRoute>
             <PrivateRoute
               isAuthenticated={!!authUser}
               isVerified={isVerified}
@@ -158,9 +158,6 @@ function App() {
             >
               <ChangePassword />
             </PrivateRoute>
-            {/* <PrivateRoute isAuthenticated={!!authUser} path="/notifications" exact>
-            <NotificationPage />
-          </PrivateRoute> */}
             <PrivateRoute
               isAuthenticated={!!authUser}
               isVerified={isVerified}

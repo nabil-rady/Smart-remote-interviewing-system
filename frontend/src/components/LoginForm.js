@@ -7,25 +7,11 @@ import handleAPIError from '../utils/APIErrorHandling';
 import './scss/login.scss';
 import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
-// import firebase from 'firebase/compat/app';
 import 'firebase/compat/messaging';
 import { TailSpin } from 'react-loader-spinner';
-// import firebaseConfig from '../utils/firebaseConfig';
-// import messaging from '../utils/firebase';
-// import { getToken } from 'firebase/messaging';
 import { requestForToken } from '../utils/firebase';
 const LoginForm = () => {
   const [registrationToken, setToken] = useState();
-  // firebase.initializeApp(firebaseConfig);
-  // const messaging = firebase.messaging();
-  // getToken(messaging)
-  //   .then((token) => {
-  //     setToken(token);
-  //     console.log(registrationToken);
-  //   })
-  //   .catch((err) => {
-  //     console.log(err);
-  //   });
   useEffect(async () => {
     let token = await requestForToken();
     setToken(token);
@@ -37,9 +23,6 @@ const LoginForm = () => {
   const setAuthUser = useContext(UserContext).setAuthUser;
   const history = useHistory();
   const [loading, setLoading] = useState(false);
-  // const redirect = () => {
-  //   history.push('/dashboard');
-  // };
   const submitHandler = (e) => {
     e.preventDefault();
     // Send data to backend
@@ -70,6 +53,8 @@ const LoginForm = () => {
             token: data.token,
           });
           setLoading(false);
+          history.push('/dashboard');
+          window.location.reload();
           // redirect();
         } else {
           setLoading(false);

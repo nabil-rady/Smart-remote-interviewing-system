@@ -5,10 +5,12 @@ import { APIURL } from '../API/APIConstants';
 import { UserContext } from '../App';
 import handleError from '../utils/APIErrorHandling';
 import { requestForToken } from '../utils/firebase';
+import { TailSpin } from 'react-loader-spinner';
 const NavBarUserInfoMenu = () => {
   const authUser = useContext(UserContext).authUser;
   const setAuthUser = useContext(UserContext).setAuthUser;
   const [registrationToken, setToken] = useState();
+  const [loading, setLoading] = useState(false);
   useEffect(async () => {
     let token = await requestForToken();
     setToken(token);
@@ -16,6 +18,7 @@ const NavBarUserInfoMenu = () => {
   });
   const logoutHandler = () => {
     let statusCode;
+    setLoading(true);
     fetch(`${APIURL}/user/logout`, {
       method: 'POST',
       headers: {
@@ -34,6 +37,7 @@ const NavBarUserInfoMenu = () => {
       .then((data) => {
         console.log(data);
         if (statusCode === 200) {
+          setLoading(false);
           setAuthUser(null);
           localStorage.clear();
         } else {
@@ -43,6 +47,7 @@ const NavBarUserInfoMenu = () => {
             () => {},
             () => setAuthUser(null)
           );
+          setLoading(false);
         }
       })
       .catch((error) => {
@@ -56,10 +61,28 @@ const NavBarUserInfoMenu = () => {
           <li className="user-info-menu__nav__ul__li">
             <Link to="/dashboard">Dashboard</Link>{' '}
           </li>
-          <li className="user-info-menu__nav__ul__li">Edit Profile</li>
-          <li className="user-info-menu__nav__ul__li" onClick={logoutHandler}>
-            Logout
+          <li className="user-info-menu__nav__ul__li">
+            <Link to="/profile">Edit Profile</Link>{' '}
           </li>
+          <div className="flex">
+            <li className="user-info-menu__nav__ul__li" onClick={logoutHandler}>
+              Logout
+            </li>
+            {loading && (
+              <div
+                style={{
+                  marginLeft: '5rem',
+                  marginTop: '1rem',
+                }}
+              >
+                <TailSpin
+                  color="hsl(215deg, 79%, 42%)"
+                  height={25}
+                  width={25}
+                />
+              </div>
+            )}
+          </div>
         </ul>
       </nav>
     </div>

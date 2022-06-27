@@ -32,7 +32,12 @@ const Camera = React.forwardRef((props, webcamRef) => {
       ></div>
     );
   };
-
+  // const videoConstraints = {
+  //   width: 360,
+  //   height: 240,
+  //   facingMode: 'user',
+  //   frameRate: { max: 24 },
+  // };
   const render = () => {
     if (props.loading) {
       return (
