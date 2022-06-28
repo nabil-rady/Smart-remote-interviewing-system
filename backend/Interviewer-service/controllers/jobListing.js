@@ -667,6 +667,9 @@ module.exports.postEvaluate = async (req, res, next) => {
         error.statusCode = 404;
         throw error;
       }
+      console.log(
+        `Manual evaluation = ${e.evaluation} of type ${typeof e.evaluation}`
+      );
       results.push({
         result,
         evaluation: e.evaluation.toFixed(2),
@@ -681,6 +684,9 @@ module.exports.postEvaluate = async (req, res, next) => {
       await r.result.save();
     }
     interview.avgManualEvaluation = (scores / results.length).toFixed(2);
+    console.log(
+      `total score = ${scores}, avg evaluations = ${interview.avgManualEvaluation}`
+    );
     await interview.save();
 
     res.status(200).json({
