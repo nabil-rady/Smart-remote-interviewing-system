@@ -4,6 +4,7 @@ import Circle from '../Circle';
 import Triangle from '../Triangle';
 import TextContent from '../TextContent';
 import { Fade } from 'react-awesome-reveal';
+import invite from '../photos/Invite.jpg';
 const College = () => {
   return (
     <section className="feature_section home_section3" id="college">
@@ -13,9 +14,8 @@ const College = () => {
           <div className="col-md-7 order-md-2 my-auto">
             <Fade direction="right" triggerOnce="true">
               <TextContent
-                title='Introducing "College Directory" Find all the students of your college at one place'
-                desc="Enter your college, select degree, enter admission year and
-                  voila ! All your classmates will get listed in one go !"
+                title="HR Can Invite Applicants To Take an Interview At Specific Position"
+                desc="HR Enters Applicant's Data Manually As Name, Email And Phone No. OR By Importing Data From CSV File"
               ></TextContent>
             </Fade>
           </div>
@@ -37,10 +37,7 @@ const College = () => {
               </svg>
             </div>
             <div className="app_img">
-              <Images
-                src="/Images/mockup_college_dir.png"
-                classes="feature_model"
-              />
+              <Images src={invite} classes="feature_model" />
             </div>
             <div className="svg6">
               <svg

@@ -4,6 +4,7 @@ import Circle from '../Circle';
 import Triangle from '../Triangle';
 import TextContent from '../TextContent';
 import { Fade } from 'react-awesome-reveal';
+import notification from '../photos/Notifications.jpg';
 const Scholarships = () => {
   return (
     <section className="feature_section home_section6 bg_3" id="scholarships">
@@ -33,9 +34,8 @@ const Scholarships = () => {
           <div className="col-md-7 my-auto">
             <Fade direction="left" triggerOnce="true">
               <TextContent
-                title="Find Scholarships best suited for you"
-                desc="Easily find scholarships that match your profile through our
-                  scholarship listings."
+                title="Recieve Notifications From Applicants' Interviews"
+                desc="When applicant finishes interview, HR recieves a notification which indicates that some applicant finished his/her interview."
               >
                 <Circle num="46" />
               </TextContent>
@@ -45,10 +45,7 @@ const Scholarships = () => {
             <div className="app_img">
               <div className="square_304"></div>
               <Circle num="25" />
-              <Images
-                src="Images/mockup_internship.png"
-                classes="feature_model"
-              />
+              <Images src={notification} classes="feature_model" />
               <div className="svg12">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

@@ -6,7 +6,7 @@
   display: flex;
   background-color: $primary_blue;
   color: white;
-  padding-top: 9rem;
+  padding-top: 7rem;
   &__content {
     text-align: center;
     margin: 0 auto;
@@ -48,6 +48,6 @@
 @media only screen and (max-width: 670px) {
   .section-1 {
     margin-top: 0;
-    padding-top: 9rem;
+    padding-top: 7rem;
   }
 }

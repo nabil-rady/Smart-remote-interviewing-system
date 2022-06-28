@@ -106,8 +106,8 @@ const EvaluationCard = React.forwardRef((props, ratings) => {
         <div
           style={{
             top: 'calc(40vh - 40px)',
-            left: 'calc(10vw - 40px)',
-            marginRight: '2rem',
+            marginLeft: 'calc(15% - 60px)',
+            marginBottom: '1.5rem',
           }}
         >
           <TailSpin color="hsl(215deg, 79%, 42%)" height={60} width={60} />

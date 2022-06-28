@@ -6,9 +6,21 @@ function SectionOne() {
     <>
       <section className="section-1">
         <div className="section-1__content">
-          <h1 className="section-1__content__title">Some Title</h1>
-          <p className="section-1__content__paragraph">
-            Lorem Ipsum qweqeqwei jwqeiwqoeij oeijwoijo
+          <h1
+            className="section-1__content__title"
+            style={{
+              fontFamily: 'Baskerville Old Face',
+              fontWeight: 'bold',
+              fontSize: '5rem',
+            }}
+          >
+            V i v i d l y
+          </h1>
+          <p
+            className="section-1__content__paragraph"
+            style={{ fontSize: '1.8rem' }}
+          >
+            Smart Remotely Interviewing System
           </p>
         </div>
         <div className="wave">

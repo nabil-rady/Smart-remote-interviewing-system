@@ -4,6 +4,7 @@ import Circle from '../Circle';
 import Triangle from '../Triangle';
 import TextContent from '../TextContent';
 import { Fade } from 'react-awesome-reveal';
+import evaluate from '../photos/Evaluate.jpg';
 const Jobs = () => {
   return (
     <section className="feature_section home_section5" id="jobs">
@@ -12,9 +13,8 @@ const Jobs = () => {
           <div className="col-md-7 order-md-2 my-auto">
             <Fade direction="right" triggerOnce="true">
               <TextContent
-                title="Prepare for Jobs and Higher Studies"
-                desc="Prepare for Placements, CAT, GATE or Government Exams through
-                  hundreds of actual pattern Mock Tests and previous papers."
+                title="Manually Evaluate Applicants Who Have Taken The Interview"
+                desc="HR can view the result of evaluating applicants and give a manuall evaluation based on the interview recorded videos"
               >
                 <Circle num="46" />
               </TextContent>
@@ -38,7 +38,7 @@ const Jobs = () => {
                   ></path>
                 </svg>
               </div>
-              <Images src="/Images/mockup_prep.png" classes="feature_model" />
+              <Images src={evaluate} classes="feature_model" />
               <Circle num="240" />
             </div>
           </div>

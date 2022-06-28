@@ -4,6 +4,7 @@ import Circle from '../Circle';
 import Triangle from '../Triangle';
 import TextContent from '../TextContent';
 import { Fade } from 'react-awesome-reveal';
+import takeinterview from '../photos/TakeInterview.jpg';
 const Competitions = () => {
   return (
     <section className="feature_section home_section7" id="competitions">
@@ -12,10 +13,8 @@ const Competitions = () => {
           <div className="col-md-7 order-md-2 my-auto">
             <Fade direction="right" triggerOnce="true">
               <TextContent
-                title="Find Competitions around
-                  you"
-                desc="Let competitions, hackathons find you instead of searching for
-                  them !"
+                title="Applicant Takes Interview"
+                desc="Applicant enters the invitation code sent to his/her mailbox from HR's invitation to take the interview"
               ></TextContent>
             </Fade>
           </div>
@@ -36,10 +35,7 @@ const Competitions = () => {
                   ></path>
                 </svg>
               </div>
-              <Images
-                src="/Images/mockup_competition.png"
-                classes="feature_model"
-              />
+              <Images src={takeinterview} classes="feature_model" />
               <div className="svg14">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

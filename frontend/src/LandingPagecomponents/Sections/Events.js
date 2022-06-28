@@ -3,6 +3,7 @@ import Images from '../Images';
 import Circle from '../Circle';
 import TextContent from '../TextContent';
 import { Fade } from 'react-awesome-reveal';
+import enterinterview from '../photos/EnterInterview.jpg';
 const Events = () => {
   return (
     <section className="feature_section home_section8 bg_1" id="events">
@@ -11,9 +12,8 @@ const Events = () => {
           <div className="col-md-7 my-auto">
             <Fade direction="left" triggerOnce="true">
               <TextContent
-                title="Find Events around you"
-                desc="Never miss important events happening near you through our AI
-                  based Recommendation engine."
+                title="Applicant Enters The Interview"
+                desc="After applicant enters the invitation code he/she can enter the interview and answer questons one by one. "
               >
                 <Circle num="23" />
               </TextContent>
@@ -24,7 +24,7 @@ const Events = () => {
               <Circle num="240" />
               <Circle num="46" />
               <Circle num="50" />
-              <Images src="/Images/mockup_events.png" classes="feature_model" />
+              <Images src={enterinterview} classes="feature_model" />
             </div>
           </div>
         </div>

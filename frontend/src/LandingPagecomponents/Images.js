@@ -10,6 +10,8 @@ const Images = ({ src, classes }) => {
         style={{
           animationName: 'fadeInUp',
           animationDelay: '0.3s',
+          boxShadow: '0 10px 10px rgb(0 0 0 / 26%)',
+          borderRadius: '20px',
         }}
         alt="colleges"
       />

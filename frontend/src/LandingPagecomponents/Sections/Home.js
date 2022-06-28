@@ -4,6 +4,8 @@ import Circle from '../Circle';
 import Triangle from '../Triangle';
 import Google from '../Google';
 import Typed from 'react-typed';
+import { Link } from 'react-router-dom';
+import dashboard from '../photos/Dashboard.jpg';
 const Home = () => {
   return (
     <section className="home_section1">
@@ -14,7 +16,7 @@ const Home = () => {
               <Circle num="254" />
               <Circle num="24" />
               <Circle num="56" />
-              <Images src="/Images/mockup_college_feed.png" />
+              <Images src={dashboard} />
               <div className="svg1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -70,7 +72,9 @@ const Home = () => {
                     animationName: 'fadeInUp',
                   }}
                 >
-                  Download App Now
+                  <a href="https://play.google.com/store/apps/details?id=com.vividly.mariam&gl=US">
+                    Download App Now
+                  </a>
                 </h5>
               </div>
             </div>

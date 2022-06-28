@@ -260,6 +260,7 @@ header .navbar .navbar-brand .nav_logo {
 .home_screen_section .model {
   width: 15rem;
   height: auto;
+  border-radius: 1.5rem;
 }
 
 .home_screen_section .google_badge {
@@ -599,6 +600,7 @@ section.main_sec {
   top: 10rem;
   left: 25.5rem;
   background: #fcb100;
+  z-index: 0;
 }
 
 .app_img .circle_46 {
@@ -1005,6 +1007,7 @@ section.feature_section.home_section2 {
   bottom: 10rem;
   right: 4rem;
   background: #2bdcca;
+  z-index: -1;
 }
 
 /*Home Section 8*/

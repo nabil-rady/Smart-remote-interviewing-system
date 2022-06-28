@@ -4,6 +4,7 @@ import Circle from '../Circle';
 import Triangle from '../Triangle';
 import TextContent from '../TextContent';
 import { Fade } from 'react-awesome-reveal';
+import dashboard from '../photos/Dashboard.jpg';
 const Connect = () => {
   return (
     <section className="feature_section home_section2 bg_1" id="connect">
@@ -27,8 +28,8 @@ const Connect = () => {
           <div className="col-md-7 my-auto">
             <Fade direction="left" triggerOnce="true">
               <TextContent
-                title="Connect and Share with your friends and fellow collegemates"
-                desc="Find your friends, send friend requests, chat with them, share status updates."
+                title="Add Positions And View Their Details"
+                desc="You Can Add Positions From Your Dashboard And View Each Position With Its Details."
               >
                 <Circle num="22" />
               </TextContent>
@@ -37,10 +38,7 @@ const Connect = () => {
           <div className="col-md-5 text-center">
             <div className="app_img_right">
               <div className="square_304"></div>
-              <Images
-                src="/Images/mockup_college_feed.png"
-                classes="feature_model"
-              />
+              <Images src={dashboard} classes="feature_model" />
 
               <div className="svg4">
                 <svg

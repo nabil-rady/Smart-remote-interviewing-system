@@ -4,6 +4,7 @@ import Circle from '../Circle';
 import Triangle from '../Triangle';
 import TextContent from '../TextContent';
 import { Fade } from 'react-awesome-reveal';
+import details from '../photos/details.png';
 const Intern = () => {
   return (
     <section className="feature_section home_section4 bg_2" id="intern">
@@ -13,9 +14,8 @@ const Intern = () => {
           <div className="col-md-7 or my-auto">
             <Fade direction="left" triggerOnce="true">
               <TextContent
-                title="Browse and Apply for Internships"
-                desc="Find internship opportunities that are relevant to your
-                  profile in companies that are near to you."
+                title="View Position Details"
+                desc="HR can view the expiry date and the questions added for each position"
               >
                 <Circle num="15" />
               </TextContent>
@@ -38,10 +38,7 @@ const Intern = () => {
                   ></path>
                 </svg>
               </div>
-              <Images
-                src="/Images/mockup_scholarship.png"
-                classes="feature_model"
-              />
+              <Images src={details} classes="feature_model" />
               <div className="svg8">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
