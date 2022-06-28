@@ -143,10 +143,10 @@ function AddQues() {
         console.log(data);
         if (statusCode === 201) {
           console.log('successful########################################');
-          // setLoading(false)
+          setLoading(false);
           setDone(true);
         } else {
-          // setLoading(false);
+          setLoading(false);
           handleAPIError(statusCode, data, setError, () => setAuthUser(null));
         }
       })
@@ -170,12 +170,12 @@ function AddQues() {
           onConfirm={errorHandler}
         />
       )}
-      {/* {done && (
+      {done && (
         <SuccessfullModal
           title="Position Created Successfully"
           closeWindow={closeWindow}
         />
-      )} */}
+      )}
       <div className="blue-gradient">
         <NavBar visible={true} />
       </div>

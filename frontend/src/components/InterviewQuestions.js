@@ -252,6 +252,7 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
               console.log(data);
               setUploadingVideo(false);
               setDone(true);
+              setNext(true);
             } else {
               handleAPIError(statusCode, data, setError);
             }

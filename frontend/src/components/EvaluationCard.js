@@ -3,11 +3,10 @@ import Card from './Card';
 import './scss/evaluate.scss';
 import { Bar } from 'react-chartjs-2';
 import { Chart, registerables } from 'chart.js';
-import { useHistory } from 'react-router-dom';
+import { TailSpin } from 'react-loader-spinner';
 Chart.register(...registerables);
 
 const EvaluationCard = React.forwardRef((props, ratings) => {
-  const history = useHistory();
   let emotionLabels = ['happy', 'sad', 'angry', 'surprise', 'neutral'];
   let chartData = [];
   let emotionScores = [];
@@ -55,9 +54,7 @@ const EvaluationCard = React.forwardRef((props, ratings) => {
       </div>
     );
   };
-  const clickHandler = () => {
-    console.log(ratings);
-  };
+
   return (
     <div>
       <ul>
@@ -100,9 +97,22 @@ const EvaluationCard = React.forwardRef((props, ratings) => {
           </li>
         ))}
       </ul>
-      <button onClick={clickHandler} className="save-rating">
-        Save
-      </button>
+      {!props.loading && (
+        <button onClick={props.clickHandler} className="save-rating">
+          Save
+        </button>
+      )}
+      {props.loading && (
+        <div
+          style={{
+            top: 'calc(40vh - 40px)',
+            left: 'calc(10vw - 40px)',
+            marginRight: '2rem',
+          }}
+        >
+          <TailSpin color="hsl(215deg, 79%, 42%)" height={60} width={60} />
+        </div>
+      )}
     </div>
   );
 });
