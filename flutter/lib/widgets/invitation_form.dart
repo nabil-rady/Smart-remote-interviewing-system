@@ -111,7 +111,6 @@ class InvitationFormState extends State<InvitationForm> {
   Future<void> _saveForms(context, bool flag1) async {
     var valid = _form.currentState!.validate();
     if (flag1 == false) {
-      print('1111111111111');
       if (!valid) {
         return;
       }
@@ -164,8 +163,6 @@ class InvitationFormState extends State<InvitationForm> {
       // setState(() {
       //   csvFlag = true;
       // });
-
-      print('2222222222222');
       // Provider.of<Candidates>(context, listen: false).csvCandidateList =
       //     employeeData;
       var posCandidate = PositionCandidiate(
@@ -284,13 +281,11 @@ class InvitationFormState extends State<InvitationForm> {
         //   csvFlag = false;
         //   print(csvFlag);
         // });
-        print('monica1');
         return null;
       }
       setState(() {
         isLoading1 = false;
       });
-      print('Zikoo1');
       return 'Please write the name';
     }
     return null;
@@ -423,7 +418,7 @@ class InvitationFormState extends State<InvitationForm> {
                       ),
                   // Row(
                   // children: <Widget>[
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Container(
@@ -519,7 +514,7 @@ class InvitationFormState extends State<InvitationForm> {
                 child: isLoading1
                     ? Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
+                        children: const [
                           SizedBox(
                             height: 13,
                             width: 12,
@@ -538,7 +533,7 @@ class InvitationFormState extends State<InvitationForm> {
                       )
                     : const Text(
                         'Invite Candidate',
-                        style: const TextStyle(color: Colors.white),
+                        style: TextStyle(color: Colors.white),
                       ),
               ),
               RaisedButton(
@@ -558,7 +553,7 @@ class InvitationFormState extends State<InvitationForm> {
                 child: isLoading2
                     ? Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
+                        children: const [
                           SizedBox(
                             height: 13,
                             width: 12,

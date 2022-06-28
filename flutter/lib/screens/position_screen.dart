@@ -60,7 +60,9 @@ class _PositionScreenState extends State<PositionScreen> {
                                     shrinkWrap: true,
                                     itemBuilder: (ctx, i) => PositionItem(
                                         positionData.positionsItems[i].position,
-                                        positionData.positionsItems[i].id),
+                                        positionData.positionsItems[i].id,
+                                        positionData
+                                            .positionsItems[i].expireyDate),
                                     itemCount:
                                         positionData.positionsItems.length,
                                   )

@@ -32,7 +32,7 @@ class PostionDetails with ChangeNotifier {
   );
 
   Candidate get candidateInfo {
-    inspect(_candidate);
+    // inspect(_candidate);
     return _candidate;
   }
 
@@ -162,7 +162,7 @@ class PostionDetails with ChangeNotifier {
           .toList();
       _videoEvaluation = _finalVideoList.toList();
       // _candidate.avgManualEvaluation = _videoEvaluation[0]['manualEvaluation'];
-      inspect(_videoEvaluation);
+      // inspect(_videoEvaluation);
       notifyListeners();
     } else {
       throw HttpException(responseData['message']);
@@ -175,6 +175,7 @@ class PostionDetails with ChangeNotifier {
       evaluates.add(
           {'questionId': questionsIds[i], 'evaluation': double.parse(rate[i])});
     }
+    inspect(evaluates);
     final response = await http.post(
       Uri.parse('$hrURL/job-listing/evaluate/$interviewid'),
       headers: <String, String>{
@@ -186,7 +187,7 @@ class PostionDetails with ChangeNotifier {
       }),
     );
     final responseData = json.decode(response.body);
-
+    print(responseData);
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
       notifyListeners();

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import '../local/sharedpreferences.dart';
 import 'package:provider/provider.dart';
@@ -6,8 +8,9 @@ import '../providers/positions.dart';
 class PositionItem extends StatelessWidget {
   final String positionName;
   final String positionId;
+  final DateTime exdate;
 
-  PositionItem(this.positionName, this.positionId);
+  PositionItem(this.positionName, this.positionId, this.exdate);
   @override
   Widget build(BuildContext context) {
     late Future detailsFuture;
@@ -17,7 +20,7 @@ class PositionItem extends StatelessWidget {
         onTap: () {
           detailsFuture = getPositionDetails(context, positionId);
           Navigator.of(context).pushNamed('/after_positions_screen',
-              arguments: [positionName, positionId, detailsFuture]);
+              arguments: [positionName, positionId, detailsFuture, exdate]);
         },
         child: Card(
           child: Row(

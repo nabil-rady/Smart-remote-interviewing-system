@@ -40,7 +40,7 @@ class SessionDetails with ChangeNotifier {
     );
     // inspect(response);
     final responseData = json.decode(response.body);
-    inspect(responseData);
+    // inspect(responseData);
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
       _session.email = responseData['email'];

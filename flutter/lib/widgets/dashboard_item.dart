@@ -44,7 +44,7 @@ class DashboardItem extends StatelessWidget {
       onTap: () {
         detailsFuture = getPositionDetails(context, positionId);
         Navigator.of(context).pushNamed('/after_positions_screen',
-            arguments: [positionName, positionId, detailsFuture]);
+            arguments: [positionName, positionId, detailsFuture, expieryDate]);
       },
       child: Padding(
         padding: const EdgeInsets.only(top: 20, right: 20, left: 20),
