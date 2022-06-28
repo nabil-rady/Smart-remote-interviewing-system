@@ -679,13 +679,14 @@ module.exports.postEvaluate = async (req, res, next) => {
     // Save the reults
     let scores = 0;
     for (const r of results) {
-      scores += r.evaluation;
+      scores += Number(r.evaluation);
       r.result.manualEvaluation = r.evaluation;
       await r.result.save();
     }
-    interview.avgManualEvaluation = (scores / results.length).toFixed(2);
+    const avgManualEvaluation = (scores / results.length).toFixed(2);
+    interview.avgManualEvaluation = avgManualEvaluation;
     console.log(
-      `total score = ${scores}, avg evaluations = ${interview.avgManualEvaluation}`
+      `total score = ${scores}, num of questions = ${results.length}, avg evaluations = ${avgManualEvaluation}`
     );
     await interview.save();
 
