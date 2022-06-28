@@ -53,7 +53,7 @@ class ApplicantCard extends StatelessWidget {
                   child: ListTile(
                     title: Text(candidate.name),
                     subtitle: Text(
-                      'Interview date :' +
+                      'Interview Date: ' +
                           DateFormat.yMd()
                               .add_jm()
                               .format(DateTime.parse(candidate.submitedAt)),

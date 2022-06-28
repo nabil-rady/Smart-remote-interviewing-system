@@ -70,14 +70,14 @@ class ApplicanInfornationCard extends StatelessWidget {
                 height: 10,
               ),
               Text(
-                'average Manual Evaluation: ${loadedApplicant.avgManualEvaluation}',
+                'Average Manual Evaluation: ${loadedApplicant.avgManualEvaluation}',
                 style: Theme.of(context).textTheme.bodyText1,
               ),
               const SizedBox(
                 height: 10,
               ),
               Text(
-                'average Recommendation: ${loadedApplicant.avgRecommendation}',
+                'Average Recommendation: ${loadedApplicant.avgRecommendation}',
                 style: Theme.of(context).textTheme.bodyText1,
               ),
             ],

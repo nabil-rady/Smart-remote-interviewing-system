@@ -86,13 +86,13 @@ class _PositionFormState extends State<PositionForm> {
                 children: <Widget>[
                   Text(_chosenDate == DateTime(2000)
                       ? 'No Date Chosen !'
-                      : 'Picked Expirey Date : ${DateFormat.yMd().format(_chosenDate)}'),
+                      : 'Picked Expiry Date: ${DateFormat.yMd().format(_chosenDate)}'),
                   FlatButton(
                     onPressed: () {
                       _presentDatePicker();
                     },
                     child: const Text(
-                      'Choose Expirey Date',
+                      'Choose Expiry Date',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Color(0xFF165DC0),

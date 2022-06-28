@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import '../screens/to_evaluate_screen.dart';
 import '../screens/position_details_screen.dart';
@@ -13,7 +15,7 @@ class AfterPositionsScreen extends StatelessWidget {
     final _positioName = _position[0];
     final _positionId = _position[1];
     final _positionDetails = _position[2];
-
+    final _expieryDate = _position[3];
     return Scaffold(
       appBar: AppBar(
         title: Text(_positioName),
@@ -110,7 +112,9 @@ class AfterPositionsScreen extends StatelessWidget {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => (InvitationScreen(
-                        positionId: _positionId, positionName: _positioName)),
+                        positionId: _positionId,
+                        positionName: _positioName,
+                        expieryDate: _expieryDate)),
                   ),
                 );
               },

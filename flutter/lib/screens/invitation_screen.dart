@@ -12,8 +12,12 @@ class InvitationScreen extends StatefulWidget {
 
   final String positionId;
   final String positionName;
+  final DateTime expieryDate;
   const InvitationScreen(
-      {Key? key, required this.positionId, required this.positionName})
+      {Key? key,
+      required this.positionId,
+      required this.positionName,
+      required this.expieryDate})
       : super(key: key);
   @override
   State<InvitationScreen> createState() => _InvitationScreenState();
@@ -127,9 +131,16 @@ class _InvitationScreenState extends State<InvitationScreen> {
           }),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: widget.expieryDate.isBefore(DateTime.now())
+            ? Colors.grey
+            : Theme.of(context).primaryColor,
         onPressed: () {
-          startAddNewCandidate(context, widget.positionId);
+          widget.expieryDate.isBefore(DateTime.now())
+              ? ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text(
+                      'This position is expaired, you can\'t invite more applicants'),
+                ))
+              : startAddNewCandidate(context, widget.positionId);
         },
         child: const Icon(
           Icons.add,

@@ -65,9 +65,9 @@ class _PositionDetailScreenState extends State<PositionDetailScreen> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(50)),
                           child: Padding(
-                            padding: const EdgeInsets.all(10.0),
+                            padding: const EdgeInsets.all(18.0),
                             child: Text(
-                                'Expirey Date: ${DateFormat.yMd().add_jm().format(ex.expiry!)}',
+                                'Expiry Date: ${DateFormat.yMd().add_jm().format(ex.expiry!)}',
                                 style: const TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold)),
