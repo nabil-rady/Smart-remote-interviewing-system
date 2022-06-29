@@ -58,7 +58,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (ctx) => Auth(),
+          create: (ctx) => Auth(FirebaseMessaging.instance),
         ),
         ChangeNotifierProvider(
           create: (ctx) => Questions(),

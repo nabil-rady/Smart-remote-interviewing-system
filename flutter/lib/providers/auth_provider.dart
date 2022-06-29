@@ -65,8 +65,20 @@ class Auth with ChangeNotifier {
     }
   }
 
+  Auth(this.auth);
+
+  final FirebaseMessaging auth;
   Future<void> login(
-      String email, String password, String webNotificationToken) async {
+    String email,
+    String password,
+    // String webNotificationToken
+  ) async {
+    ////////////////testing
+    // final fbm = FirebaseMessaging.instance;
+    final token = await auth.getToken();
+    //final token = await fbm.getToken();
+    saveFirebaseToken(token.toString());
+    //////testing
     final response = await http.post(
       Uri.parse('$authURL/user/login'),
       headers: <String, String>{
@@ -75,12 +87,10 @@ class Auth with ChangeNotifier {
       body: jsonEncode(<String, String>{
         'email': email,
         'password': password,
-        'registrationToken': webNotificationToken,
+        'registrationToken': token.toString(),
       }),
     );
-    print(email);
-    print(password);
-    print(webNotificationToken);
+    // print('mmmmmmmmmmmmmmmmmmmmmmmm' + webNotificationToken);
     final responseData = json.decode(response.body);
     print(responseData);
 

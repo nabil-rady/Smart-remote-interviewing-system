@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
 
@@ -26,7 +28,10 @@ class NetworkServiceImpli implements NetworkService {
 
   @override
   Future<dynamic> post(String url, dynamic body) async {
-    final response = await dio.get(url);
-    return response.data;
+    final response = await http.post(Uri.parse(url),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(body));
   }
 }
