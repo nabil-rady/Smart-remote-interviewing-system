@@ -141,17 +141,17 @@ class EmployerAuthState extends State<EmployerAuth> {
     });
     try {
       if (_authMode == AuthMode.login) {
-        final fbm = FirebaseMessaging.instance;
-        final token = await fbm.getToken();
+        // final fbm = FirebaseMessaging.instance;
+        // final token = await fbm.getToken();
         print('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');
-        print(token);
+        // print(token);
         print('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');
-        saveFirebaseToken(token.toString());
+        // saveFirebaseToken(token.toString());
         await Provider.of<Auth>(context, listen: false)
             .login(
           authData['email'].toString(),
           authData['password'].toString(),
-          token.toString(),
+          // token.toString(),
         )
             .then((value) {
           Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
@@ -176,7 +176,7 @@ class EmployerAuthState extends State<EmployerAuth> {
             .login(
           authData['email'].toString(),
           authData['password'].toString(),
-          token.toString(),
+          // token.toString(),
         )
             .then((value) async {
           await Provider.of<Auth>(context, listen: false).sendEmail();
@@ -278,6 +278,7 @@ class EmployerAuthState extends State<EmployerAuth> {
                     },
                   ),
                 TextFormField(
+                  key: Key('myemail'),
                   decoration: const InputDecoration(labelText: 'E-Mail'),
                   keyboardType: TextInputType.emailAddress,
                   validator: (value) => validateEmailField(value!)
@@ -295,6 +296,7 @@ class EmployerAuthState extends State<EmployerAuth> {
                   },
                 ),
                 TextFormField(
+                  key: Key('mypassword'),
                   decoration: const InputDecoration(labelText: 'Password'),
                   obscureText: true,
                   controller: _passwordController,
@@ -361,6 +363,7 @@ class EmployerAuthState extends State<EmployerAuth> {
                   const CircularProgressIndicator()
                 else
                   RaisedButton(
+                    key: Key('logIn'),
                     child: Text(
                       _authMode == AuthMode.signup ? 'Sign up' : 'LOGIN',
                       style: const TextStyle(color: Colors.white),

@@ -4,8 +4,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:http/http.dart';
-import 'package:mockito/annotations.dart';
+
 import 'package:mockito/mockito.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
@@ -193,8 +192,7 @@ void main() {
   //   // ↓ required to avoid HTTP error 400 mocked returns
   //   HttpOverrides.global = null;
   // });
-  testWidgets('test invite screen widget.. find title ',
-      (WidgetTester tester) async {
+  testWidgets(' find title ', (WidgetTester tester) async {
     Mockitohttp httpmockito = Mockitohttp();
 
     when(networkservice.get(
@@ -246,8 +244,7 @@ void main() {
     expect(titleFinder, findsOneWidget);
   });
 
-  testWidgets(
-      'test invite screen widget.. find add button, and bottom modal sheet ',
+  testWidgets(' find add button, and bottom modal sheet ',
       (WidgetTester tester) async {
     Mockitohttp httpmockito = Mockitohttp();
     const testKey = Key('K');
