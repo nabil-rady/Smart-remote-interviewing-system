@@ -3,24 +3,15 @@ import React, { useState } from 'react';
 import './scss/interview.scss';
 import Card from './Card';
 import ErrorModal from './ErrorModal';
-import { Link } from 'react-router-dom';
-
-const Interview = () => {
+import { TailSpin } from 'react-loader-spinner';
+const Interview = (props) => {
   const [error, setError] = useState();
-  const [link, setLink] = useState('');
   const changeHandler = (e) => {
-    setLink(e.target.value);
-    console.log(link);
+    props.setLink(e.target.value);
+    console.log(props.link);
   };
   const submitHandler = (e) => {
     e.preventDefault();
-    // if (link !== 'app.interview') {
-    //   setError({
-    //     title: 'Invalid Link',
-    //     message: 'The Link You Entered Is Invalid, Please Try Again',
-    //   });
-    //   return;
-    // } else interviewLink = link;
   };
   const errorHandler = () => {
     setError(null);
@@ -48,9 +39,26 @@ const Interview = () => {
             interview link to start
           </p>
           <br />
-          <button className="goInterview" disabled={link.length < 8}>
-            <Link to={`/interview/${link}`}>Go to Interview</Link>
-          </button>
+
+          {!props.loading && (
+            <button
+              className="goInterview"
+              disabled={props.link.length < 8}
+              onClick={props.clickHandler}
+            >
+              Go to Interview
+            </button>
+          )}
+          {props.loading && (
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+              }}
+            >
+              <TailSpin color="hsl(215deg, 79%, 42%)" height={60} width={60} />
+            </div>
+          )}
         </form>
       </Card>
     </div>

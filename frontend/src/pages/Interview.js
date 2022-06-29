@@ -7,15 +7,20 @@ import { useParams } from 'react-router-dom';
 import { UserContext } from '../App';
 import handleAPIError from '../utils/APIErrorHandling';
 import IntroPage from './IntroPage';
+import TakeInterviewPage from './TakeInterview';
+import ErrorModal from '../components/ErrorModal';
 const Interview = () => {
   const [intro, setIntro] = useState(false);
-  const [welcome, setWelcome] = useState(true);
+  const [welcome, setWelcome] = useState(false);
   const [interview, setInterview] = useState(false);
+  const [join, setJoin] = useState(true);
   const [interviewResponse, setResponse] = useState();
   const setAuthUser = useContext(UserContext).setAuthUser;
   const authUser = useContext(UserContext).authUser;
-  const params = useParams();
-  const interviewId = params.interviewId;
+  const [loading, setLoading] = useState(false);
+  // const params = useParams();
+  // const interviewId = params.interviewId;
+  const [link, setLink] = useState('');
   const welcomeHandler = () => {
     setIntro(true);
     setWelcome(false);
@@ -27,24 +32,35 @@ const Interview = () => {
     setInterview(true);
   };
   const fetchInterviewResponse = () => {
-    return fetch(`${ApplicantURL}/candidate/join/${interviewId}`);
+    return fetch(`${ApplicantURL}/candidate/join/${link}`);
   };
-
-  useEffect(() => {
-    const setFetchedQuestions = async () => {
-      const response = await fetchInterviewResponse();
-      const data = await response.json();
-      if (response.status === 200) {
-        console.log(data);
-        setResponse(data);
-      } else {
-        handleAPIError(response.status, data);
-      }
-    };
-    setFetchedQuestions();
-  }, []);
+  const clickHandler = async () => {
+    setLoading(true);
+    const response = await fetchInterviewResponse();
+    const data = await response.json();
+    if (response.status === 200) {
+      console.log(data);
+      setWelcome(true);
+      setJoin(false);
+      setLoading(false);
+      setResponse(data);
+    } else {
+      setLoading(false);
+      setWelcome(true);
+      setJoin(true);
+      handleAPIError(response.status, data);
+    }
+  };
   return (
     <>
+      {join && (
+        <TakeInterviewPage
+          setLink={setLink}
+          link={link}
+          clickHandler={clickHandler}
+          loading={loading}
+        />
+      )}
       {welcome && (
         <WelcomePage
           welcomeHandler={welcomeHandler}

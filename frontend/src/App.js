@@ -111,14 +111,14 @@ function App() {
             >
               <SignUpPage />
             </PublicRoute>
-            <PublicRoute
+            {/* <PublicRoute
               isAuthenticated={!!authUser}
               isVerified={isVerified}
               path="/takeinterview"
               exact
             >
               <TakeInterviewPage />
-            </PublicRoute>
+            </PublicRoute> */}
             <PublicRoute
               isAuthenticated={!!authUser}
               isVerified={isVerified}
@@ -170,7 +170,7 @@ function App() {
             <PublicRoute
               isAuthenticated={!!authUser}
               isVerified={isVerified}
-              path="/interview/:interviewId"
+              path="/interview"
               exact
             >
               <Interview />

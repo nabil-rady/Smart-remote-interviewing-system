@@ -116,7 +116,7 @@ const NavBar = (props) => {
 
           <ul className={`guest__ul ${!isLoggedIn ? '' : 'hidden'}`}>
             <li className="guest__ul__li__interview">
-              <Link to="/takeinterview">Take Interview</Link>
+              <Link to="/interview">Take Interview</Link>
             </li>
             <li className="guest__ul__li__login">
               <Link to="/login">Login</Link>

@@ -9,7 +9,6 @@ const InterviewPage = (props) => {
   const timer = useRef();
   const webSocket = useRef();
   const webcamRef = useRef();
-
   const [interviewBegun, setInterviewBegun] = useState(false);
   const [loading, setLoading] = useState(true);
   const [readyForInterview, setReadyForInterview] = useState(false);
