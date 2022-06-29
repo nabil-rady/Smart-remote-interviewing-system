@@ -69,8 +69,11 @@
       display: flex; // Make content centered
       justify-content: center;
       align-items: center;
+      padding: 1rem;
+      border-radius: 15px;
       &:hover {
-        color: grey;
+        background-color: #4a8ce8;
+        transition: all 0.2s ease;
       }
     }
     &__signup {
@@ -102,6 +105,12 @@
       display: flex; // Make content centered
       justify-content: center;
       align-items: center;
+      padding: 1rem;
+      border-radius: 15px;
+      &:hover {
+        background-color: #4a8ce8;
+        transition: all 0.2s ease;
+      }
     }
   }
 }

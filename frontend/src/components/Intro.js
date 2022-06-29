@@ -29,9 +29,9 @@ const Intro = (props) => {
         <p className="introText">{introText[count]}</p>
         <img src={introImages[count]} className="introImages" />
         <div className="dotsContainer">
-          <span className={count === 0 ? 'active' : 'dot'}></span>
-          <span className={count === 1 ? 'active' : 'dot'}></span>
-          <span className={count === 2 ? 'active' : 'dot'}></span>
+          <span className={count === 0 ? 'activee' : 'dot'}></span>
+          <span className={count === 1 ? 'activee' : 'dot'}></span>
+          <span className={count === 2 ? 'activee' : 'dot'}></span>
         </div>
         {!start && (
           <button className="continueButton" onClick={startHandler}>

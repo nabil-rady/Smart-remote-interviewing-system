@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './scss/Addposition.scss';
 import NavBar from '../components/NavBar';
 import PositionList from '../components/positionList';
 // import Field from '../components/Field';

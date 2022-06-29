@@ -14,13 +14,13 @@ function SectionOne() {
               fontSize: '5rem',
             }}
           >
-            V i v i d l y
+            Vividly
           </h1>
           <p
             className="section-1__content__paragraph"
             style={{ fontSize: '1.8rem' }}
           >
-            Smart Remotely Interviewing System
+            Smart Remote Interviewing System
           </p>
         </div>
         <div className="wave">
