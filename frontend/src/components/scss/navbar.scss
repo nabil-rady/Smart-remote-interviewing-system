@@ -172,14 +172,14 @@
       width: 90% !important;
       text-align: center;
       padding-top: 1rem;
-      margin: 0 auto;
+      margin-left: 20%;
       &:hover {
         color: white;
       }
     }
-    &__navbar {
-      display: none !important;
-    }
+  }
+  .header__navbar__ul {
+    display: none;
   }
 }
 .Logo:hover {

@@ -33,7 +33,11 @@
         &:hover {
           font-weight: 700;
         }
+        &__profile {
+          border-bottom: 2px rgba(0, 0, 0, 0.3) solid;
+        }
       }
+      
     }
   }
 }

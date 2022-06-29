@@ -141,3 +141,9 @@
   font-weight: 600;
   text-align: center;
 }
+@media only screen and (max-width: 670px) {
+  .nav_header{
+    height: 82px;
+  }
+  
+}
