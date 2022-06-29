@@ -107,12 +107,11 @@ const LoginForm = () => {
           {loading && (
             <div
               style={{
-                top: 'calc(50vh - 40px)',
-                left: 'calc(50vw - 40px)',
-                marginLeft: '2rem',
+                display: 'flex',
+                justifyContent: 'center',
               }}
             >
-              <TailSpin color="hsl(215deg, 79%, 42%)" height={50} width={50} />
+              <TailSpin color="hsl(215deg, 79%, 42%)" height={40} width={40} />
             </div>
           )}
           <p className="toSignup">

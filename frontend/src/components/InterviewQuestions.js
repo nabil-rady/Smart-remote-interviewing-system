@@ -3,7 +3,6 @@ import React, {
   useState,
   useCallback,
   useEffect,
-  useContext,
 } from 'react';
 import useCountDown from 'react-countdown-hook';
 import Card from './Card';
@@ -11,9 +10,9 @@ import { ApplicantURL } from '../API/APIConstants';
 import { Link, useParams } from 'react-router-dom';
 import { TailSpin } from 'react-loader-spinner';
 import handleAPIError from '../utils/APIErrorHandling';
-import { UserContext } from '../App';
 import ErrorModal from './ErrorModal';
 import SuccessfullModal from './SuccessfullModal';
+
 const InterviewQuestions = React.forwardRef((props, webcamRef) => {
   let i = 0;
   const [upload, setUpload] = useState(false);
@@ -37,8 +36,6 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
   useEffect(() => {
     setQuestions(props.response.questions);
     setQuestionsResponse(props.response);
-    console.log(questions);
-    console.log(questionsResponse);
   }, []);
   let secAnswerTime, minAnswerTime;
   const interval = 1000;
@@ -121,6 +118,7 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
   const handleStartCaptureClick = useCallback(() => {
     mediaRecorderRef.current = new MediaRecorder(webcamRef.current.stream, {
       mimeType: 'video/webm;codecs="vp8,opus"',
+      videoBitsPerSecond: 125000,
     });
     mediaRecorderRef.current.addEventListener(
       'dataavailable',
@@ -168,27 +166,6 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
     [mediaRecorderRef, webcamRef, stop, setStop, counter, questions]
   );
 
-  const handleDownload = useCallback(() => {
-    if (recordedChunks.length) {
-      const blob = new Blob(recordedChunks, {
-        type: 'video/webm',
-      });
-      console.log(recordedChunks);
-
-      console.log(btoa(blob));
-      const url = URL.createObjectURL(blob);
-      console.log(url);
-      const a = document.createElement('a');
-      document.body.appendChild(a);
-      a.style = 'display: none';
-      a.href = url;
-      a.download = 'react-webcam-stream-capture.webm';
-      a.click();
-      window.URL.revokeObjectURL(url);
-      setRecordedChunks([]);
-    }
-  }, [recordedChunks]);
-
   const handleNext = () => {
     setCounter((counter) => counter + 1);
     setReadTimer('visible');
@@ -208,23 +185,19 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
     console.log(questions[counter].questionId);
     if (recordedChunks.length) {
       console.log(recordedChunks);
-      const blob = new Blob(recordedChunks, {
+      const videoBlob = new Blob(recordedChunks, {
         type: 'video/webm',
       });
-      // console.log(blob);
-      // const newBlob = await new Response(blob).arrayBuffer();
-      // const newBlob = await new Uint8Array(blob);
-      // console.log(newBlob);
-      let arrayBufferNew = null;
-      let fileReader = new FileReader();
+      console.log(`SIZE: ${videoBlob.size / 1024}KB`);
+      const fileReader = new FileReader();
       fileReader.onload = async function (event) {
-        arrayBufferNew = event.target.result;
-        const uint8ArrayNew = new Uint8Array(arrayBufferNew);
+        const readArrayBuffer = event.target.result;
+        const readUint8Array= new Uint8Array(readArrayBuffer);
         const fileName = `${
           questionsResponse.interviewId
         }-${new Date().getTime()}`;
-        for (let i = 0; i < uint8ArrayNew.length; i += 5e6) {
-          const chunk = uint8ArrayNew.slice(i, i + 5e6);
+        for (let i = 0; i < readUint8Array.length; i += 5e6) {
+          const chunk = readUint8Array.slice(i, i + 5e6);
           let statusCode;
           try {
             const response = await fetch(
@@ -241,7 +214,7 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
                   videoExtension: 'webm',
                   lastVideo: lastVideo,
                   name: fileName,
-                  end: i + 5e6 >= uint8ArrayNew.length ? true : false,
+                  end: i + 5e6 >= readUint8Array.length ? true : false,
                 }),
               }
             );
@@ -261,7 +234,7 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
           }
         }
       };
-      fileReader.readAsArrayBuffer(blob);
+      fileReader.readAsArrayBuffer(videoBlob);
       console.log(fileReader.result);
     }
   };
