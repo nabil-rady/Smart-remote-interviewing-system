@@ -13,6 +13,7 @@ function InvitationPage() {
   const authUser = useContext(UserContext).authUser;
   const setAuthUser = useContext(UserContext).setAuthUser;
   const [usersList, setUsersList] = useState([]);
+  const [res, setRes] = useState();
   let InviteUserHandler = (uName, uEmail, uCode, uPhone) => {
     setUsersList((prevUsersList) => {
       return [
@@ -40,6 +41,7 @@ function InvitationPage() {
       const response = await fetchInvitations();
       const data = await response.json();
       if (response.status === 200) {
+        setRes(data);
         data.candidates.map((candidate) => {
           InviteUserHandler(
             candidate.name,
@@ -64,23 +66,22 @@ function InvitationPage() {
       <div className="blue-gradient">
         <NavBar visible={true} />
       </div>
-      {usersList?.length !== 0 ? (
+
+      <InviteUser onInviteUser={InviteUserHandler} users={usersList} />
+      {res ? (
         <>
-          <InviteUser onInviteUser={InviteUserHandler} users={usersList} />
+          <UsersList users={usersList} />
         </>
       ) : (
         <div
           style={{
-            position: 'absolute',
-            top: 'calc(50vh - 40px)',
-            left: 'calc(50vw - 40px)',
+            display: 'flex',
+            justifyContent: 'center',
           }}
         >
           <TailSpin color="hsl(215deg, 79%, 42%)" height={80} width={80} />
         </div>
       )}
-
-      <UsersList users={usersList} />
     </>
   );
 }
