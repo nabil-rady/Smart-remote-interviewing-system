@@ -8,6 +8,8 @@ import '../../providers/session_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:chewie/chewie.dart';
 import 'package:custom_timer/custom_timer.dart';
+import 'package:video_compress/video_compress.dart';
+// import 'package:light_compressor/light_compressor.dart';
 
 import '../../local/size_config.dart';
 import '../../widgets/default_button.dart';
@@ -79,14 +81,48 @@ class _IntrviewScreenState extends State<IntrviewScreen> {
         try {
           videoFile = file;
           Uint8List? video = await videoFile!.readAsBytes();
+
+          MediaInfo? compressedVideoInfo = await VideoCompress.compressVideo(
+            videoFile!.path,
+            quality: VideoQuality.LowQuality,
+            deleteOrigin: true,
+          );
+
+          final File? compressedVideoFile = compressedVideoInfo!.file;
+
+          final Uint8List compressedVideo =
+              await compressedVideoFile!.readAsBytes();
+          // Uint8List? compressedVideo;
+          // final LightCompressor _lightCompressor = LightCompressor();
+          // final dynamic response = await _lightCompressor
+          //     .compressVideo(
+          //         path: videoFile!.path,
+          //         destinationPath: videoFile!.path,
+          //         videoQuality: VideoQuality.low,
+          //         isMinBitrateCheckEnabled: false,
+          //         frameRate: 24 /* or ignore it */)
+          //     .then((value) {
+          //   compressedVideo = value!.readAsBytes();
+          // });
+
+          print("_____________________________________");
+          print(video.length);
+          print(compressedVideo.length);
+          print("___________________________________");
+
           // Uint8List? chunck;
           String name = interviewId + '-' + DateTime.now().toString();
-          for (int i = 0; i < video.length; i += 5e6.toInt()) {
-            bool end = i + 5e6.toInt() >= video.length ? true : false;
-            int index =
-                i + 5e6.toInt() > video.length ? video.length : i + 5e6.toInt();
+          //   List com = GZIP.encode(video);
+          // print(video.length);
+          // print(com.length);
 
-            Uint8List chunck = video.sublist(i, index);
+          for (int i = 0; i < compressedVideo.length; i += 5e6.toInt()) {
+            bool end = i + 5e6.toInt() >= compressedVideo.length ? true : false;
+            int index = i + 5e6.toInt() > compressedVideo.length
+                ? compressedVideo.length
+                : i + 5e6.toInt();
+
+            Uint8List chunck = compressedVideo.sublist(i, index);
             await Provider.of<SessionDetails>(context, listen: false).setVideo(
                 interviewId, questionId, chunck, lastVideo, name, end);
             print('chunck $i');
@@ -208,97 +244,103 @@ class _IntrviewScreenState extends State<IntrviewScreen> {
               ),
             ),
           Positioned(
-            top: 30,
+            bottom: 80,
             left: 10.0,
             right: 10.0,
             child: _startThinkingTimer
-                ? Container(
-                    height: 150,
-                    child: Card(
-                      color: Colors.black.withOpacity(0.5),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            Center(
-                              child: CustomTimer(
-                                controller: _answerCounterController,
-                                onFinish: _isSaved
-                                    ? null
-                                    : () => _saveVideo(
-                                        sessionData.interviewId,
-                                        sessionData.questions[index].questionId,
-                                        index ==
-                                            sessionData.questions.length - 1),
-                                from: Duration(
-                                    seconds:
-                                        index < sessionData.questions.length
-                                            ? sessionData
-                                                .questions[index].timeToAnswer
-                                            : 4),
-                                to: const Duration(hours: 0),
-                                builder: (CustomTimerRemainingTime remaining) {
-                                  return Text(
-                                    "${remaining.hours}:${remaining.minutes}:${remaining.seconds}",
-                                    style: const TextStyle(
-                                        fontSize: 25.0, color: Colors.white),
-                                  );
-                                },
-                              ),
-                            ),
-                            TextButton(
-                              style: TextButton.styleFrom(
-                                backgroundColor: Colors.white,
-                                shape: CircleBorder(),
-                              ),
-                              child: const Icon(
-                                Icons.stop,
-                                color: Colors.red,
-                              ),
-                              onPressed: _endThinkingTimer
-                                  ? () => _saveVideo(
-                                      sessionData.interviewId,
-                                      sessionData.questions[index].questionId,
-                                      index == sessionData.questions.length - 1)
-                                  : null,
-                            ),
-                            // if (!_endThinkingTimer)
-                            Container(
-                              constraints: const BoxConstraints(
-                                maxHeight: double.infinity,
-                              ),
-                              width: double.infinity,
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.only(right: 8, left: 8),
-                                child: Center(
-                                  child: Text(
-                                    index < sessionData.questions.length
-                                        ? sessionData.questions[index].statement
-                                        : '',
-                                    style: const TextStyle(color: Colors.white),
+                ? Column(
+                    children: [
+                      Container(
+                        height: 200,
+                        child: Card(
+                          color: Colors.black.withOpacity(0.5),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          child: Scrollbar(
+                            isAlwaysShown: true,
+                            child: SingleChildScrollView(
+                              child:
+                                  // if (!_endThinkingTimer)
+                                  Container(
+                                constraints: const BoxConstraints(
+                                  maxHeight: double.infinity,
+                                ),
+                                width: double.infinity,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 4, bottom: 4, right: 8, left: 8),
+                                  child: Center(
+                                    child: Text(
+                                      index < sessionData.questions.length
+                                          ? sessionData
+                                              .questions[index].statement
+                                          : '',
+                                      style:
+                                          const TextStyle(color: Colors.white),
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-
-                            // CircleAvatar(
-                            //   radius: 20,
-                            //   backgroundColor: Colors.red,
-                            //   child: IconButton(
-                            //     onPressed:
-                            //         _endThinkingTimer ? _saveVideo : null,
-                            //     icon: const Icon(Icons.stop_circle),
-                            //     iconSize: 40,
-                            //     color: Colors.white,
-                            //   ),
-                            // ),
-                          ],
+                          ),
                         ),
                       ),
-                    ),
+                      Card(
+                          color: Colors.black.withOpacity(0.5),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          child: Column(
+                            children: [
+                              Center(
+                                child: CustomTimer(
+                                  controller: _answerCounterController,
+                                  onFinish: _isSaved
+                                      ? null
+                                      : () => _saveVideo(
+                                          sessionData.interviewId,
+                                          sessionData
+                                              .questions[index].questionId,
+                                          index ==
+                                              sessionData.questions.length - 1),
+                                  from: Duration(
+                                      seconds:
+                                          index < sessionData.questions.length
+                                              ? sessionData
+                                                  .questions[index].timeToAnswer
+                                              : 4),
+                                  to: const Duration(hours: 0),
+                                  builder:
+                                      (CustomTimerRemainingTime remaining) {
+                                    return Text(
+                                      "${remaining.hours}:${remaining.minutes}:${remaining.seconds}",
+                                      style: const TextStyle(
+                                          fontSize: 25.0, color: Colors.white),
+                                    );
+                                  },
+                                ),
+                              ),
+                              TextButton(
+                                style: TextButton.styleFrom(
+                                  backgroundColor: Colors.white,
+                                  shape: CircleBorder(),
+                                ),
+                                child: const Icon(
+                                  Icons.stop,
+                                  color: Colors.red,
+                                ),
+                                onPressed: _endThinkingTimer
+                                    ? () => _saveVideo(
+                                        sessionData.interviewId,
+                                        sessionData.questions[index].questionId,
+                                        index ==
+                                            sessionData.questions.length - 1)
+                                    : null,
+                              ),
+                            ],
+                          )),
+                    ],
                   )
                 : Container(),
           ),
@@ -306,7 +348,7 @@ class _IntrviewScreenState extends State<IntrviewScreen> {
             index < sessionData.questions.length - 1
                 // questions.length - 1
                 ? Positioned(
-                    bottom: 30,
+                    bottom: 15,
                     left: 10.0,
                     right: 10.0,
                     child: Padding(
@@ -336,7 +378,7 @@ class _IntrviewScreenState extends State<IntrviewScreen> {
                       ),
                     ))
                 : Positioned(
-                    bottom: 30,
+                    bottom: 15,
                     left: 10.0,
                     right: 10.0,
                     child: Padding(
