@@ -5,7 +5,7 @@ import json
 from dotenv import load_dotenv
 import requests
 from subprocess import run
-from time import sleep
+from time import sleep, time
 
 from recommendation import recomm
 from emotion import emotionDetect
@@ -82,11 +82,15 @@ def processing(video):
 def main():
     load_dotenv()
 
-    print('###############\nStarted\n#########################')
+    timeout = 45 * 60
 
     params = pika.URLParameters(os.getenv('rabbitMQ_url'))
+    params.heartbeat = timeout
+    params.blocked_connection_timeout = timeout
+    params.socket_timeout = timeout
     interviews_connection = pika.BlockingConnection(params)
     interviews_channel = interviews_connection.channel()
+    # interviews_channel.basic_qos(prefetch_count=10)
 
     # create a function which is called on incoming messages
     def callback(ch, method, properties, body):
