@@ -7,6 +7,8 @@ services:
       - 8000:8080
     environment:
       - MODE=production
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
 
   interviewer-service:
     build: ./Interviewer-service
@@ -14,6 +16,8 @@ services:
       - 8001:8080
     environment:
       - MODE=production
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
 
   interviewee-service:
     build: ./Interviewee-service
@@ -21,19 +25,19 @@ services:
       - 8002:8080
     environment:
       - MODE=production
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
 
   notification-service:
     build: ./Notification-service
     environment:
       - MODE=production
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
 
   process-interview:
     build: ./Process-interview
     environment:
       - MODE=production
-  # before_interview:
-  #   build: ./Before_interview
-  #   ports:
-  #     - 5000:5000
-  #   environment:
-  #     - MODE=production
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
