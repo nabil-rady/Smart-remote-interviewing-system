@@ -12,21 +12,22 @@ import NoInfo from '../components/NoInfor';
 import PositionCard from '../components/positionCard';
 import './scss/listingpage.scss';
 import '../components/scss/listing.scss';
-
+import WarningModal from '../components/warningModal';
 function ListingPage() {
   const [positions, getPositions] = useState();
   const authUser = useContext(UserContext).authUser;
   const setAuthUser = useContext(UserContext).setAuthUser;
-
+  const [warning, setWarning] = useState(false);
+  const [deletedPosition, setDeletedPosition] = useState('');
   const smallScreen = useMediaQuery('only screen and (max-width: 1000px)');
-
+  const clickHandler = (position) => {
+    setDeletedPosition(position);
+    setWarning(true);
+  };
+  const closeWarning = () => {
+    setWarning(false);
+  };
   const deletePosition = (position) => {
-    getPositions((oldPositions) =>
-      oldPositions.filter(
-        (newPosition, index) =>
-          position.jobListingId !== newPosition.jobListingId
-      )
-    );
     let statusCode;
     fetch(`${HRURL}/job-listing/${position.jobListingId}`, {
       method: 'DELETE',
@@ -43,6 +44,13 @@ function ListingPage() {
       .then((data) => {
         if (statusCode === 200) {
           console.log(data);
+          getPositions((oldPositions) =>
+            oldPositions.filter(
+              (newPosition, index) =>
+                position.jobListingId !== newPosition.jobListingId
+            )
+          );
+          setWarning(false);
         } else {
           handleAPIError(
             statusCode,
@@ -73,11 +81,12 @@ function ListingPage() {
           <PositionCard
             key={index}
             position={position}
-            deletePosition={deletePosition}
+            deletePosition={clickHandler}
           />
         );
       });
     }
+
     return (
       <Carousel interval={null}>
         {positions.map((position, index) => {
@@ -92,15 +101,15 @@ function ListingPage() {
               >
                 <PositionCard
                   position={positions[index]}
-                  deletePosition={deletePosition}
+                  deletePosition={clickHandler}
                 ></PositionCard>
                 <PositionCard
                   position={positions[index + 1]}
-                  deletePosition={deletePosition}
+                  deletePosition={clickHandler}
                 ></PositionCard>
                 <PositionCard
                   position={positions[index + 2]}
-                  deletePosition={deletePosition}
+                  deletePosition={clickHandler}
                 ></PositionCard>
               </div>
             </Carousel.Item>
@@ -129,6 +138,15 @@ function ListingPage() {
   }, []);
   return (
     <>
+      {warning && (
+        <WarningModal
+          closeWarning={closeWarning}
+          deletePosition={deletePosition}
+          position={deletedPosition}
+          title={`${deletedPosition.positionName} Position Will be Deleted`}
+          message={'Are you sure to continue ?!'}
+        />
+      )}
       <h1 className="dashboard-label">Dashboard</h1>
       {authUser.emailConfirmed ? (
         positions ? (

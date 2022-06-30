@@ -8,7 +8,7 @@ const SuccessfullModal = (props) => {
     <div>
       <div className={classes.backdrop} onClick={props.onConfirm} />
       <Card className={classes.modal}>
-        <img src={done} alt="error_image" className={classes.error_img} />
+        <img src={done} alt="error_image" className={classes.successful_img} />
         <h2 className={classes.headerSuccess}>{props.title}</h2>
         <footer className={classes.actions}>
           <button className={classes.closeSuccess} onClick={props.closeWindow}>
