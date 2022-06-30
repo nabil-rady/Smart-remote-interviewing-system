@@ -37,33 +37,27 @@ def processing(video):
     results['questionId'] = video['questionId']
     results['lastVideo'] = video['lastVideo']
 
-    try:
-        # Apply the ML models
-        r = recomm(path, keywords)
-        resText = r.res()
-        print(
-            f'###############################\nThe recommendation output: {resText}\n##################################\n')
-        results['recommendation'] = resText
+    # Apply the ML models
+    r = recomm(path, keywords)
+    resText = r.res()
+    print(
+        f'###############################\nThe recommendation output: {resText}\n##################################\n')
+    results['recommendation'] = resText
 
-        e = emotionDetect(path)
-        status = e.user_status()
-        print(
-            f'##################\nThe emotion output: {status}\n#############################\n')
-        emotions = {}
-        for emotion in status:
-            emotions[emotion[0]] = emotion[1]
-        results['emotions'] = emotions
-        
-        o = openPose(path)
-        res = o.res()
-        print(
-            f'#################\nThe openPose output: {res}\n#################\n')
-        results['openPose'] = res
+    e = emotionDetect(path)
+    status = e.user_status()
+    print(
+        f'##################\nThe emotion output: {status}\n#############################\n')
+    emotions = {}
+    for emotion in status:
+        emotions[emotion[0]] = emotion[1]
+    results['emotions'] = emotions
 
-    except:
-        print('###############\n Erron in processing\n####################')
-        sleep(2)
-        main()
+    o = openPose(path)
+    res = o.res()
+    print(
+        f'#################\nThe openPose output: {res}\n#################\n')
+    results['openPose'] = res
 
     # delete the video, and audio
     os.remove(path)
@@ -108,7 +102,9 @@ def main():
 if __name__ == '__main__':
     try:
         main()
-    except:
-        print('Error in connection')
-        sleep(2)
-        main()
+    except KeyboardInterrupt:
+        print('Interrupted')
+        try:
+            sys.exit(0)
+        except SystemExit:
+            os._exit(0)
