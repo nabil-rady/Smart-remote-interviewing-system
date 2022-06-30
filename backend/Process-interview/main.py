@@ -4,6 +4,8 @@ import os
 import json
 from dotenv import load_dotenv
 import requests
+from subprocess import run
+from time import sleep
 
 from recommendation import recomm
 from emotion import emotionDetect
@@ -35,27 +37,33 @@ def processing(video):
     results['questionId'] = video['questionId']
     results['lastVideo'] = video['lastVideo']
 
-    # Apply the ML models
-    r = recomm(path, keywords)
-    resText = r.res()
-    print(
-        f'###############################\nThe recommendation output: {resText}\n##################################\n')
-    results['recommendation'] = resText
+    try:
+        # Apply the ML models
+        r = recomm(path, keywords)
+        resText = r.res()
+        print(
+            f'###############################\nThe recommendation output: {resText}\n##################################\n')
+        results['recommendation'] = resText
 
-    e = emotionDetect(path)
-    status = e.user_status()
-    print(
-        f'##################\nThe emotion output: {status}\n#############################\n')
-    emotions = {}
-    for emotion in status:
-        emotions[emotion[0]] = emotion[1]
-    results['emotions'] = emotions
-    
-    o = openPose(path)
-    res = o.res()
-    print(
-        f'#################\nThe openPose output: {res}\n#################\n')
-    results['openPose'] = res
+        e = emotionDetect(path)
+        status = e.user_status()
+        print(
+            f'##################\nThe emotion output: {status}\n#############################\n')
+        emotions = {}
+        for emotion in status:
+            emotions[emotion[0]] = emotion[1]
+        results['emotions'] = emotions
+        
+        o = openPose(path)
+        res = o.res()
+        print(
+            f'#################\nThe openPose output: {res}\n#################\n')
+        results['openPose'] = res
+
+    except:
+        print('###############\n Erron in processing\n####################')
+        sleep(2)
+        main()
 
     # delete the video, and audio
     os.remove(path)
@@ -80,6 +88,8 @@ def processing(video):
 def main():
     load_dotenv()
 
+    print('###############\nStarted\n#########################')
+
     params = pika.URLParameters(os.getenv('rabbitMQ_url'))
     interviews_connection = pika.BlockingConnection(params)
     interviews_channel = interviews_connection.channel()
@@ -98,9 +108,7 @@ def main():
 if __name__ == '__main__':
     try:
         main()
-    except KeyboardInterrupt:
-        print('Interrupted')
-        try:
-            sys.exit(0)
-        except SystemExit:
-            os._exit(0)
+    except:
+        print('Error in connection')
+        sleep(2)
+        main()
