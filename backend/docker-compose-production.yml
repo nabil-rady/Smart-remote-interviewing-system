@@ -34,10 +34,9 @@ services:
       - MODE=production
     extra_hosts:
       - 'host.docker.internal:host-gateway'
-
-  process-interview:
-    build: ./Process-interview
-    environment:
-      - MODE=production
-    extra_hosts:
-      - 'host.docker.internal:host-gateway'
+  # process-interview:
+  #   build: ./Process-interview
+  #   environment:
+  #     - MODE=production
+  #   extra_hosts:
+  #     - 'host.docker.internal:host-gateway'
