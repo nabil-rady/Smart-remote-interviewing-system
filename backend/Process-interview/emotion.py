@@ -4,15 +4,17 @@ from tensorflow.keras.utils import img_to_array
 import cv2
 import numpy as np
 
-face_classifier = cv2.CascadeClassifier('./haarcascade_frontalface_default.xml')
-classifier =load_model('./Emotion_Detection.h5')
+face_classifier = cv2.CascadeClassifier(
+    './haarcascade_frontalface_default.xml')
+classifier = load_model('./Emotion_Detection.h5')
 
-class_labels = ['Angry','Happy','Neutral','Sad','Surprise']
+class_labels = ['Angry', 'Happy', 'Neutral', 'Sad', 'Surprise']
 
 
 class emotionDetect:
     status = []
-    def __init__(self,path):
+
+    def __init__(self, path):
         cap = cv2.VideoCapture(path)
         while cap.isOpened():
             # Grab a single frame of video
@@ -23,7 +25,8 @@ class emotionDetect:
                 for (x, y, w, h) in faces:
                     #cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
                     roi_gray = gray[y:y + h, x:x + w]
-                    roi_gray = cv2.resize(roi_gray, (48, 48), interpolation=cv2.INTER_AREA)
+                    roi_gray = cv2.resize(
+                        roi_gray, (48, 48), interpolation=cv2.INTER_AREA)
 
                     if np.sum([roi_gray]) != 0:
                         roi = roi_gray.astype('float') / 255.0
@@ -34,12 +37,14 @@ class emotionDetect:
 
                         preds = classifier.predict(roi)[0]
                         label = class_labels[preds.argmax()]
-                        #print(label)
+                        # print(label)
                         self.status.append(label)
-            except:
+            except Exception as err:
+                print(err)
                 break
         cap.release()
         cv2.destroyAllWindows()
+
     def user_status(self):
         res = []
         count = [0, 0, 0, 0, 0]
