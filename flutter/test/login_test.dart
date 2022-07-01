@@ -7,13 +7,25 @@ import 'package:provider/provider.dart';
 import 'package:test/local/network_services.dart';
 import 'package:test/local/urls.dart';
 import 'package:test/providers/auth_provider.dart';
+import 'package:test/providers/dashboard_provider.dart';
 import '../lib/widgets/employer_auth.dart';
 import 'package:mockito/mockito.dart';
 import 'package:http/http.dart' as http;
 
+// Widget wrapWithMaterial(mockprovider, child) => MaterialApp(
+//       home: Provider<Auth>(
+//         create: (_) => mockprovider(),
+//         child: Scaffold(
+//           body: child,
+//         ),
+//       ),
+//     );
+
 class MockNetworkService extends Mock implements NetworkService {}
 
 class Mockitohttp extends Mock implements http.Client {}
+
+class MockitoDashboard extends Mock implements DashboardPositions {}
 
 class MockitoAuth extends Mock implements Auth {
   MockitoFireBase auth;
@@ -85,19 +97,52 @@ void main() {
     // when(mockauth.login('mohamed.medhat2199@gmail.com', '123456789', ''))
     //     .thenReturn();
 
-    await tester.pumpWidget(
-      ChangeNotifierProvider<Auth>(
-        create: (ctx) => MockitoAuth(mockFirebase),
-        builder: (context, child) {
-          return MediaQuery(
-              data: new MediaQueryData(),
-              child: MaterialApp(
-                  home: Scaffold(
-                body: EmployerAuth(),
-              )));
-        },
-      ),
-    );
+    await tester.pumpWidget(ChangeNotifierProvider<Auth>.value(
+      value: MockitoAuth(mockFirebase),
+      child: MediaQuery(
+          data: new MediaQueryData(),
+          child: MaterialApp(
+              home: Scaffold(
+            body: EmployerAuth(),
+          ))),
+    )
+        //(
+        //   create: (ctx) => MockitoAuth(mockFirebase),
+        //   builder: (context, child) {
+        //     return MediaQuery(
+        //         data: new MediaQueryData(),
+        //         child: MaterialApp(
+        //             home: Scaffold(
+        //           body: EmployerAuth(),
+        //         )));
+        //   },
+        // ),
+        );
+
+    // await tester.pumpWidget(MultiProvider(
+    //   providers: [
+    //     ChangeNotifierProvider<Auth>(
+    //       create: (ctx) => MockitoAuth(mockFirebase),
+    //     ),
+    //     ChangeNotifierProxyProvider<Auth, DashboardPositions>(
+    //       create: (ctx) => MockitoDashboard(),
+    //       update: (ctx, auth, previosPositions) => DashboardPositions(
+    //         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJmYjQ3NjY5NC0xZjVmLTQ3YmEtYjBmNy02YmVjZjg2MDBjODciLCJpYXQiOjE2NTI4MTgwNTYsImV4cCI6MTY4NDM3NTY1Nn0.TAgIpfcjM5YQJ2cfSrRfHtQsWULYfaDMARijz6ZCRew',
+    //         previosPositions == null ? [] : previosPositions.positionsItems,
+    //       ),
+    //     ),
+    //   ],
+    //   builder: (context, child) {
+    //     return MediaQuery(
+    //         data: new MediaQueryData(),
+    //         child: MaterialApp(
+    //             home: Scaffold(
+    //           body: EmployerAuth(),
+    //         )));
+    //   },
+    // ));
+    when(mockauth.login('mohamed.medhat2199@gmail.com', '123456789'))
+        .toString();
     final emailField = find.byKey(Key('myemail'));
     // expect(emailField, findsOneWidget);
     await tester.enterText(emailField, 'mohamed.medhat2199@gmail.com');
@@ -106,6 +151,7 @@ void main() {
     await tester.enterText(passwordField, '123456789');
     //expect(find.byKey(Key('logIn')), findsOneWidget);
     await tester.tap(find.byKey(Key('logIn')));
+    await tester.pumpAndSettle();
     // tester.pump(const Duration(milliseconds: 3000));
     // mockauth.login('mohamed.medhat2199@gmail.com', '123456789', '');
     verify(mockauth.login(

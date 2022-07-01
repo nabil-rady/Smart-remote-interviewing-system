@@ -27,11 +27,13 @@ void main() {
   ///
   // late Mockitohttp mockHttpClient;
   late final NetworkService networkservice;
+  late final MockitoCandidates mockCandidates;
   //late Api api;
 
   setUp(() {
     // mockHttpClient = Mockitohttp();
     networkservice = MockNetworkService();
+    mockCandidates = MockitoCandidates();
     // api = Api(client: mockHttpClient);
   });
 
@@ -206,7 +208,7 @@ void main() {
   "candidates": [
     {
       "interviewId": "string",
-      "name": "string",
+      "name": "ziko",
       "email": "string",
       "phoneCode": "string",
       "phoneNumber": "string",
@@ -222,7 +224,7 @@ void main() {
           create: (ctx) => MockitoAuth(),
         ),
         ChangeNotifierProxyProvider<Auth, Candidates>(
-          create: (ctx) => MockitoCandidates(),
+          create: (ctx) => mockCandidates,
           update: (ctx, auth, previosPositions) => Candidates(
               'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJmYjQ3NjY5NC0xZjVmLTQ3YmEtYjBmNy02YmVjZjg2MDBjODciLCJpYXQiOjE2NTI4MTgwNTYsImV4cCI6MTY4NDM3NTY1Nn0.TAgIpfcjM5YQJ2cfSrRfHtQsWULYfaDMARijz6ZCRew',
               previosPositions == null ? [] : previosPositions.candidates,
@@ -242,6 +244,15 @@ void main() {
     ));
     final titleFinder = find.text('Invite Applicant');
     expect(titleFinder, findsOneWidget);
+    // MockitoCandidates()
+    //     .fetchAndSetCandidates('ced39477-9704-4138-936f-34d7ab83c610');
+
+    await tester.pumpAndSettle();
+    // mockCandidates.notifyListeners();
+    // List<Map<String, dynamic>> candidates = mockCandidates.candidates;
+
+    // print(mockCandidates.candidatesUI);
+    expect(find.text('ziko'), findsOneWidget);
   });
 
   testWidgets(' find add button, and bottom modal sheet ',
