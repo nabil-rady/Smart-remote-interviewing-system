@@ -5,7 +5,7 @@ import err from './SVGs/cancel.png';
 
 const ErrorModal = (props) => {
   return (
-    <div>
+    <div className="ErrorModal">
       <div className={classes.backdrop} onClick={props.onConfirm} />
       <Card className={classes.modal}>
         <img src={err} alt="error_image" className={classes.error_img} />

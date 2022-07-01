@@ -90,14 +90,16 @@ const LoginForm = () => {
         </p>
         <form onSubmit={submitHandler} id="Loginform">
           <input
-            className="inputs"
+            className="inputs emailInput"
+            id="#email"
             type="email"
             placeholder="E-mail"
             required
             onChange={emailHandler}
           />
           <input
-            className="inputs"
+            className="inputs passwordInput"
+            id="#password"
             type="password"
             placeholder="Password"
             onChange={passwordHandler}

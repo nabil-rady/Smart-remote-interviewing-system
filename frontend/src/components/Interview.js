@@ -34,7 +34,7 @@ const Interview = (props) => {
             id="link"
           />
           <br />
-          <p id="text">
+          <p className="text">
             Enter the interview link thet the company sent you or click the
             interview link to start
           </p>

@@ -61,38 +61,36 @@ const EvaluationCard = React.forwardRef((props, ratings) => {
         {props.answers.map((answer, index) => (
           <li key={index}>
             <Card className="evaluation_card">
-              <p className="question-title">
-                Question{index + 1}: {answer.statement}
-              </p>
-              {getEmotions(answer.emotions, index)}
-              <div className="dataContainer">
-                <p htmlFor="email" className="detailsLabel">
-                  OpenPose:
+              <div className="result_section">
+                <p className="question-title">
+                  Question{index + 1}: {answer.statement}
                 </p>
-                <p name="email" className="info">
-                  {answer.openPose}
-                </p>
+                {getEmotions(answer.emotions, index)}
+                <div className="resultsContainer">
+                  <p className="detailsLabel">OpenPose:</p>
+                  <p className="info">{answer.openPose}</p>
+                </div>
+                <div className="resultsContainer">
+                  <p className="detailsLabel">Score:</p>
+                  <p className="info">{answer.score}</p>
+                </div>
               </div>
-              <div className="dataContainer">
-                <p htmlFor="email" className="detailsLabel">
-                  Score:
-                </p>
-                <p name="email" className="info">
-                  {answer.score}
-                </p>
+              <div className="video_section">
+                <div className="evaluate_video">
+                  <video width="83%" height="250" controls>
+                    <source src={answer.link} />
+                  </video>
+                  <div className="rating_container">
+                    <label className="rate-label">Rate Question:</label>
+                    <input
+                      type="text"
+                      placeholder="Rate from 0% to 100%"
+                      className="evaluation-rate"
+                      onChange={props.changeHandler(index)}
+                    />
+                  </div>
+                </div>
               </div>
-              <div className="evaluate_video">
-                <video width="83%" height="250" controls>
-                  <source src={answer.link} />
-                </video>
-              </div>
-              <label className="rate-label">Rate Question:</label>
-              <input
-                type="text"
-                placeholder="Rate from 0% to 100%"
-                className="evaluation-rate"
-                onChange={props.changeHandler(index)}
-              />
             </Card>
           </li>
         ))}

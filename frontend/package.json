@@ -16,6 +16,7 @@
     "lottie-react-web": "^2.2.2",
     "mqtt": "^4.3.6",
     "node-sass": "^6.0.1",
+    "puppeteer": "^15.2.0",
     "react": "^16.14.0",
     "react-awesome-reveal": "^3.8.1",
     "react-bootstrap": "^2.1.2",
@@ -38,9 +39,10 @@
     "web-vitals": "^1.1.2"
   },
   "scripts": {
+    "test": "react-scripts test --testPathIgnorePatterns=.*e2e.test.js",
+    "test:e2e": "react-scripts test --testPathPattern=.*e2e.test.js$",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

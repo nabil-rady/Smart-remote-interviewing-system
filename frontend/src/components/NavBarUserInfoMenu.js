@@ -65,7 +65,10 @@ const NavBarUserInfoMenu = () => {
             <Link to="/profile">Edit Profile</Link>{' '}
           </li>
           <div className="flex">
-            <li className="user-info-menu__nav__ul__li" onClick={logoutHandler}>
+            <li
+              className="user-info-menu__nav__ul__li logoutUser"
+              onClick={logoutHandler}
+            >
               Logout
             </li>
             {loading && (

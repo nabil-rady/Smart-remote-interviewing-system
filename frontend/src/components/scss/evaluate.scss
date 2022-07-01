@@ -8,26 +8,35 @@
 }
 
 .evaluation_card {
-  width: 50%;
-  margin-left: 25%;
+  width: 75%;
+  margin-left:12%;
+  display: flex;
   padding: 10px;
-  margin-top: 2%;
-  margin-bottom: 2%;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
-
+.resultsContainer {
+  display: flex;
+}
+.result_section {
+  width: 80%;
+}
+.video_section{
+  width: 100%;
+  margin-top: 4rem;
+}
 .evaluation-rate {
   font: inherit;
-  width: 50%;
+  width: 60%;
   border: none;
   border-bottom: 1px solid $primary-blue;
-  padding: 0.15rem;
-  margin-bottom: 0.5rem;
+  // padding: 0.15rem;
+  // margin-bottom: 0.5rem;
   outline: none;
 }
 
 .rate-label {
-  margin-left: 15%;
-  margin-right: 5%;
+  margin-right: 0.4rem;
 }
 
 .question-title {
@@ -35,4 +44,42 @@
   margin-left: 1rem;
   margin-top: 2%;
   font-weight: bold;
+}
+// .rating_container {
+//   display: flex;
+//   width: 100%;
+// }
+@media screen and (max-width: 900px) {
+  .result_section{
+    display: block;
+    width: 100%;
+  }
+  .video_section {
+    display: block;
+    margin-top: 0.1rem;
+    width: 100%;
+  }
+  .evaluation-rate {
+    width: 50%;
+  }
+  .evaluation_card {
+    display: block;
+  }
+}
+@media screen and (max-width: 1200px) {
+  .result_section{
+    display: block;
+    width: 100%;
+  }
+  .video_section {
+    display: block;
+    margin-top: 0.1rem;
+    width: 100%;
+  }
+  .evaluation-rate {
+    width: 50%;
+  }
+  .evaluation_card {
+    display: block;
+  }
 }

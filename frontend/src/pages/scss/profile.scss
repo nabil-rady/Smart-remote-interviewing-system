@@ -7,7 +7,11 @@
   padding: 1.5rem 2rem;
   margin: 1rem auto;
 }
-
+.tailspin {
+  display: flex;
+  margin-left: 10%;
+  width: 240px;
+}
 .save {
   width: 240px;
   height: 40px;
@@ -95,6 +99,9 @@
   .changepass {
     width: 75%;
     margin: 1rem auto;
+  }
+  .tailspin {
+    justify-content: center;
   }
   .save {
     width: 75%;

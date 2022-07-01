@@ -8,18 +8,24 @@ import { HRURL } from '../API/APIConstants';
 import ErrorModal from '../components/ErrorModal';
 import handleAPIError from '../utils/APIErrorHandling';
 import NavBar from '../components/NavBar';
+import { Link } from 'react-router-dom';
+import { TailSpin } from 'react-loader-spinner';
+import SuccessfullModal from '../components/SuccessfullModal';
+
 function ProfilePage() {
   let formattedValue = '';
   const authUser = useContext(UserContext).authUser;
   const [enteredPhoneNo, setEnteredPhoneNo] = useState('');
   const [error, setError] = useState();
   const [enteredPhoneCode, setEnteredPhoneCode] = useState('');
-
+  const [done, setDone] = useState(false);
+  const [loading, setLoading] = useState(false);
   const setAuthUser = useContext(UserContext).setAuthUser;
   const errorHandler = () => {
     setError(null);
   };
   const submitHandler = (e) => {
+    setLoading(true);
     e.preventDefault();
     let statusCode;
     fetch(`${HRURL}/user/edit`, {
@@ -41,12 +47,15 @@ function ProfilePage() {
       .then((data) => {
         console.log(data);
         if (statusCode === 200) {
+          setLoading(false);
+          setDone(true);
           setAuthUser((oldUser) => ({
             ...oldUser,
             ...data.user,
           }));
         } else {
           handleAPIError(statusCode, data, setError, () => setAuthUser(null));
+          setLoading(false);
         }
       })
       .catch((error) => {
@@ -69,8 +78,17 @@ function ProfilePage() {
     formattedValue = modifiedValue;
     Modify(formattedValue);
   };
+  const closeWindow = () => {
+    setDone(false);
+  };
   return (
     <>
+      {done && (
+        <SuccessfullModal
+          title="Phone No. Edited Successfully"
+          closeWindow={closeWindow}
+        />
+      )}
       {error && (
         <ErrorModal
           title={error.title}
@@ -82,7 +100,7 @@ function ProfilePage() {
         <NavBar visible={true} />
       </div>
       <Card className="profilecard top-margin">
-        <h1 className="profile-label">Profile Info</h1>
+        <h1 className="profile-label">Profile Information</h1>
         <form onSubmit={submitHandler} className="profile-form">
           <label htmlFor="firstName" className="change-label">
             First Name
@@ -161,23 +179,23 @@ function ProfilePage() {
               enableSearch={true}
             />
           </div>
-
-          {/* <input
-            id="PhoneNo"
-            className="change-inputs"
-            type="tel"
-            placeholder="Phone No."
-            value={newPhoneNo}
-            onChange={changePhoneNoHandler}
-            required
-          /> */}
           <div className="flex">
             <button className="changepass">
-              <a href="/changepass">Change Password</a>
+              <Link to={'/changepass'}>Change Password</Link>
             </button>
-            <button className="save" type="submit">
-              Save Changes
-            </button>
+            {loading ? (
+              <div className="tailspin">
+                <TailSpin
+                  color="hsl(215deg, 79%, 42%)"
+                  height={60}
+                  width={60}
+                />
+              </div>
+            ) : (
+              <button className="save" type="submit">
+                Save Changes
+              </button>
+            )}
           </div>
         </form>
       </Card>
