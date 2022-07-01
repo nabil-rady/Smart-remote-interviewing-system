@@ -82,7 +82,7 @@ function ProfilePage() {
         <NavBar visible={true} />
       </div>
       <Card className="profilecard top-margin">
-        <h1 className="profile-label">Profile Info</h1>
+        <h1 className="profile-label">Profile Information</h1>
         <form onSubmit={submitHandler} className="profile-form">
           <label htmlFor="firstName" className="change-label">
             First Name

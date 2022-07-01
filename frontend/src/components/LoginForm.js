@@ -91,6 +91,7 @@ const LoginForm = () => {
         <form onSubmit={submitHandler} id="Loginform">
           <input
             className="inputs"
+            id="#email"
             type="email"
             placeholder="E-mail"
             required
@@ -98,6 +99,7 @@ const LoginForm = () => {
           />
           <input
             className="inputs"
+            id="#password"
             type="password"
             placeholder="Password"
             onChange={passwordHandler}
