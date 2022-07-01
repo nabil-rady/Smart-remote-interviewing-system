@@ -87,7 +87,12 @@ class _StartIntrviewState extends State<StartIntrview> {
               textAlign: TextAlign.center,
             ),
             if (_isLoading)
-              const CircularProgressIndicator()
+              const Padding(
+                padding: EdgeInsets.all(10),
+                child: CircularProgressIndicator(
+                  color: Color(0xFF165DC0),
+                ),
+              )
             else
               RaisedButton(
                 child: const Text(

@@ -361,7 +361,9 @@ class EmployerAuthState extends State<EmployerAuth> {
                   height: 20,
                 ),
                 if (_isLoading)
-                  const CircularProgressIndicator()
+                  const CircularProgressIndicator(
+                    color: Color(0xFF165DC0),
+                  )
                 else
                   RaisedButton(
                     child: Text(

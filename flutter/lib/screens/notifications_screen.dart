@@ -152,24 +152,40 @@ class _NotificationScreenState extends State<NotificationScreen> {
                       )
                     : ListView.builder(
                         itemCount: notificationData.notifications.length,
-                        itemBuilder: (ctx, i) => Ink(
-                          color: notificationData.notifications[i].manualRead
-                              ? null
-                              : Color.fromARGB(121, 110, 159, 231),
-                          child: ListTile(
-                              leading: const Icon(
-                                Icons.notifications,
-                                color: Color.fromARGB(255, 224, 222, 73),
-                                size: 40.0,
+                        itemBuilder: (ctx, i) => Container(
+                          // color: notificationData.notifications[i].manualRead
+                          //     ? null
+                          //     : Color.fromARGB(121, 110, 159, 231),
+                          child: Column(
+                            children: [
+                              Ink(
+                                color:
+                                    notificationData.notifications[i].manualRead
+                                        ? null
+                                        : Color.fromARGB(121, 110, 159, 231),
+                                child: ListTile(
+                                    leading: const Icon(
+                                      Icons.notifications,
+                                      color: Color.fromARGB(255, 224, 222, 73),
+                                      size: 40.0,
+                                    ),
+                                    title: Text(notificationData
+                                        .notifications[i].body
+                                        .capitalized()),
+                                    onTap: () => _submit(
+                                        notificationData
+                                            .notifications[i].interviewId,
+                                        notificationData
+                                            .notifications[i].notificationId,
+                                        notificationData
+                                            .notifications[i].manualRead)),
                               ),
-                              title: Text(notificationData.notifications[i].body
-                                  .capitalized()),
-                              onTap: () => _submit(
-                                  notificationData.notifications[i].interviewId,
-                                  notificationData
-                                      .notifications[i].notificationId,
-                                  notificationData
-                                      .notifications[i].manualRead)),
+                              const Divider(
+                                height: 0,
+                                color: Colors.black,
+                              ),
+                            ],
+                          ),
                         ),
                         // ),
                       ),

@@ -15,7 +15,7 @@ class PositionItem extends StatelessWidget {
   Widget build(BuildContext context) {
     late Future detailsFuture;
     return Padding(
-      padding: const EdgeInsets.all(8),
+      padding: const EdgeInsets.only(top: 8, right: 8, left: 8),
       child: InkWell(
         onTap: () {
           detailsFuture = getPositionDetails(context, positionId);
