@@ -238,7 +238,7 @@ void main() {
                 home: InvitationScreen(
               positionId: 'ced39477-9704-4138-936f-34d7ab83c610',
               positionName: 'my position name',
-              httpc: httpmockito,
+              expieryDate: DateTime(2022, 1, 5),
             )));
       },
     ));
@@ -300,7 +300,7 @@ void main() {
                 home: InvitationScreen(
               positionId: 'ced39477-9704-4138-936f-34d7ab83c610',
               positionName: 'my position name',
-              httpc: httpmockito,
+              expieryDate: DateTime(2022, 1, 5),
               key: testKey,
             )));
       },

@@ -41,7 +41,7 @@ class AppDrawer extends StatelessWidget {
             ),
           ),
           _buildListTile(Icons.notifications, 'Notifications', () {
-            employerData.loggedIn
+            employerData.loggedIn && employerData.emailConfirmed
                 ? Navigator.of(context).pushNamed('/notification_screen')
                 : null;
           }, employerData.loggedIn, employerData.emailConfirmed),

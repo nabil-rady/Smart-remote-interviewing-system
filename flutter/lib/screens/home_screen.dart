@@ -131,6 +131,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           const Text(
                             'please confirm your email address ',
+                            textAlign: TextAlign.center,
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           Divider(),
