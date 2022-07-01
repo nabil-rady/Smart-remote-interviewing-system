@@ -19,9 +19,11 @@ class EmployerAuth extends StatefulWidget {
 }
 
 class EmployerAuthState extends State<EmployerAuth> {
+  var ziko;
   @override
   void initState() {
     super.initState();
+
     Firebase.initializeApp();
   }
 
@@ -130,6 +132,7 @@ class EmployerAuthState extends State<EmployerAuth> {
     );
   }
 
+  Auth get _controller => Provider.of<Auth>(context);
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) {
       // Invalid!
@@ -230,6 +233,7 @@ class EmployerAuthState extends State<EmployerAuth> {
 //////////
   @override
   Widget build(BuildContext context) {
+    // ziko = Provider.of<Auth>(context);
     return Padding(
       padding: const EdgeInsets.only(
         right: 20,
