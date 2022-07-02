@@ -1,8 +1,7 @@
-import React, { useEffect, useState, useRef, useContext } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import Details from '../components/Details';
 import NavBar from '../components/NavBar';
 import { HRURL } from '../API/APIConstants';
-import { Toast } from 'react-bootstrap';
 import { UserContext } from '../App';
 import { useParams } from 'react-router-dom';
 import handleAPIError from '../utils/APIErrorHandling';
@@ -39,6 +38,7 @@ const PositionDetails = () => {
     };
     setFetchedPosition();
   }, []);
+
   return (
     <>
       <div className="blue-gradient">

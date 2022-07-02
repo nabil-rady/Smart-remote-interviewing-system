@@ -1,31 +1,15 @@
 @import '../../sassConfig/colors';
 @import '../../sassConfig/transition';
 
-.questionStatement {
-  width: 100%;
-  height: auto;
-  background-color: $primary-blue;
-  padding: 0.5rem;
-  font-weight: bold;
-  color: white;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-}
-.questionsList {
-  display: block;
-  width: 95%;
-  margin: 0 auto;
-}
-
 .questionsCard {
-  width: 30%;
+  width: 70%;
   margin-bottom: 2rem;
   box-shadow: none;
   display: block;
-  cursor: pointer;
-  margin: 2rem 2.6%;
-  margin-left: 35%;
-  padding-bottom: 1rem;
+  margin: 2rem 0;
+  padding: 1.3rem;
+  background: transparent;
+  border: 2px $primary-blue solid;
 }
 
 .questionsCard:hover {
@@ -44,19 +28,11 @@
   overflow: hidden;
 }
 
-.pos_expirydate {
+.details-values {
   display: inline-block;
 }
 
-.pos_CandidatesNo {
-  display: inline-block;
-}
-
-.pos_Finishedinterviews {
-  display: inline-block;
-}
-
-.detailsLabels {
+.details-labels {
   margin-bottom: 0.8rem;
   font-weight: bold;
   color: $primary-blue;
@@ -65,22 +41,60 @@
 }
 
 .expiryDate {
-  width: 291px;
-  padding: 5px;
-  color: white;
-  margin-left: calc(50% - 145px);
-  border-radius: 10px;
+  color: $primary-blue;
+  font-size: 1.7rem;
+  margin-top: 2.2rem;
 }
+
 .keywords {
   display: inline-block;
   margin-right: 10px;
 }
+
 .detailsContainer {
   margin-left: 1.5rem;
   margin-top: 1rem;
 }
-.pName {
+
+.position-title {
+  margin-top: 2rem;
+  font-size: 2rem;
   text-align: center;
-  font-size: xx-large;
   color: $primary-blue;
+}
+
+.position-body {
+  width: 90%;
+  margin: 1rem auto;
+}
+
+.questions-title {
+  margin-top: 1.5rem;
+  font-size: 2rem;
+  color: $primary-blue;
+}
+
+.question-number {
+  display: inline;
+}
+
+.question-statement {
+  display: inline;
+  padding-bottom: 0.8rem;
+}
+
+.question-body {
+  margin-bottom: 0.8rem;
+}
+
+@media only screen and (max-width: 670px) {
+  .expiryDate {
+    text-align: center;
+  }
+  .questions-title {
+    text-align: center;
+  }
+  .questionsCard {
+    margin: 1.3rem auto;
+  }
 }

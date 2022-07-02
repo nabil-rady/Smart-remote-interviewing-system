@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Card from './Card';
 import './scss/details.scss';
 import { TailSpin } from 'react-loader-spinner';
+
 const Details = (props) => {
   const [expiry, setExpiry] = useState();
   useEffect(() => {
@@ -14,34 +15,37 @@ const Details = (props) => {
       }
     }
   }, [props.position]);
+
   return (
     <>
       {props.position ? (
         <>
-          <p className="pName">{props.position.positionName}</p>
-          <p style={{ backgroundColor: expiry }} className="expiryDate">
-            Expiry Date: {props.position.expiryDate}
-          </p>
-          <ul className="questionsList">
+          <h1 className="position-title">
+            Position: {props.position.positionName}
+          </h1>
+          <div className="position-body">
+            <h2 className="expiryDate">
+              Expiry Date: {props.position.expiryDate}
+            </h2>
+            <h2 className="questions-title">Questions:</h2>
             {props.position.questions.map((question, index) => (
               <Card key={index} className="questionsCard">
-                <p className="questionStatement">{question.statement}</p>
                 <div className="detailsContainer">
-                  <p htmlFor="expirydate" className="detailsLabels">
-                    Thinking Time:
-                  </p>
-                  <p name="expirydate" className="pos_expirydate">
-                    {question.timeToThink}
-                  </p>{' '}
+                  <div className="question-body">
+                    <p className="details-labels question-number">{`Q${
+                      index + 1
+                    }:`}</p>
+                    <p className="details-values question-statement">
+                      {question.statement}
+                    </p>
+                  </div>
+                  <p className="details-labels">Thinking Time:</p>
+                  <p className="details-values">{question.timeToThink}</p>
                   <br></br>
-                  <p htmlFor="candidatesNo" className="detailsLabels">
-                    Answer Time:
-                  </p>
-                  <p name="candidatesNo" className="pos_CandidatesNo">
-                    {question.timeToAnswer}
-                  </p>{' '}
+                  <p className="details-labels">Answer Time:</p>
+                  <p className="details-values">{question.timeToAnswer}</p>
                   <br></br>
-                  <p htmlFor="keywords" className="detailsLabels">
+                  <p htmlFor="keywords" className="details-labels">
                     Keywords:
                   </p>
                   {question.keywords.map((keyword, index) => (
@@ -52,7 +56,7 @@ const Details = (props) => {
                 </div>
               </Card>
             ))}
-          </ul>
+          </div>
         </>
       ) : (
         <div
