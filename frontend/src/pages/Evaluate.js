@@ -11,6 +11,7 @@ import { HRURL } from '../API/APIConstants';
 import { TailSpin } from 'react-loader-spinner';
 import ErrorModal from '../components/ErrorModal';
 import SuccessfullModal from '../components/SuccessfullModal';
+
 function EvaluationPage() {
   const authUser = useContext(UserContext).authUser;
   const setAuthUser = useContext(UserContext).setAuthUser;
@@ -20,6 +21,7 @@ function EvaluationPage() {
   const [error, setError] = useState();
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
+
   const fetchAnswers = () => {
     return fetch(`${HRURL}/job-listing/answers/${applicantId}`, {
       method: 'GET',
@@ -47,6 +49,7 @@ function EvaluationPage() {
     };
     setFetchedAnswers();
   }, []);
+
   const ratings = useRef([]);
   const clickHandler = () => {
     let evaluation = [];
@@ -99,6 +102,7 @@ function EvaluationPage() {
   const closeWindow = () => {
     setDone(false);
   };
+
   return (
     <>
       {error && (

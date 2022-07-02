@@ -2,12 +2,14 @@
 @import '../../sassConfig/transition';
 
 .applicants_card {
-  width: 450px;
+  max-width: 450px;
   cursor: pointer;
   height: 100px;
   padding-top: 0.8rem;
   margin-left: calc(50% - 225px);
   margin-bottom: 1rem;
+  width: 90%;
+  margin: 0 auto;
 }
 
 .positioncard:hover {

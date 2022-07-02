@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { UserContext } from '../App';
 import Card from '../components/Card';
 import './scss/applicantDetails.scss';
-import { Toast } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import { HRURL } from '../API/APIConstants';
 import { TailSpin } from 'react-loader-spinner';

@@ -25,7 +25,6 @@ import ViewApplicants from './pages/viewApplicants';
 import ApplicantDetails from './pages/applicantDeteils';
 import NewLanding from './pages/newLandingpage';
 import WelcomePage from './pages/WelcomePage';
-import UploadImageToS3WithNativeSdk from './pages/uploadVideos';
 import FinishPage from './pages/FinishPage';
 import ProfilePage from './pages/Profile';
 import Interview from './pages/Interview';
@@ -87,14 +86,6 @@ function App() {
             <Route path="/" exact>
               <NewLanding />
             </Route>
-            <PublicRoute
-              isAuthenticated={!!authUser}
-              isVerified={isVerified}
-              path="/upload"
-              exact
-            >
-              <UploadImageToS3WithNativeSdk />
-            </PublicRoute>
             <PublicRoute
               isAuthenticated={!!authUser}
               isVerified={isVerified}

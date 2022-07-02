@@ -1,5 +1,8 @@
 import { Link } from 'react-router-dom';
 import Card from '../components/Card';
+
+import formatDate from '../utils/formatDate';
+
 import delIcon from '../components/SVGs/delete.svg';
 
 import im1 from '../solidBG/1.jpg';
@@ -66,11 +69,9 @@ function PositionCard(props) {
       return <p className="available">Available</p>;
     }
   };
+
   const getDate = () => {
-    const now = new Date(props.position.expiryDate);
-    const date =
-      now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate();
-    return date;
+    return formatDate();
   };
 
   if (props.position === undefined) return null;

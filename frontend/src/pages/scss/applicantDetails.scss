@@ -2,7 +2,6 @@
 @import '../../sassConfig/transition';
 
 .dataContainer {
-  display: flex;
   margin-bottom: 1rem;
 }
 
@@ -12,14 +11,16 @@
 }
 
 .detailscard {
-  width: 400px;
-  margin-left: calc(50% - 200px);
+  max-width: 400px;
+  margin: 0 auto;
   margin-bottom: 2rem;
   box-shadow: none;
   height: auto;
-  padding: 3rem;
+  padding: 1.5rem;
   overflow: hidden;
   text-overflow: ellipsis;
+  width: 85%;
+  border-radius: 15px;
 }
 
 .positioncard:hover {
@@ -38,6 +39,7 @@
   display: flex;
   font-size: 1.2rem;
   margin-right: 0.3rem;
+  display: inline-block;
 }
 
 .evaluate_label {
@@ -49,15 +51,14 @@
 }
 
 .info {
+  display: inline-block;
   font-size: 20px;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
   min-width: 0;
 }
 
 .answers {
-  margin-left: calc(50% - 60px);
-  width: 120px;
+  margin: 0 auto;
+  width: 135px;
   height: 40px;
   display: flex;
   justify-content: center;
@@ -79,5 +80,15 @@
   &[disabled] {
     background-color: gray;
     color: black;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .info {
+    display: block;
+    padding-left: 11px;
+  }
+  .detailsLabel {
+    display: block;
   }
 }

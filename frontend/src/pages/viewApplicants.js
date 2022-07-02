@@ -1,16 +1,19 @@
-import React, { useState, useRef, useContext, useEffect } from 'react';
-import NavBar from '../components/NavBar';
-import { Link } from 'react-router-dom';
-import { UserContext } from '../App';
-import Card from '../components/Card';
-import './scss/viewApplicants.scss';
-import { Toast } from 'react-bootstrap';
-import 'firebase/compat/messaging';
+import React, { useState, useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import handleAPIError from '../utils/APIErrorHandling';
+import 'firebase/compat/messaging';
+import { Link } from 'react-router-dom';
 import { HRURL } from '../API/APIConstants';
+import { UserContext } from '../App';
+
+import NavBar from '../components/NavBar';
+import Card from '../components/Card';
+import handleAPIError from '../utils/APIErrorHandling';
 import { TailSpin } from 'react-loader-spinner';
 import NoInfo from '../components/NoInfor';
+
+import formatDate from '../utils/formatDate';
+
+import './scss/viewApplicants.scss';
 
 function ViewApplicants() {
   const authUser = useContext(UserContext).authUser;
@@ -67,7 +70,7 @@ function ViewApplicants() {
                     Interview Date:
                   </p>
                   <p name="interviewdate" className="app_interviewdate">
-                    {applicant.submitedAt}
+                    {formatDate(applicant.submitedAt)}
                   </p>
                 </Card>
               ))}
