@@ -208,6 +208,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           builder: (ctx, positionData, child) => positionData
                                   .positionsItems.isNotEmpty
                               ? ListView.builder(
+                                  key: Key('Dashboard Card'),
                                   itemBuilder: (ctx, i) => DashboardItem(
                                     positionName:
                                         positionData.positionsItems[i].position,

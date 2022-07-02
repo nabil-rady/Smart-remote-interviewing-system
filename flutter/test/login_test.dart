@@ -6,6 +6,7 @@ import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 import 'package:test/local/network_services.dart';
 import 'package:test/local/urls.dart';
+import 'package:test/models/employer_model.dart';
 import 'package:test/providers/auth_provider.dart';
 import 'package:test/providers/dashboard_provider.dart';
 import '../lib/widgets/employer_auth.dart';
@@ -28,6 +29,19 @@ class Mockitohttp extends Mock implements http.Client {}
 class MockitoDashboard extends Mock implements DashboardPositions {}
 
 class MockitoAuth extends Mock implements Auth {
+  Employer employer = Employer(
+    firstName: '',
+    lastName: '',
+    companyName: '',
+    createdAt: '',
+    updatedAt: '',
+    email: '',
+    userId: '',
+    countryCode: '',
+    phone: '',
+    emailConfirmed: false,
+    loggedIn: false,
+  );
   MockitoFireBase auth;
   MockitoAuth(this.auth);
 }
@@ -97,9 +111,9 @@ void main() {
     // when(mockauth.login('mohamed.medhat2199@gmail.com', '123456789', ''))
     //     .thenReturn();
 
-    await tester.pumpWidget(ChangeNotifierProvider<Auth>.value(
-      value: MockitoAuth(mockFirebase),
-      child: MediaQuery(
+    await tester.pumpWidget(ChangeNotifierProvider<Auth>(
+      create: (_) => mockauth,
+      builder: (_, __) => MediaQuery(
           data: new MediaQueryData(),
           child: MaterialApp(
               home: Scaffold(
@@ -141,8 +155,8 @@ void main() {
     //         )));
     //   },
     // ));
-    when(mockauth.login('mohamed.medhat2199@gmail.com', '123456789'))
-        .toString();
+    // when(mockauth.login('mohamed.medhat2199@gmail.com', '123456789'))
+    //     .toString();
     final emailField = find.byKey(Key('myemail'));
     // expect(emailField, findsOneWidget);
     await tester.enterText(emailField, 'mohamed.medhat2199@gmail.com');

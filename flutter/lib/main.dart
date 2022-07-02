@@ -70,9 +70,11 @@ class MyApp extends StatelessWidget {
           create: (ctx) => Notifications(),
         ),
         ChangeNotifierProxyProvider<Auth, PostionDetails>(
-          create: (ctx) => PostionDetails('', []),
+          create: (ctx) => PostionDetails('', [], NetworkServiceImpli()),
           update: (ctx, auth, previositems) => PostionDetails(
-              getUserToken(), previositems == null ? [] : previositems.items),
+              getUserToken(),
+              previositems == null ? [] : previositems.items,
+              NetworkServiceImpli()),
         ),
         ChangeNotifierProxyProvider<Auth, Candidates>(
           create: (ctx) => Candidates('', [], NetworkServiceImpli()),

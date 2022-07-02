@@ -41,6 +41,7 @@ class DashboardItem extends StatelessWidget {
   Widget build(BuildContext context) {
     late Future detailsFuture;
     return InkWell(
+      key: Key('single card'),
       onTap: () {
         detailsFuture = getPositionDetails(context, positionId);
         Navigator.of(context).pushNamed('/after_positions_screen',
