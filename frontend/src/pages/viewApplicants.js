@@ -64,7 +64,16 @@ function ViewApplicants() {
                     className="app_name"
                     title={applicant.name}
                   >
-                    {applicant.name}
+                    Applicant:{' '}
+                    <span
+                      style={{
+                        color: 'black',
+                        fontWeight: '400',
+                        fontSize: '1rem',
+                      }}
+                    >
+                      {applicant.name}
+                    </span>
                   </Link>
                   <p htmlFor="interviewdate" className="labels">
                     Interview Date:

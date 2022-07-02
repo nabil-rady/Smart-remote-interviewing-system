@@ -1,21 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Card from './Card';
-import './scss/details.scss';
 import { TailSpin } from 'react-loader-spinner';
+import formatDate from '../utils/formatDate';
+
+import './scss/details.scss';
 
 const Details = (props) => {
-  const [expiry, setExpiry] = useState();
-  useEffect(() => {
-    if (props.position) {
-      const eDate = props.position.expiryDate;
-      if (new Date().getTime() > new Date(eDate).getTime()) {
-        setExpiry('red');
-      } else {
-        setExpiry('green');
-      }
-    }
-  }, [props.position]);
-
   return (
     <>
       {props.position ? (
@@ -25,7 +15,14 @@ const Details = (props) => {
           </h1>
           <div className="position-body">
             <h2 className="expiryDate">
-              Expiry Date: {props.position.expiryDate}
+              Expiry Date:{' '}
+              <span
+                style={{
+                  fontSize: '1.4rem',
+                }}
+              >
+                {formatDate(props.position.expiryDate)}
+              </span>
             </h2>
             <h2 className="questions-title">Questions:</h2>
             {props.position.questions.map((question, index) => (

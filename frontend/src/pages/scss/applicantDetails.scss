@@ -11,16 +11,19 @@
 }
 
 .detailscard {
-  max-width: 400px;
-  margin: 0 auto;
+  margin-top: 3rem;
   margin-bottom: 2rem;
+  margin-left: 4rem;
   box-shadow: none;
   height: auto;
   padding: 1.5rem;
+  padding-bottom: 0.5rem;
   overflow: hidden;
   text-overflow: ellipsis;
-  width: 85%;
+  width: 70%;
   border-radius: 15px;
+  background: transparent;
+  border: 2px solid $primary-blue;
 }
 
 .positioncard:hover {
@@ -32,7 +35,6 @@
 }
 
 .detailsLabel {
-  margin-left: 3%;
   margin-bottom: 0;
   font-weight: bold;
   color: $primary-blue;
@@ -57,7 +59,7 @@
 }
 
 .answers {
-  margin: 0 auto;
+  margin-left: 4.1rem;
   width: 135px;
   height: 40px;
   display: flex;
@@ -86,9 +88,14 @@
 @media only screen and (max-width: 768px) {
   .info {
     display: block;
-    padding-left: 11px;
   }
   .detailsLabel {
     display: block;
+  }
+  .answers {
+    margin: 2rem auto;
+  }
+  .detailscard {
+    margin: 0 auto;
   }
 }

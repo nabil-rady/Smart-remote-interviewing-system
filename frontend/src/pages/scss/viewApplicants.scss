@@ -26,6 +26,9 @@
   display: block;
   text-overflow: ellipsis;
   overflow: hidden;
+  &:hover {
+    color: $primary-blue !important;
+  }
 }
 
 .app_interviewdate {
