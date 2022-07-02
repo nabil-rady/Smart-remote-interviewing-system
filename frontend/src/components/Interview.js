@@ -56,7 +56,7 @@ const Interview = (props) => {
                 justifyContent: 'center',
               }}
             >
-              <TailSpin color="hsl(215deg, 79%, 42%)" height={60} width={60} />
+              <TailSpin color="hsl(215deg, 79%, 42%)" height={40} width={50} />
             </div>
           )}
         </form>

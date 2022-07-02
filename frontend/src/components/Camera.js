@@ -4,7 +4,6 @@ import Webcam from 'react-webcam';
 import useDimensions from 'react-cool-dimensions';
 import NavBar from '../components/NavBar';
 import { TailSpin } from 'react-loader-spinner';
-
 import '../pages/scss/videopage.scss';
 
 const Camera = React.forwardRef((props, webcamRef) => {
@@ -32,12 +31,6 @@ const Camera = React.forwardRef((props, webcamRef) => {
       ></div>
     );
   };
-  // const videoConstraints = {
-  //   width: 360,
-  //   height: 240,
-  //   facingMode: 'user',
-  //   frameRate: { max: 24 },
-  // };
   const render = () => {
     if (props.loading) {
       return (

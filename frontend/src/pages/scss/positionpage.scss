@@ -13,9 +13,13 @@ body {
 }
 
 .detailsCard {
-  width: 40%;
-  margin-left: 31%;
-  margin-bottom: 2rem;
+  max-width: 450px;
+  cursor: pointer;
+  padding-top: 0.8rem;
+  margin-left: calc(50% - 225px);
+  margin-bottom: 1rem;
+  width: 90%;
+  margin: 1rem auto;
   position: relative;
 }
 
@@ -26,7 +30,7 @@ body {
 }
 .cardLabel {
   text-align: center;
-  margin-top: 0px;
+  // margin-left: 3%;
   color: $primary-blue;
   font-size: x-large;
   font-weight: bold;

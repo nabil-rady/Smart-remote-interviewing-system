@@ -18,6 +18,7 @@ const Interview = () => {
   const setAuthUser = useContext(UserContext).setAuthUser;
   const authUser = useContext(UserContext).authUser;
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
   // const params = useParams();
   // const interviewId = params.interviewId;
   const [link, setLink] = useState('');
@@ -46,13 +47,23 @@ const Interview = () => {
       setResponse(data);
     } else {
       setLoading(false);
-      setWelcome(true);
+      setWelcome(false);
       setJoin(true);
-      handleAPIError(response.status, data);
+      handleAPIError(response.status, data, setError);
     }
+  };
+  const errorHandler = () => {
+    setError(null);
   };
   return (
     <>
+      {error && (
+        <ErrorModal
+          title={error.title}
+          message={error.message}
+          onConfirm={errorHandler}
+        />
+      )}
       {join && (
         <TakeInterviewPage
           setLink={setLink}

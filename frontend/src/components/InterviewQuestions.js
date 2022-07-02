@@ -81,6 +81,10 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
         return '0' + minAnswerTime.toString() + ':0' + secAnswerTime.toString();
       } else if (minAnswerTime < 10 && secAnswerTime >= 10) {
         return '0' + minAnswerTime.toString() + ':' + secAnswerTime.toString();
+      } else if (minAnswerTime == 10 && secAnswerTime >= 10) {
+        return minAnswerTime.toString() + ':' + secAnswerTime.toString();
+      } else if (minAnswerTime == 10 && secAnswerTime < 10) {
+        return minAnswerTime.toString() + ':0' + secAnswerTime.toString();
       }
     } else if (minAnswerTime === 0 && secAnswerTime === 0) return '00:00';
     return minAnswerTime.toString() + ':' + secAnswerTime.toString();
@@ -258,14 +262,18 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
         <>
           <div style={{ visibility: visible }}>
             <Card className="questions">
-              <p className="answertimer">{renderAnswerTime(timeLeftAnswer)}</p>
               <p className="questionTitle">{questions[counter]?.statement}</p>
+            </Card>
+            <Card className="readCard">
+              <span className="TimeToThink_label"> Answer Time: </span>
+              <p className="readtimer">{renderAnswerTime(timeLeftAnswer)}</p>
             </Card>
           </div>
 
           <br />
           <div style={{ visibility: readTimerVisibility }}>
             <Card className="readCard">
+              <span className="TimeToThink_label"> Think Time: </span>
               <p className="readtimer">{renderReadTime(timeLeftRead)}</p>
             </Card>
           </div>

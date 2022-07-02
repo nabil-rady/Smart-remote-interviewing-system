@@ -11,7 +11,7 @@ const InterviewPage = (props) => {
   const webcamRef = useRef();
   const [interviewBegun, setInterviewBegun] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [readyForInterview, setReadyForInterview] = useState(false);
+  const [readyForInterview, setReadyForInterview] = useState(true);
   const [userHasCamera, setUserHasCamera] = useState(false);
 
   const faceColor = readyForInterview ? 'red' : 'green';
