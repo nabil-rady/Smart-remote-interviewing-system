@@ -20,12 +20,19 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late Future _positionsFuture;
-
+  final mycontroller = TextEditingController();
   @override
   void initState() {
-    Future.delayed(const Duration(microseconds: 0));
+    // Future.delayed(const Duration(microseconds: 0));
     _positionsFuture = getPositionsFuture(context);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    mycontroller.dispose();
+    super.dispose();
   }
 
   @override
@@ -46,6 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
           content: Form(
             key: _confirmFormKey,
             child: TextFormField(
+              controller: mycontroller,
               decoration:
                   const InputDecoration(labelText: 'enter 8 characters'),
               validator: (value) {

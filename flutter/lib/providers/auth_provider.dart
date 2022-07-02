@@ -79,6 +79,8 @@ class Auth with ChangeNotifier {
     //final token = await fbm.getToken();
     saveFirebaseToken(token.toString());
     //////testing
+    ///
+    print('llllllllllllllllllllll       ' + token.toString());
     final response = await http.post(
       Uri.parse('$authURL/user/login'),
       headers: <String, String>{

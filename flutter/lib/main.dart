@@ -82,10 +82,11 @@ class MyApp extends StatelessWidget {
               NetworkServiceImpli()),
         ),
         ChangeNotifierProxyProvider<Auth, DashboardPositions>(
-          create: (ctx) => DashboardPositions('', []),
+          create: (ctx) => DashboardPositions('', [], NetworkServiceImpli()),
           update: (ctx, auth, previosPositions) => DashboardPositions(
               getUserToken(),
-              previosPositions == null ? [] : previosPositions.positionsItems),
+              previosPositions == null ? [] : previosPositions.positionsItems,
+              NetworkServiceImpli()),
         ),
         ChangeNotifierProxyProvider<Auth, Positions>(
           create: (ctx) => Positions('', []),
