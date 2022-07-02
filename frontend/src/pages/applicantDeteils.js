@@ -63,7 +63,7 @@ function ApplicantDetails() {
       </div>
       {applicant ? (
         <>
-          <p className="evaluate_label">Applicant Details</p>
+          <h1 className="evaluate_label">Applicant Details</h1>
           <Card className="detailscard">
             <div className="dataContainer">
               <p htmlFor="name" className="detailsLabel">

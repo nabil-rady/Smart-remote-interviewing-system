@@ -9,7 +9,7 @@
 
 .evaluation_card {
   width: 75%;
-  margin-left:12%;
+  margin-left: 12%;
   display: flex;
   padding: 10px;
   margin-top: 1rem;
@@ -21,7 +21,7 @@
 .result_section {
   width: 80%;
 }
-.video_section{
+.video_section {
   width: 100%;
   margin-top: 4rem;
 }
@@ -50,7 +50,7 @@
 //   width: 100%;
 // }
 @media screen and (max-width: 900px) {
-  .result_section{
+  .result_section {
     display: block;
     width: 100%;
   }
@@ -67,7 +67,7 @@
   }
 }
 @media screen and (max-width: 1200px) {
-  .result_section{
+  .result_section {
     display: block;
     width: 100%;
   }
