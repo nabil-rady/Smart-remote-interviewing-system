@@ -52,10 +52,10 @@ function ViewApplicants() {
       {interviews ? (
         interviews.length > 0 ? (
           <>
-            <p className="evaluate_label">Evaluate Applicants</p>
+            <h1 className="evaluate_label">Evaluate Applicants</h1>
             <ul className="applicants_list">
               {interviews.map((applicant, index) => (
-                <Card key={index} className="applicantcard">
+                <Card key={index} className="applicants_card">
                   <Link
                     to={`/applicant_details/${applicant.interviewId}`}
                     className="app_name"

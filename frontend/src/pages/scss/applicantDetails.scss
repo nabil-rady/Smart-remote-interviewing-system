@@ -26,18 +26,6 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.26);
 }
 
-.app_name {
-  color: $primary-blue;
-  font-size: x-large;
-  font-weight: bold;
-  margin-left: 3%;
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-  display: block;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
-
 .app_interviewdate {
   display: inline-block;
 }
@@ -47,16 +35,16 @@
   margin-bottom: 0;
   font-weight: bold;
   color: $primary-blue;
-  display: inline-block;
+  display: flex;
   font-size: 1.2rem;
   margin-right: 0.3rem;
 }
 
 .evaluate_label {
   text-align: center;
-  margin-top: 1rem;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
   color: $primary-blue;
-  font-size: 50px;
   font-weight: bold;
 }
 
@@ -91,12 +79,5 @@
   &[disabled] {
     background-color: gray;
     color: black;
-  }
-}
-
-@media only screen and (max-width: 670px) {
-  .detailscard {
-    width: 60%;
-    margin: 0 auto;
   }
 }

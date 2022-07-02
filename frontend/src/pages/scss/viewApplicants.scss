@@ -1,19 +1,13 @@
 @import '../../sassConfig/colors';
 @import '../../sassConfig/transition';
 
-.applicants_list {
-  width: 95%;
-  margin: 0 auto;
-}
-
-.applicantcard {
-  width: 30%;
-  margin-bottom: 2rem;
-  // box-shadow: none;
+.applicants_card {
+  width: 450px;
   cursor: pointer;
   height: 100px;
   padding-top: 0.8rem;
-  margin: 2rem 35%;
+  margin-left: calc(50% - 225px);
+  margin-bottom: 1rem;
 }
 
 .positioncard:hover {
@@ -22,7 +16,7 @@
 
 .app_name {
   color: $primary-blue;
-  font-size: x-large;
+  font-size: large;
   font-weight: bold;
   margin-left: 3%;
   margin-top: 0.5rem;
@@ -49,6 +43,6 @@
   text-align: center;
   margin-top: 1rem;
   color: $primary-blue;
-  font-size: 50px;
   font-weight: bold;
+  font-size: xx-large;
 }
