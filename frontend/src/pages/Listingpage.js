@@ -124,6 +124,7 @@ function ListingPage() {
       const response = await fetchPositions();
       const data = await response.json();
       if (response.status === 200) {
+        console.log(data);
         getPositions(data.jobListings);
       } else {
         handleAPIError(

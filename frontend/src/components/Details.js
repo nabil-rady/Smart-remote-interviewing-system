@@ -25,12 +25,12 @@ const Details = (props) => {
               </span>
             </h2>
             <h2 className="questions-title">Questions:</h2>
-            {props.position.questions.map((question, index) => (
-              <Card key={index} className="questionsCard">
+            {props.position.questions.map((question, index1) => (
+              <Card key={index1} className="questionsCard">
                 <div className="detailsContainer">
                   <div className="question-body">
                     <p className="details-labels question-number">{`Q${
-                      index + 1
+                      index1 + 1
                     }:`}</p>
                     <p className="details-values question-statement">
                       {question.statement}
@@ -45,8 +45,8 @@ const Details = (props) => {
                   <p htmlFor="keywords" className="details-labels">
                     Keywords:
                   </p>
-                  {question.keywords.map((keyword, index) => (
-                    <p name="keywords" className="keywords">
+                  {question.keywords.map((keyword, index2) => (
+                    <p name="keywords" className="keywords" key={index2}>
                       {keyword}
                     </p>
                   ))}
