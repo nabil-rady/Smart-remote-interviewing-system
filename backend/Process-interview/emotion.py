@@ -13,9 +13,10 @@ class_labels = ['Angry', 'Happy', 'Neutral', 'Sad', 'Surprise']
 
 class emotionDetect:
     status = []
-
+    frames_num = 0
     def __init__(self, path):
         cap = cv2.VideoCapture(path)
+        self.frames_num = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
         while cap.isOpened():
             # Grab a single frame of video
             ret, frame = cap.read()
@@ -48,6 +49,10 @@ class emotionDetect:
     def user_status(self):
         res = []
         count = [0, 0, 0, 0, 0]
+        if len(self.status) <= (self.frames_num * 0.3):
+            for i in range(len(count)):
+                res.append([class_labels[i], 0])
+            return res
         for i in range(len(self.status)):
             if class_labels[0] == self.status[i]:
                 count[0] = count[0] + 1
