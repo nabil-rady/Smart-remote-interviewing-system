@@ -160,7 +160,7 @@ class QuestionFormState extends State<QuestionForm> {
                       },
                       controller: _answerController,
                       onChanged: (val) {
-                        if (int.parse(val) >= 10) {
+                        if (int.parse(val) > 10) {
                           return showAlertDialog(context);
                         }
                       },
