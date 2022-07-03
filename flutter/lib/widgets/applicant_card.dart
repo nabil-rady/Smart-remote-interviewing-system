@@ -20,11 +20,38 @@ class ApplicantCard extends StatelessWidget {
       onTap: () async {
         try {
           ///////////////////////////////////////////////////////////////////////////////
+
+          showDialog(
+              // The user CANNOT close this dialog  by pressing outsite it
+              barrierDismissible: false,
+              context: context,
+              builder: (_) {
+                return Dialog(
+                  // The background color
+                  backgroundColor: Colors.white,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 20),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: const [
+                        // The loading indicator
+                        CircularProgressIndicator(color: Color(0xFF165DC0)),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        // Some text
+                        Text('Loading...')
+                      ],
+                    ),
+                  ),
+                );
+              });
           await Provider.of<PostionDetails>(context, listen: false)
               .getEvaluationDetails(candidate.id)
               .then((value) {
             candidate = Provider.of<PostionDetails>(context, listen: false)
                 .candidateInfo;
+            Navigator.of(context).pop();
             Navigator.of(context)
                 .pushNamed('/applicant_details', arguments: candidate);
             // inspect(candidate);
@@ -56,9 +83,14 @@ class ApplicantCard extends StatelessWidget {
                       'Interview Date: ' +
                           DateFormat.yMd()
                               .add_jm()
-                              .format(DateTime.parse(candidate.submitedAt)),
+                              .format(DateTime.parse(candidate.submitedAt)) +
+                          '\n'
+                              'Score: ' +
+                          candidate.avgRecommendation.toString(),
                       style: const TextStyle(fontSize: 16),
                     ),
+
+                    // leading: Text(candidate.avgRecommendation.toString()),
                   ),
                 ),
               ),

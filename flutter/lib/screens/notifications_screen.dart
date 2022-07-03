@@ -20,20 +20,43 @@ class NotificationScreen extends StatefulWidget {
 
 class _NotificationScreenState extends State<NotificationScreen> {
   late Future _notificationsFuture;
-  var _isLoading = false;
+
   late Candidate candidate;
   Future<void> _submit(
       String interviewId, String notificationId, bool manualRead) async {
-    setState(() {
-      _isLoading = true;
-    });
     try {
       ///////////////////////////////////////////////////////////////////////////////
+      showDialog(
+          // The user CANNOT close this dialog  by pressing outsite it
+          barrierDismissible: false,
+          context: context,
+          builder: (_) {
+            return Dialog(
+              // The background color
+              backgroundColor: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: const [
+                    // The loading indicator
+                    CircularProgressIndicator(color: Color(0xFF165DC0)),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    // Some text
+                    Text('Loading...')
+                  ],
+                ),
+              ),
+            );
+          });
       await Provider.of<PostionDetails>(context, listen: false)
           .getEvaluationDetails(interviewId)
           .then((value) {
         candidate =
             Provider.of<PostionDetails>(context, listen: false).candidateInfo;
+        Navigator.of(context).pop();
         manualRead
             ? Navigator.of(context)
                 .pushNamed('/applicant_details', arguments: candidate)
@@ -47,21 +70,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
     } on HttpException catch (error) {
       showErrorDialog(
           context, "Could not loead results, Please try again later.", true);
-
-      setState(() {
-        _isLoading = false;
-      });
     } catch (error) {
       const errorMessage = 'Could not loead results, Please try again later';
       showErrorDialog(context, errorMessage, true);
-
-      setState(() {
-        _isLoading = false;
-      });
     }
-    setState(() {
-      _isLoading = false;
-    });
   }
 
   @override
