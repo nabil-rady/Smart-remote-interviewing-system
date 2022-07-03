@@ -261,7 +261,7 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
       <div className="questionspart">
         <>
           <div style={{ visibility: visible }}>
-            <Card className="questions">
+            <Card className="interview_questions">
               <p className="questionTitle">{questions[counter]?.statement}</p>
             </Card>
             <Card className="readCard">

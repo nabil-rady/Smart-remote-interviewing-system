@@ -41,7 +41,7 @@ const QuestionCard = (props) => {
           name="timeToAnswer"
           className="answer-select"
           placeholder="Time To Answer"
-          value={props.timeToAnswer}
+          value={props.timeToAnswer > 10 ? 10 : props.timeToAnswer}
           onChange={(e) => props.timeToAnswerHandler(e, props.number)}
         />
         <input
