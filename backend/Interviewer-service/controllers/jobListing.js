@@ -55,9 +55,12 @@ module.exports.postCreateListing = async (req, res, next) => {
     const questionObjects = await Promise.all(
       questions.map(async (question, index) => {
         try {
+          const { statement, timeToThink, timeToAnswer } = question;
           const createdQuestion = await createdJob.createQuestion({
             order: index,
-            ...question,
+            statement,
+            timeToThink,
+            timeToAnswer,
           });
           if (question.keywords) {
             // create keywords for each question
