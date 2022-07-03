@@ -10,14 +10,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.scss';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import NotificationCard from './components/NotificationCard';
-import TakeInterviewPage from './pages/TakeInterview';
 import AddQues from './pages/AddQues';
 import InvitationPage from './pages/inviteUserPage';
 import ChangePassword from './pages/ChangePass';
 import EvaluationPage from './pages/Evaluate';
 import AddPosition from './pages/AddPosition';
 import Dashboard from './pages/Dashboard';
-import InterviewPage from './pages/InterviewPage';
 import PositionPage from './pages/PositionPage';
 import PositionDetails from './pages/PositionDetails';
 import IntroPage from './pages/IntroPage';
@@ -28,6 +26,7 @@ import WelcomePage from './pages/WelcomePage';
 import FinishPage from './pages/FinishPage';
 import ProfilePage from './pages/Profile';
 import Interview from './pages/Interview';
+
 const UserContext = React.createContext();
 const LoadingContext = React.createContext();
 
@@ -43,7 +42,6 @@ function App() {
   requestForToken();
   onMessageListener()
     .then((payload) => {
-      console.log('PPPPPPPPPPPPPPPPPPPPPPP', payload);
       setShow(true);
       setNotification({
         title: payload.notification.title,
@@ -102,14 +100,6 @@ function App() {
             >
               <SignUpPage />
             </PublicRoute>
-            {/* <PublicRoute
-              isAuthenticated={!!authUser}
-              isVerified={isVerified}
-              path="/takeinterview"
-              exact
-            >
-              <TakeInterviewPage />
-            </PublicRoute> */}
             <PublicRoute
               isAuthenticated={!!authUser}
               isVerified={isVerified}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './scss/NotificationCard.scss';
 import { Toast } from 'react-bootstrap';
 
@@ -20,6 +20,7 @@ const NotificationCard = ({
         bottom: 20,
         right: 20,
         minWidth: 200,
+        zIndex: 1000,
       }}
     >
       <Toast.Header>

@@ -171,6 +171,121 @@
   }
 }
 
+.Navheader {
+  width: 100%;
+  display: flex;
+  background-color: $primary-blue;
+  position: relative;
+  z-index: 1;
+  &__logo {
+    width: 20%;
+    padding: 0.9rem 1.5rem;
+    padding-right: 0rem;
+    & a {
+      font-size: 24px;
+      font-family: 'Baskerville Old Face', serif;
+    }
+    color: white;
+    font-weight: 700;
+  }
+  &__navbar {
+    width: 80%;
+    display: flex;
+    &__ul {
+      list-style: none;
+      display: flex;
+      color: $hover-gray;
+      font-size: 1.2rem;
+      margin-right: 2rem;
+      border-radius: 5px;
+      padding: 0;
+      height: 35px;
+      margin-top: 1rem;
+      color: #e9efff;
+      &__li {
+        &:nth-child(1) {
+          cursor: pointer;
+          height: 20px;
+          color: #e9efff;
+          padding-top: 0.1rem;
+          color: #e9efff;
+          &:hover {
+            color: white;
+          }
+        }
+        padding: 0 0.3rem;
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+.contents {
+  display: flex;
+  margin-top: 0.7rem;
+}
+
+.dashboard-menu {
+  color: #e9efff;
+  margin-left: 2rem;
+  &__li {
+    padding: 1.2rem 1rem;
+    border-radius: 5px;
+    font-weight: 500;
+    margin-top: 3px;
+    margin: 0 0.3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    top: -3px;
+    cursor: pointer;
+    &:hover {
+      background-color: $ligh-blue;
+      color: white;
+    }
+  }
+}
+
+.user-icon,
+.arrow-icon {
+  fill: inherit;
+}
+
+.user-icon {
+  width: 20px;
+}
+
+.arrow-icon {
+  width: 16px;
+  position: relative;
+  top: 0px;
+}
+
+.username {
+  color: inherit !important;
+  &:hover {
+    color: white !important;
+  }
+}
+
+.notificationImg {
+  width: 27px;
+  height: 27px;
+  margin-right: 16px;
+  margin-top: 16px;
+  cursor: pointer;
+}
+
+.notificationImgDashboard {
+  width: 27px;
+  height: 27px;
+  margin-right: 16px;
+  margin-top: 16px;
+  margin-left: auto;
+  cursor: pointer;
+}
+
 @media only screen and (max-width: 670px) {
   .header {
     position: fixed;

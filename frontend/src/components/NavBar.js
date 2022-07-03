@@ -6,9 +6,8 @@ import NavBarSideMenu from './NavBarSideMenu';
 import NavBarUserInfoMenu from './NavBarUserInfoMenu';
 import './scss/utility.scss';
 import './scss/navbar.scss';
-import './scss/dashboard-navbar.scss';
 import notification from './SVGs/notification.png';
-import SideMenu from './SideMenu';
+import Notifications from './Notifications';
 import { HRURL } from '../API/APIConstants';
 import handleAPIError from '../utils/APIErrorHandling';
 
@@ -17,7 +16,7 @@ const NavBar = (props) => {
   const setAuthUser = useContext(UserContext).setAuthUser; // Object or null
   const isLoggedIn = !!authUser;
   const [notifications, setNotifications] = useState();
-  const sideMenu = useRef();
+  const notificationsRef = useRef();
 
   const handleClick = () => {
     const menu = document.querySelector('.navbar-sidemenu');
@@ -36,8 +35,8 @@ const NavBar = (props) => {
   };
 
   const handleToggleButtonClick = () => {
-    sideMenu.current.classList.toggle('change');
-    if (sideMenu.current.classList[1] === 'change') {
+    notificationsRef.current.classList.toggle('d-block');
+    if (notificationsRef.current.classList[1] === 'd-block') {
       const setFetchedAnswers = async () => {
         const response = await fetchNotifications();
         const data = await response.json();
@@ -74,11 +73,23 @@ const NavBar = (props) => {
 
         <nav className="header__navbar">
           {props.visible && (
-            <img
-              src={notification}
-              className={`notificationImg ${isLoggedIn ? '' : 'hidden'}`}
-              onClick={handleToggleButtonClick}
-            />
+            <div
+              style={{
+                position: 'relative',
+                marginLeft: 'auto',
+              }}
+            >
+              <img
+                src={notification}
+                className={`notificationImg ${isLoggedIn ? '' : 'hidden'}`}
+                onClick={handleToggleButtonClick}
+              />
+              <Notifications
+                ref={notificationsRef}
+                notifications={notifications}
+                handleToggleButtonClick={handleToggleButtonClick}
+              />
+            </div>
           )}
 
           <ul
@@ -127,11 +138,6 @@ const NavBar = (props) => {
           </ul>
         </nav>
       </header>
-      <SideMenu
-        ref={sideMenu}
-        notifications={notifications}
-        handleToggleButtonClick={handleToggleButtonClick}
-      />
     </>
   );
 };
