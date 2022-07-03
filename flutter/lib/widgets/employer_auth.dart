@@ -132,7 +132,6 @@ class EmployerAuthState extends State<EmployerAuth> {
     );
   }
 
-  Auth get _controller => Provider.of<Auth>(context);
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) {
       // Invalid!

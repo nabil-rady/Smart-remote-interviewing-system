@@ -5,6 +5,7 @@ import 'package:mockito/mockito.dart';
 import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 import 'package:test/local/network_services.dart';
+import 'package:test/local/sharedpreferences.dart';
 import 'package:test/local/urls.dart';
 import 'package:test/models/employer_model.dart';
 import 'package:test/providers/auth_provider.dart';
@@ -162,7 +163,31 @@ void main() {
   testWidgets('testing navigation by tapping on the card',
       ((WidgetTester tester) async {
     when(networkservice.get(
-      '$hrURL/job-listing/${'ced39477-9704-4138-936f-34d7ab83c610'}',
+      '$hrURL/job-listing/get-listings',
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization':
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJmYjQ3NjY5NC0xZjVmLTQ3YmEtYjBmNy02YmVjZjg2MDBjODciLCJpYXQiOjE2NTI4MTgwNTYsImV4cCI6MTY4NDM3NTY1Nn0.TAgIpfcjM5YQJ2cfSrRfHtQsWULYfaDMARijz6ZCRew",
+      },
+    )).thenAnswer((_) async {
+      return http.Response('''{
+  "jobListings": [
+    {
+      "jobListingId": "string",
+      "userId": "string",
+      "positionName": "Software Engineer",
+      "expiryDate": "2022-07-02T10:58:40.134Z",
+      "invitationsNumber": 0,
+      "interviewsNumber": 0
+    }
+  ]
+}''', 200);
+    });
+
+    var id = '2d86cde3-fdec-4926-85e0-65327f70cb7c';
+
+    when(networkservice.get(
+      '$hrURL/job-listing/${'2d86cde3-fdec-4926-85e0-65327f70cb7c'}',
       headers: <String, String>{
         'Content-Type': 'application/json',
         'Authorization':
@@ -173,8 +198,8 @@ void main() {
         return http.Response('''{
   "jobListingId": "string",
   "userId": "string",
-  "positionName": "string",
-  "expiryDate": "2022-07-02T22:48:39.142Z",
+  "positionName": "Software Engineer",
+  "expiryDate": "2022-07-02T10:58:40.134Z",
   "invitationsNumber": 0,
   "interviewsNumber": 0,
   "questions": [
@@ -198,34 +223,13 @@ void main() {
       "phoneNumber": "string",
       "avgRecommendation": 0,
       "avgManualEvaluation": 0,
-      "submitedAt": "2022-07-02T22:48:39.142Z"
+      "submitedAt": "2022-07-03T14:49:52.723Z"
     }
   ]
 }''', 200);
       },
     );
 
-    when(networkservice.get(
-      '$hrURL/job-listing/get-listings',
-      headers: <String, String>{
-        'Content-Type': 'application/json',
-        'Authorization':
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJmYjQ3NjY5NC0xZjVmLTQ3YmEtYjBmNy02YmVjZjg2MDBjODciLCJpYXQiOjE2NTI4MTgwNTYsImV4cCI6MTY4NDM3NTY1Nn0.TAgIpfcjM5YQJ2cfSrRfHtQsWULYfaDMARijz6ZCRew",
-      },
-    )).thenAnswer((_) async {
-      return http.Response('''{
-  "jobListings": [
-    {
-      "jobListingId": "string",
-      "userId": "string",
-      "positionName": "Software Engineer",
-      "expiryDate": "2022-07-02T10:58:40.134Z",
-      "invitationsNumber": 0,
-      "interviewsNumber": 0
-    }
-  ]
-}''', 200);
-    });
     mockAuth.employer.emailConfirmed = true;
     await tester.pumpWidget(MultiProvider(
       providers: [
@@ -249,10 +253,10 @@ void main() {
       ],
       builder: (context, child) {
         return MediaQuery(
-            data: new MediaQueryData(),
+            data: const MediaQueryData(),
             child: MaterialApp(home: Navigator(onGenerateRoute: (_) {
               return MaterialPageRoute(
-                  builder: ((context) => HomeScreen()),
+                  builder: ((context) => const HomeScreen()),
                   settings: RouteSettings(arguments: Mock()));
             })));
       },

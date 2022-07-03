@@ -17,6 +17,7 @@ class AppDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     final employerData = Provider.of<Auth>(context, listen: false).employer;
     return Drawer(
+      key: Key("Drawer"),
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[

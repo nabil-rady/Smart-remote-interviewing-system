@@ -111,7 +111,7 @@ void main() {
     // when(mockauth.login('mohamed.medhat2199@gmail.com', '123456789', ''))
     //     .thenReturn();
 
-    await tester.pumpWidget(ChangeNotifierProvider<Auth>(
+    await tester.pumpWidget(Provider<Auth>(
       create: (_) => mockauth,
       builder: (_, __) => MediaQuery(
           data: new MediaQueryData(),

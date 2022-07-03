@@ -58,6 +58,36 @@ class QuestionFormState extends State<QuestionForm> {
   }
 
   ///
+
+  showAlertDialog(BuildContext context) {
+    // set up the button
+    Widget okButton = TextButton(
+      child: Text("OK"),
+      onPressed: () {
+        _answerController.clear();
+        Navigator.of(context).pop();
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Notice"),
+      content: Text("Maximum time for answering a question is 10 minutes."),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  TextEditingController _answerController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -117,7 +147,8 @@ class QuestionFormState extends State<QuestionForm> {
                   TextFormField(
                       keyboardType: TextInputType.number,
                       decoration: const InputDecoration(
-                          labelText: 'Answer Time', hintText: 'In Minutes'),
+                          labelText: 'Answer Time',
+                          hintText: 'In Minutes , Max Time in 10 Minutes'),
                       textInputAction: TextInputAction.done,
                       onSaved: (value) {
                         newquestion = Question(
@@ -126,6 +157,12 @@ class QuestionFormState extends State<QuestionForm> {
                           answerTime: int.parse(value.toString()),
                           keywords: newquestion.keywords,
                         );
+                      },
+                      controller: _answerController,
+                      onChanged: (val) {
+                        if (int.parse(val) >= 10) {
+                          return showAlertDialog(context);
+                        }
                       },
                       validator: (value) => validateAnsweringField(value!)
                       //  {
