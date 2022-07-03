@@ -4,20 +4,29 @@ import { UserContext } from '../App';
 import { Link } from 'react-router-dom';
 import { TailSpin } from 'react-loader-spinner';
 import NoNotification from './NoNotification';
+import { HRURL } from '../API/APIConstants';
+import handleAPIError from '../utils/APIErrorHandling';
 
 const Notifications = React.forwardRef((props, notifications) => {
+  const authUser = useContext(UserContext).authUser;
+  const setAuthUser = useContext(UserContext).setAuthUser; // Object or null
+
   return (
     <>
       <div className="notifications" ref={notifications}>
         {props.notifications ? (
           props.notifications.length > 0 ? (
             <ul className="notifications-list">
-              {props.notifications.map((notification) => (
-                <li className="notification">
+              {props.notifications.map((notification, index) => (
+                <li
+                  className="notification"
+                  key={index}
+                  onClick={() => props.clickNotificationHandler(notification)}
+                >
                   <Link
                     to={`/applicant_details/${notification.interviewId}`}
                     className={`notification_nav_link ${
-                      notification.read ? 'read' : ''
+                      notification.manualRead ? 'read' : ''
                     }`}
                   >
                     {notification.body}
@@ -36,6 +45,7 @@ const Notifications = React.forwardRef((props, notifications) => {
               style={{
                 display: 'flex',
                 justifyContent: 'center',
+                marginTop: '5%',
                 alignItems: 'center',
               }}
             >

@@ -54,7 +54,12 @@ const EvaluationCard = React.forwardRef((props, ratings) => {
       </div>
     );
   };
-
+  const setHyperactive = (openPose) => {
+    if (openPose > 50) {
+      return 'Yes';
+    }
+    return 'No';
+  };
   return (
     <div>
       <ul>
@@ -67,8 +72,8 @@ const EvaluationCard = React.forwardRef((props, ratings) => {
                 </p>
                 {getEmotions(answer.emotions, index)}
                 <div className="resultsContainer">
-                  <p className="detailsLabel">OpenPose:</p>
-                  <p className="info">{answer.openPose}</p>
+                  <p className="detailsLabel">Hyperactive:</p>
+                  <p className="info">{setHyperactive(answer.openPose)}</p>
                 </div>
                 <div className="resultsContainer">
                   <p className="detailsLabel">Score:</p>

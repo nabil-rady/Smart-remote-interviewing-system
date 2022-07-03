@@ -81,6 +81,12 @@ function ViewApplicants() {
                   <p name="interviewdate" className="app_interviewdate">
                     {formatDate(applicant.submitedAt)}
                   </p>
+                  <p htmlFor="interviewdate" className="labels">
+                    Score:
+                  </p>
+                  <p name="interviewdate" className="app_interviewdate">
+                    {applicant.avgRecommendation}
+                  </p>
                 </Card>
               ))}
             </ul>

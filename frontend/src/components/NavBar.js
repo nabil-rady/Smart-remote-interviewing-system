@@ -6,7 +6,7 @@ import NavBarSideMenu from './NavBarSideMenu';
 import NavBarUserInfoMenu from './NavBarUserInfoMenu';
 import './scss/utility.scss';
 import './scss/navbar.scss';
-import notification from './SVGs/notification.png';
+import notificationImg from './SVGs/notification.png';
 import Notifications from './Notifications';
 import { HRURL } from '../API/APIConstants';
 import handleAPIError from '../utils/APIErrorHandling';
@@ -17,7 +17,37 @@ const NavBar = (props) => {
   const isLoggedIn = !!authUser;
   const [notifications, setNotifications] = useState();
   const notificationsRef = useRef();
-
+  const clickNotificationHandler = (notification) => {
+    let statusCode;
+    console.log(notification);
+    fetch(`${HRURL}/user/read-notification/${notification.notificationId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: authUser.token,
+      },
+    })
+      .then((response) => {
+        statusCode = response.status;
+        console.log(response);
+        return response.json();
+      })
+      .then((data) => {
+        if (statusCode === 200) {
+          console.log(data);
+        } else {
+          handleAPIError(
+            statusCode,
+            data,
+            () => {},
+            () => setAuthUser(null)
+          );
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  };
   const handleClick = () => {
     const menu = document.querySelector('.navbar-sidemenu');
     const mobileBurgerButton = document.querySelector('.mobile-burger-button');
@@ -33,25 +63,24 @@ const NavBar = (props) => {
       },
     });
   };
-
+  const setFetchedAnswers = async () => {
+    const response = await fetchNotifications();
+    const data = await response.json();
+    if (response.status === 200) {
+      console.log(data);
+      setNotifications(data.notifications);
+    } else {
+      handleAPIError(
+        response.status,
+        data,
+        () => {},
+        () => setAuthUser(null)
+      );
+    }
+  };
   const handleToggleButtonClick = () => {
     notificationsRef.current.classList.toggle('d-block');
     if (notificationsRef.current.classList[1] === 'd-block') {
-      const setFetchedAnswers = async () => {
-        const response = await fetchNotifications();
-        const data = await response.json();
-        if (response.status === 200) {
-          console.log(data);
-          setNotifications(data.notifications);
-        } else {
-          handleAPIError(
-            response.status,
-            data,
-            () => {},
-            () => setAuthUser(null)
-          );
-        }
-      };
       setFetchedAnswers();
     }
   };
@@ -80,7 +109,7 @@ const NavBar = (props) => {
               }}
             >
               <img
-                src={notification}
+                src={notificationImg}
                 className={`notificationImg ${isLoggedIn ? '' : 'hidden'}`}
                 onClick={handleToggleButtonClick}
               />
@@ -88,6 +117,7 @@ const NavBar = (props) => {
                 ref={notificationsRef}
                 notifications={notifications}
                 handleToggleButtonClick={handleToggleButtonClick}
+                clickNotificationHandler={clickNotificationHandler}
               />
             </div>
           )}
