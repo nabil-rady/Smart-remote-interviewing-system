@@ -21,7 +21,6 @@ class Questions with ChangeNotifier {
   void addForm(Question newquestion) {
     _items.add(newquestion);
     _itemsMap.add({
-      "questionId": newquestion.id,
       "statement": newquestion.titleQuestion,
       "timeToThink": newquestion.thinkingTime,
       "timeToAnswer": newquestion.answerTime,
@@ -30,9 +29,9 @@ class Questions with ChangeNotifier {
     notifyListeners();
   }
 
-  void deleteForm(String id) {
-    _items.removeWhere((element) => element.id == id);
-    _itemsMap.removeWhere((element) => element['questionId'] == id);
+  void deleteForm(String titleQuestion) {
+    _items.removeWhere((element) => element.titleQuestion == titleQuestion);
+    _itemsMap.removeWhere((element) => element['statement'] == titleQuestion);
     notifyListeners();
   }
 

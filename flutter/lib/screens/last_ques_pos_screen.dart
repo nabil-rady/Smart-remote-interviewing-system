@@ -119,11 +119,11 @@ class _LastQuestionScreenState extends State<LastQuestionScreen> {
             )
           : ListView.builder(
               itemBuilder: (ctx, i) => QuestionInfoItem(
-                  questionTitle: questions[i].titleQuestion,
-                  answerTime: questions[i].answerTime,
-                  thinkingTime: questions[i].thinkingTime,
-                  keywords: questions[i].keywords,
-                  id: questions[i].id),
+                questionTitle: questions[i].titleQuestion,
+                answerTime: questions[i].answerTime,
+                thinkingTime: questions[i].thinkingTime,
+                keywords: questions[i].keywords,
+              ),
               itemCount: questions.length,
             ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

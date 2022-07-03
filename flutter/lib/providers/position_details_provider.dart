@@ -74,7 +74,6 @@ class PostionDetails with ChangeNotifier {
                 answerTime: positionvalue['timeToAnswer'],
                 thinkingTime: positionvalue['timeToThink'],
                 keywords: positionvalue['keywords'].toString(),
-                id: positionvalue['questionId'],
               )))
           .toList();
       _items = _finalList.toList();

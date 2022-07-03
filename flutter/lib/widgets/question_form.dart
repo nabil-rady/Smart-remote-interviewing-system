@@ -22,11 +22,11 @@ class QuestionFormState extends State<QuestionForm> {
   }
 
   var newquestion = Question(
-      titleQuestion: '',
-      answerTime: 0,
-      thinkingTime: 0,
-      keywords: '',
-      id: DateTime.now().toString());
+    titleQuestion: '',
+    answerTime: 0,
+    thinkingTime: 0,
+    keywords: '',
+  );
 
   /////test
   validateQuestionField(String value) {
@@ -79,11 +79,11 @@ class QuestionFormState extends State<QuestionForm> {
                       textInputAction: TextInputAction.next,
                       onSaved: (value) {
                         newquestion = Question(
-                            titleQuestion: value.toString(),
-                            thinkingTime: newquestion.thinkingTime,
-                            answerTime: newquestion.answerTime,
-                            keywords: newquestion.keywords,
-                            id: newquestion.id);
+                          titleQuestion: value.toString(),
+                          thinkingTime: newquestion.thinkingTime,
+                          answerTime: newquestion.answerTime,
+                          keywords: newquestion.keywords,
+                        );
                       },
                       validator: (value) => validateQuestionField(value!)
                       //  {
@@ -100,11 +100,11 @@ class QuestionFormState extends State<QuestionForm> {
                       textInputAction: TextInputAction.next,
                       onSaved: (value) {
                         newquestion = Question(
-                            titleQuestion: newquestion.titleQuestion,
-                            thinkingTime: int.parse(value.toString()),
-                            answerTime: newquestion.answerTime,
-                            keywords: newquestion.keywords,
-                            id: newquestion.id);
+                          titleQuestion: newquestion.titleQuestion,
+                          thinkingTime: int.parse(value.toString()),
+                          answerTime: newquestion.answerTime,
+                          keywords: newquestion.keywords,
+                        );
                       },
                       validator: (value) => validateThinkingField(value!)
                       //  {
@@ -121,11 +121,11 @@ class QuestionFormState extends State<QuestionForm> {
                       textInputAction: TextInputAction.done,
                       onSaved: (value) {
                         newquestion = Question(
-                            titleQuestion: newquestion.titleQuestion,
-                            thinkingTime: newquestion.thinkingTime,
-                            answerTime: int.parse(value.toString()),
-                            keywords: newquestion.keywords,
-                            id: newquestion.id);
+                          titleQuestion: newquestion.titleQuestion,
+                          thinkingTime: newquestion.thinkingTime,
+                          answerTime: int.parse(value.toString()),
+                          keywords: newquestion.keywords,
+                        );
                       },
                       validator: (value) => validateAnsweringField(value!)
                       //  {
@@ -142,11 +142,11 @@ class QuestionFormState extends State<QuestionForm> {
                       textInputAction: TextInputAction.next,
                       onSaved: (value) {
                         newquestion = Question(
-                            titleQuestion: newquestion.titleQuestion,
-                            thinkingTime: newquestion.thinkingTime,
-                            answerTime: newquestion.answerTime,
-                            keywords: value.toString(),
-                            id: newquestion.id);
+                          titleQuestion: newquestion.titleQuestion,
+                          thinkingTime: newquestion.thinkingTime,
+                          answerTime: newquestion.answerTime,
+                          keywords: value.toString(),
+                        );
                         newquestion.keywordsList =
                             newquestion.keywords.split(',');
                       },
