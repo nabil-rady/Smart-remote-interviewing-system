@@ -29,8 +29,9 @@ module.exports.postSignup = (req, res, next) => {
     phoneCode,
     phoneNumber,
   } = req.body;
+
   bcrypt
-    .hash(password, 12) // hash the password
+    .hash(password.toString(), 12) // hash the password
     .then((hashedPassword) => {
       return User.create({
         // Store the user in the dataBase
