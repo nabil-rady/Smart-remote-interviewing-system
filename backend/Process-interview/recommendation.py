@@ -40,7 +40,7 @@ class recomm:
                 [sent_vec3[0]],
                 sent_vec3[1:]
             )
-            for i in range(len(x)):
+            for i in range(len(x[0])):
                 self.y = self.y + x[0][i]
             self.y = (self.y / (len(sent) - 1)) * 1000.0
 
