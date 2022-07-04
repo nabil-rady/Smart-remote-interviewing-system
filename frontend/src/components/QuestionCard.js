@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React from 'react';
+import MultipleValueTextInput from 'react-multivalue-text-input';
 import Card from './Card';
 import delIcon from '../components/SVGs/delete.svg';
 import './scss/QuestionCard.scss';
@@ -56,13 +57,16 @@ const QuestionCard = (props) => {
         <br></br>
 
         <label htmlFor="question-keywords">Keywords</label>
-        <input
-          type="text"
-          placeholder="Keywords ex:(keyword1,keyword2,keyword3,....)"
-          className="question-keywords"
+        <MultipleValueTextInput
+          onItemAdded={(_, allItems) =>
+            props.keywordsHandler(props.number, allItems)
+          }
+          onItemDeleted={(_, allItems) =>
+            props.keywordsHandler(props.number, allItems)
+          }
           id="question-keywords"
-          value={props.keywords}
-          onChange={(e) => props.keywordsHandler(e, props.number)}
+          className="question-keywords"
+          placeholder="Keywords seperated by commas"
         />
       </Card>
     </>

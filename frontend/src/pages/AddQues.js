@@ -68,12 +68,7 @@ function AddQues() {
       })
     );
   };
-  const keywordsHandler = (e, id) => {
-    let kw = e.target.value.split(',');
-    const keywords = [];
-    for (let i = 0; i < kw.length; i++) {
-      keywords.push(kw[i]);
-    }
+  const keywordsHandler = (id, keywords) => {
     setQuestions((oldQuestions) =>
       oldQuestions.map((oldQuestion, index) => {
         if (index + 1 !== id) return oldQuestion;
