@@ -1,4 +1,4 @@
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { requestForToken, onMessageListener } from './utils/firebase';
 import PublicRoute from './Routes/PublicRoute';
 import PrivateRoute from './Routes/PrivateRoute';
@@ -25,6 +25,7 @@ import WelcomePage from './pages/WelcomePage';
 import FinishPage from './pages/FinishPage';
 import ProfilePage from './pages/Profile';
 import Interview from './pages/Interview';
+import Page404 from './pages/Page404';
 
 const UserContext = React.createContext();
 const LoadingContext = React.createContext();
@@ -80,135 +81,140 @@ function App() {
               removeNotification={removeNotification}
               showNotification={show}
             />
-            <Route path="/" exact>
-              <NewLanding />
-            </Route>
-            <PublicRoute
-              isAuthenticated={!!authUser}
-              isVerified={isVerified}
-              path="/login"
-              exact
-            >
-              <LoginPage />
-            </PublicRoute>
-            <PublicRoute
-              isAuthenticated={!!authUser}
-              isVerified={isVerified}
-              path="/signup"
-              exact
-            >
-              <SignUpPage />
-            </PublicRoute>
-            <PublicRoute
-              isAuthenticated={!!authUser}
-              isVerified={isVerified}
-              path="/finish"
-              exact
-            >
-              <FinishPage />
-            </PublicRoute>
-            <PrivateRoute
-              isAuthenticated={!!authUser}
-              isVerified={isVerified}
-              path="/profile"
-              exact
-            >
-              <ProfilePage />
-            </PrivateRoute>
-            <PrivateRoute
-              isAuthenticated={!!authUser}
-              isVerified={isVerified}
-              path="/addposition"
-              exact
-            >
-              <AddQues />
-            </PrivateRoute>
-            <PrivateRoute
-              isAuthenticated={!!authUser}
-              isVerified={isVerified}
-              path="/invite/:listingId"
-              exact
-            >
-              <InvitationPage />
-            </PrivateRoute>
-            <PrivateRoute
-              isAuthenticated={!!authUser}
-              isVerified={isVerified}
-              path="/changepass"
-              exact
-            >
-              <ChangePassword />
-            </PrivateRoute>
-            <PublicRoute
-              isAuthenticated={!!authUser}
-              isVerified={isVerified}
-              path="/interview"
-              exact
-            >
-              <Interview />
-            </PublicRoute>
-            <PrivateRoute
-              isAuthenticated={!!authUser}
-              isVerified={isVerified}
-              path="/dashboard"
-              exact
-            >
-              <Dashboard />
-            </PrivateRoute>
-            <PrivateRoute
-              isAuthenticated={!!authUser}
-              isVerified={isVerified}
-              path="/position/:positionNameAndId"
-              exact
-            >
-              <PositionPage />
-            </PrivateRoute>
-            <PublicRoute
-              isAuthenticated={!!authUser}
-              isVerified={isVerified}
-              path="/intro/:interviewId"
-              exact
-            >
-              <IntroPage />
-            </PublicRoute>
-            <PrivateRoute
-              isAuthenticated={!!authUser}
-              isVerified={isVerified}
-              path="/positiondetails/:positionNameAndId"
-              exact
-            >
-              <PositionDetails />
-            </PrivateRoute>
-            <PrivateRoute
-              isAuthenticated={!!authUser}
-              isVerified={isVerified}
-              path="/view_applicants/:positionNameAndId"
-              exact
-            >
-              <ViewApplicants />
-            </PrivateRoute>
-            <PrivateRoute
-              isAuthenticated={!!authUser}
-              isVerified={isVerified}
-              path="/applicant_details/:positionNameAndapplicantId"
-              exact
-            >
-              <ApplicantDetails />
-            </PrivateRoute>
-            <PublicRoute
-              isAuthenticated={!!authUser}
-              isVerified={isVerified}
-              path="/welcome/:interviewId"
-              exact
-            >
-              <WelcomePage />
-            </PublicRoute>
-            <PrivateRoute
-              isAuthenticated={!!authUser}
-              path="/evaluate/:applicantId"
-            >
-              <EvaluationPage />
-            </PrivateRoute>
+            <Switch>
+              <Route path="/" exact>
+                <NewLanding />
+              </Route>
+              <PublicRoute
+                isAuthenticated={!!authUser}
+                isVerified={isVerified}
+                path="/login"
+                exact
+              >
+                <LoginPage />
+              </PublicRoute>
+              <PublicRoute
+                isAuthenticated={!!authUser}
+                isVerified={isVerified}
+                path="/signup"
+                exact
+              >
+                <SignUpPage />
+              </PublicRoute>
+              <PublicRoute
+                isAuthenticated={!!authUser}
+                isVerified={isVerified}
+                path="/finish"
+                exact
+              >
+                <FinishPage />
+              </PublicRoute>
+              <PrivateRoute
+                isAuthenticated={!!authUser}
+                isVerified={isVerified}
+                path="/profile"
+                exact
+              >
+                <ProfilePage />
+              </PrivateRoute>
+              <PrivateRoute
+                isAuthenticated={!!authUser}
+                isVerified={isVerified}
+                path="/addposition"
+                exact
+              >
+                <AddQues />
+              </PrivateRoute>
+              <PrivateRoute
+                isAuthenticated={!!authUser}
+                isVerified={isVerified}
+                path="/invite/:listingId"
+                exact
+              >
+                <InvitationPage />
+              </PrivateRoute>
+              <PrivateRoute
+                isAuthenticated={!!authUser}
+                isVerified={isVerified}
+                path="/changepass"
+                exact
+              >
+                <ChangePassword />
+              </PrivateRoute>
+              <PublicRoute
+                isAuthenticated={!!authUser}
+                isVerified={isVerified}
+                path="/interview"
+                exact
+              >
+                <Interview />
+              </PublicRoute>
+              <PrivateRoute
+                isAuthenticated={!!authUser}
+                isVerified={isVerified}
+                path="/dashboard"
+                exact
+              >
+                <Dashboard />
+              </PrivateRoute>
+              <PrivateRoute
+                isAuthenticated={!!authUser}
+                isVerified={isVerified}
+                path="/position/:positionNameAndId"
+                exact
+              >
+                <PositionPage />
+              </PrivateRoute>
+              <PublicRoute
+                isAuthenticated={!!authUser}
+                isVerified={isVerified}
+                path="/intro/:interviewId"
+                exact
+              >
+                <IntroPage />
+              </PublicRoute>
+              <PrivateRoute
+                isAuthenticated={!!authUser}
+                isVerified={isVerified}
+                path="/positiondetails/:positionNameAndId"
+                exact
+              >
+                <PositionDetails />
+              </PrivateRoute>
+              <PrivateRoute
+                isAuthenticated={!!authUser}
+                isVerified={isVerified}
+                path="/view_applicants/:positionNameAndId"
+                exact
+              >
+                <ViewApplicants />
+              </PrivateRoute>
+              <PrivateRoute
+                isAuthenticated={!!authUser}
+                isVerified={isVerified}
+                path="/applicant_details/:positionNameAndapplicantId"
+                exact
+              >
+                <ApplicantDetails />
+              </PrivateRoute>
+              <PublicRoute
+                isAuthenticated={!!authUser}
+                isVerified={isVerified}
+                path="/welcome/:interviewId"
+                exact
+              >
+                <WelcomePage />
+              </PublicRoute>
+              <PrivateRoute
+                isAuthenticated={!!authUser}
+                path="/evaluate/:applicantId"
+              >
+                <EvaluationPage />
+              </PrivateRoute>
+              <Route>
+                <Page404 />
+              </Route>
+            </Switch>
           </UserContext.Provider>
         </LoadingContext.Provider>
       </>
