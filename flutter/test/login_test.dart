@@ -56,15 +56,6 @@ void main() {
       final state = element.state as EmployerAuthState;
       expect(state.validateEmailField('monicazik'), 'Invalid email!');
     });
-
-    test(
-        'password validation , check if password field is empty or less than 9 characters ',
-        () {
-      var widget = EmployerAuth();
-      final element = widget.createElement();
-      final state = element.state as EmployerAuthState;
-      expect(state.validateEmailField(''), 'Invalid email!');
-    });
   });
 
   late NetworkService networkservice;

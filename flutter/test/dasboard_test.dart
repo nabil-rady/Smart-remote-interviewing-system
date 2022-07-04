@@ -229,6 +229,8 @@ void main() {
 }''', 200);
       },
     );
+    when(
+        mockPositionDetails.getDetails('2d86cde3-fdec-4926-85e0-65327f70cb7c'));
 
     mockAuth.employer.emailConfirmed = true;
     await tester.pumpWidget(MultiProvider(

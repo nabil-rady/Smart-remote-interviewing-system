@@ -44,7 +44,7 @@ class _PositionItemState extends State<PositionItem> {
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: Text("AlertDialog"),
+      title: Text("Alert !"),
       content: Text("Are you sure you want to delete this position ?"),
       actions: [
         cancelButton,
