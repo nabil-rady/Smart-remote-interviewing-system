@@ -20,34 +20,47 @@ const QuestionCard = (props) => {
         )}
       </Card>
       <Card className="card-question">
+        <label htmlFor="question-text">Question Statement</label>
         <input
           type="text"
           placeholder="Full Question"
           className="question-text"
           value={props.fullQuestion}
+          id="question-text"
           onChange={(e) => props.fullQuestionHandler(e, props.number)}
         />
+        <br></br>
 
+        <label htmlFor="time-to-think">Time to think</label>
         <input
           type="number"
           name="timeToRead"
           className="read-select"
           placeholder="Time To Think"
+          id="time-to-think"
           value={props.timeToThink}
           onChange={(e) => props.timeToThinkHandler(e, props.number)}
         />
+        <br></br>
+
+        <label htmlFor="time-to-answer">Time to answer</label>
         <input
           type="number"
           name="timeToAnswer"
           className="answer-select"
           placeholder="Time To Answer"
+          id="time-to-answer"
           value={props.timeToAnswer > 10 ? 10 : props.timeToAnswer}
           onChange={(e) => props.timeToAnswerHandler(e, props.number)}
         />
+        <br></br>
+
+        <label htmlFor="question-keywords">Keywords</label>
         <input
           type="text"
           placeholder="Keywords ex:(keyword1,keyword2,keyword3,....)"
           className="question-keywords"
+          id="question-keywords"
           value={props.keywords}
           onChange={(e) => props.keywordsHandler(e, props.number)}
         />

@@ -181,8 +181,8 @@ function AddQues() {
         expiryDateHandler={expiryDateHandler}
       />
       <div className="questions top-margin">{renderQuestions()}</div>
-      <div className="flex">
-        <button className="add" onClick={addHandler}>
+      <div className="d-flex add-questions-button-container">
+        <button className="add-question" onClick={addHandler}>
           Add Question
         </button>
 

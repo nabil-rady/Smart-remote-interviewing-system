@@ -3,8 +3,7 @@
 
 .position-name {
   height: 40px;
-  width: 92%;
-  margin-left: 4%;
+  width: 90%;
   margin-top: 10px;
   outline: none;
   border: none;
@@ -15,8 +14,7 @@
 
 .expiry-date {
   height: 40px;
-  width: 92%;
-  margin-left: 4%;
+  width: 90%;
   margin-top: 10px;
   outline: none;
   border: none;
@@ -24,9 +22,27 @@
   border-radius: 0px;
   padding: 1px;
 }
+
 .position-card {
-  width: 38%;
+  width: 75%;
+  max-width: 700px;
   margin: 2rem auto;
-  margin-bottom: 1.5rem;
+  margin-bottom: 5rem;
   padding: 3rem;
+  & label {
+    color: $primary-blue;
+    display: block;
+    font-size: 1.1rem;
+    margin-top: 22px;
+  }
+}
+
+.position-card-title {
+  color: $primary-blue;
+}
+
+@media only screen and (max-width: 670px) {
+  .position-card-title {
+    text-align: center;
+  }
 }

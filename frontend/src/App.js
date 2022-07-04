@@ -14,7 +14,6 @@ import AddQues from './pages/AddQues';
 import InvitationPage from './pages/inviteUserPage';
 import ChangePassword from './pages/ChangePass';
 import EvaluationPage from './pages/Evaluate';
-import AddPosition from './pages/AddPosition';
 import Dashboard from './pages/Dashboard';
 import PositionPage from './pages/PositionPage';
 import PositionDetails from './pages/PositionDetails';
@@ -119,7 +118,7 @@ function App() {
             <PrivateRoute
               isAuthenticated={!!authUser}
               isVerified={isVerified}
-              path="/add"
+              path="/addposition"
               exact
             >
               <AddQues />
@@ -139,14 +138,6 @@ function App() {
               exact
             >
               <ChangePassword />
-            </PrivateRoute>
-            <PrivateRoute
-              isAuthenticated={!!authUser}
-              isVerified={isVerified}
-              path="/positions"
-              exact
-            >
-              <AddPosition />
             </PrivateRoute>
             <PublicRoute
               isAuthenticated={!!authUser}

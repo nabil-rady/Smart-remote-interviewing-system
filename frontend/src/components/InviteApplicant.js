@@ -11,6 +11,7 @@ import ReactFileReader from 'react-file-reader';
 import { useParams } from 'react-router-dom';
 import { TailSpin } from 'react-loader-spinner';
 import SuccessfullModal from './SuccessfullModal';
+
 const InviteUser = (props) => {
   const params = useParams();
   const listingId = params.listingId;

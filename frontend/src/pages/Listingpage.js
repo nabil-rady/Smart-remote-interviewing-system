@@ -153,14 +153,14 @@ function ListingPage() {
             <>
               <div className="positions">{renderPositions()}</div>
               <button className="addposition">
-                <Link to="/add">Add Position</Link>
+                <Link to="/addposition">Add Position</Link>
               </button>
             </>
           ) : (
             <>
               <NoInfo page="dashboard" />
               <button className="addposition">
-                <Link to="/add">Add Position</Link>
+                <Link to="/addposition">Add Position</Link>
               </button>
             </>
           )

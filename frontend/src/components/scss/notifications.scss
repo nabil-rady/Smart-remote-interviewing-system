@@ -70,6 +70,9 @@
   border-radius: 20px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
   display: none;
+  max-height: 400px;
+  overflow-y: scroll;
+  border-top-right-radius: 0;
   &::before {
     content: '';
     display: block;
