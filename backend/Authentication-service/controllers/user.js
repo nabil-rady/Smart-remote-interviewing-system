@@ -153,77 +153,72 @@ module.exports.postConfirmEmail = async (req, res, next) => {
     });
 };
 
-module.exports.postVerifyEmail = (req, res, next) => {
-  // Check for validation errors
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    const error = new Error(`Verification faild.`);
-    error.statusCode = 422; // Validation error
-    error.data = errors.array();
-    throw error;
-  }
+module.exports.postVerifyEmail = async (req, res, next) => {
+  try {
+    // Check for validation errors
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const error = new Error(`Verification faild.`);
+      error.statusCode = 422; // Validation error
+      error.data = errors.array();
+      throw error;
+    }
 
-  const { verificationCode } = req.body;
-  const { userId } = req;
-
-  User.findOne({
-    // fetch the user.
-    where: {
-      userId: userId,
-    },
-  })
-    .then((fetchedUser) => {
-      if (!fetchedUser) {
-        // check if the email does not exist.
-        const error = new Error('User is not found');
-        error.statusCode = 404;
-        throw error;
-      }
-      if (fetchedUser.dataValues.emailConfirmed) {
-        const error = new Error(`User's email already verified.`);
-        error.statusCode = 422;
-        throw error;
-      } else if (verificationCode !== fetchedUser.dataValues.verificationCode) {
-        const error = new Error('Wrong verification code.');
-        error.statusCode = 422;
-        throw error;
-      }
-      // get the date difference in hours
-      let dateDifference =
-        (new Date() -
-          new Date(fetchedUser.dataValues.verificationCodeGenerationDate)) /
-        36e5;
-      console.log(`############# ${dateDifference} #################`);
-      // check if the code in generated in less than one hour
-      if (dateDifference >= 1) {
-        const error = new Error('Verification code has been expired.');
-        error.statusCode = 422;
-        throw error;
-      }
-
-      // emailConfirmed => true
-      return User.update(
-        {
-          emailConfirmed: true,
-        },
-        {
-          where: {
-            userId: userId,
-          },
-        }
-      );
-    })
-    .then((updatesUser) => {
-      res.status(200).json({
-        message: `User's email has been successfully verified.`,
-      });
-    })
-    .catch((err) => {
-      if (!err.statusCode) {
-        err.statusCode = 500; // serverSide error
-      }
-      next(err);
+    const { verificationCode } = req.body;
+    const { userId } = req;
+    const fetchedUser = await User.findOne({
+      // fetch the user.
+      where: {
+        userId: userId,
+      },
     });
+    if (!fetchedUser) {
+      // check if the email does not exist.
+      const error = new Error('User is not found');
+      error.statusCode = 404;
+      throw error;
+    }
+    if (fetchedUser.dataValues.emailConfirmed) {
+      const error = new Error(`User's email already verified.`);
+      error.statusCode = 422;
+      throw error;
+    } else if (verificationCode !== fetchedUser.dataValues.verificationCode) {
+      const error = new Error('Wrong verification code.');
+      error.statusCode = 422;
+      throw error;
+    }
+    // get the date difference in hours
+    let dateDifference =
+      (new Date() -
+        new Date(fetchedUser.dataValues.verificationCodeGenerationDate)) /
+      36e5;
+    console.log(`############# ${dateDifference} #################`);
+    // check if the code in generated in less than one hour
+    if (dateDifference >= 1) {
+      const error = new Error('Verification code has been expired.');
+      error.statusCode = 422;
+      throw error;
+    }
+
+    await User.update(
+      {
+        emailConfirmed: true,
+      },
+      {
+        where: {
+          userId: userId,
+        },
+      }
+    );
+    res.status(200).json({
+      message: `User's email has been successfully verified.`,
+    });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500; // serverSide error
+    }
+    next(err);
+  }
 };
 
 module.exports.postLogin = async (req, res, next) => {
@@ -246,7 +241,6 @@ module.exports.postLogin = async (req, res, next) => {
         email,
       },
     });
-
     if (!user) {
       // check if the user does not exist.
       const error = new Error('Email not found');
@@ -257,7 +251,7 @@ module.exports.postLogin = async (req, res, next) => {
     // compare the enterd password with the hashed one.
     const isEqual = await bcrypt.compare(
       enteredPassword.toString(),
-      user.password
+      user.dataValues.password
     );
     if (!isEqual) {
       // if the password is wrong
@@ -274,8 +268,16 @@ module.exports.postLogin = async (req, res, next) => {
     let tokenExpireDate = new Date(0);
     tokenExpireDate.setUTCSeconds(jwt.decode(token).exp);
 
-    user.loggedIn = true;
-    await user.save();
+    await User.update(
+      {
+        loggedIn: true,
+      },
+      {
+        where: {
+          email,
+        },
+      }
+    );
 
     if (registrationToken) {
       const registratinToken = await RegistrationToken.findOne({
