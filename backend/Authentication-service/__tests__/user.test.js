@@ -1,5 +1,4 @@
 require('dotenv').config();
-// const sequelize = require('../utils/db');
 const app = require('../server').app;
 const supertest = require('supertest');
 const request = supertest(app);
@@ -10,13 +9,7 @@ const createToken = require('../utils/create-token');
 
 const User = require('../models/user');
 
-// jest.setTimeout(10000);
-
 describe('User', () => {
-  // beforeAll(async () => {
-  //   await sequelize.sync();
-  // });
-
   const testUser = {
     firstName: 'Test',
     lastName: 'Test',

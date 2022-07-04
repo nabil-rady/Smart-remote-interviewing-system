@@ -34,8 +34,17 @@ module.exports.getJoinInterview = async (req, res, next) => {
       throw err;
     }
 
-    interview.started = true; // start the interview
-    await interview.save();
+    // start the interview
+    await Interview.update(
+      {
+        started: true,
+      },
+      {
+        where: {
+          interviewId: interview.dataValues.interviewId,
+        },
+      }
+    );
 
     // get the listing
     const jobListing = await JobListing.findOne({
