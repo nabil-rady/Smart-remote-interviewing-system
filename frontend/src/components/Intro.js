@@ -4,13 +4,9 @@ import intro1 from './SVGs/1.png';
 import intro2 from './SVGs/2.png';
 import intro3 from './SVGs/3.png';
 import './scss/intro.scss';
-import { Link } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
 
 const Intro = (props) => {
   let introImages = [intro1, intro2, intro3];
-  const params = useParams();
-  const interviewId = params.interviewId;
   let introText = [
     "Welcome to Vividly, Let's start interview!",
     'We help people connenct with companies arrount the world.',

@@ -11,13 +11,16 @@ import EmailVerification from './EmailVerification';
 import { Link } from 'react-router-dom';
 import { TailSpin } from 'react-loader-spinner';
 import { requestForToken } from '../utils/firebase';
+
 const SignUpForm = () => {
   const [registrationToken, setToken] = useState();
-  useEffect(async () => {
-    let token = await requestForToken();
-    setToken(token);
-    console.log(registrationToken);
-  });
+  useEffect(() => {
+    (async () => {
+      let token = await requestForToken();
+      setToken(token);
+      console.log(registrationToken);
+    })();
+  }, [registrationToken]);
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [companyName, setCompanyName] = useState();
@@ -28,9 +31,10 @@ const SignUpForm = () => {
   const [error, setError] = useState();
   const [phoneCode, setCode] = useState();
   const [verificationCard, setVerificationCard] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   let formattedvalue = '';
   const setAuthUser = useContext(UserContext).setAuthUser;
-  const [loading, setLoading] = useState(false);
   const submitHandler = (e) => {
     e.preventDefault();
     // Send data to backend

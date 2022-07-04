@@ -13,6 +13,7 @@ import PositionCard from '../components/positionCard';
 import './scss/listingpage.scss';
 import '../components/scss/listing.scss';
 import WarningModal from '../components/warningModal';
+
 function ListingPage() {
   const [positions, getPositions] = useState();
   const authUser = useContext(UserContext).authUser;

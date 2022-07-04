@@ -1,14 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import NavBar from '../components/NavBar';
 import Lottie from 'lottie-react-web';
 import './scss/Interview.scss';
 import { Link } from 'react-router-dom';
 import './scss/Finish.scss';
-import { ApplicantURL } from '../API/APIConstants';
-import handleAPIError from '../utils/APIErrorHandling';
-import { useParams } from 'react-router-dom';
-import { TailSpin } from 'react-loader-spinner';
-import ErrorModal from '../components/ErrorModal';
 
 function FinishPage() {
   return (

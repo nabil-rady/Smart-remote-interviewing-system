@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import NavBar from '../components/NavBar';
 import Card from '../components/Card';
 import { UserContext } from '../App';

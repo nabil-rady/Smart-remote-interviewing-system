@@ -63,25 +63,26 @@ const NavBar = (props) => {
       },
     });
   };
-  const setFetchedAnswers = async () => {
-    const response = await fetchNotifications();
-    const data = await response.json();
-    if (response.status === 200) {
-      console.log(data);
-      setNotifications(data.notifications);
-    } else {
-      handleAPIError(
-        response.status,
-        data,
-        () => {},
-        () => setAuthUser(null)
-      );
-    }
-  };
+
   const handleToggleButtonClick = () => {
     notificationsRef.current.classList.toggle('d-block');
     if (notificationsRef.current.classList[1] === 'd-block') {
-      setFetchedAnswers();
+      const setFetchedNotifications = async () => {
+        const response = await fetchNotifications();
+        const data = await response.json();
+        if (response.status === 200) {
+          console.log(data);
+          setNotifications(data.notifications);
+        } else {
+          handleAPIError(
+            response.status,
+            data,
+            () => {},
+            () => setAuthUser(null)
+          );
+        }
+      };
+      setFetchedNotifications();
     }
   };
 
@@ -109,6 +110,7 @@ const NavBar = (props) => {
               }}
             >
               <img
+                alt="notifications"
                 src={notificationImg}
                 className={`notificationImg ${isLoggedIn ? '' : 'hidden'}`}
                 onClick={handleToggleButtonClick}

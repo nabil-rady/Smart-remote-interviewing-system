@@ -13,10 +13,12 @@ const NavBarUserInfoMenu = () => {
   const [registrationToken, setToken] = useState();
   const [loading, setLoading] = useState(false);
 
-  useEffect(async () => {
-    let token = await requestForToken();
-    setToken(token);
-    console.log(registrationToken);
+  useEffect(() => {
+    (async () => {
+      let token = await requestForToken();
+      setToken(token);
+      console.log(registrationToken);
+    })();
   });
 
   const logoutHandler = () => {

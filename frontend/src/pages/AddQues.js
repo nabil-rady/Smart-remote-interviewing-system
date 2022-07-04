@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import NavBar from '../components/NavBar';
 import QuestionCard from '../components/QuestionCard';
 import './scss/Add.scss';
@@ -10,6 +10,7 @@ import { UserContext } from '../App';
 import SuccessfullModal from '../components/SuccessfullModal';
 import { useHistory } from 'react-router-dom';
 import { TailSpin } from 'react-loader-spinner';
+
 function AddQues() {
   const authUser = useContext(UserContext).authUser;
   const setAuthUser = useContext(UserContext).setAuthUser;

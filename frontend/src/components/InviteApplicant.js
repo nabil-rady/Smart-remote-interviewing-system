@@ -1,13 +1,11 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import Card from './Card';
-//import ErrorModal from './ErrorModal'
 import './scss/invite.scss';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import { HRURL } from '../API/APIConstants';
 import handleAPIError from '../utils/APIErrorHandling';
 import ErrorModal from './ErrorModal';
-// import { useFilePicker } from 'use-file-picker';
 import { UserContext } from '../App';
 import ReactFileReader from 'react-file-reader';
 import { useParams } from 'react-router-dom';

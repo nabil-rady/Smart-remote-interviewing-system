@@ -10,12 +10,15 @@ import { useHistory } from 'react-router-dom';
 import 'firebase/compat/messaging';
 import { TailSpin } from 'react-loader-spinner';
 import { requestForToken } from '../utils/firebase';
+
 const LoginForm = () => {
   const [registrationToken, setToken] = useState();
-  useEffect(async () => {
-    let token = await requestForToken();
-    setToken(token);
-    console.log(registrationToken);
+  useEffect(() => {
+    (async () => {
+      let token = await requestForToken();
+      setToken(token);
+      console.log(registrationToken);
+    })();
   });
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
@@ -23,9 +26,9 @@ const LoginForm = () => {
   const setAuthUser = useContext(UserContext).setAuthUser;
   const history = useHistory();
   const [loading, setLoading] = useState(false);
+
   const submitHandler = (e) => {
     e.preventDefault();
-    // Send data to backend
     setLoading(true);
     let statusCode;
     fetch(`${APIURL}/user/login`, {

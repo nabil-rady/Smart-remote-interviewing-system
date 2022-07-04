@@ -61,6 +61,7 @@ function PositionCard(props) {
     im25,
     im26,
   ];
+
   const renderExpired = (pos) => {
     const second = pos.expiryDate;
     if (new Date().getTime() > new Date(second).getTime()) {
@@ -78,6 +79,7 @@ function PositionCard(props) {
   return (
     <Card className="positioncard">
       <img
+        alt="position-background"
         src={backgrounds[Math.floor(Math.random() * 26)]}
         className="photo"
       />
@@ -89,6 +91,7 @@ function PositionCard(props) {
         {props.position.positionName}
       </Link>
       <img
+        alt="delete-position"
         className="deletePosition"
         id="1"
         src={delIcon}

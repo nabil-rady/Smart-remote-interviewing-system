@@ -4,8 +4,8 @@ import Circle from '../Circle';
 import Triangle from '../Triangle';
 import Google from '../Google';
 import Typed from 'react-typed';
-import { Link } from 'react-router-dom';
 import dashboard from '../photos/Dashboard.jpg';
+
 const Home = () => {
   return (
     <section className="home_section1">

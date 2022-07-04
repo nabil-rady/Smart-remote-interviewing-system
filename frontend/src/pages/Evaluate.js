@@ -2,7 +2,6 @@ import React, { useState, useRef, useContext, useEffect } from 'react';
 import NavBar from '../components/NavBar';
 import EvaluationCard from '../components/EvaluationCard';
 import './scss/evaluate.scss';
-import { Toast } from 'react-bootstrap';
 import 'firebase/compat/messaging';
 import { useParams } from 'react-router-dom';
 import handleAPIError from '../utils/APIErrorHandling';

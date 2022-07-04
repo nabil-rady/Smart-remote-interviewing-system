@@ -6,17 +6,22 @@ import { UserContext } from '../App';
 import { APIURL } from '../API/APIConstants';
 import handleError from '../utils/APIErrorHandling';
 import { TailSpin } from 'react-loader-spinner';
+
 const NavBarSideMenu = () => {
   const menu = useRef();
   const authUser = useContext(UserContext).authUser;
   const setAuthUser = useContext(UserContext).setAuthUser;
   const [registrationToken, setToken] = useState();
   const [loading, setLoading] = useState(false);
-  useEffect(async () => {
-    let token = await requestForToken();
-    setToken(token);
-    console.log(registrationToken);
-  });
+
+  useEffect(() => {
+    (async () => {
+      let token = await requestForToken();
+      setToken(token);
+      console.log(registrationToken);
+    })();
+  }, [registrationToken]);
+
   const logoutHandler = () => {
     let statusCode;
     setLoading(true);

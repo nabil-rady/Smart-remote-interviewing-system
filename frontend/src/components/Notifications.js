@@ -1,16 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import './scss/notifications.scss';
-import { UserContext } from '../App';
 import { Link } from 'react-router-dom';
 import { TailSpin } from 'react-loader-spinner';
 import NoNotification from './NoNotification';
-import { HRURL } from '../API/APIConstants';
-import handleAPIError from '../utils/APIErrorHandling';
 
 const Notifications = React.forwardRef((props, notifications) => {
-  const authUser = useContext(UserContext).authUser;
-  const setAuthUser = useContext(UserContext).setAuthUser; // Object or null
-
   return (
     <>
       <div className="notifications" ref={notifications}>

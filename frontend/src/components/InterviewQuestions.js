@@ -2,8 +2,7 @@ import React, { useRef, useState, useCallback, useEffect } from 'react';
 import useCountDown from 'react-countdown-hook';
 import Card from './Card';
 import { ApplicantURL } from '../API/APIConstants';
-import { Link, useParams } from 'react-router-dom';
-import { TailSpin } from 'react-loader-spinner';
+import { Link } from 'react-router-dom';
 import handleAPIError from '../utils/APIErrorHandling';
 import ErrorModal from './ErrorModal';
 import SuccessfullModal from './SuccessfullModal';
@@ -13,7 +12,6 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
   const [upload, setUpload] = useState(false);
   const [lastVideo, setLastVideo] = useState(false);
   const [uploadingVideo, setUploadingVideo] = useState(false);
-  const [video, setVideo] = useState();
 
   const mediaRecorderRef = useRef();
   const recordTimeout = useRef();
@@ -28,10 +26,11 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
   const [readTimerVisibility, setReadTimer] = useState('visible');
   const [error, setError] = useState();
   const [done, setDone] = useState(false);
+
   useEffect(() => {
     setQuestions(props.response.questions);
     setQuestionsResponse(props.response);
-  }, []);
+  }, [props.response]);
   let secAnswerTime, minAnswerTime;
   const interval = 1000;
 
@@ -81,9 +80,9 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
         return '0' + minAnswerTime.toString() + ':0' + secAnswerTime.toString();
       } else if (minAnswerTime < 10 && secAnswerTime >= 10) {
         return '0' + minAnswerTime.toString() + ':' + secAnswerTime.toString();
-      } else if (minAnswerTime == 10 && secAnswerTime >= 10) {
+      } else if (minAnswerTime === 10 && secAnswerTime >= 10) {
         return minAnswerTime.toString() + ':' + secAnswerTime.toString();
-      } else if (minAnswerTime == 10 && secAnswerTime < 10) {
+      } else if (minAnswerTime === 10 && secAnswerTime < 10) {
         return minAnswerTime.toString() + ':0' + secAnswerTime.toString();
       }
     } else if (minAnswerTime === 0 && secAnswerTime === 0) return '00:00';
@@ -137,7 +136,6 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
         const blob = await fetch(imageSrc).then((res) => res.blob());
 
         console.log(blob, i);
-        // webSocket.current.send(blob);
         setRecordedChunks((prev) => prev.concat(data));
       }
     },

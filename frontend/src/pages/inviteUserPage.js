@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import NavBar from '../components/NavBar';
 import InviteUser from '../components/InviteApplicant';
 import UsersList from '../components/InviteList';
@@ -7,6 +7,7 @@ import { UserContext } from '../App';
 import { useParams } from 'react-router-dom';
 import handleAPIError from '../utils/APIErrorHandling';
 import { TailSpin } from 'react-loader-spinner';
+
 function InvitationPage() {
   const params = useParams();
   const listingId = params.listingId;
@@ -14,7 +15,8 @@ function InvitationPage() {
   const setAuthUser = useContext(UserContext).setAuthUser;
   const [usersList, setUsersList] = useState([]);
   const [res, setRes] = useState();
-  let InviteUserHandler = (uName, uEmail, uCode, uPhone) => {
+
+  let inviteUserHandler = (uName, uEmail, uCode, uPhone) => {
     setUsersList((prevUsersList) => {
       return [
         ...prevUsersList,
@@ -27,6 +29,7 @@ function InvitationPage() {
       ];
     });
   };
+
   const fetchInvitations = () => {
     return fetch(`${HRURL}/job-listing/candidates/${listingId}`, {
       method: 'GET',
@@ -42,8 +45,8 @@ function InvitationPage() {
       const data = await response.json();
       if (response.status === 200) {
         setRes(data);
-        data.candidates.map((candidate) => {
-          InviteUserHandler(
+        data.candidates.forEach((candidate) => {
+          inviteUserHandler(
             candidate.name,
             candidate.email,
             candidate.phoneCode,
@@ -67,7 +70,7 @@ function InvitationPage() {
         <NavBar visible={true} />
       </div>
 
-      <InviteUser onInviteUser={InviteUserHandler} users={usersList} />
+      <InviteUser onInviteUser={inviteUserHandler} users={usersList} />
       {res ? (
         <>
           <UsersList users={usersList} />

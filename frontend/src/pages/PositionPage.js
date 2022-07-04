@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/alt-text */
-import React, { useState, useRef, useEffect, useContext } from 'react';
+import React from 'react';
 import '../components/scss/utility.scss';
 import NavBar from '../components/NavBar';
 import './scss/profile.scss';
@@ -9,18 +9,12 @@ import invite from './SVGs/invitation.png';
 import check from './SVGs/check.png';
 import { Link, useParams } from 'react-router-dom';
 import './scss/positionpage.scss';
-import { Toast } from 'react-bootstrap';
-import { HRURL } from '../API/APIConstants';
-import { UserContext } from '../App';
 
 function PositionPage(props) {
   const params = useParams();
-  console.log(params);
   const positionNameAndId = params.positionNameAndId;
   const [positionName, positionId] = positionNameAndId.split('$');
 
-  const authUser = useContext(UserContext).authUser;
-  const setAuthUser = useContext(UserContext).setAuthUser;
   return (
     <>
       <div className="blue-gradient">

@@ -9,7 +9,8 @@ const firebaseConfig = {
   appId: '1:964487453958:web:6aec3a85035401f4e4d287',
   measurementId: 'G-J37GV7XH33',
 };
-const firebaseApp = initializeApp(firebaseConfig);
+
+initializeApp(firebaseConfig);
 const messaging = getMessaging();
 export const requestForToken = async () => {
   let currentToken = await getToken(messaging, {
