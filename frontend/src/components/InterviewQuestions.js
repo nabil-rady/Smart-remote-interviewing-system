@@ -8,7 +8,6 @@ import ErrorModal from './ErrorModal';
 import SuccessfullModal from './SuccessfullModal';
 
 const InterviewQuestions = React.forwardRef((props, webcamRef) => {
-  let i = 0;
   const [upload, setUpload] = useState(false);
   const [lastVideo, setLastVideo] = useState(false);
   const [uploadingVideo, setUploadingVideo] = useState(false);
@@ -97,11 +96,9 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
 
     setTimeout(() => {
       handleStartCaptureClick();
-      console.log('Start recording (setTimeout)');
     }, questions[counter].timeToThink * 1000); //60
 
     recordTimeout.current = setTimeout(() => {
-      console.log('Stop recording (setTimeout)');
       if (!next) setNext(true);
       setStop((stop) => {
         if (stop) {
@@ -124,7 +121,6 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
     );
     mediaRecorderRef.current.start();
     startAnswer(questions[counter].timeToAnswer * 1000 * 60); //60
-    console.log('Created MediaRecorder');
     if (!stop) setStop(true);
     if (readTimerVisibility === 'visible') setReadTimer('hidden');
   }, [webcamRef, setStop, mediaRecorderRef, counter, questions]);
@@ -132,10 +128,6 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
   const handleDataAvailable = useCallback(
     async ({ data }) => {
       if (data.size > 0) {
-        const imageSrc = webcamRef.current.getScreenshot();
-        const blob = await fetch(imageSrc).then((res) => res.blob());
-
-        console.log(blob, i);
         setRecordedChunks((prev) => prev.concat(data));
       }
     },
@@ -144,14 +136,12 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
 
   const handleStopCaptureClick = useCallback(
     (e, isNonManualStop) => {
-      console.log('Handle Stop Capture Click');
       setUpload(true);
       setUploadingVideo(true);
       if (counter > questions.length - 2) {
         setLastVideo(true);
         setNext(false);
       }
-      console.log(`stop = ${stop}`);
       clearTimeout(recordTimeout.current);
       if (!next) setNext(true);
       if (!isNonManualStop) pauseAnswer();
@@ -178,14 +168,10 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
     if (counter === questions.length - 2) {
       setNext(false);
     }
-    console.log(questionsResponse.interviewId);
-    console.log(questions[counter].questionId);
     if (recordedChunks.length) {
-      console.log(recordedChunks);
       const videoBlob = new Blob(recordedChunks, {
         type: 'video/webm',
       });
-      console.log(`SIZE: ${videoBlob.size / 1024}KB`);
       const fileReader = new FileReader();
       fileReader.onload = async function (event) {
         const readArrayBuffer = event.target.result;
@@ -216,10 +202,8 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
               }
             );
             statusCode = response.status;
-            console.log(response);
             const data = await response.json();
             if (statusCode === 200) {
-              console.log(data);
               setUploadingVideo(false);
               setDone(true);
               setNext(true);
@@ -232,7 +216,6 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
         }
       };
       fileReader.readAsArrayBuffer(videoBlob);
-      console.log(fileReader.result);
     }
   };
   const errorHandler = () => {

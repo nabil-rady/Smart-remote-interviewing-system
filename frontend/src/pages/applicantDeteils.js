@@ -12,7 +12,6 @@ import handleAPIError from '../utils/APIErrorHandling';
 function ApplicantDetails() {
   const authUser = useContext(UserContext).authUser;
   const params = useParams();
-  console.log(params);
   const applicantId = params.positionNameAndapplicantId;
   const setAuthUser = useContext(UserContext).setAuthUser;
   const [applicant, setApplicant] = useState();

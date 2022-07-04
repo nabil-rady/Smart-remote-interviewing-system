@@ -48,7 +48,7 @@ function App() {
         body: payload.notification.body,
       });
     })
-    .catch((err) => console.log('failed: ', err));
+    .catch((err) => console.log('Failed: ', err));
   useEffect(() => {
     localStorage.setItem('user', JSON.stringify(authUser));
   }, [authUser]);

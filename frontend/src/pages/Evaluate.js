@@ -35,7 +35,6 @@ function EvaluationPage() {
       const response = await fetchAnswers();
       const data = await response.json();
       if (response.status === 200) {
-        console.log(data);
         setAnswers(data.questions);
       } else {
         handleAPIError(
@@ -60,7 +59,6 @@ function EvaluationPage() {
         evaluation: Number(ratings.current[i]),
       });
     }
-    console.log(evaluation);
     fetch(`${HRURL}/job-listing/evaluate/${applicantId}`, {
       method: 'POST',
       headers: {
@@ -73,11 +71,9 @@ function EvaluationPage() {
     })
       .then((response) => {
         statusCode = response.status;
-        console.log(response);
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         if (statusCode === 200) {
           setLoading(false);
           setDone(true);

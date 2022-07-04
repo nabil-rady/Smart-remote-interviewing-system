@@ -18,9 +18,9 @@ const SignUpForm = () => {
     (async () => {
       let token = await requestForToken();
       setToken(token);
-      console.log(registrationToken);
     })();
   }, [registrationToken]);
+
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [companyName, setCompanyName] = useState();
@@ -61,14 +61,11 @@ const SignUpForm = () => {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         if (statusCode === 201) {
-          console.log('Success');
           setLoading(false);
         } else {
           handleAPIError(statusCode, data, setError, () => setAuthUser(null));
         }
-        console.log(registrationToken);
         return fetch(`${APIURL}/user/login`, {
           method: 'POST',
           headers: {
@@ -86,10 +83,7 @@ const SignUpForm = () => {
         return loginResponse.json();
       })
       .then((response) => {
-        console.log(response);
         if (statusCode === 200) {
-          console.log('Success');
-          console.log(response);
           setAuthUser({ ...response.user, token: response.token });
           setVerificationCard(true);
           return fetch(`${APIURL}/user/confirm-email`, {
@@ -109,9 +103,7 @@ const SignUpForm = () => {
         return confirmResponse.json();
       })
       .then((response) => {
-        console.log(response);
         if (statusCode === 200) {
-          console.log('Success');
           setVerificationCard(true);
         } else {
           handleAPIError(statusCode, response.data, setError, () =>
@@ -123,38 +115,40 @@ const SignUpForm = () => {
         console.error('Error:', error);
       });
   };
+
   const EmailHandler = (e) => {
     setEmail(e.target.value);
   };
+
   const PasswordHandler = (e) => {
     setPassword(e.target.value);
   };
+
   const ConfirmPasswordHandler = (e) => {
     setConfirmPassword(e.target.value);
   };
+
   const CompanyNameHandler = (e) => {
     setCompanyName(e.target.value);
   };
+
   const FirstNameHandler = (e) => {
     setFirstName(e.target.value);
   };
+
   const LastNameHandler = (e) => {
     setLastName(e.target.value);
   };
-  // const PhoneHandler = (e) => {
-  //   setNum(e.target.value);
-  // };
   const errorHandler = () => {
     setError(null);
   };
+
   const Modify = () => {
     let tests = formattedvalue.split(' ');
-    console.log(tests);
     let num = '';
     for (let i = 1; i < tests.length; i++) {
       num += tests[i];
     }
-    console.log(num);
     setCode(tests[0]);
     setNum(num);
   };

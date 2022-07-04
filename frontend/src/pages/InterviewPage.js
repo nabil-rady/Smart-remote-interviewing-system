@@ -23,7 +23,6 @@ const InterviewPage = (props) => {
     if (imageSrc === null) return;
     const blobData = await fetch(imageSrc);
     const blob = await blobData.blob();
-    console.log(`blob size ${blob.size / 1024} KB`);
     if (webSocket.current) webSocket.current.send(blob);
   };
 
@@ -33,11 +32,9 @@ const InterviewPage = (props) => {
     webSocket.current.send('Hello Server!');
     timer.current = new Timer(sendFrames, 1500 / 2);
     timer.current.start();
-    console.log('Timer started');
   };
 
   const onSocketMessage = async (e) => {
-    console.log(e.data);
     if (e.data === 'True') {
       setReadyForInterview(true);
     } else {
@@ -47,13 +44,12 @@ const InterviewPage = (props) => {
 
   const onSocketClose = () => {
     if (timer.current) timer.current.stop();
-    // console.log(loading);
     if (!loading) {
       // failre after connection has started already
       console.log('Failed! Please restart.');
       return;
     }
-    console.log('websocket Closed');
+    console.log('Websocket Closed');
     if (!interviewBegun) {
       webSocket.current = new WebSocket(WSURL);
       webSocket.current.addEventListener('open', onSocketOpen);

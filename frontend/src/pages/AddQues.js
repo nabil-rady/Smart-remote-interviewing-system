@@ -94,8 +94,6 @@ function AddQues() {
         keywords: [],
       },
     ]);
-
-    console.log(questions);
   };
 
   const deleteHandler = (id) => {
@@ -122,7 +120,6 @@ function AddQues() {
   const saveHandler = () => {
     let statusCode;
     setLoading(true);
-    console.log(positionName, expiryDate, questions);
     fetch(`${HRURL}/job-listing/create`, {
       method: 'POST',
       headers: {
@@ -137,13 +134,10 @@ function AddQues() {
     })
       .then((response) => {
         statusCode = response.status;
-        console.log(response);
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         if (statusCode === 201) {
-          console.log('successful########################################');
           setLoading(false);
           setDone(true);
         } else {

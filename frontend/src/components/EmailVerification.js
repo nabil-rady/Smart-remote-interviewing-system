@@ -10,7 +10,6 @@ import { UserContext } from '../App';
 const EmailVerification = (props) => {
   const authUser = useContext(UserContext).authUser;
   const setAuthUser = useContext(UserContext).setAuthUser;
-  const [message, setMessage] = useState('');
   const [verificationCode, setCode] = useState();
   const [error, setError] = useState();
   const history = useHistory();
@@ -26,7 +25,6 @@ const EmailVerification = (props) => {
   const submitHandler = (e) => {
     e.preventDefault();
     let statusCode;
-    console.log(verificationCode);
     fetch(`${APIURL}/user/verify`, {
       method: 'POST',
       headers: {
@@ -39,14 +37,10 @@ const EmailVerification = (props) => {
     })
       .then((response) => {
         statusCode = response.status;
-        console.log(response);
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         if (statusCode === 200) {
-          setMessage(data.message);
-          console.log(message);
           setAuthUser((oldUser) => ({
             userId: oldUser.userId,
             firstName: oldUser.firstName,

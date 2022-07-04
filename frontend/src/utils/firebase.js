@@ -18,7 +18,7 @@ export const requestForToken = async () => {
       'BLnEuxOsyO88f7HpkkWh5ZiNUSgdy6zVUs9S7FZmikAHd7ku2J5MZSIUZYuHGL2tXc_9YxMQ4jxSohqvLYX0u8w',
   });
   if (currentToken) {
-    console.log('current token for client: ', currentToken);
+    console.log('Current token for client: ', currentToken);
     return currentToken;
   } else {
     console.log(
@@ -29,8 +29,6 @@ export const requestForToken = async () => {
 export const onMessageListener = () =>
   new Promise((resolve) => {
     onMessage(messaging, (payload) => {
-      console.log('payload', payload);
       resolve(payload);
     });
   });
-// export default firebaseConfig;

@@ -28,13 +28,10 @@ const NotVerified = () => {
     })
       .then((response) => {
         statusCode = response.status;
-        console.log(response);
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         if (statusCode === 200) {
-          console.log('successful');
           setShow(true);
         } else {
           handleAPIError(statusCode, data, setError, () => setAuthUser(null));

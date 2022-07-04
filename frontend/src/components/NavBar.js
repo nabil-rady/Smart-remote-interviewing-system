@@ -17,9 +17,9 @@ const NavBar = (props) => {
   const isLoggedIn = !!authUser;
   const [notifications, setNotifications] = useState();
   const notificationsRef = useRef();
+
   const clickNotificationHandler = (notification) => {
     let statusCode;
-    console.log(notification);
     fetch(`${HRURL}/user/read-notification/${notification.notificationId}`, {
       method: 'POST',
       headers: {
@@ -29,12 +29,10 @@ const NavBar = (props) => {
     })
       .then((response) => {
         statusCode = response.status;
-        console.log(response);
         return response.json();
       })
       .then((data) => {
         if (statusCode === 200) {
-          console.log(data);
         } else {
           handleAPIError(
             statusCode,
@@ -71,7 +69,6 @@ const NavBar = (props) => {
         const response = await fetchNotifications();
         const data = await response.json();
         if (response.status === 200) {
-          console.log(data);
           setNotifications(data.notifications);
         } else {
           handleAPIError(

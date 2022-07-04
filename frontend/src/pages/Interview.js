@@ -38,7 +38,6 @@ const Interview = () => {
     const response = await fetchInterviewResponse();
     const data = await response.json();
     if (response.status === 200) {
-      console.log(data);
       setWelcome(true);
       setJoin(false);
       setLoading(false);

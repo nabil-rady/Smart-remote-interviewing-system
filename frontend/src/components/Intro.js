@@ -16,7 +16,6 @@ const Intro = (props) => {
   const [start, setStart] = useState(false);
   const startHandler = () => {
     setCount((count) => count + 1);
-    console.log(count);
     if (count === 1) setStart(true);
   };
   return (

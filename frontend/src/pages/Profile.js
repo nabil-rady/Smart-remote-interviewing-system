@@ -41,11 +41,9 @@ function ProfilePage() {
     })
       .then((response) => {
         statusCode = response.status;
-        console.log(response);
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         if (statusCode === 200) {
           setLoading(false);
           setDone(true);
@@ -65,12 +63,10 @@ function ProfilePage() {
 
   const Modify = (formattedValue) => {
     let tests = formattedValue.split(' ');
-    console.log(tests);
     let num = '';
     for (let i = 1; i < tests.length; i++) {
       num += tests[i];
     }
-    console.log(num);
     setEnteredPhoneCode(tests[0]);
     setEnteredPhoneNo(num);
   };

@@ -39,12 +39,10 @@ function ListingPage() {
     })
       .then((response) => {
         statusCode = response.status;
-        console.log(response);
         return response.json();
       })
       .then((data) => {
         if (statusCode === 200) {
-          console.log(data);
           getPositions((oldPositions) =>
             oldPositions.filter(
               (newPosition, index) =>
@@ -125,7 +123,6 @@ function ListingPage() {
       const response = await fetchPositions();
       const data = await response.json();
       if (response.status === 200) {
-        console.log(data);
         getPositions(data.jobListings);
       } else {
         handleAPIError(

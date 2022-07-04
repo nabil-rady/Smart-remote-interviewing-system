@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
-//import Lottie from 'lottie-react-web';
 import './scss/interview.scss';
 import Card from './Card';
 import ErrorModal from './ErrorModal';
 import { TailSpin } from 'react-loader-spinner';
+
 const Interview = (props) => {
   const [error, setError] = useState();
   const changeHandler = (e) => {
     props.setLink(e.target.value);
-    console.log(props.link);
   };
   const submitHandler = (e) => {
     e.preventDefault();

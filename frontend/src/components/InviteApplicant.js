@@ -60,13 +60,10 @@ const InviteUser = (props) => {
       })
         .then((response) => {
           statusCode = response.status;
-          console.log(response);
           return response.json();
         })
         .then((data) => {
-          console.log(data);
           if (statusCode === 200) {
-            console.log('successful');
             setDone(true);
             usersLate.length = 0;
           } else {
@@ -82,8 +79,6 @@ const InviteUser = (props) => {
           console.error('Error:', error);
         });
     }
-
-    console.log(usersLate);
   };
   let formattedvalue = '';
   const addUserHandler = (event) => {
@@ -110,13 +105,10 @@ const InviteUser = (props) => {
     })
       .then((response) => {
         statusCode = response.status;
-        console.log(response);
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         if (statusCode === 200) {
-          console.log('successful');
           props.onInviteUser(
             enteredName,
             enteredEmail,
@@ -134,7 +126,6 @@ const InviteUser = (props) => {
       .catch((error) => {
         console.error('Error:', error);
       });
-    console.log(usersLate);
     setEnteredName('');
     setEnteredEmail('');
     setEnteredPhoneNo('');

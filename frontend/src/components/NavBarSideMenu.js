@@ -18,7 +18,6 @@ const NavBarSideMenu = () => {
     (async () => {
       let token = await requestForToken();
       setToken(token);
-      console.log(registrationToken);
     })();
   }, [registrationToken]);
 
@@ -37,11 +36,9 @@ const NavBarSideMenu = () => {
     })
       .then((response) => {
         statusCode = response.status;
-        console.log(response);
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         if (statusCode === 200) {
           setLoading(false);
           setAuthUser(null);

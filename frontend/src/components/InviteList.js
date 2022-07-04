@@ -4,7 +4,6 @@ import Card from './Card';
 import './scss/inviteList.scss';
 
 const UsersList = (props) => {
-  console.log(props.users);
   return (
     <>
       <ul>
