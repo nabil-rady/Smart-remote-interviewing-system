@@ -17,11 +17,11 @@
   padding: 5px;
 }
 .delete {
-  float: right;
+  position: absolute;
   width: 30px;
-  margin-right: 4%;
-  margin-top: 0.3%;
   cursor: pointer;
+  top: 13px;
+  left: 90%;
 }
 .Question_label {
   color: white;
@@ -138,5 +138,12 @@
   &[disabled] {
     background-color: gray;
     color: black;
+  }
+}
+
+@media only screen and (max-width: 670px) {
+  .delete {
+    width: 25px;
+    left: 85%;
   }
 }
