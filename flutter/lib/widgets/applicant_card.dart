@@ -86,7 +86,7 @@ class ApplicantCard extends StatelessWidget {
                               .format(DateTime.parse(candidate.submitedAt)) +
                           '\n'
                               'Score: ' +
-                          candidate.avgRecommendation.toString(),
+                          candidate.avgRecommendation.toStringAsFixed(3),
                       style: const TextStyle(fontSize: 16),
                     ),
 

@@ -58,7 +58,7 @@ class SessionDetails with ChangeNotifier {
                 questionId: quesionvalue['questionId'],
                 statement: quesionvalue['statement'],
                 timeToAnswer: quesionvalue['timeToAnswer'] * 60,
-                timeToThink: quesionvalue['timeToThink'],
+                timeToThink: quesionvalue['timeToThink'] * 60,
               )))
           .toList();
       _items = _finalList.toList();

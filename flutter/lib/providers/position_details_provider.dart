@@ -92,7 +92,7 @@ class PostionDetails with ChangeNotifier {
                 avgManualEvaluation:
                     candidatevalue['avgManualEvaluation'].toDouble(),
                 avgRecommendation:
-                    candidatevalue['avgRecommendation'].toDouble(),
+                    candidatevalue['avgRecommendation'].toDouble() / 10,
               ),
             ),
           )
@@ -140,7 +140,7 @@ class PostionDetails with ChangeNotifier {
       _candidate.id = interviewid;
       _candidate.avgManualEvaluation =
           responseData['avgManualEvaluation'].toDouble();
-      _candidate.avgRecommendation = responseData['avgScore'].toDouble();
+      _candidate.avgRecommendation = responseData['avgScore'].toDouble() / 10;
       extractedData
           .map(
             (vedioev) => _finalVideoList.add(
@@ -150,7 +150,7 @@ class PostionDetails with ChangeNotifier {
                 videoUrl: vedioev['link'],
                 manualEvaluation: vedioev['manualEvaluation'].toDouble(),
                 openPose: vedioev['openPose'].toDouble(),
-                score: vedioev['score'].toDouble(),
+                score: vedioev['score'].toDouble() / 10,
                 angry: vedioev['emotions']['angry'].toDouble(),
                 happy: vedioev['emotions']['happy'].toDouble(),
                 neutral: vedioev['emotions']['neutral'].toDouble(),

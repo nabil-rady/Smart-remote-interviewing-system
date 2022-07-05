@@ -185,7 +185,9 @@ class _VedioEvaluationScreenState extends State<VedioEvaluationScreen> {
                             Padding(
                               padding: const EdgeInsets.all(10),
                               child: Text(
-                                'Score: ${position.videoEvaluation[index].score}',
+                                'Score: ' +
+                                    position.videoEvaluation[index].score
+                                        .toStringAsFixed(3),
                                 style: Theme.of(context).textTheme.bodyText1,
                               ),
                             ),
