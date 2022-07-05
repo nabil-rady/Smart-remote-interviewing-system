@@ -48,7 +48,6 @@ class _IntroCamScreenState extends State<IntroCamScreen> {
   Future<void> takeScreen() async {
     final CameraController? cameraController = controller;
     if (cameraController == null || !cameraController.value.isInitialized) {
-      print('Error');
       return;
     }
     if (cameraController.value.isRecordingVideo) {
@@ -59,7 +58,6 @@ class _IntroCamScreenState extends State<IntroCamScreen> {
       _imageFile = await XFileImage!.readAsBytes();
       _channel.sink.add(_imageFile);
     } on Exception catch (e) {
-      print(e);
       return;
     }
   }

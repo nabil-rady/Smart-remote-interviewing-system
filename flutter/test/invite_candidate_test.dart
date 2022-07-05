@@ -101,7 +101,6 @@ void main() {
   //             headers: anyNamed('headers')))
   //         .thenAnswer(
   //       (_) async {
-  //         print(http.Response);
   //         return Future.value(http.Response('body', 200));
   //       },
   //     );

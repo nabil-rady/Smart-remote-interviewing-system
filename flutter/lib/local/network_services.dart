@@ -15,7 +15,6 @@ class NetworkServiceImpli implements NetworkService {
   @override
   Future<http.Response> get(String url, {Map<String, String>? headers}) async {
     final response = await http.get(Uri.parse(url), headers: headers);
-    print(response);
     //if (response.statusCode != 200) throw Exception('ERROR');
     return response;
   }

@@ -51,7 +51,6 @@ class _IntrviewScreenState extends State<IntrviewScreen> {
     try {
       return cameraController.stopVideoRecording();
     } on CameraException catch (e) {
-      print(e);
       return null;
     }
   }
@@ -92,18 +91,6 @@ class _IntrviewScreenState extends State<IntrviewScreen> {
 
           final Uint8List compressedVideo =
               await compressedVideoFile!.readAsBytes();
-          // Uint8List? compressedVideo;
-          // final LightCompressor _lightCompressor = LightCompressor();
-          // final dynamic response = await _lightCompressor
-          //     .compressVideo(
-          //         path: videoFile!.path,
-          //         destinationPath: videoFile!.path,
-          //         videoQuality: VideoQuality.low,
-          //         isMinBitrateCheckEnabled: false,
-          //         frameRate: 24 /* or ignore it */)
-          //     .then((value) {
-          //   compressedVideo = value!.readAsBytes();
-          // });
 
           print("_____________________________________");
           print(video.length);
@@ -112,9 +99,6 @@ class _IntrviewScreenState extends State<IntrviewScreen> {
 
           // Uint8List? chunck;
           String name = interviewId + '-' + DateTime.now().toString();
-          //   List com = GZIP.encode(video);
-          // print(video.length);
-          // print(com.length);
 
           for (int i = 0; i < compressedVideo.length; i += 5e6.toInt()) {
             bool end = i + 5e6.toInt() >= compressedVideo.length ? true : false;
@@ -139,7 +123,6 @@ class _IntrviewScreenState extends State<IntrviewScreen> {
             _isLoading = false;
           });
         } catch (error) {
-          print(error);
           const errorMessage = 'Server Error. Please try again later.';
           showErrorDialog(context, errorMessage, true);
 
@@ -152,12 +135,10 @@ class _IntrviewScreenState extends State<IntrviewScreen> {
         });
       }
     });
-    print('Timer is done!');
   }
 
   @override
   void dispose() {
-    print("interview disposed");
     // TODO: implement dispose
     _answerCounterController.dispose();
     _chewieController.dispose();
@@ -225,7 +206,6 @@ class _IntrviewScreenState extends State<IntrviewScreen> {
                       setState(() {
                         _startThinkingTimer = true;
                       });
-                      print('Countdown Started');
                     },
                     from: Duration(
                         seconds: index < sessionData.questions.length
@@ -371,7 +351,6 @@ class _IntrviewScreenState extends State<IntrviewScreen> {
                                     _isSaved = false;
                                     _startThinkingTimer = false;
                                     index = index + 1;
-                                    print(index);
                                   },
                                 );
                               },

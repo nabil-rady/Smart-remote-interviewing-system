@@ -80,7 +80,7 @@ class Auth with ChangeNotifier {
     saveFirebaseToken(token.toString());
     //////testing
     ///
-    print('llllllllllllllllllllll       ' + token.toString());
+    // print('Firebase' + token.toString());
     final response = await http.post(
       Uri.parse('$authURL/user/login'),
       headers: <String, String>{
@@ -92,9 +92,8 @@ class Auth with ChangeNotifier {
         'registrationToken': token.toString(),
       }),
     );
-    // print('mmmmmmmmmmmmmmmmmmmmmmmm' + webNotificationToken);
+
     final responseData = json.decode(response.body);
-    print(responseData);
 
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
@@ -112,7 +111,6 @@ class Auth with ChangeNotifier {
       saveUserToken('${responseData['token']}');
       saveUserId('${responseData['user']['userId']}');
       saveUserExpiryDate('${DateTime.parse(responseData['tokenExpireDate'])}');
-      print(responseData['token']);
       autoLogout();
       notifyListeners();
     } else {

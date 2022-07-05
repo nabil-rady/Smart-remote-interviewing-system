@@ -54,7 +54,6 @@ class MockitoPositionDetails extends Mock implements PostionDetails {
   //     },
   //   );
   //   final responseData = json.decode(response.body);
-  //   print(responseData);
   //   if (response.statusCode == 200) {
   //     final responseData = json.decode(response.body);
   //     final extractedData = responseData['questions'] as List<dynamic>;
@@ -69,7 +68,6 @@ class MockitoPositionDetails extends Mock implements PostionDetails {
   //             )))
   //         .toList();
   //     _items = _finalList.toList();
-  //     print(extractedData);
   //     final candidateData = responseData['interviews'] as List<dynamic>;
   //     final List<Candidate> _finalcandidateList = [];
   //     candidateData

@@ -187,7 +187,6 @@ class PostionDetails with ChangeNotifier {
       }),
     );
     final responseData = json.decode(response.body);
-    print(responseData);
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
       notifyListeners();

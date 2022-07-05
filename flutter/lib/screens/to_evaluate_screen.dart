@@ -23,7 +23,7 @@ class _ToEvaluateScreenState extends State<ToEvaluateScreen> {
   @override
   void initState() {
     _detailsFuture = widget.detailsFuture;
-    print(_detailsFuture.toString());
+
     super.initState();
   }
 

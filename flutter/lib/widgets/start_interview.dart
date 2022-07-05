@@ -34,7 +34,6 @@ class _StartIntrviewState extends State<StartIntrview> {
         _isLoading = false;
       });
     } catch (error) {
-      print(error);
       const errorMessage =
           'Could not start your interview. Please try again later.';
       showErrorDialog(context, errorMessage, true);
@@ -52,7 +51,6 @@ class _StartIntrviewState extends State<StartIntrview> {
 
   @override
   void dispose() {
-    print("  myController.dispose()");
     // TODO: implement dispose
     super.dispose();
     myController.dispose();
