@@ -49,8 +49,8 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
   const renderReadTime = (time) => {
     if (!questions || !questions[counter]) return '0:00';
     let secTime, minTime;
-    minTime = parseInt(time / 1000); // /60
-    secTime = parseInt(time / 1000); // %60
+    minTime = parseInt(time / 1000 / 60); // /60
+    secTime = parseInt((time / 1000) % 60); // %60
 
     if (time === 0) {
       if (questions[counter].timeToThink < 10)
@@ -61,6 +61,10 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
         return '0' + minTime.toString() + ':0' + secTime.toString();
       } else if (minTime < 10 && secTime >= 10) {
         return '0' + minTime.toString() + ':' + secTime.toString();
+      } else if (minTime >= 10 && secTime < 10) {
+        return '0' + minTime.toString() + ':0' + secTime.toString();
+      } else if (minTime >= 10 && secTime >= 10) {
+        return minTime.toString() + ':' + secTime.toString();
       }
     }
     return minTime.toString() + ':' + secTime.toString();
@@ -90,13 +94,13 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
 
   const startInterview = () => {
     setRecordedChunks([]);
-    startRead(questions[counter].timeToThink * 1000); //60
+    startRead(questions[counter].timeToThink * 1000 * 60); //60
     if (visible === 'hidden') setVisibility('visible');
     if (start) setStart(false);
 
     setTimeout(() => {
       handleStartCaptureClick();
-    }, questions[counter].timeToThink * 1000); //60
+    }, questions[counter].timeToThink * 1000 * 60); //60
 
     recordTimeout.current = setTimeout(() => {
       if (!next) setNext(true);

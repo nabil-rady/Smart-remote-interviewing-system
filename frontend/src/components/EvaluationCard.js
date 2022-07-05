@@ -77,7 +77,9 @@ const EvaluationCard = React.forwardRef((props, ratings) => {
                 </div>
                 <div className="resultsContainer">
                   <p className="detailsLabel">Score:</p>
-                  <p className="info">{answer.score}</p>
+                  <p className="info">
+                    {answer.score === 0 ? 0 : (answer.score / 10).toFixed(3)}
+                  </p>
                 </div>
               </div>
               <div className="video_section">

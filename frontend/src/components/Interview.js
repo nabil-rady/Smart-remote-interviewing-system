@@ -34,8 +34,7 @@ const Interview = (props) => {
           />
           <br />
           <p className="text">
-            Enter the interview link thet the company sent you or click the
-            interview link to start
+            Please Enter The Invitation Code That The Company Sent You
           </p>
           <br />
 

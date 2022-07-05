@@ -8,9 +8,9 @@ import './scss/intro.scss';
 const Intro = (props) => {
   let introImages = [intro1, intro2, intro3];
   let introText = [
-    "Welcome to Vividly, Let's start interview!",
-    'We help people connenct with companies arrount the world.',
-    'Questions will apear to you one by one. \n You have limited time to think about the question and then video recording will start.\n There is limited time to answer each question.',
+    "Welcome to Vividly, Let's start interview!\n We help people connenct with companies arrount the world.",
+    'Make sure your face in the indicated square and the lighting in the room is bright enough',
+    'The questions will apear to you one by one. \n You have limited time to think about the question and then video recording will start.\n There is limited time to answer each question.',
   ];
   const [count, setCount] = useState(0);
   const [start, setStart] = useState(false);

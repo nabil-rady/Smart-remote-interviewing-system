@@ -71,10 +71,6 @@ function PositionCard(props) {
     }
   };
 
-  const getDate = () => {
-    return formatDate();
-  };
-
   if (props.position === undefined) return null;
   return (
     <Card className="positioncard">
@@ -102,7 +98,7 @@ function PositionCard(props) {
         Expiry Date:
       </p>
       <p name="expirydate" className="pos_expirydate">
-        {getDate()}
+        {formatDate(props.position.expiryDate)}
       </p>{' '}
       <br></br>
       <p htmlFor="candidatesNo" className="labels">

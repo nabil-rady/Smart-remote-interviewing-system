@@ -119,12 +119,10 @@ function ApplicantDetails() {
               <p htmlFor="interviewdate" className="detailsLabel">
                 Evaluation Results:
               </p>
-              <p
-                name="interviewdate"
-                className="info"
-                title={applicant.avgScore}
-              >
-                {applicant.avgScore}
+              <p name="interviewdate" className="info">
+                {applicant.avgScore === 0
+                  ? 0
+                  : (applicant.avgScore / 10).toFixed(3)}
               </p>
             </div>
           </Card>

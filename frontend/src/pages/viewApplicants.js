@@ -85,7 +85,9 @@ function ViewApplicants() {
                     Score:
                   </p>
                   <p name="interviewdate" className="app_interviewdate">
-                    {applicant.avgRecommendation}
+                    {applicant.avgRecommendation === 0
+                      ? 0
+                      : (applicant.avgRecommendation / 10).toFixed(3)}
                   </p>
                 </Card>
               ))}
