@@ -15,7 +15,6 @@ import 'package:test/providers/auth_provider.dart';
 import 'package:test/providers/candidate_provider.dart';
 import 'package:test/screens/invitation_screen.dart';
 import 'package:test/widgets/invitation_form.dart';
-import 'api.dart';
 
 // class MockitoPosition extends Mock implements Positions {}
 

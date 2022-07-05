@@ -68,6 +68,7 @@ class _PositionDetailScreenState extends State<PositionDetailScreen> {
                             padding: const EdgeInsets.all(18.0),
                             child: Text(
                                 'Expiry Date: ${DateFormat.yMd().add_jm().format(ex.expiry!)}',
+                                key: Key('exp date'),
                                 style: const TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold)),

@@ -185,9 +185,10 @@ void main() {
     });
 
     var id = '2d86cde3-fdec-4926-85e0-65327f70cb7c';
-
+    when(mockPositionDetails.getDetails('67b33226-c57b-4161-8651-db4cfcc84cb4'))
+        .thenAnswer((_) async {});
     when(networkservice.get(
-      '$hrURL/job-listing/${'2d86cde3-fdec-4926-85e0-65327f70cb7c'}',
+      '$hrURL/job-listing/${'67b33226-c57b-4161-8651-db4cfcc84cb4'}',
       headers: <String, String>{
         'Content-Type': 'application/json',
         'Authorization':
