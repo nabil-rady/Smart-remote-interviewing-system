@@ -2,9 +2,6 @@ const { validationResult } = require('express-validator');
 const nodemailer = require('nodemailer');
 const sendgridTransport = require('nodemailer-sendgrid-transport');
 const customId = require('custom-id-new');
-const { json } = require('body-parser');
-const sequelize = require('../utils/db');
-const Op = require('sequelize').Op;
 
 const User = require('../models/user');
 const Question = require('../models/question');
@@ -46,7 +43,8 @@ module.exports.postCreateListing = async (req, res, next) => {
       throw err;
     }
     // create the job-listing
-    const createdJob = await creator.createJobListing({
+    const createdJob = await JobListing.create({
+      userId: creator.dataValues.userId,
       positionName,
       expiryDate,
     });
@@ -55,7 +53,8 @@ module.exports.postCreateListing = async (req, res, next) => {
     const questionObjects = await Promise.all(
       questions.map(async (question, index) => {
         try {
-          const createdQuestion = await createdJob.createQuestion({
+          const createdQuestion = await Question.create({
+            jobListingId: createdJob.dataValues.jobListingId,
             order: index,
             ...question,
           });
@@ -64,7 +63,8 @@ module.exports.postCreateListing = async (req, res, next) => {
             await Promise.all(
               question.keywords.map((keyword) => {
                 try {
-                  return createdQuestion.createKeyword({
+                  return Keyword.create({
+                    questionId: createdQuestion.dataValues.questionId,
                     value: keyword,
                   });
                 } catch (err) {
@@ -419,7 +419,8 @@ module.exports.postInvite = async (req, res, next) => {
       } while (fetchedCode !== null);
 
       // create an interview
-      const interview = await listing.createInterview({
+      const interview = await Interview.create({
+        jobListingId: listing.dataValues.jobListingId,
         name: candidate.name,
         email: candidate.email,
         phoneCode: candidate.phoneCode,
