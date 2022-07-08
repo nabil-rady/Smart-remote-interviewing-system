@@ -74,7 +74,7 @@ const EmailVerification = (props) => {
       )}
       <div className="backdrop" />
       <Card className="VerificationModal">
-        <h2 className="verification-header">Virify Your Account</h2>
+        <h2 className="verification-header">Verify Your Account</h2>
         <form onSubmit={submitHandler}>
           <input
             type="text"

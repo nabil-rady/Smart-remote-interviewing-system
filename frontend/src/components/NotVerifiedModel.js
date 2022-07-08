@@ -52,7 +52,7 @@ const NotVerified = () => {
         />
       )}
       <img src={verifyImg} className="verifyImg" />
-      <h1 className="verifyHeader"> Thanks for joinging Vividly! </h1>
+      <h1 className="verifyHeader"> Thanks for joining Vividly! </h1>
       <p className="verifyTxtOne">Please confirm your email address</p>
       <p className="verifyTxtTwo">
         To finish signing up, Please confirm your email address. This ensures we
