@@ -6,12 +6,13 @@ import { Link } from 'react-router-dom';
 import handleAPIError from '../utils/APIErrorHandling';
 import ErrorModal from './ErrorModal';
 import SuccessfullModal from './SuccessfullModal';
+import { TailSpin } from 'react-loader-spinner';
 
 const InterviewQuestions = React.forwardRef((props, webcamRef) => {
   const [upload, setUpload] = useState(false);
   const [lastVideo, setLastVideo] = useState(false);
   const [uploadingVideo, setUploadingVideo] = useState(false);
-
+  const [uploadLoading, setUploadLoading] = useState(false);
   const mediaRecorderRef = useRef();
   const recordTimeout = useRef();
   const [questions, setQuestions] = useState([]);
@@ -168,6 +169,7 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
     setStop(false);
   };
   const handleUpload = async () => {
+    setUploadLoading(true)
     setUpload(false);
     if (counter === questions.length - 2) {
       setNext(false);
@@ -208,6 +210,7 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
             statusCode = response.status;
             const data = await response.json();
             if (statusCode === 200) {
+              setUploadLoading(false);
               setUploadingVideo(false);
               setDone(true);
               setNext(true);
@@ -276,10 +279,22 @@ const InterviewQuestions = React.forwardRef((props, webcamRef) => {
               Stop Capture
             </button>
           )}
+          
           {upload && (
             <button onClick={handleUpload} className="buttons">
               Upload
             </button>
+          )}
+          {uploadLoading && ( 
+          <div
+            style={{
+              display:'flex',
+              justifyContent : 'center'
+
+            }}
+          >
+            <TailSpin color="hsl(215deg, 79%, 42%)" height={60} width={60} />
+          </div>
           )}
           {next && !lastVideo && (
             <button
