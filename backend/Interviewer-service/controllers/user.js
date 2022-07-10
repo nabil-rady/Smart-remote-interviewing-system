@@ -1,11 +1,5 @@
 const { validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const createToken = require('../utils/create-token');
-const nodemailer = require('nodemailer');
-const sendgridTransport = require('nodemailer-sendgrid-transport');
-const customId = require('custom-id-new');
-const uuid = require('uuid');
 
 const User = require('../models/user');
 const Notification = require('../models/notification');

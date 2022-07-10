@@ -3,9 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const createToken = require('../utils/create-token');
 const nodemailer = require('nodemailer');
-const sendgridTransport = require('nodemailer-sendgrid-transport');
 const customId = require('custom-id-new');
-const uuid = require('uuid');
 
 const User = require('../models/user');
 const RegistrationToken = require('../models/registrationToken');
@@ -121,13 +119,14 @@ module.exports.postConfirmEmail = async (req, res, next) => {
   )
     .then((updatedsUser) => {
       // create a transporter with the mailing service.
-      const transporter = nodemailer.createTransport(
-        sendgridTransport({
-          auth: {
-            api_key: process.env.sendgridTransportApiKey,
-          },
-        })
-      );
+      const transporter = nodemailer.createTransport({
+        host: 'smtp.sendgrid.net',
+        port: 587,
+        auth: {
+          user: 'apikey',
+          pass: process.env.sendgridTransportApiKey,
+        },
+      });
 
       // sending email with verification code.
       return transporter.sendMail({

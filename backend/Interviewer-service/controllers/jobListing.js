@@ -1,10 +1,6 @@
 const { validationResult } = require('express-validator');
 const nodemailer = require('nodemailer');
-const sendgridTransport = require('nodemailer-sendgrid-transport');
 const customId = require('custom-id-new');
-const { json } = require('body-parser');
-const sequelize = require('../utils/db');
-const Op = require('sequelize').Op;
 
 const User = require('../models/user');
 const Question = require('../models/question');
@@ -432,21 +428,24 @@ module.exports.postInvite = async (req, res, next) => {
 
       // send the invitation code
       // create a transporter with the mailing service.
-      const transporter = nodemailer.createTransport(
-        sendgridTransport({
-          auth: {
-            api_key: process.env.sendgridTransportApiKey,
-          },
-        })
-      );
+      const transporter = nodemailer.createTransport({
+        host: 'smtp.sendgrid.net',
+        port: 587,
+        auth: {
+          user: 'apikey',
+          pass: process.env.sendgridTransportApiKey,
+        },
+      });
+
       // sending email with invitation code.
       const mail = await transporter.sendMail({
         to: candidate.email,
-        from: 'vividlyinterviewing@gmail.com',
+        from: process.env.vividlyGmail,
         subject: 'Interview invitaion.',
         html: `<h1>You have been invited for an interview about ${listing.dataValues.positionName}</h1>
              <p>Your invitation code is <b>${generatedCode}</b>, please submit you interview befor ${listing.dataValues.expiryDate}.</p>`,
       });
+      console.log(mail);
     }
 
     res.status(200).json({
