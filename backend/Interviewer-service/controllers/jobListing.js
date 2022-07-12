@@ -443,7 +443,7 @@ module.exports.postInvite = async (req, res, next) => {
         from: process.env.vividlyGmail,
         subject: 'Interview invitaion.',
         html: `<h1>You have been invited for an interview about ${listing.dataValues.positionName}</h1>
-             <p>Your invitation code is <b>${generatedCode}</b>, please submit you interview befor ${listing.dataValues.expiryDate}.</p>`,
+             <p>Your invitation code is <b>${generatedCode}</b>, please submit you interview before ${listing.dataValues.expiryDate}.</p>`,
       });
       console.log(mail);
     }

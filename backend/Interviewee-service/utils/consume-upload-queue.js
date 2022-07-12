@@ -112,7 +112,8 @@ module.exports.consume = async () => {
             to: data.email,
             from: 'vividlyinterviewing@gmail.com',
             subject: 'Interview finished.',
-            html: `<h1>Thank you for using Vividly.</h1>`,
+            html: `<h1>Thank you for using Vividly.</h1>
+            <p>Your interview has been submitted successfully.</p>`,
           });
         }
       },
