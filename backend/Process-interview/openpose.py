@@ -14,10 +14,10 @@ POSE_PAIRS = [["Neck", "RShoulder"], ["Neck", "LShoulder"], ["RShoulder", "RElbo
 
         
 class openPose:
-    pointsCur = []
-    count = 0
-    change = 0
     def __init__(self,path):
+        self.pointsCur = []
+        self.count = 0
+        self.change = 0
         net = cv2.dnn.readNetFromTensorflow("graph_opt.pb")
         cap = cv2.VideoCapture(path)
         while cap.isOpened():

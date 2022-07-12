@@ -11,9 +11,8 @@ model = SentenceTransformer(model_name)
 
 
 class recomm:
-    y = 0.0
-
     def __init__(self, path, keywords):
+        self.y = 0.0
         path2 = "audio.wav"
         audio = AudioSegment.from_file(path)
         audio.export(path2, format="wav")
