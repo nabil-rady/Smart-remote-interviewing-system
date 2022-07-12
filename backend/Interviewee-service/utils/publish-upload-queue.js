@@ -13,8 +13,10 @@ module.exports.publish = async (params) => {
     await channel.close();
     await connection.close();
   } catch (error) {
-    // const err = new Error(`Faild to submit the video to the upload queue. ${error}`);
-    // err.statusCode = 500;
+    const err = new Error(
+      `Faild to submit the video to the upload queue. ${error}`
+    );
+    err.statusCode = 500;
     throw error;
   }
 };

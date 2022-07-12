@@ -13,8 +13,8 @@ module.exports.publish = async (video) => {
     await channel.close();
     await connection.close();
   } catch (error) {
-    // const err = new Error(`Faild to submit the video to the AI. ${error}`);
-    // err.statusCode = 500;
+    const err = new Error(`Faild to submit the video to the AI. ${error}`);
+    err.statusCode = 500;
     throw error;
   }
 };

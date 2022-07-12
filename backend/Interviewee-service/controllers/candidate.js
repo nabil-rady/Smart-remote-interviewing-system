@@ -126,6 +126,7 @@ module.exports.postSubmitVideo = async (req, res, next) => {
         lastVideo,
         name,
         videoExtension,
+        email: interview.dataValues.email,
       };
       await publish(videoToUpload);
     }

@@ -1,5 +1,6 @@
 /* RabbitMQ */
 const amqp = require('amqplib');
+const nodemailer = require('nodemailer');
 
 const Video = require('../models/video');
 const Keywords = require('../models/keyword');
@@ -73,15 +74,6 @@ module.exports.consume = async () => {
           },
         });
 
-        // put the video on the queue for AI
-        // const videoToSend = {
-        //   interviewId: data.interviewId,
-        //   questionId: data.questionId,
-        //   link: 'https://sris.s3.us-east-2.amazonaws.com/94f88c0a-fb67-48d7-9787-859ba0413e89/94f88c0a-fb67-48d7-9787-859ba0413e89-1647548317612.webm',
-        //   keywords: keywords.map((keyword) => keyword.dataValues.value),
-        //   lastVideo: data.lastVideo,
-        // };
-
         const videoToSend = {
           interviewId: data.interviewId,
           questionId: data.questionId,
@@ -105,6 +97,23 @@ module.exports.consume = async () => {
               },
             }
           );
+
+          // Send greeting email to the candidate
+          const transporter = nodemailer.createTransport({
+            host: 'smtp.sendgrid.net',
+            port: 587,
+            auth: {
+              user: 'apikey',
+              pass: process.env.sendgridTransportApiKey,
+            },
+          });
+
+          const mail = await transporter.sendMail({
+            to: data.email,
+            from: 'vividlyinterviewing@gmail.com',
+            subject: 'Interview finished.',
+            html: `<h1>Thank you for using Vividly.</h1>`,
+          });
         }
       },
       {
