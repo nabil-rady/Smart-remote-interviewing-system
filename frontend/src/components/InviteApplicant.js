@@ -40,7 +40,6 @@ const InviteUser = (props) => {
       phoneNums.push(appData[3]);
     }
     for (let i = 0; i < names.length - 1; i++) {
-      props.onInviteUser(names[i], emails[i], phoneCodes[i], phoneNums[i]);
       usersLate.push({
         name: names[i],
         email: emails[i],
@@ -66,14 +65,15 @@ const InviteUser = (props) => {
         .then((data) => {
           if (statusCode === 200) {
             setDone(true);
+            props.onInviteUser(
+              names[i],
+              emails[i],
+              phoneCodes[i],
+              phoneNums[i]
+            );
             usersLate.length = 0;
           } else {
-            handleAPIError(
-              statusCode,
-              data,
-              () => {},
-              () => setAuthUser(null)
-            );
+            handleAPIError(statusCode, data, setError, () => setAuthUser(null));
           }
         })
         .catch((error) => {
