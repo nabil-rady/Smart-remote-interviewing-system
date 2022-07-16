@@ -87,12 +87,12 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYWQ1NzIwYi00
 ###
 
 POST {{host}}:8001/job-listing/create
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYWQ1NzIwYi00YzNmLTQ2NTctOTA2MC1kN2ZjNTk0MTQ5OGYiLCJpYXQiOjE2NTAxNTM1ODQsImV4cCI6MTY1MDE4OTU4NH0.rDCDVqC2Hq8V_cPdfl2E-HVM8rHj4KAxRq0LBexk2-I
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJmYjQ3NjY5NC0xZjVmLTQ3YmEtYjBmNy02YmVjZjg2MDBjODciLCJpYXQiOjE2NTI4MTgwNTYsImV4cCI6MTY4NDM3NTY1Nn0.TAgIpfcjM5YQJ2cfSrRfHtQsWULYfaDMARijz6ZCRew
 Content-Type: application/json
 
 {
     "positionName": "Job FFFFFFFFFF",
-    "expiryDate": "2022-04-28",
+    "expiryDate": "2022-09-28",
     "questions":[
         {
             "statement": "Question 1.1",
