@@ -8,13 +8,13 @@ class QuestionInfoItem extends StatelessWidget {
   final String keywords;
   final int thinkingTime;
   final int answerTime;
-  final String id;
-  QuestionInfoItem(
-      {required this.questionTitle,
-      required this.keywords,
-      required this.answerTime,
-      required this.thinkingTime,
-      required this.id});
+
+  QuestionInfoItem({
+    required this.questionTitle,
+    required this.keywords,
+    required this.answerTime,
+    required this.thinkingTime,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +54,7 @@ class QuestionInfoItem extends StatelessWidget {
                           IconButton(
                             onPressed: () {
                               Provider.of<Questions>(context, listen: false)
-                                  .deleteForm(id);
+                                  .deleteForm(questionTitle);
                             },
                             icon: const Icon(Icons.delete),
                             color: Theme.of(context).errorColor,

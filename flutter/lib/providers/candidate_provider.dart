@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:test/local/network_services.dart';
 import 'package:test/local/sharedpreferences.dart';
 
 import '../local/http_exception.dart';
@@ -8,6 +9,7 @@ import '../models/positionCandidate.dart';
 import 'package:http/http.dart' as http;
 
 class Candidates with ChangeNotifier {
+  final NetworkService networkservice;
   final String? authToken;
   List<Map<String, dynamic>> _candidates = [
     {
@@ -18,7 +20,7 @@ class Candidates with ChangeNotifier {
     }
   ];
   List<Map<String, dynamic>> candidatesUI = [];
-  Candidates(this.authToken, this._candidates);
+  Candidates(this.authToken, this._candidates, this.networkservice);
 
   List<Map<String, dynamic>> get candidates {
     return [..._candidates];
@@ -46,8 +48,8 @@ class Candidates with ChangeNotifier {
     var url = '$hrURL/job-listing/candidates/$listing_id';
 
     //try {
-    final response = await http.get(
-      Uri.parse(url),
+    final response = await networkservice.get(
+      url,
       headers: <String, String>{
         'Content-Type': 'application/json',
         'Authorization': authToken.toString(),

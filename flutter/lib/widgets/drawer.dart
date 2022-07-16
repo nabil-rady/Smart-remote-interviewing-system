@@ -17,6 +17,7 @@ class AppDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     final employerData = Provider.of<Auth>(context, listen: false).employer;
     return Drawer(
+      key: Key("Drawer"),
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
@@ -41,7 +42,7 @@ class AppDrawer extends StatelessWidget {
             ),
           ),
           _buildListTile(Icons.notifications, 'Notifications', () {
-            employerData.loggedIn
+            employerData.loggedIn && employerData.emailConfirmed
                 ? Navigator.of(context).pushNamed('/notification_screen')
                 : null;
           }, employerData.loggedIn, employerData.emailConfirmed),

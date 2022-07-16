@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 import 'package:test/local/urls.dart';
 import 'package:test/widgets/candidate_info_item.dart';
 
 import '../local/http_exception.dart';
+import '../local/network_services.dart';
 import '../models/question.dart';
 import 'package:http/http.dart' as http;
 import '../models/candidate.dart';
@@ -12,6 +14,7 @@ import '../models/video_evaluation_model.dart';
 
 class PostionDetails with ChangeNotifier {
   final String? _authToken;
+  final NetworkService networkservice;
   List<Question> _items = [];
   List<Candidate> _candidates = [];
   List<VideoEvaluation> _videoEvaluation = [];
@@ -26,10 +29,7 @@ class PostionDetails with ChangeNotifier {
       avgManualEvaluation: 0,
       avgRecommendation: 0);
 
-  PostionDetails(
-    this._authToken,
-    this._items,
-  );
+  PostionDetails(this._authToken, this._items, this.networkservice);
 
   Candidate get candidateInfo {
     // inspect(_candidate);
@@ -54,8 +54,9 @@ class PostionDetails with ChangeNotifier {
   }
 
   Future<void> getDetails(String id) async {
-    final response = await http.get(
-      Uri.parse('$hrURL/job-listing/$id'),
+    var url = '$hrURL/job-listing/$id';
+    final response = await networkservice.get(
+      url,
       headers: <String, String>{
         'Content-Type': 'application/json',
         'Authorization': _authToken.toString(),
@@ -73,7 +74,6 @@ class PostionDetails with ChangeNotifier {
                 answerTime: positionvalue['timeToAnswer'],
                 thinkingTime: positionvalue['timeToThink'],
                 keywords: positionvalue['keywords'].toString(),
-                id: positionvalue['questionId'],
               )))
           .toList();
       _items = _finalList.toList();
@@ -92,7 +92,7 @@ class PostionDetails with ChangeNotifier {
                 avgManualEvaluation:
                     candidatevalue['avgManualEvaluation'].toDouble(),
                 avgRecommendation:
-                    candidatevalue['avgRecommendation'].toDouble(),
+                    candidatevalue['avgRecommendation'].toDouble() / 10,
               ),
             ),
           )
@@ -140,7 +140,7 @@ class PostionDetails with ChangeNotifier {
       _candidate.id = interviewid;
       _candidate.avgManualEvaluation =
           responseData['avgManualEvaluation'].toDouble();
-      _candidate.avgRecommendation = responseData['avgScore'].toDouble();
+      _candidate.avgRecommendation = responseData['avgScore'].toDouble() / 10;
       extractedData
           .map(
             (vedioev) => _finalVideoList.add(
@@ -150,7 +150,7 @@ class PostionDetails with ChangeNotifier {
                 videoUrl: vedioev['link'],
                 manualEvaluation: vedioev['manualEvaluation'].toDouble(),
                 openPose: vedioev['openPose'].toDouble(),
-                score: vedioev['score'].toDouble(),
+                score: vedioev['score'].toDouble() / 10,
                 angry: vedioev['emotions']['angry'].toDouble(),
                 happy: vedioev['emotions']['happy'].toDouble(),
                 neutral: vedioev['emotions']['neutral'].toDouble(),
@@ -187,7 +187,6 @@ class PostionDetails with ChangeNotifier {
       }),
     );
     final responseData = json.decode(response.body);
-    print(responseData);
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
       notifyListeners();

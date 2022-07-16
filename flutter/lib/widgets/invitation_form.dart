@@ -14,7 +14,10 @@ import '../providers/candidate_provider.dart';
 class InvitationForm extends StatefulWidget {
   final String positionId;
 
-  InvitationForm(this.positionId);
+  InvitationForm({
+    required this.positionId,
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<InvitationForm> createState() => InvitationFormState();
@@ -92,9 +95,6 @@ class InvitationFormState extends State<InvitationForm> {
     if (!mounted) return;
     setState(() {
       openFile(_paths![0].path, context, flag2);
-      print(_paths);
-      print("File path ${_paths![0]}");
-      print(_paths!.first.extension);
     });
 
     @override
@@ -130,15 +130,13 @@ class InvitationFormState extends State<InvitationForm> {
       //)
       //    );
       // } on HttpException catch (error) {
-      //   print('HTTP ERRORRRR');
-      //   print('${error} JGJFFHFGHGHHH');
+
       //   if (error.toString().contains('Validation failed')) {
       //     showErrorDialog(context,
       //         'Please check the phone number of your candidate !', true);
       //   }
       // } catch (error) {
-      //   print('CATCH ERRORRRR');
-      //   print('${error} JGJFFHFGHGHHH');
+
       //   showErrorDialog(context, "Coundn't invite this candidite.", true);
       // }
     } else {
@@ -185,7 +183,6 @@ class InvitationFormState extends State<InvitationForm> {
       //   });
       // }
 
-      // print(employeeData);
       // employeeData.forEach((element) {
       //   // candidate = Candidate(
       //   //   name: element[0].toString(),
@@ -197,7 +194,6 @@ class InvitationFormState extends State<InvitationForm> {
       //   // );
       //   // element.forEach((element2) {
       //   //   //list2 = filter(' ', element);
-      //   //   print(element2);
       //   // });
 
       //   // element.removeWhere((element) => element == ' ');
@@ -251,16 +247,13 @@ class InvitationFormState extends State<InvitationForm> {
       //       positionId: widget.positionId, candidatesMapList: candidate);
       //   Provider.of<Candidates>(context, listen: false)
       //       .addAplicant(posCandidate, true);
-      //   // print(candidate.name);
       // });
       //   Navigator.of(context).pop();
       // _form.currentState!.save();
       // Provider.of<Interviews>(context, listen: false).addAplicant(candidate);
 
       // } on HttpException catch (error) {
-      //   print(error.toString());
       //   // if (error.toString() == ('Validation failed.')) {
-      //   print('hiiiiiiiiiii');
       //   showErrorDialog(context,
       //       'Please check the phone number of your candidates !', true);
       //   //  }
@@ -268,19 +261,12 @@ class InvitationFormState extends State<InvitationForm> {
       //   showErrorDialog(context, "Coundn't invite these candidites.", true);
       // }
     }
-    //print(employeeData);
-    // print(ques.titleQuestion);
-    // print(ques.answerTime);
   }
 
   ////////// test
   validateNameField(String value) {
     if (value.isEmpty) {
       if (csvFlag) {
-        // setState(() {
-        //   csvFlag = false;
-        //   print(csvFlag);
-        // });
         return null;
       }
       setState(() {
@@ -297,7 +283,6 @@ class InvitationFormState extends State<InvitationForm> {
         // setState(() {
         //   csvFlag = false;
         // });
-        print('monica2');
         return null;
       }
       setState(() {
@@ -347,7 +332,7 @@ class InvitationFormState extends State<InvitationForm> {
 
                         // date: candidate.date,
                         //s  };
-                        print(candidate['name']);
+
                         // id: candidate.id,
                         // rate: candidate.rate,
                         // videoAnswers: candidate.videoAnswers,
@@ -361,15 +346,15 @@ class InvitationFormState extends State<InvitationForm> {
                       //     if (csvFlag) {
                       //       // setState(() {
                       //       //   csvFlag = false;
-                      //       //   print(csvFlag);
+
                       //       // });
-                      //       print('monica1');
+
                       //       return null;
                       //     }
                       //     setState(() {
                       //       isLoading1 = false;
                       //     });
-                      //     print('Zikoo1');
+
                       //     return 'Please write the name';
                       //   }
                       //   return null;
@@ -396,7 +381,6 @@ class InvitationFormState extends State<InvitationForm> {
 
                         // date: candidate.date,
                         //   };
-                        print(candidate['email']);
                       },
                       validator: (value) => validateNameField(value!)
                       // {
@@ -405,7 +389,7 @@ class InvitationFormState extends State<InvitationForm> {
                       //       // setState(() {
                       //       //   csvFlag = false;
                       //       // });
-                      //       print('monica2');
+
                       //       return null;
                       //     }
                       //     setState(() {
@@ -448,7 +432,7 @@ class InvitationFormState extends State<InvitationForm> {
                               //   // isRated: candidate.isRated,
                               //   // positionName: candidate.positionName
                               // );
-                              // print(country);
+
                               if (value.toString() == "") {
                                 candidate['phoneCode'] = '+20';
                               } else {

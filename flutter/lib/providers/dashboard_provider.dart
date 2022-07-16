@@ -4,19 +4,23 @@ import 'package:http/http.dart' as http;
 import 'package:test/local/urls.dart';
 
 import '../local/http_exception.dart';
+import '../local/network_services.dart';
 import '../models/dashboard-model.dart';
 
 class DashboardPositions with ChangeNotifier {
   final String? _authToken;
+  final NetworkService networkservice;
   List<PositionForDashboard> _positionsItems = [];
-  DashboardPositions(this._authToken, this._positionsItems);
+  DashboardPositions(
+      this._authToken, this._positionsItems, this.networkservice);
   List<PositionForDashboard> get positionsItems {
     return [..._positionsItems];
   }
 
   Future<void> getListings() async {
-    final response = await http.get(
-      Uri.parse('$hrURL/job-listing/get-listings'),
+    var url = '$hrURL/job-listing/get-listings';
+    final response = await networkservice.get(
+      url,
       headers: <String, String>{
         'Content-Type': 'application/json',
         'Authorization': _authToken.toString(),

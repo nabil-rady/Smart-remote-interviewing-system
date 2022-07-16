@@ -77,7 +77,8 @@ class ApplicanInfornationCard extends StatelessWidget {
                 height: 10,
               ),
               Text(
-                'Average Recommendation: ${loadedApplicant.avgRecommendation}',
+                'Average Recommendation:' +
+                    loadedApplicant.avgRecommendation.toStringAsFixed(3),
                 style: Theme.of(context).textTheme.bodyText1,
               ),
             ],

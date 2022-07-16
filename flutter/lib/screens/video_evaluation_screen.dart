@@ -64,8 +64,6 @@ class _VedioEvaluationScreenState extends State<VedioEvaluationScreen> {
                 });
                 if (questionsIds.length == rate.length) {
                   try {
-                    print("************************");
-                    print(questionsIds);
                     await Provider.of<PostionDetails>(context, listen: false)
                         .manualEvalation(questionsIds, rate, interviewId);
                     showErrorDialog(context,
@@ -84,8 +82,7 @@ class _VedioEvaluationScreenState extends State<VedioEvaluationScreen> {
                   questionsIds = [];
                   rate = [];
                 });
-                print("^^^^^^^^^^^^^^^^^^^^^^^^^^");
-                print(questionsIds);
+
                 // Navigator.pop(context);
               },
               icon: const Icon(Icons.save))
@@ -185,7 +182,9 @@ class _VedioEvaluationScreenState extends State<VedioEvaluationScreen> {
                             Padding(
                               padding: const EdgeInsets.all(10),
                               child: Text(
-                                'Score: ${position.videoEvaluation[index].score}',
+                                'Score: ' +
+                                    position.videoEvaluation[index].score
+                                        .toStringAsFixed(3),
                                 style: Theme.of(context).textTheme.bodyText1,
                               ),
                             ),

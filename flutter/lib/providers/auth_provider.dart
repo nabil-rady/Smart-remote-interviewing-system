@@ -28,6 +28,7 @@ class Auth with ChangeNotifier {
   Timer? _authTimer;
 
   Future<void> signup(
+      http.Client http,
       String firstName,
       String lastName,
       String companyName,
@@ -64,8 +65,22 @@ class Auth with ChangeNotifier {
     }
   }
 
+  Auth(this.auth);
+
+  final FirebaseMessaging auth;
   Future<void> login(
-      String email, String password, String webNotificationToken) async {
+    String email,
+    String password,
+    // String webNotificationToken
+  ) async {
+    ////////////////testing
+    // final fbm = FirebaseMessaging.instance;
+    final token = await auth.getToken();
+    //final token = await fbm.getToken();
+    saveFirebaseToken(token.toString());
+    //////testing
+    ///
+    // print('Firebase' + token.toString());
     final response = await http.post(
       Uri.parse('$authURL/user/login'),
       headers: <String, String>{
@@ -74,14 +89,11 @@ class Auth with ChangeNotifier {
       body: jsonEncode(<String, String>{
         'email': email,
         'password': password,
-        'registrationToken': webNotificationToken,
+        'registrationToken': token.toString(),
       }),
     );
-    print(email);
-    print(password);
-    print(webNotificationToken);
+
     final responseData = json.decode(response.body);
-    print(responseData);
 
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
@@ -99,7 +111,6 @@ class Auth with ChangeNotifier {
       saveUserToken('${responseData['token']}');
       saveUserId('${responseData['user']['userId']}');
       saveUserExpiryDate('${DateTime.parse(responseData['tokenExpireDate'])}');
-      print(responseData['token']);
       autoLogout();
       notifyListeners();
     } else {

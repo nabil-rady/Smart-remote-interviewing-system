@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import 'package:test/local/navigator.dart';
+import 'package:test/local/network_services.dart';
 import 'package:test/providers/notification_provider.dart';
 import 'package:test/widgets/position_form.dart';
 import 'package:wakelock/wakelock.dart';
@@ -57,7 +58,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (ctx) => Auth(),
+          create: (ctx) => Auth(FirebaseMessaging.instance),
         ),
         ChangeNotifierProvider(
           create: (ctx) => Questions(),
@@ -69,20 +70,25 @@ class MyApp extends StatelessWidget {
           create: (ctx) => Notifications(),
         ),
         ChangeNotifierProxyProvider<Auth, PostionDetails>(
-          create: (ctx) => PostionDetails('', []),
+          create: (ctx) => PostionDetails('', [], NetworkServiceImpli()),
           update: (ctx, auth, previositems) => PostionDetails(
-              getUserToken(), previositems == null ? [] : previositems.items),
+              getUserToken(),
+              previositems == null ? [] : previositems.items,
+              NetworkServiceImpli()),
         ),
         ChangeNotifierProxyProvider<Auth, Candidates>(
-          create: (ctx) => Candidates('', []),
-          update: (ctx, auth, previosPositions) => Candidates(getUserToken(),
-              previosPositions == null ? [] : previosPositions.candidates),
+          create: (ctx) => Candidates('', [], NetworkServiceImpli()),
+          update: (ctx, auth, previosPositions) => Candidates(
+              getUserToken(),
+              previosPositions == null ? [] : previosPositions.candidates,
+              NetworkServiceImpli()),
         ),
         ChangeNotifierProxyProvider<Auth, DashboardPositions>(
-          create: (ctx) => DashboardPositions('', []),
+          create: (ctx) => DashboardPositions('', [], NetworkServiceImpli()),
           update: (ctx, auth, previosPositions) => DashboardPositions(
               getUserToken(),
-              previosPositions == null ? [] : previosPositions.positionsItems),
+              previosPositions == null ? [] : previosPositions.positionsItems,
+              NetworkServiceImpli()),
         ),
         ChangeNotifierProxyProvider<Auth, Positions>(
           create: (ctx) => Positions('', []),

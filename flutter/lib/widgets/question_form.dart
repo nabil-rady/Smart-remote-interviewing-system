@@ -22,11 +22,11 @@ class QuestionFormState extends State<QuestionForm> {
   }
 
   var newquestion = Question(
-      titleQuestion: '',
-      answerTime: 0,
-      thinkingTime: 0,
-      keywords: '',
-      id: DateTime.now().toString());
+    titleQuestion: '',
+    answerTime: 0,
+    thinkingTime: 0,
+    keywords: '',
+  );
 
   /////test
   validateQuestionField(String value) {
@@ -58,6 +58,36 @@ class QuestionFormState extends State<QuestionForm> {
   }
 
   ///
+
+  showAlertDialog(BuildContext context) {
+    // set up the button
+    Widget okButton = TextButton(
+      child: Text("OK"),
+      onPressed: () {
+        _answerController.clear();
+        Navigator.of(context).pop();
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Notice"),
+      content: Text("Maximum time for answering a question is 10 minutes."),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  TextEditingController _answerController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -79,11 +109,11 @@ class QuestionFormState extends State<QuestionForm> {
                       textInputAction: TextInputAction.next,
                       onSaved: (value) {
                         newquestion = Question(
-                            titleQuestion: value.toString(),
-                            thinkingTime: newquestion.thinkingTime,
-                            answerTime: newquestion.answerTime,
-                            keywords: newquestion.keywords,
-                            id: newquestion.id);
+                          titleQuestion: value.toString(),
+                          thinkingTime: newquestion.thinkingTime,
+                          answerTime: newquestion.answerTime,
+                          keywords: newquestion.keywords,
+                        );
                       },
                       validator: (value) => validateQuestionField(value!)
                       //  {
@@ -100,11 +130,11 @@ class QuestionFormState extends State<QuestionForm> {
                       textInputAction: TextInputAction.next,
                       onSaved: (value) {
                         newquestion = Question(
-                            titleQuestion: newquestion.titleQuestion,
-                            thinkingTime: int.parse(value.toString()),
-                            answerTime: newquestion.answerTime,
-                            keywords: newquestion.keywords,
-                            id: newquestion.id);
+                          titleQuestion: newquestion.titleQuestion,
+                          thinkingTime: int.parse(value.toString()),
+                          answerTime: newquestion.answerTime,
+                          keywords: newquestion.keywords,
+                        );
                       },
                       validator: (value) => validateThinkingField(value!)
                       //  {
@@ -117,15 +147,22 @@ class QuestionFormState extends State<QuestionForm> {
                   TextFormField(
                       keyboardType: TextInputType.number,
                       decoration: const InputDecoration(
-                          labelText: 'Answer Time', hintText: 'In Minutes'),
+                          labelText: 'Answer Time',
+                          hintText: 'In Minutes , Max Time in 10 Minutes'),
                       textInputAction: TextInputAction.done,
                       onSaved: (value) {
                         newquestion = Question(
-                            titleQuestion: newquestion.titleQuestion,
-                            thinkingTime: newquestion.thinkingTime,
-                            answerTime: int.parse(value.toString()),
-                            keywords: newquestion.keywords,
-                            id: newquestion.id);
+                          titleQuestion: newquestion.titleQuestion,
+                          thinkingTime: newquestion.thinkingTime,
+                          answerTime: int.parse(value.toString()),
+                          keywords: newquestion.keywords,
+                        );
+                      },
+                      controller: _answerController,
+                      onChanged: (val) {
+                        if (int.parse(val) > 10) {
+                          return showAlertDialog(context);
+                        }
                       },
                       validator: (value) => validateAnsweringField(value!)
                       //  {
@@ -142,11 +179,11 @@ class QuestionFormState extends State<QuestionForm> {
                       textInputAction: TextInputAction.next,
                       onSaved: (value) {
                         newquestion = Question(
-                            titleQuestion: newquestion.titleQuestion,
-                            thinkingTime: newquestion.thinkingTime,
-                            answerTime: newquestion.answerTime,
-                            keywords: value.toString(),
-                            id: newquestion.id);
+                          titleQuestion: newquestion.titleQuestion,
+                          thinkingTime: newquestion.thinkingTime,
+                          answerTime: newquestion.answerTime,
+                          keywords: value.toString(),
+                        );
                         newquestion.keywordsList =
                             newquestion.keywords.split(',');
                       },

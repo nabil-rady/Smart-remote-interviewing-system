@@ -22,6 +22,8 @@ videos/
 solidBG/
 build/
 test/
+videos/
+
 *.wav
 *.mp4
 *.webm

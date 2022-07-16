@@ -31,7 +31,6 @@ class SessionDetails with ChangeNotifier {
   late List<CameraDescription> cameras;
 
   Future<void> getSessionDetails(String id) async {
-    print('************************************* $id');
     final response = await http.get(
       Uri.parse('$interviewURL/candidate/join/$id'),
       headers: <String, String>{
@@ -58,24 +57,19 @@ class SessionDetails with ChangeNotifier {
                 questionId: quesionvalue['questionId'],
                 statement: quesionvalue['statement'],
                 timeToAnswer: quesionvalue['timeToAnswer'] * 60,
-                timeToThink: quesionvalue['timeToThink'],
+                timeToThink: quesionvalue['timeToThink'] * 60,
               )))
           .toList();
       _items = _finalList.toList();
       _session.questions = _items;
       notifyListeners();
-      // print(_session.email);
-      // inspect(_session.questions);
-      // print(_session.questions);
     } else {
-      print("errrrrrrrrrrrrrror");
       throw HttpException(responseData['message']);
     }
   }
 
   Future<void> setVideo(String interviewId, String questionId, Uint8List video,
       bool lastVideo, String name, bool end) async {
-    print("before");
     final response = await http.post(
       Uri.parse('$interviewURL/candidate/upload-video'),
       headers: <String, String>{
@@ -91,7 +85,6 @@ class SessionDetails with ChangeNotifier {
         'end': end,
       }),
     );
-    print("after");
     final responseConfirmData = json.decode(response.body);
     if (response.statusCode == 200) {
       print(responseConfirmData);

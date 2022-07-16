@@ -5,7 +5,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:country_pickers/country_pickers.dart';
 import 'package:provider/provider.dart';
-
+import 'package:http/http.dart' as http;
 import '../providers/auth_provider.dart';
 import '../local/http_exception.dart';
 import '../local/sharedpreferences.dart';
@@ -19,9 +19,11 @@ class EmployerAuth extends StatefulWidget {
 }
 
 class EmployerAuthState extends State<EmployerAuth> {
+  var ziko;
   @override
   void initState() {
     super.initState();
+
     Firebase.initializeApp();
   }
 
@@ -39,7 +41,7 @@ class EmployerAuthState extends State<EmployerAuth> {
     'countryCode': '+20',
   };
 
-  final _passwordController = TextEditingController();
+  var passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey();
   final GlobalKey<FormState> _confirmFormKey = GlobalKey();
   AuthMode _authMode = AuthMode.login;
@@ -47,22 +49,22 @@ class EmployerAuthState extends State<EmployerAuth> {
   var _isLoading = false;
   @override
   void dispose() {
-    _passwordController.dispose();
+    passwordController.dispose();
     super.dispose();
   }
 
-  void _toggleFun() {
+  void toggleFun() {
     if (_authMode == AuthMode.signup) {
       setState(() {
         _authMode = AuthMode.login;
         _formKey.currentState!.reset();
-        _passwordController.clear();
+        passwordController.clear();
       });
     } else {
       setState(() {
         _authMode = AuthMode.signup;
-        _formKey.currentState!.reset();
-        _passwordController.clear();
+        // _formKey.currentState!.reset();
+        passwordController.clear();
       });
     }
   }
@@ -141,17 +143,14 @@ class EmployerAuthState extends State<EmployerAuth> {
     });
     try {
       if (_authMode == AuthMode.login) {
-        final fbm = FirebaseMessaging.instance;
-        final token = await fbm.getToken();
-        print('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');
-        print(token);
-        print('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');
-        saveFirebaseToken(token.toString());
+        // final fbm = FirebaseMessaging.instance;
+        // final token = await fbm.getToken();
+        // saveFirebaseToken(token.toString());
         await Provider.of<Auth>(context, listen: false)
             .login(
           authData['email'].toString(),
           authData['password'].toString(),
-          token.toString(),
+          // token.toString(),
         )
             .then((value) {
           Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
@@ -160,6 +159,7 @@ class EmployerAuthState extends State<EmployerAuth> {
       } else {
         // Sign user up
         await Provider.of<Auth>(context, listen: false).signup(
+          http.Client(),
           authData['firstName'].toString(),
           authData['lastName'].toString(),
           authData['companyName'].toString(),
@@ -175,7 +175,7 @@ class EmployerAuthState extends State<EmployerAuth> {
             .login(
           authData['email'].toString(),
           authData['password'].toString(),
-          token.toString(),
+          // token.toString(),
         )
             .then((value) async {
           await Provider.of<Auth>(context, listen: false).sendEmail();
@@ -184,7 +184,6 @@ class EmployerAuthState extends State<EmployerAuth> {
         });
       }
     } on HttpException catch (error) {
-      print(error);
       var errorMessage = 'Authentication failed';
       if (error.toString().contains('Email not found')) {
         errorMessage = 'This email address is not found.';
@@ -209,7 +208,7 @@ class EmployerAuthState extends State<EmployerAuth> {
       });
     }
     _formKey.currentState!.reset();
-    _passwordController.clear();
+    passwordController.clear();
     setState(() {
       _isLoading = false;
     });
@@ -226,9 +225,20 @@ class EmployerAuthState extends State<EmployerAuth> {
         : null;
   }
 
+  validateConfirmPasswordField(String value) {
+    return (value.isEmpty || value != passwordController.text)
+        ? 'Not matching!'
+        : null;
+  }
+
+  validatePhoneField(String value) {
+    return (value.isEmpty) ? 'invalid phone number!' : null;
+  }
+
 //////////
   @override
   Widget build(BuildContext context) {
+    // ziko = Provider.of<Auth>(context);
     return Padding(
       padding: const EdgeInsets.only(
         right: 20,
@@ -243,6 +253,7 @@ class EmployerAuthState extends State<EmployerAuth> {
               children: <Widget>[
                 if (_authMode == AuthMode.signup)
                   TextFormField(
+                    key: Key('first name'),
                     decoration:
                         const InputDecoration(labelText: 'Your first name'),
                     validator: (value) {
@@ -281,6 +292,7 @@ class EmployerAuthState extends State<EmployerAuth> {
                     },
                   ),
                 TextFormField(
+                  key: Key('myemail'),
                   decoration: const InputDecoration(labelText: 'E-Mail'),
                   keyboardType: TextInputType.emailAddress,
                   validator: (value) => validateEmailField(value!)
@@ -298,9 +310,10 @@ class EmployerAuthState extends State<EmployerAuth> {
                   },
                 ),
                 TextFormField(
+                  key: Key('mypassword'),
                   decoration: const InputDecoration(labelText: 'Password'),
                   obscureText: true,
-                  controller: _passwordController,
+                  controller: passwordController,
                   validator: (value) => validatePasswordField(value!)
                   // {
                   //   if (_authMode == AuthMode.signup &&
@@ -318,11 +331,12 @@ class EmployerAuthState extends State<EmployerAuth> {
                     decoration:
                         const InputDecoration(labelText: 'Confirm password'),
                     obscureText: true,
-                    validator: (value) {
-                      if (value!.isEmpty || value != _passwordController.text) {
-                        return 'Not matching!';
-                      }
-                    },
+                    validator: (value) => validateConfirmPasswordField(value!),
+                    // {
+                    //   if (value!.isEmpty || value != _passwordController.text) {
+                    //     return 'Not matching!';
+                    //   }
+                    // },
                     onSaved: (value) {
                       authData['confirmPassword'] = value.toString();
                     },
@@ -345,11 +359,12 @@ class EmployerAuthState extends State<EmployerAuth> {
                           decoration:
                               const InputDecoration(labelText: 'Phone number'),
                           keyboardType: TextInputType.phone,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'invalid phone number!';
-                            }
-                          },
+                          validator: (value) => validatePhoneField(value!),
+                          //  {
+                          //   if (value!.isEmpty) {
+                          //     return 'invalid phone number!';
+                          //   }
+                          // },
                           onSaved: (value) {
                             authData['phone'] = value.toString();
                           },
@@ -366,6 +381,7 @@ class EmployerAuthState extends State<EmployerAuth> {
                   )
                 else
                   RaisedButton(
+                    key: Key('logIn'),
                     child: Text(
                       _authMode == AuthMode.signup ? 'Sign up' : 'LOGIN',
                       style: const TextStyle(color: Colors.white),
@@ -391,7 +407,7 @@ class EmployerAuthState extends State<EmployerAuth> {
                               color: Theme.of(context).primaryColor,
                               fontSize: 20),
                           recognizer: TapGestureRecognizer()
-                            ..onTap = _toggleFun),
+                            ..onTap = toggleFun),
                     ],
                   ),
                 ),
