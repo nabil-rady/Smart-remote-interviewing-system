@@ -4,7 +4,7 @@ import Circle from '../Circle';
 import Triangle from '../Triangle';
 import TextContent from '../TextContent';
 import { Fade } from 'react-awesome-reveal';
-import evaluate from '../photos/Evaluate.jpg';
+import evaluate from '../photos/Evaluate.png';
 const Jobs = () => {
   return (
     <section className="feature_section home_section5" id="jobs">

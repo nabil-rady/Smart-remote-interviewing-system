@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from 'react';
-// import TwitterIcon from "@material-ui/icons/Twitter";
-// import InstagramIcon from "@material-ui/icons/Instagram";
-// import FacebookIcon from "@material-ui/icons/Facebook";
-// import LinkedInIcon from "@material-ui/icons/LinkedIn";
-// import EmojiEventsIcon from "@material-ui/icons/EmojiEvents";
-// import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 import Google from '../Google';
+
 const Footer = () => {
   const [show, setShow] = useState(false);
   useEffect(() => {

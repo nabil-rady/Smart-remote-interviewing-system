@@ -5,7 +5,7 @@ import dashboard from '../photos/Dashboard.jpg';
 import invite from '../photos/Invite.jpg';
 import enterinterview from '../photos/EnterInterview.jpg';
 import takeinterview from '../photos/TakeInterview.jpg';
-import evaluate from '../photos/Evaluate.jpg';
+import evaluate from '../photos/Evaluate.png';
 import notification from '../photos/Notifications.jpg';
 import details from '../photos/details.png';
 const Sliders = () => {
