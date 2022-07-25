@@ -63,20 +63,21 @@ const SignUpForm = () => {
       .then((data) => {
         if (statusCode === 201) {
           setLoading(false);
+          return fetch(`${APIURL}/user/login`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              email,
+              password,
+              registrationToken,
+            }),
+          });
         } else {
+          setLoading(false);
           handleAPIError(statusCode, data, setError, () => setAuthUser(null));
         }
-        return fetch(`${APIURL}/user/login`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            email,
-            password,
-            registrationToken,
-          }),
-        });
       })
       .then((loginResponse) => {
         statusCode = loginResponse.status;
